@@ -2,7 +2,7 @@
 
 [English README](../../README.md) · [한국어 README](../../README.ko.md)
 
-Current development target: **0.6.0 (build 8)**, reference-style native settings/menu and immediate app language switching. Latest recorded public release remains 0.5.0; new release/install evidence belongs in QA and handoff.
+Reviewed source: **0.6.0 (build 8)**, native reference-style settings/menu and immediate app language switching, including the supported Sparkle user driver. [Independent source APPROVE](qa-review-0.6.0.md) covers the frozen candidate; [current QA](qa-results.md#2026-10-05-060-publication-installation-and-cleanup) separates source/development/preparation checks from actual publication, exact installation, limited normal runtime and completed recoverable cleanup. Latest public release is [0.6.0](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.6.0).
 
 Read requirements → design → implementation order → verification. Plans describe the target; QA results describe only performed checks.
 
@@ -22,4 +22,4 @@ Read requirements → design → implementation order → verification. Plans de
 
 ## 한국어
 
-현재 개발 목표는 참조 스타일 native 설정/메뉴와 즉시 영어/한국어 전환을 포함하는 0.6.0(build 8)이며, 현재 기록된 공개 버전은 0.5.0입니다. 제품명은 Shot Clip이고 공개 문서는 영어를 기본으로 하며 한국어 README와 계획별 한국어 요약을 제공합니다. R01–R17을 설계·구현·QA까지 연결하고, 계획과 실제 검증 기록을 구분합니다. 과거 Sshot 기록의 이름·식별자·산출물은 당시 증거로 보존합니다. 실제 캡처 GUI 테스트는 사용자가 맡으며 문서 검증으로 대신하지 않습니다.
+0.6.0(build 8)의 참조 스타일 native 설정/메뉴·즉시 영어/한국어 전환·지원되는 Sparkle driver 소스는 독립 승인되었고 최종 개발 fixture를 확인했습니다. 현재 공개 버전은 0.6.0이며 소스/합성 검사와 공개 바이트·정확한 설치·제한된 정상 런타임·완료된 복구 가능한 정리 증거를 구분합니다. 제품명은 Shot Clip이고 공개 문서는 영어를 기본으로 하며 한국어 README와 계획별 한국어 요약을 제공합니다. R01–R17을 설계·구현·QA까지 연결하고, 계획과 실제 검증 기록을 구분합니다. 과거 Sshot 기록의 이름·식별자·산출물은 당시 증거로 보존합니다. 실제 캡처 GUI 테스트는 사용자가 맡으며 문서 검증으로 대신하지 않습니다.

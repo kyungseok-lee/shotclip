@@ -23,12 +23,20 @@ Implementation paths are relative to the repository. No additional features beyo
 
 1. Update R01/R14/R15, D11/D13 and this trace from the supplied reference before implementation. Keep the current identity, crop-copy artwork, capture engine, trust and defaults.
 2. Align native settings navigation and rows with the reference, using system colors and controls in General/Access/Updates. Populate the native NSMenu shortcut column from the configured physical-key/layout mapping on the remembered capture mode; include Settings `⌘,` and Quit `⌘Q`.
-3. Replace the launch-only app-localization snapshot with explicit en/ko selection and immediate view/menu/accessibility refresh. Preserve pane, shortcut/login/update state and current capture region. Keep Screen Recording restart guidance separate; include new/visible update dialogs through the planned supported custom Sparkle driver with synthetic live-refresh/callback/choice fixtures and independent review; macOS prompts remain OS-controlled.
+3. Replace the launch-only app-localization snapshot with explicit en/ko selection and immediate view/menu/accessibility refresh. Preserve pane, shortcut/login/update state and current capture region. Keep Screen Recording restart guidance separate; include new/visible update dialogs through the implemented public Sparkle driver with synthetic live-refresh/callback/choice fixtures and independent review; macOS prompts remain OS-controlled.
 4. Advance the bundle/default metadata to 0.6.0(8), then run core, resource, release/archive and installer regressions. Render inert English/Korean light/dark settings/menu and repeated-language-transition previews; inspect default/minimum layouts and keyboard/focus evidence.
 5. Obtain independent source/docs/artifact review, commit/push/tag the reviewed source, prepare/sign with the existing key, verify/publish the new assets/feed and install/verify the exact payload. Each step needs its own recorded evidence.
 6. Reconcile workspace cleanup with the actual coordinator report. Initial recoverable cleanup removed 14 prior staging folders (11 iconsets, three empty), totaling 12,897,238 bytes; `.build/` remains until verification. Retire additional superseded artifacts only after latest release/install checks.
 
 Actual capture/TCC/paste, macOS 14/Intel, clean-account first launch and a real Sparkle upgrade remain separate unrun checks unless performed and recorded.
+
+### 0.6 performed checkpoints and next gate
+
+Requirements R01/R14/R15 → D03/D11/D13 → P2/P4 are implemented and independently source-approved: ordinary native settings chrome/geometry, native physical-key shortcut equivalents, mutable localization with synchronous retained-view refresh and one public updater/custom driver. Final author checks passed 36 core tests, 159 app + 57 Updates keys per language and four integrated 92-image runs (368 total). Reviewer fresh resource 34 / signed temporary installer 15 / gate 16 checks passed; coordinator crypto 25 / unsafe ZIP 15 plus two valid cases passed. New payloads require regular nonsymlink Localizable and Updates tables in both languages; older 0.5 rollback backups keep compatibility.
+
+The coordinator reports `main` and annotated `v0.6.0` pushed at source `e87e40e1fe5e962c4e2f1d9bc5b1d356711b417d`, followed by existing-key clean preparation and publisher `--check` PASS. Public release at 06:32:14 KST, six-asset/feed equality, all 171 installed entries/signature/159+57 resource keys, same-process normal-app live language/manual no-update result and postcleanup checks passed. Final cleanup moved 60 known local items (616,854,254 regular-file bytes) recoverably to Trash and removed superseded v0.5.0 public assets; latest prepared set, installed app, small proof records/source/tags/key retained. `.build/` and generated apps are now absent; rebuilding recreates development outputs. The final documentation commit is separate and has no hash yet. See [current QA](qa-results.md#2026-10-05-060-publication-installation-and-cleanup) for exact ownership and unrun checks.
+
+한국어: 구현·독립 소스 승인·36 test·159+57 문자열·368 합성 뷰·최종 resource34/installer15/gate16을 확인했습니다. 새 payload의 두 문자열 표는 regular/nonsymlink 필수이며 이전 0.5 백업 복원 호환은 유지합니다. 구현/tag `e87e40e`의 준비/check 이후 06:32:14 KST 공개·171개 설치 항목/서명/159+57 문자열·동일 프로세스 즉시 언어 전환/수동 최신 확인·60개 로컬 항목 복구 가능한 정리·0.5 공개 제거를 확인했습니다. `.build/` 제거 후 설치 앱 재검증도 통과했으며 독립 최종 문서 리뷰/후속 문서 commit은 별도입니다.
 
 ### Earlier 0.5 interaction, brand and installation follow-up
 
@@ -56,7 +64,7 @@ Preserve the existing Ed25519 public key and Keychain `sshot` account. Renaming 
 - Author and verifier work in separate contexts; evidence determines acceptance.
 - Run fast tests/build/static checks for code changes. Capture GUI, Screen Recording grants, and actual paste remain user-owned; do not operate TCC or claim these passed.
 - Keep captured images, screen/app/window information, and clipboard data out of files, diagnostics, Git, and remote services. Harness output is metadata only.
-- Version/build remain proposals until the sealed bundle is inspected. Ad-hoc code signing, Ed25519 signing, and notarization prove different things.
+- Inspect sealed version/build for each candidate; current 0.6.0(8) development and clean-preparation metadata are recorded in QA, with publication/install proof separate. Ad-hoc code signing, Ed25519 signing, and notarization prove different things.
 - Code push and binary publication are separate actions. Implementation/doc authoring and independent review are separate lanes; the coordinator owns commit/push, installation and publication.
 
 ## Decisions and next evidence

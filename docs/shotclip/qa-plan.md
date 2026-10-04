@@ -22,7 +22,7 @@ bash scripts/build-app.sh
 codesign --verify --deep --strict 'dist/Shot Clip.app'
 ```
 
-Do not replace a running app or run signing/build changes from an uncontrolled parallel task. Record the actual test count/environment/commit when performed. Inspect sealed bundle identity/executable/version, en/ko resources, unchanged public key, canonical HTTPS URL, and required signed feed/update flags. An ad-hoc local signature check is not a Gatekeeper or notarization pass.
+Do not replace a running app or run signing/build changes from an uncontrolled parallel task. Record the actual test count/environment/commit when performed. Inspect sealed bundle identity/executable/version, regular nonsymlink en/ko Localizable.strings and Updates.strings for new payloads (older backup rollback compatibility retained), unchanged public key, canonical HTTPS URL, and required signed feed/update flags. An ad-hoc local signature check is not a Gatekeeper or notarization pass.
 
 | Area | Cases and observable result |
 | --- | --- |
@@ -46,7 +46,7 @@ Repeat for `en`/`ko` × `light`/`dark`. Inspect all panes at default/minimum siz
 
 ## Live-language and update-dialog fixtures
 
-Use the production language selection/refresh path in inert previews for en→ko→en, checking menus, settings navigation/labels, selection controls and current state. Exercise the supported custom Sparkle `SPUUserDriver` callbacks with synthetic update objects and reply closures: visible/new dialogs relabel immediately; skip/later/install/permission/cancel choices reply correctly and exactly once; progress/error/completion remain localized and usable. The fixture must start no updater/network/install, save no preferences, and touch no TCC/capture/clipboard/Keychain. Record actual commands/counts and separate synthetic callbacks from a real version upgrade.
+Use the production language selection/refresh path in inert previews for en→ko→en, checking menus, settings navigation/labels, selection controls and current state. Exercise all 16 required public Sparkle `SPUUserDriver` callbacks plus optional focus with synthetic update objects and reply closures: visible/new dialogs relabel immediately; skip/later/install/permission/cancel choices reply correctly and exactly once; progress/error/completion remain localized and usable. The fixture must start no updater/network/install, save no preferences, and touch no TCC/capture/clipboard/Keychain. Record actual commands/counts and separate synthetic callbacks from a real version upgrade. The final integrated development runs produced 92 images each (28 settings/menu/overlay/transitions + 64 updater views) across en/ko × light/dark, 368 total, and 1,158 updater assertions per run; see [current results](qa-results.md#2026-10-05-060-publication-installation-and-cleanup). The separately run updater-only 256 images are a different fixture set and are not added to the 368 count. Found-update fixtures use the public empty-item sentinel and production presentation adapter; they do not validate real appcast parsing/property resolution.
 
 ## User’s short acceptance check
 
