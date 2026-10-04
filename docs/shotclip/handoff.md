@@ -2,6 +2,37 @@
 
 [Documentation](README.md) · [Development plan](development-plan.md) · [QA results](qa-results.md)
 
+## 2026-10-05 verified release and installation handoff
+
+- Public: [v0.4.0 release](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.4.0) / [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.4.0/shotclip-0.4.0.zip), published 02:05:55 KST; 0.4.0(5), ad-hoc signed, **NOT notarized**, arm64 only. Six public assets and the [canonical signed feed](https://github.com/kyungseok-lee/shotclip/releases/latest/download/appcast.xml) were verified; exact hashes and evidence ownership are in [current QA](qa-results.md#2026-10-05-verified-publication-and-installation).
+- Source/Git: reviewed implementation commit and immutable `v0.4.0` tag are `ab57fcace589f2c786ba183778d1b1bb4e77fe87`; coordinator atomic main/tag push and GitHub commit checks passed, writer read-only remote main/peeled tag matched before edits. Clean-source preparation, existing-key signing and publication completed before this writer was explicitly unblocked. The archive and installed app retain that implementation commit even after later documentation commits on `main`.
+- Installation: coordinator installer passed; `/Applications/ShotClip.app` has exact identity/version/source/ad-hoc mode, release-build binary, deep/strict signature and installed localization PASS (109 en/ko keys, fallback/installedBundle true). Normal local startup was confirmed on the arm64 host. Four verified legacy items were recoverably moved to Trash; current/latest apps and Keychain `sshot` key were preserved without rotation/export/regeneration. No TCC/quarantine/Gatekeeper changes.
+- Product limits: English default; English / 한국어 choice applies after restart; automatic checks opt-in OFF. Historical Sshot uses a one-time manual install and fresh Screen Recording grant; login/consent do not migrate. User-owned capture/TCC/paste, VoiceOver/native focus/rendered layout, clean-account downloaded first launch, macOS 14/Intel, rollback and real same-ID newer-build automatic upgrade remain unrun.
+- Writer scope/next: only `README.md`, `README.ko.md`, `docs/shotclip/qa-results.md`, `docs/shotclip/handoff.md`, `docs/shotclip/update-operations.md`. This writer read logs/metadata/public bytes and edits docs only; no build, GUI, Keychain, TCC, Git or remote mutations. Separate final release/document review remains active, then the coordinator owns the documentation commit/push and any future runtime evidence; no pending documentation commit hash is invented.
+- Writer document checks: PASS for five files, 41 relative file/fragment links, balanced fences/whitespace and scoped `git diff --check`; all earlier QA/handoff records are unchanged from the implementation commit. Public release/ZIP/feed links returned HTTP 200, with ZIP/feed bytes matching verified downloads; these checks do not issue independent approval.
+- Workspace recovery: the physical checkout folder is now `shotclip`; resume with the explicit current checkout directory. The removed `sshot` directory and old PTY hooks are not valid resume paths.
+
+Coordinator-reported task accounting at this handoff:
+
+| Task | Outcome / bounded evidence |
+| --- | --- |
+| `task_d6f9e0482995` planner/designer | Succeeded: 14 documents, 88 relative links |
+| `task_cceea06feab6` release/identity executor | Succeeded: release scripts; 25 crypto negatives, 16 gates, initially eight ZIP negatives |
+| `task_edd64f44bed1` app executor | Succeeded: bilingual/native UI implementation, 34 tests, 109 keys; GUI acceptance remains unrun |
+| `task_18f060150e4f` independent source reviewer | Succeeded: APPROVE in [source review](qa-review.md), bounded to source/development evidence |
+| `task_c52bc4956638` ZIP remediation | Succeeded: 13 unsafe ZIP cases |
+| `task_f0b99651cd05` resource remediation | Succeeded: 22 fixtures |
+| `task_8b7d1be8fd35` diagnostic remediation | Succeeded: final bundled 109-key PASS |
+| `task_aefb738d4d4e` prepublication writer | Succeeded: two documents, 13 relative links |
+| `task_ae05e068f0e5` final writer | Active at recording; final worker report follows document checks |
+| `task_1c81dad4169f` release verifier | Active at recording; [release review](release-review.md) awaits writer settlement and final independent outcome |
+
+Coordinator publication/installation evidence is separate from these task outcomes. Five executor/fix workers were released; prior writer ownership transferred to this final writer. The planner and original source reviewer are retained as `user_takeover` / `user_owned`; the final reviewer uses a pre-existing external terminal that must be retained, and the observer is not team-owned.
+
+한국어: 구현 commit/tag `ab57fca`의 0.4.0(5)를 공개하고 공개 자료/feed·설치/정상 시작을 확인했습니다. 이후 문서 commit은 배포 소스와 구분합니다. arm64 전용 ad-hoc·미공증, 영어 기본/한국어 재시작 적용, 자동 확인 기본 OFF이며 과거 Sshot은 한 번 수동 설치하고 화면 기록을 새로 허용합니다. 실제 GUI·권한·캡처·붙여 넣기·깨끗한 계정·macOS 14/Intel·rollback·자동 업그레이드는 미실행입니다. 최종 문서 작성과 별도 배포 검토는 이 기록 시점에 진행 중이며 실제 결과 보고 후 조정자가 문서 commit/push를 수행합니다. 현재 폴더 `shotclip`에서 명시적 cwd로 재개하고 삭제된 `sshot` 경로나 이전 PTY hook을 사용하지 않습니다.
+
+The following two 2026-10-05 handoffs are retained prepublication snapshots. Their pending source/publication/installation statements describe that earlier stage and are superseded by the verified record above; the historical Sshot audit is also unchanged.
+
 ## 2026-10-05 current documentation handoff
 
 - Direction: ShotClip / `kyungseok-lee/shotclip`; `dev.shotclip.app`, executable `shotclip`, `/Applications/ShotClip.app` installation target; sealed local development bundle now confirms `0.4.0` (build `5`), as recorded below.

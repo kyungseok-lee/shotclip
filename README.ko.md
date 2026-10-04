@@ -4,11 +4,13 @@
 
 화면 영역을 선택하면 이미지를 바로 클립보드에 복사하는 작은 macOS 메뉴 막대 앱입니다. **고정 영역** 또는 **드래그 영역**으로 캡처한 뒤 다른 앱에서 `⌘V`로 붙여 넣습니다.
 
-Sshot에서 ShotClip으로 이름을 변경 중이며 다음 버전은 **0.4.0(build 5)** 제안입니다. 배포 경로는 Developer ID 서명·공증 없는 GitHub **ad-hoc 개발자 프리뷰**입니다. 게시, 실제 캡처 GUI 테스트, 실제 업데이트는 각각 별도로 검증하며 [QA 기록](docs/shotclip/qa-results.md)에 남깁니다.
+**ShotClip 0.4.0(build 5)**를 **Apple Silicon(arm64) 전용** GitHub 개발자 프리뷰로 공개했습니다. **Ad-hoc 서명이며 공증되지 않았습니다.** [ZIP 다운로드](https://github.com/kyungseok-lee/shotclip/releases/download/v0.4.0/shotclip-0.4.0.zip), [v0.4.0 릴리스](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.4.0)를 이용하세요. 2026-10-05 KST에 독립 검토된 구현 소스 [`ab57fca`](https://github.com/kyungseok-lee/shotclip/commit/ab57fcace589f2c786ba183778d1b1bb4e77fe87)에서 게시했습니다.
+
+공개 산출물/feed와 로컬 설치·정상 시작을 검증했습니다. 실제 캡처·권한·붙여 넣기·언어/접근성 화면·자동 업데이트는 미검증이며 [QA 기록](docs/shotclip/qa-results.md)에 범위를 구분했습니다.
 
 ## 빌드와 실행
 
-macOS 14 이상, macOS SDK가 포함된 Xcode, Swift 5.9 이상이 필요합니다. 기존 기록의 빌드 환경은 macOS 27.0.1 / Xcode 27.0 / Apple Silicon이며 macOS 14·Intel 실행은 미검증입니다.
+macOS 14 이상, macOS SDK가 포함된 Xcode, Swift 5.9 이상이 필요합니다. macOS 27.0.1 / Xcode 27.0 / Apple Silicon에서 빌드·설치·로컬 정상 시작을 확인했습니다. macOS 14 실행은 미검증이며 공개 ZIP에는 Intel 바이너리가 없습니다.
 
 ```sh
 git clone https://github.com/kyungseok-lee/shotclip.git
@@ -19,7 +21,7 @@ bash scripts/install-app.sh
 open /Applications/ShotClip.app
 ```
 
-번들을 교체하기 전에 ShotClip을 종료하세요. 설치 스크립트는 새 번들을 검증하고 기존 설치를 백업하여 위치를 출력합니다. 개발 산출물은 `dist/ShotClip.app`이고 `.build/`와 `dist/`는 Git에서 제외합니다.
+다운로드한 ZIP을 풀고 `ShotClip.app`을 `/Applications`에 넣으세요. 설치 전에 ShotClip과 과거 Sshot을 종료합니다. 위 소스 설치 스크립트는 새 번들을 검증하고 기존 설치를 백업하여 위치를 출력합니다. 개발 산출물은 `dist/ShotClip.app`이고 `.build/`와 `dist/`는 Git에서 제외합니다.
 
 ## 캡처와 언어
 
@@ -38,7 +40,7 @@ Escape는 취소, 방향키는 이동, Shift는 큰 이동, Option+방향키는 
 
 ad-hoc 프리뷰는 최초 실행이 차단될 수 있습니다. 출처를 확인한 후 가능한 경우 Apple의 앱별 **개인정보 보호 및 보안 → 확인 없이 열기** 절차를 따르세요. Gatekeeper 전체를 끄지 않습니다. Ed25519 서명은 feed/archive 무결성을 검증하며 Apple 공증이나 화면 기록 허용을 대신하지 않습니다. [Apple 최초 실행 안내](https://support.apple.com/en-us/102445), [업데이트 운영](docs/shotclip/update-operations.md)을 참고하세요.
 
-Sparkle 자동 확인은 기본 OFF입니다. 새 GitHub 저장소와 기존 Ed25519 키를 사용하며 Keychain 계정 `sshot`은 호환성을 위해 유지합니다. 과거 Sshot에서 ShotClip은 한 번 수동 설치하고 단축키/모드만 이전하며 권한·로그인 등록은 이전하지 않습니다. 실제 ShotClip 업그레이드는 미검증이고 feed URL만으로 공개 자료나 성공을 주장하지 않습니다.
+Sparkle 자동 확인은 선택 사항이며 **기본 OFF**입니다. [공개 서명 feed](https://github.com/kyungseok-lee/shotclip/releases/latest/download/appcast.xml)와 릴리스 ZIP을 2026-10-05에 검증했습니다. 기존 Ed25519 키와 Keychain 계정 `sshot`을 교체·내보내기·재생성 없이 유지합니다. 과거 Sshot에서 ShotClip은 한 번 수동 설치하고 단축키/모드만 이전하며 권한·로그인 등록은 이전하지 않습니다. 같은 ShotClip 식별자의 더 높은 build로 실제 자동 업그레이드하는 종단간 테스트는 미실행입니다.
 
 ## 개인정보와 검증
 

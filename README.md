@@ -4,11 +4,13 @@
 
 A small macOS menu bar app that captures a selected region straight to the clipboard. Select with **Fixed Region** or **Drag Region**, then paste into another app with `⌘V`.
 
-The repository is transitioning from Sshot to ShotClip. The next release target is **0.4.0 (build 5)**, a GitHub **ad-hoc developer preview**, without Developer ID signing or notarization. Publication, capture GUI tests, and real updates are separate checks; see [QA results](docs/shotclip/qa-results.md).
+**ShotClip 0.4.0 (build 5)** is available as a GitHub developer preview for **Apple Silicon (arm64) only**. **Ad-hoc signed; NOT notarized.** [Download the ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.4.0/shotclip-0.4.0.zip) or view the [v0.4.0 release](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.4.0), published on 2026-10-05 KST from reviewed source [`ab57fca`](https://github.com/kyungseok-lee/shotclip/commit/ab57fcace589f2c786ba183778d1b1bb4e77fe87).
+
+The public assets/feed and local installation/startup were verified. Capture, permission, paste, rendered language/accessibility and actual automatic upgrades remain untested; see [QA results](docs/shotclip/qa-results.md).
 
 ## Build and run
 
-Requires macOS 14+, Xcode with the macOS SDK, and Swift 5.9+. The existing recorded build environment is macOS 27.0.1 / Xcode 27.0 / Apple Silicon; macOS 14 and Intel runtime support remain unverified.
+Requires macOS 14+, Xcode with the macOS SDK, and Swift 5.9+. Build, installation and normal local startup were verified on macOS 27.0.1 / Xcode 27.0 / Apple Silicon. macOS 14 runtime is untested; the published archive contains no Intel binary.
 
 ```sh
 git clone https://github.com/kyungseok-lee/shotclip.git
@@ -19,7 +21,7 @@ bash scripts/install-app.sh
 open /Applications/ShotClip.app
 ```
 
-Quit ShotClip before replacing its bundle. The installer verifies the new bundle and preserves an existing installation in a backup directory that it prints. Development output is `dist/ShotClip.app`; `.build/` and `dist/` are ignored.
+For the download, unzip and place `ShotClip.app` in `/Applications`; quit ShotClip and legacy Sshot before installation. The source installer above verifies the new bundle and preserves existing installations in a backup directory that it prints. Development output is `dist/ShotClip.app`; `.build/` and `dist/` are ignored.
 
 ## Capture and language
 
@@ -38,7 +40,7 @@ The new `dev.shotclip.app` identity needs a fresh Screen Recording grant, even i
 
 An ad-hoc preview may be blocked at first launch. After checking its source, follow Apple’s per-app **Privacy & Security → Open Anyway** flow when available; do not disable Gatekeeper globally. Ed25519 update signatures verify feed/archive integrity and do not replace Apple notarization or grant Screen Recording. See [Apple’s first-launch guidance](https://support.apple.com/en-us/102445) and [update operations](docs/shotclip/update-operations.md).
 
-Sparkle automatic checks are OFF by default. Updates use the renamed GitHub repository and the existing Ed25519 key; Keychain account `sshot` is deliberately retained for compatibility. Moving from historical Sshot requires a one-time manual ShotClip install; selected shortcut/mode settings migrate, permission and login registration do not. Actual ShotClip upgrades remain unverified. A feed URL does not prove public assets or an upgrade exist.
+Sparkle automatic checks are opt-in and **OFF by default**. The [public signed feed](https://github.com/kyungseok-lee/shotclip/releases/latest/download/appcast.xml) and release archive were verified on 2026-10-05. Updates retain the existing Ed25519 key and Keychain account `sshot`, with no key rotation, export or regeneration. Moving from historical Sshot requires a one-time manual ShotClip install; selected shortcut/mode settings migrate, permission and login registration do not. A same-ID automatic upgrade to a newer ShotClip build has not been tested.
 
 ## Privacy and verification
 

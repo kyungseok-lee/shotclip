@@ -2,21 +2,33 @@
 
 [Product decision](product-plan.md) · [QA plan](qa-plan.md) · [Results](qa-results.md) · [한국어](#한국어)
 
-Approved 2026-10-05: GitHub **ad-hoc developer preview**, without Developer ID enrollment/notarization. Developer ID is a separate route retained in tooling, outside this release. No release or upgrade is claimed by this document.
+Published 2026-10-05 02:05:55 KST: [ShotClip v0.4.0](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.4.0), a GitHub **ad-hoc developer preview; NOT notarized; arm64 only**. Public assets/feed and local installation/startup were verified. Developer ID is a separate route outside this release; an actual same-ID automatic upgrade remains unrun.
 
 | Item | Current contract |
 | --- | --- |
 | Repository | `kyungseok-lee/shotclip` (renamed by the user) |
-| Canonical feed | `https://github.com/kyungseok-lee/shotclip/releases/latest/download/appcast.xml` |
-| Archive | `https://github.com/kyungseok-lee/shotclip/releases/download/v0.4.0/shotclip-0.4.0.zip` |
+| Canonical feed | [Public signed appcast](https://github.com/kyungseok-lee/shotclip/releases/latest/download/appcast.xml) |
+| Archive | [shotclip-0.4.0.zip](https://github.com/kyungseok-lee/shotclip/releases/download/v0.4.0/shotclip-0.4.0.zip), 2,342,408 bytes |
 | App | `dist/ShotClip.app`; `dev.shotclip.app`; executable `shotclip` |
-| Proposed version / build | `0.4.0` / `5`, must match reviewed Info.plist and sealed artifact |
+| Verified version / build | `0.4.0` / `5`, matches sealed release and installed bundle |
+| Implementation source / tag | `ab57fcace589f2c786ba183778d1b1bb4e77fe87` / `v0.4.0`; later documentation commits on `main` do not change artifact provenance |
+| Installation | `/Applications/ShotClip.app`; exact version/source/ad-hoc metadata, release binary and normal local startup verified |
 | Key | Existing `SUPublicEDKey`; `SHOTCLIP_UPDATE_KEY_ACCOUNT=sshot` intentionally preserved |
 | Required trust | Ed25519 archive and signed feed verification; `SUVerifyUpdateBeforeExtraction` and `SURequireSignedFeed` remain enabled |
 
-Latest/download refers to the latest public release, so each published release must include its correct appcast. Archive URLs stay tag-specific. Draft assets are not a public update feed. Configured URLs do not establish public reachability.
+Latest/download refers to the latest public release, so each published release must include its correct appcast. Archive URLs stay tag-specific. Draft assets are not a public update feed. The current canonical feed returned HTTPS 200 and matched the prepared/tag asset bytes; future releases must repeat that check.
+
+## Verified v0.4.0 operations
+
+Coordinator atomic main/tag push and clean reviewed-source preparation passed before publication. Existing Keychain `sshot` lookup and real Ed25519 archive/feed signing succeeded without private-key rotation/export/regeneration. Publisher `--check` and `--publish` validated six assets, downloaded/compared uploaded bytes before publication, and verified the canonical feed. Public-key-only verification of the downloaded public set and ZIP validation passed with explicit ad-hoc mode/build 5. The published [manifest](https://github.com/kyungseok-lee/shotclip/releases/download/v0.4.0/release-manifest.json) and [checksums](https://github.com/kyungseok-lee/shotclip/releases/download/v0.4.0/SHA256SUMS) identify the exact implementation artifact.
+
+Installation succeeded after normal old-app quit. Installed metadata/binary/deep-strict signature and localization diagnostic PASS (109 en/ko keys, installedBundle/fallback true) were confirmed; normal local startup was observed on the arm64 host. Four verified legacy items were recoverably moved to Trash, preserving the current app and signing key. No TCC, quarantine or Gatekeeper setting changed. See [current QA](qa-results.md#2026-10-05-verified-publication-and-installation) for logs, hashes and evidence ownership.
+
+These checks do not establish clean-account downloaded first launch, Screen Recording/capture/paste, VoiceOver/native focus/rendered language, macOS 14/Intel runtime, installer rollback or a real same-ID newer-build automatic upgrade. Those remain unrun; separate final release/document review is independently owned.
 
 ## Prepare, check, draft, publish
+
+For the next release, increase both `CFBundleShortVersionString` and the monotonic `CFBundleVersion` in `resources/Info.plist`; implement, independently review, test and commit, create the corresponding **new** version tag, then prepare/check/publish with the same existing Keychain key. Never reuse or replace the `v0.4.0` tag or assets.
 
 1. Finish implementation and independent review, record fast checks and remaining user-owned GUI gaps, then commit the approved source. Do not release from a dirty tree. Create the matching local version tag on that reviewed HEAD; publisher checks the pushed tag and GitHub repository too.
 2. Explicitly select preview mode and acknowledge its limitations. Set the full independently reviewed commit; version/build must equal reviewed `resources/Info.plist`.
@@ -26,7 +38,7 @@ Latest/download refers to the latest public release, so each published release m
 6. Explicit `--publish` creates a validated draft, checks uploaded bytes, transitions it to public, and verifies the canonical feed. It is not an “edit an existing draft” resume command. For an existing draft, the authorized coordinator must revalidate target/assets and perform the separate publication action.
 7. Record remote URLs, artifact/tag/commit/build/mode, signature/checksum results, and unperformed GUI/upgrade checks. Publication does not make those checks PASS.
 
-Example setup **only after independent review and commit/tag preparation**:
+Historical v0.4.0 setup for reproducibility, **not instructions to republish from a later documentation HEAD**:
 
 ```sh
 export SHOTCLIP_RELEASE_MODE=ad-hoc
@@ -38,7 +50,7 @@ export SHOTCLIP_UPDATE_KEY_ACCOUNT=sshot
 bash scripts/prepare-github-release.sh
 ```
 
-Use the directory actually printed by preparation as the second publisher argument: `bash scripts/publish-github-release.sh 0.4.0 PREPARED_DIRECTORY --check`, then the approved draft/publication action. `PREPARED_DIRECTORY` is notation, not a literal path. These commands are documentation examples, not recorded executions.
+Use the directory actually printed by preparation as the second publisher argument: `bash scripts/publish-github-release.sh 0.4.0 PREPARED_DIRECTORY --check`, then the approved draft/publication action. `PREPARED_DIRECTORY` is notation, not a literal path. This block describes reproducible setup; the completed v0.4.0 executions are recorded above. Do not recreate or overwrite the existing release.
 
 ## Trust and migration limits
 
@@ -48,9 +60,15 @@ Ed25519 verifies update archive/feed authenticity; it does not notarize the app 
 
 The old bundle `dev.sshot.app` → `dev.shotclip.app` change uses a **one-time manual ShotClip installation**. Do not promise legacy Sparkle replacement compatibility. Selected valid shortcut/mode preferences migrate; permission and login registration do not. Grant Screen Recording to ShotClip afresh; later ad-hoc replacements may require regrant. Actual ShotClip-to-ShotClip upgrades need an end-to-end test with a real newer build.
 
-Historical Sshot 0.2.1 local archive/feed cryptographic checks passed; the then-public feed returned HTTP 404. Neither establishes a published ShotClip feed or upgrade. See [historical results](qa-results.md).
+English is the default; choose English / 한국어 in General settings and restart to apply. Automatic update checks are opt-in and OFF by default. Public feed integrity is verified; an actual automatic upgrade is not.
+
+Historical Sshot 0.2.1 local archive/feed cryptographic checks passed; the then-public feed returned HTTP 404. These remain dated legacy results; current ShotClip publication is recorded above, while actual upgrades remain untested. See [historical results](qa-results.md).
 
 ## 한국어
+
+2026-10-05 02:05:55 KST에 [v0.4.0](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.4.0) / [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.4.0/shotclip-0.4.0.zip)을 공개했습니다. 0.4.0(5), arm64 전용 ad-hoc·미공증이며 tag·manifest·설치 앱은 구현 commit `ab57fca`를 유지하고 후속 문서 commit과 구분합니다. 깨끗한 검토 소스·기존 키 서명·공개 산출물/feed bytes·설치/정상 시작을 확인했습니다. 영어 기본/한국어는 재시작 적용, 자동 확인은 기본 OFF입니다. 실제 캡처/TCC/붙여 넣기·GUI/접근성·깨끗한 계정·macOS 14/Intel·rollback·실제 자동 업그레이드는 미실행입니다.
+
+다음 릴리스는 `resources/Info.plist`의 `CFBundleShortVersionString`과 단조 증가하는 `CFBundleVersion`을 모두 높이고 구현·독립 리뷰·테스트·commit 후 해당 **새** 버전 tag를 만듭니다. 같은 기존 Keychain 키로 prepare/check/publish하며 `v0.4.0` tag나 산출물을 재사용·교체하지 않습니다. 위 0.4.0 예시는 과거 설정 재현용이고 이후 문서 HEAD에서 같은 릴리스를 다시 게시하는 절차가 아닙니다.
 
 이번 경로는 Developer ID 등록·공증 없는 GitHub ad-hoc 개발자 프리뷰입니다. `SHOTCLIP_RELEASE_MODE=ad-hoc`, `SHOTCLIP_ACKNOWLEDGE_AD_HOC=YES`, 독립 검토된 전체 commit, 일치하는 버전/build 및 tag를 명시합니다. 준비는 기존 `sshot` Keychain 계정만 조회하고 archive/feed 서명·manifest·해시를 검증하며 게시하지 않습니다.
 

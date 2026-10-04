@@ -2,6 +2,29 @@
 
 [QA plan](qa-plan.md) · [Verification](verification.md) · [Handoff](handoff.md)
 
+## 2026-10-05 verified publication and installation
+
+ShotClip **0.4.0 (build 5)** is public: [v0.4.0 release](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.4.0) · [ZIP download](https://github.com/kyungseok-lee/shotclip/releases/download/v0.4.0/shotclip-0.4.0.zip). Published 2026-10-05 02:05:55 KST (2026-10-04T17:05:55Z), neither draft nor prerelease. **Ad-hoc signed; NOT notarized; arm64 only.** The immutable tag, archive manifest and installed bundle record implementation commit `ab57fcace589f2c786ba183778d1b1bb4e77fe87`; later documentation commits on `main` do not change that artifact provenance.
+
+| Check | Verified result and evidence owner |
+| --- | --- |
+| Reviewed source/tag | Coordinator atomic push of `main`/`v0.4.0` succeeded; writer read-only local HEAD and remote peeled tag/main matched the implementation commit before these documentation edits. Independent source verdict is in [QA review](qa-review.md); this writer gives no approval |
+| Clean-source preparation/signing | Coordinator `dist/prepare-public-0.4.0.log`: reviewed clean-source build, existing Keychain `sshot` lookup and real signed appcast/archive generation passed. `SHOTCLIPReleaseMode=ad-hoc`; no key rotation/export/regeneration |
+| Publication and public bytes | Coordinator publisher `--check`/`--publish` passed; all six draft uploads were downloaded and compared before publication. Writer GitHub read confirmed public status and ZIP, `appcast.xml`, `SHA256SUMS`, `release-manifest.json`, `RELEASE-NOTES.md`, `README.txt`; release/ZIP/feed HTTP 200 and remote ZIP/feed bytes matched `dist/public-0.4.0-verification` |
+| Public signature/archive/feed checks | Coordinator public-key-only manifest/feed/archive verification and ZIP validator passed with explicit `SHOTCLIP_RELEASE_MODE=ad-hoc`, `SHOTCLIP_BUILD_NUMBER=5`. An initial standalone invocation without release mode failed closed; corrected verification passed without asset changes. [Canonical signed feed](https://github.com/kyungseok-lee/shotclip/releases/latest/download/appcast.xml) bytes matched the prepared/tag asset |
+| Installation and normal local startup | Coordinator `dist/install-public-0.4.0.log` passed after quitting the exact old app normally. Writer read `/Applications/ShotClip.app`: `dev.shotclip.app`, executable `shotclip`, 0.4.0(5), exact implementation commit/ad-hoc mode, binary identical to release build. Coordinator deep/strict signature, installed localization JSON PASS (109 en/ko keys, `installedBundle:true`, `fallback:true`) and normal installed-app process confirmation passed; no GUI acceptance claim |
+| Recoverable legacy cleanup | Coordinator `dist/legacy-cleanup-0.4.0.log`: verified old 0.3.0 backup, `dist/sshot.app`, `dist/sshot-fixture.app`, `dist/sshot-0.3.0.zip` moved to Trash; original paths absent, four items recoverable. Current/latest apps and signing key preserved |
+
+Archive: 2,342,408 bytes, SHA256 `44efdefe0897e75a978677cc01a2adb0c5176da1caf8e3af3ccde3d1f6f2fb69`. Feed: 1,269 bytes, SHA256 `844c60719f3740dcba3da4fc8038ad19a89e3d04425a3cd0eb06d4403424a166`. See published [checksums](https://github.com/kyungseok-lee/shotclip/releases/download/v0.4.0/SHA256SUMS). Local `dist/` evidence remains ignored.
+
+English is the default; select English / 한국어 and restart to apply. Automatic checks are opt-in and OFF. Historical Sshot needs one manual ShotClip installation; valid shortcut/mode migration is implemented, while Screen Recording needs a fresh grant and login/consent do not migrate. No TCC, quarantine or Gatekeeper changes were made.
+
+**Unrun:** user-owned capture/pixels, Screen Recording/TCC, paste, VoiceOver/native focus and rendered language/layout; downloaded first launch in a clean account, macOS 14/Intel runtime, installer rollback and a same-ID newer-build automatic upgrade end-to-end. Only normal local startup on the arm64 host was confirmed. Separate final release/document review remains with the reviewer; publication is not full app QA.
+
+한국어: 0.4.0(5)를 2026-10-05 02:05:55 KST에 공개하고 공개 자료/feed·기존 키 서명·로컬 설치/정상 시작을 확인했습니다. tag·ZIP·설치 앱의 구현 commit은 `ab57fca`이며 후속 문서 commit과 구분합니다. arm64 전용 ad-hoc·미공증 프리뷰이고 영어 기본/한국어는 재시작 적용, 자동 확인은 기본 OFF입니다. 과거 Sshot은 한 번 수동 설치하고 화면 기록을 새로 허용해야 합니다. 실제 캡처·권한·붙여 넣기·GUI/접근성·깨끗한 계정·macOS 14/Intel·rollback·실제 자동 업그레이드는 미실행이며 독립 최종 리뷰는 별도입니다.
+
+The following two 2026-10-05 sections are retained prepublication documentation/development QA snapshots. Their development baseline and pending publication/installation statements describe that earlier stage and are superseded by the verified record above.
+
 ## 2026-10-05 documentation and rebrand scope
 
 Current brand/repository: ShotClip / `kyungseok-lee/shotclip`. The development bundle now verifies as `dev.shotclip.app`, executable `shotclip`, version `0.4.0` (build `5`); `/Applications/ShotClip.app` remains the installation target. The authorized route is GitHub ad-hoc developer preview; Developer ID/notarization is outside this release, and the old certificate gate below is historical.
