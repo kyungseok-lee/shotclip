@@ -1,6 +1,19 @@
-# ShotClip handoff
+# Shot Clip handoff
 
 [Documentation](README.md) · [Development plan](development-plan.md) · [QA results](qa-results.md)
+
+## 2026-10-05 0.5.0 handoff
+
+- Current: [v0.5.0](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.5.0) / [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.5.0/shotclip-0.5.0.zip), published 04:30:38 KST; 0.5.0(7), arm64, ad-hoc signed, **NOT notarized**. Six live assets and canonical feed passed byte/signature/ZIP checks; [current QA](qa-results.md#2026-10-05-050-publication-installation-and-cleanup) records hashes and ownership.
+- Changes: Shot Clip visible name and spaced bundle path, capture-first native menu, compact General/Access/Updates settings, drag selection/keyboard presentation, safe synthetic preview mode and original crop-and-copy icon/artwork. Stable `dev.shotclip.app`, executable `shotclip`, settings, capture engine, key/feed and automatic checks OFF retained.
+- Source/Git: separate [source APPROVE](qa-review-0.5.0.md) preceded source commit/tag and atomic main/tag push, then clean existing-key preparation. Publisher `--check` and separate prepublication artifact APPROVE followed preparation, before `--publish` reran the gates and published. Remote main/peeled `v0.5.0` matched `3d803a9c45f72c1eb3c7328ca68321e1fdb1d2b4`; artifact metadata keeps that source. Coordinator owns the separate final documentation review, commit/push and remote check; no pending documentation hash is invented.
+- Validation: coordinator 34 core, 25 crypto, 16 gates, 22 resources, 15 unsafe/two valid ZIP and eight installer fixtures PASS; final build/125 en/ko keys PASS. Four inert preview runs produced 76 images; limited actual English dark settings/app-menu/recovery inspection is distinct from capture QA. Native Tab/quiet-launch observations were inconclusive. Separate verifier confirmed live artifacts, exact installed 168 entries/signature/125 keys and 12 Trash moves.
+- Installation/cleanup: `/Applications/Shot Clip.app` 0.5.0(7), exact source/ad-hoc metadata and one normal canonical instance verified; prior `/Applications/ShotClip.app` absent. After new checks, v0.4.1/six assets were deleted and 12 verified superseded local items moved recoverably to Trash. Latest app/assets, source/tags and existing Keychain `sshot` key retained; no TCC/quarantine/Gatekeeper changes.
+- Remaining: actual capture/TCC/paste, VoiceOver/native focus, status-menu popup, language restart, clean-account first launch, macOS 14/Intel and actual Sparkle upgrade remain unrun. Stock Sparkle may retain an old host folder; manual installation adopts the canonical spaced name. Resume in the current `shotclip` checkout and record further runtime results only when performed.
+
+한국어: Shot Clip 0.5.0(7) 공개·새 공백 포함 경로 설치·서명/125개 언어 키·구버전 정리를 완료했습니다. 구현/tag는 `3d803a9`이며 최종 문서 독립 리뷰·commit/push는 조정자가 이어서 수행합니다. 로컬 구버전 12개는 휴지통에서 복구할 수 있고 소스·태그·기존 키는 보존합니다. 제한된 native/합성 UI 검증과 실제 캡처·권한·붙여 넣기·자동 업데이트 미실행 범위를 구분합니다.
+
+All older dated handoffs below remain unchanged. Their v0.4.1/v0.4.0 public URLs are historical and unavailable after authorized removal; old local evidence may be in Trash. This current record supersedes their operational state.
 
 ## 2026-10-05 0.4.1 visual refresh handoff
 

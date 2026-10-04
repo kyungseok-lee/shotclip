@@ -1,6 +1,27 @@
-# ShotClip QA results
+# Shot Clip QA results
 
 [QA plan](qa-plan.md) · [Verification](verification.md) · [Handoff](handoff.md)
+
+## 2026-10-05 0.5.0 publication, installation and cleanup
+
+Shot Clip **0.5.0 (build 7)** is the latest public release: [v0.5.0](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.5.0) · [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.5.0/shotclip-0.5.0.zip). Published 2026-10-05 04:30:38 KST (2026-10-04T19:30:38Z), neither draft nor prerelease. **Ad-hoc signed; NOT notarized; arm64 only.** Source/tag/manifest/installed app identify `3d803a9c45f72c1eb3c7328ca68321e1fdb1d2b4`; subsequent documentation commits do not change artifact provenance.
+
+| Check | Result and bounded evidence |
+| --- | --- |
+| Reviewed source and preparation | Separate [source review](qa-review-0.5.0.md) APPROVE; coordinator atomic main/tag push and clean-source preparation passed. Separate prepublication artifact APPROVE: `dist/review-0.5-prepublication.txt`. Existing Keychain `sshot` key used without export/rotation/regeneration |
+| Automated/package checks | Coordinator: 34 core tests, 25 crypto/policy rejections, 16 release gates, 22 resource fixtures, 15 unsafe/two valid ZIP cases and eight signed temporary installer cases PASS. Final development build `dist/ui-0.5-build-5.log` and 125-key en/ko diagnostic PASS; fixture rollback is not real-app rollback |
+| Safe native-view previews | Four inert English/Korean light/dark runs produced 76 synthetic images, including minimum/default pane layouts and menu models; `overlayKeyboardInvariants:true`. Five invalid argument cases exited 64 without output/startup. No capture, clipboard, preferences, TCC, hotkey or updater mutation; menu models do not test status-menu popups |
+| Limited actual native inspection | Coordinator CUA checked English dark/default General, Access and Updates, the app's main menu open/Escape, and troubleshooting expand/collapse. Capture Area with missing access routed to Access without a system prompt or capture. Native Tab in General/Updates showed no observable accessibility-tree change and is **not PASS** |
+| Public assets and installed app | Coordinator and separate verifier (`/root/explore`) PASS: all six live assets/canonical feed matched prepared bytes; Ed25519 archive/feed, manifest/checksums and ZIP/CRC passed. `/Applications/Shot Clip.app` has exact 0.5.0(7) source/ad-hoc metadata and deep/strict signature; all 168 entries (92 files, nine symlinks, 67 directories) match the public payload. Installed 125-key diagnostic PASS and one normal canonical instance confirmed; prior unspaced path absent |
+| Superseded-version cleanup | After publication/install verification, v0.4.1 and six assets were removed; v0.5.0 is the sole public release. Twelve verified local items moved recoverably to Trash: nine generated apps/fixtures (including three superseded 0.5 development bundles), one prior installed backup and two old release directories. Separate verifier confirmed moves and retained latest assets/source/tags |
+
+Archive: 2,516,248 bytes, SHA256 `768bf6043bd21cab373cadaca94154cf0a242e9141304b7b4f6ec735f8dcdb68`. Feed: 1,270 bytes, SHA256 `61f35332331845fbe03b8ffbe8085312a07739e6e779c91bd7c23f16859a95b7`. Public [checksums](https://github.com/kyungseok-lee/shotclip/releases/download/v0.5.0/SHA256SUMS) / [manifest](https://github.com/kyungseok-lee/shotclip/releases/download/v0.5.0/release-manifest.json). Ignored evidence: `dist/*-0.5*.log`, `dist/installed-metadata-0.5.json`, `dist/public-0.5.0-verification`, `dist/releases-after-0.5-cleanup.json`, `dist/visual-qa/cleanup-{plan,results}-0.5.json`.
+
+Installed Finder reopen showed General and the new icon; the first quiet-launch observation timed out and does not prove quiet-launch behavior. Only the app's own window was inspected inline, without storing its screenshot. Stable ID/preferences/capture engine/key/feed remain; automatic checks are opt-in OFF. No TCC, quarantine, Gatekeeper or key changes. **Unrun:** actual capture/pixels, permission grants/TCC, paste, VoiceOver/native focus, status-menu popup, language restart, clean-account first launch, macOS 14/Intel runtime and an end-to-end Sparkle upgrade. Independent final documentation review and coordinator documentation commit/push follow this authoring record.
+
+한국어: 04:30:38 KST에 0.5.0(7)을 공개하고 새 `Shot Clip.app` 설치·125개 언어 키·산출물 6개/feed·168개 설치 항목 일치를 확인했습니다. 별도 공개 자료/정리 검증도 통과했습니다. 최신 검증 뒤 0.4.1 공개 릴리스/산출물과 로컬 구버전 12개를 정리했으며 로컬 자료는 휴지통에서 복구 가능합니다. 제한된 영어 native 점검과 합성 미리보기는 실제 캡처·권한·붙여 넣기·접근성·자동 업그레이드 통과를 뜻하지 않습니다. 구현/tag `3d803a9`와 후속 문서 commit은 구분합니다.
+
+All older dated audits below remain unchanged. Their v0.4.1/v0.4.0 public release/download URLs are historical and unavailable after user-authorized removal; use current links above. Earlier local evidence may now be recoverable Trash contents.
 
 ## 2026-10-05 0.4.1 visual refresh publication, installation and cleanup
 

@@ -6,11 +6,11 @@
 
 화면 영역을 선택하면 이미지를 바로 클립보드에 복사하는 작은 macOS 메뉴 막대 앱입니다. **캡처 영역** 또는 **고정 영역**으로 캡처한 뒤 다른 앱에서 `⌘V`로 붙여 넣습니다.
 
-**Shot Clip 0.5.0(build 7)을 준비 중**입니다. 캡처 우선 native 메뉴, 간결한 설정과 crop+copy 아이콘을 적용합니다. 현재 공개 버전은 **ShotClip 0.4.1(build 6)**이며 **Apple Silicon(arm64) 전용 ad-hoc·미공증** GitHub 개발자 프리뷰입니다: [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.4.1/shotclip-0.4.1.zip) / [릴리스](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.4.1), 독립 검토된 소스 [`24f73ed`](https://github.com/kyungseok-lee/shotclip/commit/24f73ed008028d7e957df1e485af02e65a38c25f). 이 문단은 0.5.0 게시·설치 완료를 주장하지 않습니다.
+**Shot Clip 0.5.0(build 7)**이 최신 GitHub 개발자 프리뷰입니다. 2026-10-05 04:30:38 KST에 공개했습니다: [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.5.0/shotclip-0.5.0.zip) / [릴리스](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.5.0), 독립 검토된 소스 [`3d803a9`](https://github.com/kyungseok-lee/shotclip/commit/3d803a9c45f72c1eb3c7328ca68321e1fdb1d2b4). **Apple Silicon(arm64) 전용 ad-hoc·미공증** 배포입니다.
 
-0.5는 독자적인 crop+copy 아이콘과 일관된 프로젝트 이미지를 사용합니다. 이미지는 실제 화면을 포함하지 않은 합성 일러스트입니다. 최신 게시·설치 검증 뒤 과거 0.4.0 GitHub 릴리스와 산출물을 제거했으며 소스·태그 이력은 보존했습니다.
+캡처 영역을 메뉴 첫 항목으로 배치하고 일반 / 접근 권한 / 업데이트 설정을 정리했으며 독자적인 crop+copy 아이콘을 적용했습니다. 프로젝트 이미지는 실제 화면을 포함하지 않은 합성 일러스트입니다. 최신 게시·설치 검증 뒤 과거 0.4.1 릴리스와 산출물을 제거하고 소스·태그 이력은 보존했습니다.
 
-공개 산출물 6개, 서명 feed와 로컬 설치·정상 시작을 검증했습니다. 실제 캡처·권한·붙여 넣기·언어/접근성 화면·자동 업데이트는 미검증이며 [QA 기록](docs/shotclip/qa-results.md#2026-10-05-041-visual-refresh-publication-installation-and-cleanup)에 범위를 구분했습니다.
+공개 산출물 6개·서명 feed·정확한 최신 설치를 검증했습니다. 영어 dark 설정의 제한된 native 점검과 영어/한국어 light/dark의 안전한 합성 미리보기 76개를 확인했습니다. 실제 캡처·권한 허용·붙여 넣기·VoiceOver/native 포커스·자동 업데이트는 미검증이며 [QA 기록](docs/shotclip/qa-results.md#2026-10-05-050-publication-installation-and-cleanup)에 범위를 구분했습니다.
 
 ## 빌드와 실행
 
@@ -25,7 +25,7 @@ bash scripts/install-app.sh
 open '/Applications/Shot Clip.app'
 ```
 
-0.5.0 소스 설치기는 새 `Shot Clip.app`을 staging/검증하고 `/Applications/Shot Clip.app`에 설치·검증한 뒤 기존 `ShotClip.app`/`sshot.app`을 복구 가능한 백업으로 옮깁니다. 설치 전에 모든 실행 복사본을 종료하세요. 현재 공개된 0.4.1 ZIP에는 아직 `ShotClip.app`이 들어 있습니다. 개발 산출물은 `dist/Shot Clip.app`이고 `.build/`와 `dist/`는 Git에서 제외합니다.
+ZIP의 `Shot Clip.app`을 `/Applications/Shot Clip.app`에 설치합니다. 소스 설치기는 새 앱을 staging/검증하고 해당 경로에 설치·검증한 뒤 기존 `ShotClip.app`/`sshot.app`을 복구 가능한 백업으로 옮깁니다. 설치 전에 모든 실행 복사본을 종료하세요. 수동 폴더 전환은 로컬에서 검증했으며 기본 Sparkle는 기존 공백 없는 경로를 유지할 수 있습니다. 개발 산출물은 `dist/Shot Clip.app`이고 `.build/`와 `dist/`는 Git에서 제외합니다.
 
 ## 캡처와 언어
 
@@ -44,7 +44,7 @@ Escape는 취소, 방향키는 이동, Shift는 큰 이동, Option+방향키는 
 
 ad-hoc 프리뷰는 최초 실행이 차단될 수 있습니다. 출처를 확인한 후 가능한 경우 Apple의 앱별 **개인정보 보호 및 보안 → 확인 없이 열기** 절차를 따르세요. Gatekeeper 전체를 끄지 않습니다. Ed25519 서명은 feed/archive 무결성을 검증하며 Apple 공증이나 화면 기록 허용을 대신하지 않습니다. [Apple 최초 실행 안내](https://support.apple.com/en-us/102445), [업데이트 운영](docs/shotclip/update-operations.md)을 참고하세요.
 
-Sparkle 자동 확인은 선택 사항이며 **기본 OFF**입니다. [공개 서명 feed](https://github.com/kyungseok-lee/shotclip/releases/latest/download/appcast.xml)와 0.4.1 ZIP을 2026-10-05에 검증했습니다. 기존 Ed25519 키와 Keychain 계정 `sshot`은 유지합니다. 기본 Sparkle는 기존 `ShotClip.app` 위치에서 교체할 수 있으므로 새 `Shot Clip.app` 이름은 0.5.0 수동 설치로 적용합니다. 과거 Sshot도 수동 설치하고 단축키/모드만 이전하며 권한·로그인 등록은 이전하지 않습니다. 실제 동일 ID 자동 업그레이드는 미실행입니다.
+Sparkle 자동 확인은 선택 사항이며 **기본 OFF**입니다. [공개 서명 feed](https://github.com/kyungseok-lee/shotclip/releases/latest/download/appcast.xml)와 0.5.0 ZIP을 2026-10-05에 검증했습니다. 기존 Ed25519 키와 Keychain 계정 `sshot`은 유지합니다. 기본 Sparkle는 기존 `ShotClip.app` 위치에서 교체할 수 있으므로 새 `Shot Clip.app` 이름은 0.5.0 수동 설치로 적용합니다. 과거 Sshot도 수동 설치하고 단축키/모드만 이전하며 권한·로그인 등록은 이전하지 않습니다. 실제 동일 ID 자동 업그레이드는 미실행입니다.
 
 ## 개인정보와 검증
 

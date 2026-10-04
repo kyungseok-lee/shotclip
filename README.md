@@ -6,11 +6,11 @@
 
 A small macOS menu bar app that captures a selected region straight to the clipboard. Select with **Capture Area** or **Fixed Region**, then paste into another app with `⌘V`.
 
-**Shot Clip 0.5.0 (build 7) is in preparation**, with a capture-first native menu, compact settings and a simple crop-and-copy identity. The latest published version is still **ShotClip 0.4.1 (build 6)**, an **Apple Silicon (arm64) only**, **ad-hoc signed; NOT notarized** GitHub developer preview: [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.4.1/shotclip-0.4.1.zip) / [release](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.4.1), from reviewed source [`24f73ed`](https://github.com/kyungseok-lee/shotclip/commit/24f73ed008028d7e957df1e485af02e65a38c25f). This paragraph does not claim 0.5.0 publication or installation.
+**Shot Clip 0.5.0 (build 7)** is the latest GitHub developer preview, published 2026-10-05 04:30:38 KST: [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.5.0/shotclip-0.5.0.zip) / [release](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.5.0), from reviewed source [`3d803a9`](https://github.com/kyungseok-lee/shotclip/commit/3d803a9c45f72c1eb3c7328ca68321e1fdb1d2b4). **Apple Silicon (arm64) only; ad-hoc signed; NOT notarized.**
 
-The 0.5 redesign uses an original crop-and-copy icon and matching project artwork. The artwork is synthetic and contains no captured screens. The superseded 0.4.0 GitHub release and assets were removed after the latest publication and installation checks; its source/tag history is retained.
+The redesign puts Capture Area first, groups settings into General / Access / Updates, and uses an original crop-and-copy icon. Project artwork is synthetic and contains no captured screens. The superseded 0.4.1 release/assets were removed after new publication and installation checks; source/tag history is retained.
 
-The six public assets, signed feed and local installation/startup were verified. Capture, permission, paste, rendered language/accessibility and actual automatic upgrades remain untested; see [QA results](docs/shotclip/qa-results.md#2026-10-05-041-visual-refresh-publication-installation-and-cleanup).
+Six public assets, the signed feed and the exact installed app were verified. English dark-mode settings received limited native inspection; 76 inert English/Korean light/dark previews checked synthetic layouts. Actual capture, permission grants, paste, VoiceOver/native focus and automatic upgrades remain untested; see [QA results](docs/shotclip/qa-results.md#2026-10-05-050-publication-installation-and-cleanup).
 
 ## Build and run
 
@@ -25,7 +25,7 @@ bash scripts/install-app.sh
 open '/Applications/Shot Clip.app'
 ```
 
-For 0.5.0 source builds, the installer stages and verifies `Shot Clip.app`, installs the canonical `/Applications/Shot Clip.app`, then recoverably backs up verified prior `ShotClip.app`/`sshot.app` copies. Quit all copies before installation. The currently published 0.4.1 ZIP still contains `ShotClip.app`. Development output is `dist/Shot Clip.app`; `.build/` and `dist/` are ignored.
+The ZIP contains `Shot Clip.app`; install it at `/Applications/Shot Clip.app`. The source installer stages and verifies the new app, installs and verifies that canonical path, then recoverably backs up verified prior `ShotClip.app`/`sshot.app` copies. Quit all copies before installation. This manual folder migration was verified locally; stock Sparkle may retain an existing unspaced host path. Development output is `dist/Shot Clip.app`; `.build/` and `dist/` are ignored.
 
 ## Capture and language
 
@@ -44,7 +44,7 @@ The 0.5.0 display/path change retains `dev.shotclip.app` and existing settings. 
 
 An ad-hoc preview may be blocked at first launch. After checking its source, follow Apple’s per-app **Privacy & Security → Open Anyway** flow when available; do not disable Gatekeeper globally. Ed25519 update signatures verify feed/archive integrity and do not replace Apple notarization or grant Screen Recording. See [Apple’s first-launch guidance](https://support.apple.com/en-us/102445) and [update operations](docs/shotclip/update-operations.md).
 
-Sparkle automatic checks are opt-in and **OFF by default**. The [public signed feed](https://github.com/kyungseok-lee/shotclip/releases/latest/download/appcast.xml) and 0.4.1 archive were verified on 2026-10-05. Updates retain the existing Ed25519 key and Keychain account `sshot`, with no rotation/export/regeneration. Stock Sparkle may replace an existing `ShotClip.app` in place; install 0.5.0 manually once to adopt `Shot Clip.app`. Historical Sshot also needs manual installation and selected shortcut/mode migration; permission/login registration do not migrate. A real same-ID automatic upgrade remains untested.
+Sparkle automatic checks are opt-in and **OFF by default**. The [public signed feed](https://github.com/kyungseok-lee/shotclip/releases/latest/download/appcast.xml) and 0.5.0 archive were verified on 2026-10-05. Updates retain the existing Ed25519 key and Keychain account `sshot`, with no rotation/export/regeneration. Stock Sparkle may replace an existing `ShotClip.app` in place; install 0.5.0 manually once to adopt `Shot Clip.app`. Historical Sshot also needs manual installation and selected shortcut/mode migration; permission/login registration do not migrate. A real same-ID automatic upgrade remains untested.
 
 ## Privacy and verification
 
