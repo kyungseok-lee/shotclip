@@ -1,20 +1,20 @@
 #!/bin/bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
-: "${SSHOT_NOTARY_PROFILE:?Set SSHOT_NOTARY_PROFILE to an existing notarytool keychain profile}"
-: "${SSHOT_SIGN_IDENTITY:?Set SSHOT_SIGN_IDENTITY to a Developer ID Application identity}"
-if [[ "$SSHOT_SIGN_IDENTITY" != 'Developer ID Application:'* ]]; then
-    printf '%s\n' 'Developer ID signing is required for notarization.' >&2
-    exit 1
-fi
+source scripts/release-common.sh
+release_configuration
+[[ "$SHOTCLIP_RELEASE_MODE" == developer-id ]] || release_fail 'Notarization is exclusive to the explicit Developer ID production path.'
+release_reviewed_head >/dev/null
+: "${SHOTCLIP_NOTARY_PROFILE:?Set SHOTCLIP_NOTARY_PROFILE to an existing notarytool Keychain profile}"
 bash scripts/build-app.sh
-bundle="$(pwd)/dist/sshot.app"
-codesign -dv "$bundle" 2>&1 | grep -q '^Authority=Developer ID Application:' || { printf '%s\n' 'App is not signed by Developer ID Application.' >&2; exit 1; }
-archive="$(pwd)/dist/sshot-notarization.zip"
+bundle="$(pwd)/dist/ShotClip.app"
+signature="$(codesign -dv "$bundle" 2>&1)"
+[[ "$signature" == *'Authority=Developer ID Application:'* && "$signature" == *"TeamIdentifier=$SHOTCLIP_RELEASE_TEAM_ID"* ]] || release_fail 'App is not signed with the expected Developer ID identity/team.'
+archive="$(pwd)/dist/shotclip-notarization.zip"
 ditto -c -k --keepParent "$bundle" "$archive"
-xcrun notarytool submit "$archive" --keychain-profile "$SSHOT_NOTARY_PROFILE" --wait
+xcrun notarytool submit "$archive" --keychain-profile "$SHOTCLIP_NOTARY_PROFILE" --wait
 xcrun stapler staple "$bundle"
 xcrun stapler validate "$bundle"
 codesign --verify --deep --strict "$bundle"
 spctl --assess --type execute --verbose "$bundle"
-ditto -c -k --keepParent "$bundle" "$(pwd)/dist/sshot-release.zip"
+ditto -c -k --keepParent "$bundle" "$(pwd)/dist/shotclip-release.zip"

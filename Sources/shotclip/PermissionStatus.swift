@@ -10,7 +10,7 @@ struct PermissionStatus {
     init(bundle:Bundle = .main) {
         isReady=CGPreflightScreenCaptureAccess()
         bundleURL=bundle.bundleURL
-        version="\(bundle.object(forInfoDictionaryKey:"CFBundleShortVersionString") as? String ?? "개발 빌드") (\(bundle.object(forInfoDictionaryKey:"CFBundleVersion") as? String ?? "—"))"
+        version="\(bundle.object(forInfoDictionaryKey:"CFBundleShortVersionString") as? String ?? L10n.text("version.development")) (\(bundle.object(forInfoDictionaryKey:"CFBundleVersion") as? String ?? "—"))"
         var code:SecCode?
         var staticCode:SecStaticCode?
         var information:CFDictionary?
@@ -23,7 +23,7 @@ struct PermissionStatus {
         } else {isAdHoc=nil}
     }
     var presentation:PermissionPresentation {PermissionPresentation(accessEffective:isReady,adHoc:isAdHoc)}
-    var title:String {presentation.title}
-    var explanation:String {presentation.explanation}
-    var identityAdvice:String {presentation.identityAdvice}
+    var title:String {L10n.text(presentation.titleKey,defaultValue:presentation.title)}
+    var explanation:String {L10n.text(presentation.explanationKey,defaultValue:presentation.explanation)}
+    var identityAdvice:String {L10n.text(presentation.identityAdviceKey,defaultValue:presentation.identityAdvice)}
 }

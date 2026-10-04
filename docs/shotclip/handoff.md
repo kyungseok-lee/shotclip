@@ -1,6 +1,38 @@
-# 현재 상태와 작업 인수인계
+# ShotClip handoff
 
-## 현재 상태
+[Documentation](README.md) · [Development plan](development-plan.md) · [QA results](qa-results.md)
+
+## 2026-10-05 current documentation handoff
+
+- Direction: ShotClip / `kyungseok-lee/shotclip`; `dev.shotclip.app`, executable `shotclip`, `/Applications/ShotClip.app` installation target; sealed local development bundle now confirms `0.4.0` (build `5`), as recorded below.
+- Approved delivery: GitHub ad-hoc developer preview. Developer ID/notarization is separate and rejected for this release; historical certificate/publication gates below do not override the new authorization.
+- Compatibility: one-time manual installation from historical Sshot; validated shortcut/mode migration preserves new values. Fresh Screen Recording grant expected; login/consent are not migrated. Existing Ed25519 archive/feed trust and Keychain `sshot` account retained without private-key export/rotation/regeneration.
+- Interaction: English default with persistent English / 한국어 setting, restart to apply; M switches mode and Tab/Shift-Tab traverses native controls. VoiceOver/native-focus/language-layout GUI checks are not run.
+- Owned changes: `README.md`, `README.ko.md`, and all twelve Markdown files in `docs/shotclip` (index, product-plan, requirements, design-system, architecture, development-plan, verification, qa-plan, qa-results, technical-validation, update-operations, handoff). No code, script, AGENTS, commit, push, installation, or publication was performed by this documentation worker.
+- Evidence: source/old-doc inspection and Apple primary-source consultation completed. Document checks passed for 14 files, 88 relative file/fragment links, R01–R17 rows, D01–D14 rows, P0–P7 phases, Korean companion sections, labeled predictions, balanced fences and whitespace; `git diff --check -- README.md README.ko.md docs/shotclip` passed. Since relocated docs are untracked, the file-level validator also checked their content directly. No app build/tests or actual capture/permission/paste checks run in this lane; code/release workers provide separate evidence.
+- Review: foundational three-plan milestone sent to coordinator before remaining docs work. Independent approval belongs to the coordinator's verifier, not this authoring lane.
+- Next: independent docs/code/release review → commit/push/tag reviewed source → prepare the final preview from that source and verify/upload as authorized. Current development QA results are recorded below. Capture/permission/paste remains user-owned; do not turn missing GUI coverage into PASS.
+- Git at task start: `main`, HEAD `4f5dcae`; shared rebrand changes already present. This worker creates no commit/push and makes no remote equality claim. Coordinator must record final commit/tag/push/public asset evidence separately.
+
+한국어: 제품·개발·디자인과 영어/한국어 README를 갱신하고 요구사항·설계·구현 순서·QA를 연결했습니다. 승인된 경로는 ad-hoc 프리뷰이며 기존 키를 유지합니다. 실제 GUI·권한·붙여 넣기·배포는 이 문서 작업에서 실행하지 않았고 독립 검토와 코드/원격 증거는 별도로 기록합니다.
+
+## 2026-10-05 current code and package QA handoff
+
+- Writer changes: only `docs/shotclip/qa-results.md` and this file; replaced current proposed-version wording with verified development-bundle metadata and appended English-first QA evidence with Korean summaries. Historical Sshot audits remain intact; [independent QA review](qa-review.md) belongs to the separate reviewer and is not authored or approved here.
+- Document checks: PASS for these two files and 13 relative file/fragment links, balanced fences, whitespace and final newlines; historical audit sections match their pre-edit SHA256 hashes. Untracked files were checked directly, in addition to scoped `git diff --check`; these are document checks, not app or source approval.
+- Root evidence: final `swift test` in `dist/core-final-qa.log` at 01:54:06 KST passed 34 XCTest tests with zero failures; `bash scripts/build-app.sh` in `dist/package-qa.log` completed with exit 0. Root separately reported independent reruns at 01:55:40 KST: 25 crypto/policy negatives, 16 release gates, 13 unsafe ZIP cases plus two valid cases, and 22 resource fixtures, all exit 0. These are root reruns, not writer reruns or the earlier release-author report's eight archive negatives.
+- Read-only artifact checks: actual `dist/ShotClip.app` is ShotClip / `dev.shotclip.app` / executable `shotclip` / 0.4.0(5), arm64, with valid deep/strict ad-hoc signature and 109 keys in each packaged en/ko table. Coordinator-supplied resource diagnostic JSON is PASS with `fallback:true`, `installedBundle:true`, `keyCount:109`, languages en/ko; that field does not establish installation or rendered GUI behavior. Fresh `ditto` archive `dist/shotclip-package-final-qa.zip` (2,342,408 bytes) passed the writer's archive-validator and `unzip -tq` checks; exact commands and evidence ownership are in [QA results](qa-results.md#2026-10-05-current-code-and-package-qa).
+- Provenance/support: `SHOTCLIPReleaseMode=development`, source baseline `4f5dcaee4dfa95e5603c57c5760e75c90aeb6503`, dirty `main`; this package is development QA evidence, not a final reviewed-commit release. Host inspected: macOS 27.0.1 (26A434), Xcode 27.0 (27A266a), Swift 6.4, arm64. macOS 14/Intel runtime remains untested; the current artifact intended for public preparation is arm64.
+- Limits: capture/permission/paste, rendered language layout, VoiceOver and native-focus manual GUI QA remain user-owned and unrun. Installation/migration, clean-account first launch, public feed/assets and end-to-end update are unrun. Existing Keychain account `sshot` and Ed25519 trust are preserved without rotation/export/recreation; this writer made no build, GUI, Keychain, TCC/security or Git mutations.
+- Pending coordinator operations: obtain the separate reviewer's final verdict, then commit/push/tag reviewed source, prepare and sign the final ad-hoc preview from that source, verify/publish public assets/feed and record exact remote evidence; installation/manual migration and end-to-end upgrade remain pending. Developer ID/notarization is separate from the authorized preview. No final commit, push, tag, public-asset or installation completion is claimed here.
+
+한국어: 두 문서에 최종 34개 테스트·빌드와 조정자의 릴리스 회귀 재실행, 0.4.0(5) 번들·서명·109개 영어/한국어 키·실제 ZIP 증거를 추가했습니다. baseline `4f5dcae`의 미커밋 개발 QA 자료이며 최종 배포가 아닙니다. 독립 리뷰는 별도 작업자가 맡고 수동 GUI·macOS 14/Intel·commit/push/tag·최종 서명/게시·설치·실제 업데이트는 인수 항목으로 남습니다.
+
+## Historical Sshot handoff — retained as recorded
+
+Everything below is historical 2026-10-04/0.2.x–0.3.0 evidence. Legacy branding, identifiers, installation/archive paths, commits and old certificate gates are kept to identify the tested artifacts honestly. Resume using the current ShotClip plans and operation guide above, not archived commands or superseded approval requests.
+
+### 2026-10-04 state (historical)
 
 - 단계: 기술 probe·앱 구현·자동 회귀 및 로컬 release 빌드 완료. 실제 캡처 QA는 권한 대기이며 전체 QA·배포 완료를 선언하지 않았습니다.
 - 사용자 승인 범위: 문서 기반 개발 및 Git push. 최신 요청에 따라 캡처/권한 수동 QA는 사용자가 맡고 에이전트는 코드 검토와 빠른 자동 검증 후 코드 커밋·push를 진행합니다. 장시간 GUI 테스트는 중단합니다.

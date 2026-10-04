@@ -3,11 +3,7 @@ import Carbon
 import ScreenCaptureKit
 import CaptureCore
 
-struct Shortcut: Codable {
-    var key: UInt32 = 23
-    var modifiers: UInt32 = UInt32(controlKey | shiftKey | cmdKey)
-    var label: String = "⌃⇧⌘5"
-}
+typealias Shortcut = CaptureShortcut
 final class HotkeyService {
     private var reference: EventHotKeyRef?
     private var handler: EventHandlerRef?
@@ -22,9 +18,9 @@ final class HotkeyService {
     }
     func register(_ shortcut: Shortcut) -> OSStatus {
         guard handlerStatus == noErr else { return handlerStatus }
-        guard shortcut.key < 128,shortcut.modifiers & UInt32(cmdKey | controlKey) != 0,shortcut.modifiers & UInt32(shiftKey | optionKey) != 0 else { return OSStatus(paramErr) }
+        guard shortcut.isValid else { return OSStatus(paramErr) }
         if let activeShortcut,activeShortcut.key == shortcut.key,activeShortcut.modifiers == shortcut.modifiers { return noErr }
-        let id=EventHotKeyID(signature:0x53534854,id:1)
+        let id=EventHotKeyID(signature:0x53434C50,id:1)
         var candidate:EventHotKeyRef?
         let result=RegisterEventHotKey(shortcut.key, shortcut.modifiers, id, GetApplicationEventTarget(), OptionBits(kEventHotKeyExclusive), &candidate)
         guard result == noErr else {return result}
@@ -41,12 +37,12 @@ enum CaptureFailure: LocalizedError {
     case unavailable, invalidImage, clipboardChanged, clipboardUnreadable, clipboardWrite, clipboardRollback
     var errorDescription: String? {
         switch self {
-        case .unavailable: return "화면을 찾을 수 없습니다. 다시 선택하세요."
-        case .invalidImage: return "이미지를 만들지 못했습니다. 기존 클립보드는 유지됩니다."
-        case .clipboardChanged: return "다른 앱이 클립보드를 변경했습니다. 다시 캡처하세요."
-        case .clipboardUnreadable: return "기존 클립보드를 안전하게 보존할 수 없습니다. 다른 내용을 복사한 뒤 다시 시도하세요."
-        case .clipboardWrite: return "클립보드 복사에 실패했습니다. 다시 시도하세요."
-        case .clipboardRollback: return "클립보드 쓰기와 복원에 실패했습니다. 기존 데이터 보존을 확인할 수 없습니다."
+        case .unavailable: return L10n.text("capture.unavailable")
+        case .invalidImage: return L10n.text("capture.invalid_image")
+        case .clipboardChanged: return L10n.text("capture.clipboard_changed")
+        case .clipboardUnreadable: return L10n.text("capture.clipboard_unreadable")
+        case .clipboardWrite: return L10n.text("capture.clipboard_write")
+        case .clipboardRollback: return L10n.text("capture.clipboard_rollback")
         }
     }
 }

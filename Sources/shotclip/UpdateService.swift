@@ -7,7 +7,12 @@ final class UpdateService {
     private var controller: SPUStandardUpdaterController?
     private var observation: NSKeyValueObservation?
     var onChange: (() -> Void)?
-    private(set) var statusText = "업데이트 배포 주소와 서명 키가 아직 설정되지 않았습니다."
+    private var initializationError:Int?
+    var statusText:String {
+        if let initializationError {return L10n.format("updates.initialization_failed",String(initializationError))}
+        guard isConfigured else {return L10n.text("updates.unconfigured")}
+        return L10n.text(canCheckForUpdates ? "updates.ready":"updates.busy")
+    }
     var isConfigured: Bool { controller != nil }
     var canCheckForUpdates: Bool { controller?.updater.canCheckForUpdates ?? false }
     var automaticallyChecksForUpdates: Bool {
@@ -25,7 +30,7 @@ final class UpdateService {
         let instance = SPUStandardUpdaterController(startingUpdater: false, updaterDelegate: nil, userDriverDelegate: nil)
         do { try instance.updater.start() }
         catch {
-            statusText = "업데이트 초기화에 실패했습니다. 배포 설정을 확인하세요. (오류 \((error as NSError).code))"
+            initializationError=(error as NSError).code
             onChange?()
             return
         }
@@ -33,14 +38,15 @@ final class UpdateService {
         observation = instance.updater.observe(\.canCheckForUpdates, options: [.initial, .new]) { [weak self] _, _ in
             Task { @MainActor [weak self] in self?.onChange?() }
         }
-        statusText = "서명된 업데이트를 확인합니다. 설치 전 확인 창이 표시됩니다."
+        initializationError=nil
         onChange?()
     }
     func checkForUpdates() {
         guard let controller else {
             let alert = NSAlert()
-            alert.messageText = "업데이트 서버가 준비되지 않았습니다"
+            alert.messageText = L10n.text("updates.server_unavailable")
             alert.informativeText = statusText
+            alert.addButton(withTitle:L10n.text("action.ok"))
             alert.runModal()
             return
         }

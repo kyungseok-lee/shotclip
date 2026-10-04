@@ -47,4 +47,4 @@ for size in [16, 32, 128, 256, 512] {
     try render(size).write(to: output.appendingPathComponent("icon_\(size)x\(size).png"))
     try render(size*2).write(to: output.appendingPathComponent("icon_\(size)x\(size)@2x.png"))
 }
-print("Generated original Sshot icon: 10 PNG representations, 16–1024 pixels")
+print("Generated original ShotClip icon: 10 PNG representations, 16–1024 pixels")

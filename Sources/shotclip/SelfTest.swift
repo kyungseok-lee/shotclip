@@ -16,7 +16,7 @@ enum SelfTest {
         var testOverlay:OverlayWindow?
         var testBoard:NSPasteboard?
         var exitCode:Int32=1
-        let sibling=Bundle.main.bundleURL.deletingLastPathComponent().appendingPathComponent("sshot-fixture.app/Contents/MacOS/sshot-fixture")
+        let sibling=Bundle.main.bundleURL.deletingLastPathComponent().appendingPathComponent("shotclip-fixture.app/Contents/MacOS/shotclip-fixture")
         process.executableURL=sibling
         process.arguments=["--display-index",String(index)]
         do {

@@ -1,4 +1,45 @@
-# QA 실행 기록
+# ShotClip QA results
+
+[QA plan](qa-plan.md) · [Verification](verification.md) · [Handoff](handoff.md)
+
+## 2026-10-05 documentation and rebrand scope
+
+Current brand/repository: ShotClip / `kyungseok-lee/shotclip`. The development bundle now verifies as `dev.shotclip.app`, executable `shotclip`, version `0.4.0` (build `5`); `/Applications/ShotClip.app` remains the installation target. The authorized route is GitHub ad-hoc developer preview; Developer ID/notarization is outside this release, and the old certificate gate below is historical.
+
+| Check | Status in this documentation task | Evidence / limit |
+| --- | --- | --- |
+| Source and old-document inspection | Performed | AppDelegate, Overlay, SettingsWindow, Services, permission/update/core preferences and release scripts; no GUI operation |
+| Apple primary-source consultation | Performed | Native design/accessibility/materials/privacy/localization and first-launch guidance; methods in [technical validation](technical-validation.md) |
+| Product/development/design plans and EN/KO docs | Authored; document checks passed | 14 Markdown files, 88 local links/fragments, R01–R17, D01–D14, P0–P7, bilingual companions, explicit prediction column, whitespace/fences; this is not app QA |
+| ShotClip automatic tests/build/signatures | Not run by this worker | Code/release workers report their own exact evidence; historical counts below are not a new pass |
+| Capture/permission/paste GUI | Not run; user-owned | No TCC changes, actual capture, or general clipboard writes |
+| VoiceOver/native focus/language layout GUI | Not run | Source/key mapping review cannot establish assistive or rendered UI behavior |
+| Install, Git commit/push, release, real upgrade | Not performed by this worker | Ownership limited to docs; source/tag/public feed and manual legacy migration need separate evidence |
+
+한국어: 현재 제품은 ShotClip이고 승인된 배포는 ad-hoc 개발자 프리뷰입니다. 이 작업은 문서와 원문/소스 확인만 수행했으며 실제 캡처·권한·붙여 넣기·VoiceOver·포커스·설치·게시·업그레이드를 통과로 표시하지 않습니다. 아래 이름·경로·commit·테스트 수와 과거 production gate는 당시 Sshot 증거이며 현재 ShotClip 상태로 확대하지 않습니다.
+
+## 2026-10-05 current code and package QA
+
+Environment inspected: macOS 27.0.1 (26A434), Xcode 27.0 (27A266a), Swift 6.4, arm64. Evidence below supersedes the proposed-version wording for the local development bundle only. Its sealed metadata is `SHOTCLIPReleaseMode=development` and `SHOTCLIPSourceCommit=4f5dcaee4dfa95e5603c57c5760e75c90aeb6503`; it was packaged from dirty source on `main`, not a final reviewed release commit. Logs and archives under `dist/` are ignored local QA evidence.
+
+| Check | Result / evidence owner | Evidence and limit |
+| --- | --- | --- |
+| `swift test` | PASS, root final rerun | `dist/core-final-qa.log`: 2026-10-05 01:54:06 KST, 34 XCTest tests, zero failures; the separate Apple Testing runner's zero tests are not added |
+| `bash scripts/build-app.sh` | PASS, root rerun, exit 0 | `dist/package-qa.log`: production compile, icon generation, nested/app/fixture signing and `dist/ShotClip.app` packaging completed after resource-layout correction |
+| Sealed bundle identity/resources/signature | PASS, writer read-only reinspection | Actual ShotClip / `dev.shotclip.app` / `shotclip` / 0.4.0(5), arm64; `codesign --verify --deep --strict --verbose=2` passed; `Signature=adhoc`, no authority/team; packaged en/ko tables each contain 109 keys |
+| Installed-resource diagnostic | PASS, coordinator-supplied JSON | `fallback:true`, `installedBundle:true`, `keyCount:109`, languages `en`/`ko`; this verifies packaged resource lookup and fallback, not rendered language, installation in Applications, or capture |
+| Release regression suites | PASS, root reruns reported at 01:55:40 KST, all exit 0 | `swift scripts/test-release-manifest.swift`: valid synthetic cases in both modes and 25 crypto/policy negatives; `bash scripts/test-release-gates.sh`: 16 gates; `python3 scripts/test-release-archive.py`: 13 unsafe ZIP cases plus two valid cases; `bash scripts/test-resource-bundle.sh`: 22 resource fixtures. The writer did not rerun these suites; the earlier supplied release-author report had eight archive negatives |
+| Fresh real package ZIP | PASS, root creation and writer read-only checks | Fresh `ditto` archive `dist/shotclip-package-final-qa.zip` (2,342,408 bytes); `python3 scripts/verify-release-archive.py dist/shotclip-package-final-qa.zip` and `unzip -tq dist/shotclip-package-final-qa.zip` passed. Archive metadata matches 0.4.0(5); this is a development QA archive, not a public release asset |
+
+Independent approval belongs to the separate reviewer in [QA review](qa-review.md); this authoring record does not issue a verdict. The legacy Keychain account `sshot` and existing Ed25519 trust remain preserved without key rotation, export or recreation; this writer performed no Keychain access, TCC reset, or security bypass.
+
+Still unrun and user-owned: capture, Screen Recording permission flows, paste, rendered English/Korean layout, VoiceOver and native focus. macOS 14 and Intel runtime are untested; the current artifact intended for public preparation is arm64. Commit, push, tag, final reviewed-source release preparation/signing, public assets/feed, installation/manual migration and end-to-end upgrade remain pending coordinator operations. Ad-hoc code-signature validity is not Gatekeeper, notarization or TCC approval.
+
+한국어: 조정자의 최종 34개 XCTest·빌드와 25개 암호 거부·16개 gate·13개 unsafe ZIP·22개 리소스 fixture 재실행 결과를 기록했습니다. 문서 작성자는 번들 메타데이터·서명·109개 영어/한국어 키와 실제 ZIP만 읽기 전용으로 재확인했으며, 리소스 진단은 조정자가 제공한 JSON 증거입니다. 0.4.0(5)는 baseline `4f5dcae`의 미커밋 소스로 만든 개발 QA 자료이며 최종 배포가 아닙니다. 독립 승인은 별도 reviewer가 맡고, 수동 GUI·macOS 14/Intel·commit/push/tag·설치·공개 게시·실제 업데이트는 미완료입니다.
+
+## Historical Sshot audit — retained as recorded
+
+Everything below is historical 2026-10-04 evidence. Legacy `Sshot`, `sshot`, `dev.sshot.app`, old archive names, and `/Applications/sshot.app` identify what was actually tested; they are not current instructions. The prior “preview approval unanswered” statement has been superseded by the approved ad-hoc route above.
 
 날짜: 2026-10-04. 환경: macOS 27.0.1 (26A434), Xcode 27.0, Swift 6.4, arm64.
 

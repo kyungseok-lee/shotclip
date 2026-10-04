@@ -37,5 +37,6 @@ import Foundation
 }
 public enum CoordinatorError: LocalizedError {
     case timeout
-    public var errorDescription: String? { "캡처 응답 시간이 초과되었습니다. 다시 시도하세요." }
+    public var localizationKey: String { "capture.timeout" }
+    public var errorDescription: String? { "Capture timed out. Try again." }
 }

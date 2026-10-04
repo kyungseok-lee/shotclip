@@ -1,4 +1,28 @@
-# 기술 검증 기록
+# ShotClip technical validation
+
+[Architecture](architecture.md) · [Design system](design-system.md) · [QA results](qa-results.md)
+
+## 2026-10-05 documentation-source review
+
+Method: inspected current Swift/AppKit sources and existing docs without operating capture GUI; consulted official Apple documentation through web retrieval and Apple's public DocC JSON endpoints (`developer.apple.com/tutorials/data/…`). JavaScript-only page shells were not treated as content evidence: the native design/accessibility/materials and package-localization JSON returned the document titles and content. No SDK probe, build, capture, permission grant, clipboard write, installation, or release was performed in this documentation lane.
+
+| Primary source | Grounded decision |
+| --- | --- |
+| [Designing for macOS](https://developer.apple.com/design/human-interface-guidelines/designing-for-macos) | Native windows/menu commands, appropriate density, keyboard workflows |
+| [Accessibility](https://developer.apple.com/design/human-interface-guidelines/accessibility) | Labels, perceivable states, system colors, contrast and alternate interaction |
+| [NSColor](https://developer.apple.com/documentation/appkit/nscolor), [NSFont](https://developer.apple.com/documentation/appkit/nsfont) | Semantic roles and system fonts; project sizes are choices |
+| [Materials](https://developer.apple.com/design/human-interface-guidelines/materials), [Reduce Transparency](https://developer.apple.com/documentation/appkit/nsworkspace/accessibilitydisplayshouldreducetransparency) | Restrained system materials, opaque readable help/control fallback |
+| [Privacy](https://developer.apple.com/design/human-interface-guidelines/privacy) | Request at capture intent; clear explicit request and later recovery |
+| [Package localization](https://developer.apple.com/documentation/xcode/localizing-package-resources), [String catalogs](https://developer.apple.com/documentation/xcode/localizing-and-varying-text-with-a-string-catalog) | English/ko resources, complete strings, deterministic fallback; verify actual packaging |
+| [First launch](https://support.apple.com/en-us/102445), [Screen Recording settings](https://support.apple.com/guide/mac-help/control-access-screen-system-audio-recording-mchld6aa7d23/mac) | Per-app approval and Screen Recording consent are distinct from Ed25519 integrity |
+
+Reproduce: fetch the linked official pages; if the HIG page supplies only a JavaScript shell, fetch `https://developer.apple.com/tutorials/data/design/human-interface-guidelines/designing-for-macos.json` (and the corresponding topic path) and inspect `metadata.title` / `primaryContentSections`. Recheck availability in the installed SDK before implementing APIs. These readings support design decisions, not runtime passes. The **2027 TREND PREDICTION** column is an explicitly speculative project hypothesis.
+
+한국어: Apple 원문과 실제 소스를 확인해 native 토큰·권한·키보드·현지화 방향을 정했습니다. JavaScript shell만 본 자료는 근거로 쓰지 않고 공개 DocC JSON 내용을 확인했습니다. API probe·앱 테스트는 재실행하지 않았고 2027 예측은 사실이 아닌 가설입니다.
+
+## Historical Sshot probes — retained as recorded
+
+The following 2026-10-04 probes and legacy identity/TCC findings describe Sshot. Preserve their exact historical names and results. Later fixes and remote evidence are in [QA results](qa-results.md) and [handoff](handoff.md); a historical “in progress” statement is not the current ShotClip delivery decision.
 
 ## 2026-10-04: 단계 1
 

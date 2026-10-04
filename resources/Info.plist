@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
-<key>CFBundleIdentifier</key><string>dev.sshot.app</string>
-<key>CFBundleName</key><string>Sshot</string>
-<key>CFBundleDisplayName</key><string>Sshot</string>
+<key>CFBundleIdentifier</key><string>dev.shotclip.app</string>
+<key>CFBundleName</key><string>ShotClip</string>
+<key>CFBundleDisplayName</key><string>ShotClip</string>
+<key>CFBundleDevelopmentRegion</key><string>en</string>
+<key>CFBundleLocalizations</key><array><string>en</string><string>ko</string></array>
 <key>CFBundleIconFile</key><string>AppIcon</string>
-<key>CFBundleExecutable</key><string>sshot</string>
+<key>CFBundleExecutable</key><string>shotclip</string>
 <key>CFBundlePackageType</key><string>APPL</string>
-<key>CFBundleShortVersionString</key><string>0.3.0</string>
-<key>CFBundleVersion</key><string>4</string>
-<key>SUFeedURL</key><string>https://github.com/kyungseok-lee/sshot/releases/latest/download/appcast.xml</string>
+<key>CFBundleShortVersionString</key><string>0.4.0</string>
+<key>CFBundleVersion</key><string>5</string>
+<key>SUFeedURL</key><string>https://github.com/kyungseok-lee/shotclip/releases/latest/download/appcast.xml</string>
 <key>SUPublicEDKey</key><string>gbN8bdU/ElNPW3vAeX0BCAv4qokA1biQeOUgXNEhdac=</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>LSUIElement</key><true/>

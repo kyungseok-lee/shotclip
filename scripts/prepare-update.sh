@@ -1,24 +1,32 @@
 #!/bin/bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
-[[ -z "$(git status --porcelain)" ]] || { printf '%s\n' 'Commit reviewed source before preparing a production artifact.' >&2; exit 1; }
-source_commit="$(git rev-parse HEAD)"
-: "${SSHOT_SIGN_IDENTITY:?Developer ID Application signing identity required}"
-: "${SSHOT_NOTARY_PROFILE:?Existing notarytool keychain profile required}"
-: "${SSHOT_UPDATE_FEED_URL:?HTTPS appcast URL required}"
-: "${SSHOT_UPDATE_PUBLIC_KEY:?Sparkle public key required}"
-: "${SSHOT_UPDATE_DOWNLOAD_URL_PREFIX:?HTTPS download directory URL required}"
-[[ "$SSHOT_SIGN_IDENTITY" == 'Developer ID Application:'* && "$SSHOT_UPDATE_DOWNLOAD_URL_PREFIX" == https://* ]] || { printf '%s\n' 'Developer ID signing and HTTPS download URL are required.' >&2; exit 1; }
-account="${SSHOT_UPDATE_KEY_ACCOUNT:-sshot}"
+source scripts/release-common.sh
+release_configuration
+source_commit="$(release_reviewed_head)"
+if [[ "$SHOTCLIP_RELEASE_MODE" == developer-id ]]; then
+    : "${SHOTCLIP_NOTARY_PROFILE:?Existing notarytool Keychain profile is required for Developer ID mode}"
+fi
 tools="$(pwd)/.build/artifacts/sparkle/Sparkle/bin"
-[[ -x "$tools/generate_keys" ]] || { printf '%s\n' 'Run swift package resolve first.' >&2; exit 1; }
+[[ -x "$tools/generate_keys" && -x "$tools/generate_appcast" ]] || release_fail 'Resolve the exact Sparkle 2.10.0 dependency first.'
+# INTENTIONAL LEGACY COMPATIBILITY: existing private key is stored under sshot.
+# Lookup-only -p must never be omitted. Do not export, rotate, delete or recreate it.
+account="${SHOTCLIP_UPDATE_KEY_ACCOUNT:-sshot}"
 existing_public_key="$("$tools/generate_keys" --account "$account" -p)"
-[[ "$existing_public_key" == "$SSHOT_UPDATE_PUBLIC_KEY" ]] || { printf '%s\n' 'Existing Keychain public key differs from configured public key.' >&2; exit 1; }
-bash scripts/notarize-app.sh
-[[ "$(git rev-parse HEAD)" == "$source_commit" && -z "$(git status --porcelain)" ]] || { printf '%s\n' 'Source changed during release preparation.' >&2; exit 1; }
-version="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' dist/sshot.app/Contents/Info.plist)"
-output="$(mktemp -d "$(pwd)/dist/update-$version.XXXXXX")"
-ditto -c -k --sequesterRsrc --keepParent dist/sshot.app "$output/sshot-$version.zip"
-"$tools/generate_appcast" --account "$account" --download-url-prefix "$SSHOT_UPDATE_DOWNLOAD_URL_PREFIX" "$output"
-swift scripts/release-manifest.swift create "$output" "$source_commit" "$version" "$SSHOT_UPDATE_PUBLIC_KEY"
-printf 'Prepared signed update in %s\nUpload the archive and generated appcast to the configured HTTPS locations. No publishing was performed.\n' "$output"
+[[ "$existing_public_key" == "$SHOTCLIP_CANONICAL_KEY" ]] || release_fail 'Existing Keychain key differs from established public key; stop without changing it.'
+if [[ "$SHOTCLIP_RELEASE_MODE" == ad-hoc ]]; then
+    bash scripts/build-app.sh
+else
+    bash scripts/notarize-app.sh
+fi
+[[ "$(release_reviewed_head)" == "$source_commit" ]] || release_fail 'Reviewed source changed during preparation.'
+release_verify_bundle dist/ShotClip.app "$source_commit"
+output="$(mktemp -d "$(pwd)/dist/update-$SHOTCLIP_VERSION.XXXXXX")"
+ditto -c -k --sequesterRsrc --keepParent dist/ShotClip.app "$output/shotclip-$SHOTCLIP_VERSION.zip"
+bash scripts/release-content.sh "$output"
+"$tools/generate_appcast" --account "$account" --download-url-prefix "$SHOTCLIP_UPDATE_DOWNLOAD_URL_PREFIX" "$output"
+swift scripts/release-manifest.swift create "$output" "$source_commit" "$SHOTCLIP_VERSION" "$SHOTCLIP_CANONICAL_KEY"
+(cd "$output" && shasum -a 256 "shotclip-$SHOTCLIP_VERSION.zip" appcast.xml release-manifest.json RELEASE-NOTES.md README.txt > SHA256SUMS)
+swift scripts/release-manifest.swift verify "$output" "$source_commit" "$SHOTCLIP_VERSION" "$SHOTCLIP_CANONICAL_KEY" >/dev/null
+[[ "$(release_reviewed_head)" == "$source_commit" ]] || release_fail 'Reviewed source changed during preparation.'
+printf 'Prepared %s release in %s\nNo publishing was performed.\n' "$SHOTCLIP_RELEASE_MODE" "$output"

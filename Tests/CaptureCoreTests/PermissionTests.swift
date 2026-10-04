@@ -6,16 +6,17 @@ final class PermissionTests:XCTestCase {
             XCTAssertTrue(PermissionPresentation(accessEffective:true,adHoc:signing).canCapture)
             let notReady=PermissionPresentation(accessEffective:false,adHoc:signing)
             XCTAssertEqual(notReady.state,.reviewNeeded);XCTAssertFalse(notReady.canCapture)
-            XCTAssertTrue(notReady.explanation.contains("자동으로 구분할 수 없습니다"))
+            XCTAssertTrue(notReady.explanation.contains("cannot distinguish"))
+            XCTAssertEqual(notReady.titleKey,"permission.review.title")
         }
     }
     func testSigningDoesNotImplyPermission() {
         let temporary=PermissionPresentation(accessEffective:true,adHoc:true)
         XCTAssertEqual(temporary.signing,.temporary);XCTAssertEqual(temporary.state,.ready)
-        XCTAssertTrue(temporary.identityAdvice.contains("다시 허용"))
+        XCTAssertTrue(temporary.identityAdvice.contains("granting access again"))
         let signed=PermissionPresentation(accessEffective:false,adHoc:false)
         XCTAssertEqual(signed.signing,.nonAdHoc);XCTAssertEqual(signed.state,.reviewNeeded)
         let unknown=PermissionPresentation(accessEffective:false,adHoc:nil)
-        XCTAssertEqual(unknown.signing,.unknown);XCTAssertTrue(unknown.identityAdvice.contains("확인하지 못했습니다"))
+        XCTAssertEqual(unknown.signing,.unknown);XCTAssertTrue(unknown.identityAdvice.contains("could not be verified"))
     }
 }
