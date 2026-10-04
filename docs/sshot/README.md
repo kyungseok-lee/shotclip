@@ -9,5 +9,8 @@ sshot의 MVP를 순서대로 개발하고 다른 에이전트·환경에서도 �
 | [development-plan.md](development-plan.md) | 의존 순서와 단계별 완료 조건 |
 | [verification.md](verification.md) | 수동·자동 검증과 요구사항 연결 |
 | [handoff.md](handoff.md) | 현재 상태와 다음 작업 재개 절차 |
+| [technical-validation.md](technical-validation.md) | SDK와 실제 API probe 증거, 구현 결정 및 잔여 한계 |
+| [qa-plan.md](qa-plan.md) | 실제 캡처 harness와 native UI QA의 구체적인 절차 |
+| [qa-results.md](qa-results.md) | 실제 실행한 검증과 미실행·차단 항목 |
 
 요구사항 ID는 후속 코드 리뷰와 테스트에서도 유지합니다. 요구사항을 바꾸면 수용 기준·설계·계획·검증을 함께 갱신합니다. 기술 검증 전의 후보는 구현 약속이 아닙니다.
