@@ -6,11 +6,11 @@
 
 화면 영역을 선택하면 이미지를 바로 클립보드에 복사하는 작은 macOS 메뉴 막대 앱입니다. **고정 영역** 또는 **드래그 영역**으로 캡처한 뒤 다른 앱에서 `⌘V`로 붙여 넣습니다.
 
-**0.4.1(build 6) 시각 개선 버전을 준비 중**입니다. 캡처와 클립보드를 표현하는 새 아이콘과 독자적인 브랜드 이미지를 제공합니다. 이미지는 실제 화면을 포함하지 않은 합성 일러스트이며 게시·설치 결과는 검증 후 기록합니다.
+**ShotClip 0.4.1(build 6)**를 **Apple Silicon(arm64) 전용** GitHub 개발자 프리뷰로 공개했습니다. **Ad-hoc 서명이며 공증되지 않았습니다.** [ZIP 다운로드](https://github.com/kyungseok-lee/shotclip/releases/download/v0.4.1/shotclip-0.4.1.zip), [v0.4.1 릴리스](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.4.1)를 이용하세요. 2026-10-05 02:52:28 KST에 독립 검토된 구현 소스 [`24f73ed`](https://github.com/kyungseok-lee/shotclip/commit/24f73ed008028d7e957df1e485af02e65a38c25f)에서 게시했습니다.
 
-**ShotClip 0.4.0(build 5)**를 **Apple Silicon(arm64) 전용** GitHub 개발자 프리뷰로 공개했습니다. **Ad-hoc 서명이며 공증되지 않았습니다.** [ZIP 다운로드](https://github.com/kyungseok-lee/shotclip/releases/download/v0.4.0/shotclip-0.4.0.zip), [v0.4.0 릴리스](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.4.0)를 이용하세요. 2026-10-05 KST에 독립 검토된 구현 소스 [`ab57fca`](https://github.com/kyungseok-lee/shotclip/commit/ab57fcace589f2c786ba183778d1b1bb4e77fe87)에서 게시했습니다.
+캡처와 클립보드를 표현하는 아이콘과 프로젝트의 독자적인 브랜드 이미지를 개선했습니다. 이미지는 실제 화면을 포함하지 않은 합성 일러스트입니다. 최신 게시·설치 검증 뒤 과거 0.4.0 GitHub 릴리스와 산출물을 제거했으며 소스·태그 이력은 보존했습니다.
 
-공개 산출물/feed와 로컬 설치·정상 시작을 검증했습니다. 실제 캡처·권한·붙여 넣기·언어/접근성 화면·자동 업데이트는 미검증이며 [QA 기록](docs/shotclip/qa-results.md)에 범위를 구분했습니다.
+공개 산출물 6개, 서명 feed와 로컬 설치·정상 시작을 검증했습니다. 실제 캡처·권한·붙여 넣기·언어/접근성 화면·자동 업데이트는 미검증이며 [QA 기록](docs/shotclip/qa-results.md#2026-10-05-041-visual-refresh-publication-installation-and-cleanup)에 범위를 구분했습니다.
 
 ## 빌드와 실행
 
