@@ -10,7 +10,7 @@ let bytes = try Data(contentsOf: archive)
 let digest = SHA256.hash(data: bytes).map { String(format: "%02x", $0) }.joined()
 let manifest = directory.appendingPathComponent("release-manifest.json")
 if mode == "create" {
-    let build = ProcessInfo.processInfo.environment["SSHOT_BUILD_NUMBER"] ?? "3"
+    let build = ProcessInfo.processInfo.environment["SSHOT_BUILD_NUMBER"] ?? "4"
     let record = ["commit": commit, "version": version, "build": build, "publicKey": key, "archiveSHA256": digest]
     try JSONSerialization.data(withJSONObject: record, options: [.sortedKeys]).write(to: manifest, options: .atomic)
 } else if mode == "verify" {

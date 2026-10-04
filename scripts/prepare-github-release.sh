@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
-export SSHOT_VERSION="${SSHOT_VERSION:-0.2.1}"
-export SSHOT_BUILD_NUMBER="${SSHOT_BUILD_NUMBER:-3}"
+export SSHOT_VERSION="${SSHOT_VERSION:-0.3.0}"
+export SSHOT_BUILD_NUMBER="${SSHOT_BUILD_NUMBER:-4}"
 [[ "$SSHOT_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || exit 1
 export SSHOT_UPDATE_FEED_URL='https://github.com/kyungseok-lee/sshot/releases/latest/download/appcast.xml'
 export SSHOT_UPDATE_PUBLIC_KEY="${SSHOT_UPDATE_PUBLIC_KEY:-$(/usr/libexec/PlistBuddy -c 'Print :SUPublicEDKey' resources/Info.plist)}"

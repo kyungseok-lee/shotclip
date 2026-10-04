@@ -13,16 +13,10 @@ import Carbon
     private var previous: NSRunningApplication?
     private var lastRect: CGRect?
     private var shortcut=Shortcut()
-    private var guide: NSWindow?
+    private var guide: SettingsWindow?
     private var recorder: Any?
     private var mode:SelectionMode = .mask
     private var toast:NSPanel?
-    private var shortcutLabel:NSTextField?
-    private var permissionLabel:NSTextField?
-    private var permissionDetails:NSTextField?
-    private var updateLabel:NSTextField?
-    private var updateToggle:NSButton?
-    private var captureButtons=[NSButton]()
     private var restarting=false
     func applicationDidFinishLaunching(_ notification: Notification) {
         if CommandLine.arguments.contains("--self-test") { Task { await SelfTest.run() };return }
@@ -32,7 +26,7 @@ import Carbon
         coordinator.onFinish={ [weak self] in self?.finishUI() }
         coordinator.onError={ [weak self] error in self?.message("캡처 실패: \(error.localizedDescription)") }
         let result=hotkey?.register(shortcut) ?? OSStatus(paramErr)
-        status=NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength);status.button?.image=NSImage(systemSymbolName:"viewfinder",accessibilityDescription:"sshot 캡처")
+        status=NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength);status.button?.image=NSImage(systemSymbolName:"viewfinder",accessibilityDescription:"Sshot 캡처");status.button?.toolTip="Sshot"
         updater.onChange={ [weak self] in self?.refreshStatus() }
         updater.start()
         updateMenu()
@@ -47,7 +41,10 @@ import Carbon
         let menu=NSMenu()
         menu.delegate=self
         let permission=NSMenuItem(title:CGPreflightScreenCaptureAccess() ? "화면 기록: 캡처 준비 완료" : "화면 기록: 권한 확인 필요",action:nil,keyEquivalent:"");permission.isEnabled=false;menu.addItem(permission)
-        for (title,action) in [("고정 영역 캡처 (\(shortcut.label))",#selector(mask)),("드래그 캡처",#selector(drag)),("권한 안내 및 설정",#selector(openGuide)),("업데이트 확인…",#selector(checkUpdates)),("종료",#selector(quit))] {
+        menu.addItem(.separator())
+        for (index,entry) in [("고정 영역 캡처 (\(shortcut.label))",#selector(mask)),("드래그 캡처",#selector(drag)),("Sshot 설정…",#selector(openGuide)),("업데이트 확인…",#selector(checkUpdates)),("Sshot 종료",#selector(quit))].enumerated() {
+            let (title,action)=entry
+            if index == 2 || index == 4 {menu.addItem(.separator())}
             let item=NSMenuItem(title:title,action:action,keyEquivalent:"");item.target=self;menu.addItem(item)
         }
         status.menu=menu
@@ -66,7 +63,7 @@ import Carbon
         switch coordinator.begin(permission:CGPreflightScreenCaptureAccess()) {
         case .bringForward: overlay?.makeKeyAndOrderFront(nil);return
         case .ignored: return
-        case .permissionDenied:showGuide();return
+        case .permissionDenied:showGuide();guide?.select(.permission);return
         case .opened:break
         }
         guard let screen=NSScreen.screens.first(where:{$0.frame.contains(NSEvent.mouseLocation)}) ?? NSScreen.main else { finish();return }
@@ -106,42 +103,16 @@ import Carbon
     }
     private func message(_ text: String) {
         NSApp.activate(ignoringOtherApps:true)
-        let alert=NSAlert();alert.messageText="sshot";alert.informativeText=text;alert.addButton(withTitle:"확인");alert.runModal()
+        let alert=NSAlert();alert.messageText="Sshot";alert.informativeText=text;alert.addButton(withTitle:"확인");alert.runModal()
     }
     private func showGuide() {
-        if let guide { refreshStatus();NSApp.activate(ignoringOtherApps:true);guide.makeKeyAndOrderFront(nil);return }
-        let window=NSWindow(contentRect:CGRect(x:0,y:0,width:680,height:735),styleMask:[.titled,.closable],backing:.buffered,defer:false)
-        window.title="sshot — 캡처 및 설정";window.isReleasedWhenClosed=false;window.center()
-        let content=NSView(frame:CGRect(x:0,y:0,width:680,height:735))
-        func label(_ text:String,_ rect:CGRect,_ size:CGFloat=13) -> NSTextField {
-            let field=NSTextField(wrappingLabelWithString:text);field.frame=rect;field.font=NSFont.systemFont(ofSize:size);content.addSubview(field);return field
+        if guide == nil {
+            guide=SettingsWindow(actions:.init(mask:{[weak self] in self?.mask()},drag:{[weak self] in self?.drag()},shortcut:{[weak self] in self?.recordShortcut()},login:{[weak self] in self?.loginSetting()},request:{[weak self] in self?.requestPermission()},settings:{[weak self] in self?.openPermission()},recheck:{[weak self] in self?.recheckPermission()},restart:{[weak self] in self?.restartApp()},reveal:{[weak self] in self?.revealApp()},update:{[weak self] in self?.checkUpdates()},automatic:{[weak self] enabled in self?.updater.automaticallyChecksForUpdates=enabled;self?.refreshStatus()}))
         }
-        permissionLabel=label("",CGRect(x:24,y:685,width:632,height:28),20)
-        permissionDetails=label("",CGRect(x:24,y:627,width:632,height:52))
-        shortcutLabel=label("",CGRect(x:24,y:589,width:632,height:30))
-        _=label("권한이 적용되지 않을 때",CGRect(x:24,y:483,width:632,height:24),16)
-        _=label("1. ‘권한 요청’ 또는 ‘화면 기록 설정’을 누릅니다.\n2. 개인정보 보호 및 보안 → 화면 기록에서 현재 sshot을 허용합니다.\n   macOS 버전에 따라 ‘화면 및 시스템 오디오 기록’으로 표시됩니다.\n3. 돌아와 ‘다시 확인’을 누르세요. 계속 주황색이면 sshot을 재시작하세요.\n   접근성·전체 디스크 접근 권한은 필요하지 않습니다.",CGRect(x:24,y:390,width:632,height:85))
-        let identity=PermissionStatus()
-        _=label(identity.identityAdvice,CGRect(x:24,y:276,width:632,height:68))
-        let location=label("실행 위치: \(identity.bundleURL.path)\n버전: \(identity.version)",CGRect(x:24,y:217,width:632,height:52));location.isSelectable=true
-        _=label("업데이트",CGRect(x:24,y:183,width:632,height:24),16)
-        updateLabel=label("",CGRect(x:24,y:130,width:632,height:48))
-        let toggle=NSButton(checkboxWithTitle:"자동으로 업데이트 확인",target:self,action:#selector(toggleUpdates));toggle.frame=CGRect(x:24,y:91,width:320,height:28);content.addSubview(toggle);updateToggle=toggle
-        let entries:[(String,Selector,CGRect)]=[("고정 영역 캡처",#selector(mask),CGRect(x:24,y:548,width:300,height:32)),("드래그 캡처",#selector(drag),CGRect(x:350,y:548,width:300,height:32)),("단축키 변경",#selector(recordShortcut),CGRect(x:24,y:509,width:300,height:32)),("로그인 자동 시작 설정",#selector(loginSetting),CGRect(x:350,y:509,width:300,height:32)),("권한 요청",#selector(requestPermission),CGRect(x:24,y:351,width:145,height:32)),("화면 기록 설정",#selector(openPermission),CGRect(x:183,y:351,width:145,height:32)),("다시 확인",#selector(recheckPermission),CGRect(x:342,y:351,width:145,height:32)),("sshot 재시작",#selector(restartApp),CGRect(x:501,y:351,width:145,height:32)),("현재 앱 위치 보기",#selector(revealApp),CGRect(x:350,y:87,width:300,height:32)),("업데이트 확인…",#selector(checkUpdates),CGRect(x:350,y:48,width:300,height:32))]
-        for (title,selector,frame) in entries { let b=NSButton(title:title,target:self,action:selector);b.frame=frame;content.addSubview(b);if selector == #selector(mask) || selector == #selector(drag) {captureButtons.append(b)} }
-        _=label("Enter: 캡처 · Esc: 취소 · Tab: 모드 전환\n이미지는 바로 복사됩니다. 다른 앱에서 ⌘V로 붙여 넣으세요.",CGRect(x:24,y:22,width:310,height:59),12)
-        window.contentView=content;guide=window;refreshStatus();NSApp.activate(ignoringOtherApps:true);window.makeKeyAndOrderFront(nil)
+        refreshStatus();NSApp.activate(ignoringOtherApps:true);guide?.makeKeyAndOrderFront(nil)
     }
     @objc private func refreshStatus() {
-        let permission=PermissionStatus()
-        permissionLabel?.stringValue=permission.title
-        permissionLabel?.textColor=permission.isReady ? .systemGreen : .systemOrange
-        permissionDetails?.stringValue=permission.explanation
-        shortcutLabel?.stringValue="앱 실행 중 단축키: \(shortcut.label) · 캡처 이미지는 바로 클립보드로 복사됩니다."
-        captureButtons.forEach{$0.isEnabled=permission.isReady}
-        updateLabel?.stringValue=updater.statusText
-        updateToggle?.state=updater.automaticallyChecksForUpdates ? .on : .off
-        updateToggle?.isEnabled=updater.isConfigured
+        guide?.refresh(permission:PermissionStatus(),shortcut:shortcut.label,update:updater.statusText,automaticEnabled:updater.automaticallyChecksForUpdates,configured:updater.isConfigured)
         if status != nil {updateMenu()}
     }
     @objc private func requestPermission() { _=CGRequestScreenCaptureAccess();refreshStatus() }
@@ -149,7 +120,6 @@ import Carbon
     @objc private func openPermission() { if let url=URL(string:"x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture") { NSWorkspace.shared.open(url) } }
     @objc private func revealApp() {NSWorkspace.shared.activateFileViewerSelecting([Bundle.main.bundleURL])}
     @objc private func checkUpdates() {updater.checkForUpdates();refreshStatus()}
-    @objc private func toggleUpdates() {updater.automaticallyChecksForUpdates=updateToggle?.state == .on;refreshStatus()}
     @objc private func restartApp() {
         guard !restarting else {return}
         guard coordinator.state != .processing else {message("캡처가 끝난 뒤 다시 시작하세요.");return}

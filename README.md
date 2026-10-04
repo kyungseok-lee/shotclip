@@ -1,8 +1,10 @@
-# sshot
+# Sshot
 
 macOS에서 원하는 화면 영역을 캡처한 뒤 이미지를 즉시 클립보드에 넣는 메뉴 막대 앱입니다. 사용자는 다른 앱에서 `⌘V`로 캡처 이미지를 붙여 넣을 수 있습니다.
 
 현재 버전은 로컬 개발용 MVP입니다. 구현과 자동 회귀 테스트가 있으며 실제 화면 QA는 [QA 기록](docs/sshot/qa-results.md)에 범위별로 표시합니다. Developer ID 서명·공증 배포는 아직 완료되지 않았습니다.
+
+사용자로부터 기본 동작이 잘 된다는 정성 확인을 받았습니다. 현재 설치 검증 버전은 0.2.1(build 3)이며, 표시 이름·아이콘·native 설정 창을 정돈한 0.3.0(build 4)을 준비합니다. 이 예정 버전은 아직 설치·QA 완료를 뜻하지 않습니다. 실행 파일·앱 식별자·설치 경로는 기존 값을 유지합니다.
 
 ## 빌드 및 실행
 
@@ -63,7 +65,7 @@ sed -n '1,200p' "$qa_output_dir/self-test.json"
 
 Sparkle 2.10.0 기반 업데이트를 제공합니다. 자동 확인은 기본적으로 꺼져 있고 설정의 ‘자동으로 업데이트 확인’으로 켤 수 있습니다. 설치 전에는 확인 창이 표시됩니다. 현재 0.2.1(build 3)은 GitHub feed URL과 실제 공개키를 포함하며 로컬 설치·설정 UI를 확인했습니다. 실제 업그레이드는 공개 appcast/archive와 Developer ID 서명·공증 배포가 준비되어야 합니다. 공개 release asset과 실제 버전 업그레이드 성공은 아직 없습니다. 캡처 이미지는 업데이트 서버로 전송하지 않습니다.
 
-기본 feed와 공개키는 resources/Info.plist에 있습니다. 변경할 경우 `SSHOT_UPDATE_FEED_URL`(인증정보 없는 HTTPS), `SSHOT_UPDATE_PUBLIC_KEY`(32-byte base64 공개키)를 함께 빌드 환경에 넣습니다. 버전은 `SSHOT_VERSION`, 증가하는 빌드 번호는 `SSHOT_BUILD_NUMBER`로 지정합니다(기본 0.2.1 / 3). 일부 설정만 있거나 잘못된 URL·키이면 빌드를 중단합니다. 서명된 feed도 요구합니다.
+기본 feed와 공개키는 resources/Info.plist에 있습니다. 변경할 경우 `SSHOT_UPDATE_FEED_URL`(인증정보 없는 HTTPS), `SSHOT_UPDATE_PUBLIC_KEY`(32-byte base64 공개키)를 함께 빌드 환경에 넣습니다. 버전은 `SSHOT_VERSION`, 증가하는 빌드 번호는 `SSHOT_BUILD_NUMBER`로 지정합니다(기본 0.3.0 / 4). 일부 설정만 있거나 잘못된 URL·키이면 빌드를 중단합니다. 서명된 feed도 요구합니다.
 
 기존 Keychain 서명 키가 준비된 환경에서 다음 명령은 서명·공증 후 `dist/update-버전.…`에 archive와 appcast를 준비합니다. 게시나 키 생성은 수행하지 않습니다. 생성된 파일을 설정한 HTTPS 위치에 게시하는 작업과 실제 업데이트 QA는 별도입니다.
 
@@ -72,7 +74,7 @@ SSHOT_SIGN_IDENTITY='Developer ID Application: Your Name (TEAMID)' \
 SSHOT_NOTARY_PROFILE='your-existing-profile' \
 SSHOT_UPDATE_FEED_URL='https://github.com/kyungseok-lee/sshot/releases/latest/download/appcast.xml' \
 SSHOT_UPDATE_PUBLIC_KEY='your-base64-public-key' \
-SSHOT_UPDATE_DOWNLOAD_URL_PREFIX='https://github.com/kyungseok-lee/sshot/releases/download/v0.2.1/' \
+SSHOT_UPDATE_DOWNLOAD_URL_PREFIX='https://github.com/kyungseok-lee/sshot/releases/download/v0.3.0/' \
 SSHOT_UPDATE_KEY_ACCOUNT='sshot' \
 bash scripts/prepare-update.sh
 ```

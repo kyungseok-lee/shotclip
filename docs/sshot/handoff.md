@@ -65,6 +65,14 @@
 - 남은 항목: 사용자 수동 캡처/권한 QA, Developer ID·공증, 공개 release asset 게시 및 종단간 업데이트. 공개 asset은 게시하지 않았습니다.
 - 이 종료 문서의 후속 커밋 ID는 `git log -1`로 확인합니다. 문서 내부에 자기 자신의 커밋 hash를 기록하지 않습니다.
 
+## Sshot 0.3.0 표시·설정 개선 계획
+
+- 사용자 보고: 기본 동작이 잘 된다는 정성 확인. 실제 전체 수동 QA 통과로 확대하지 않습니다. 캡처 장시간 테스트는 계속 사용자 담당입니다.
+- 예정 변경: Sshot 표시명, 독자 macOS 아이콘, native AppKit 설정 창, 0.3.0(build 4). 현재 설치 검증 버전은 0.2.1(build 3)입니다.
+- 유지: `dev.sshot.app`, executable `sshot`, `/Applications/sshot.app`, 기존 UserDefaults 및 GitHub feed·공개키. 표시 개선을 위해 TCC identity를 바꾸지 않습니다. ad-hoc 새 코드 서명 자체는 재허용을 유발할 수 있습니다.
+- 순서: 별도 UI/아이콘 작성 → 독립 검토·빠른 자동 검증 → 로컬 설치·표시 확인 → 정확히 확인한 구버전만 휴지통으로 이동 → 코드 commit/push. 아직 수행하지 않은 작업은 예정입니다.
+- 공개 배포: Releases 0개로 삭제 대상 없음, Developer ID 인증서 0개. 미공증 developer preview 공개 여부 질문의 답이 없으므로 공개 앱 게시 gate는 유지합니다.
+
 ## 후속 기록 템플릿
 
 | 항목 | 기록할 내용 |

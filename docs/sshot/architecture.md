@@ -62,6 +62,7 @@ ScreenCaptureKit content filter에서 자체 프로세스를 제외하고 showsC
 | D08 | 로컬 ad-hoc 앱 + Developer ID 공증 준비 | 로컬 서명 검사 통과. 유효 인증서 0으로 공증·배포 QA 차단 |
 | D09 | 메뉴 막대 상주, opt-in 로그인 시작 | 첫 직접 실행 필요. 종료 상태 cold launch 없음. 로그인 등록 실제 실행은 미검증 |
 | D10 | Sparkle, GitHub Releases HTTPS appcast·Ed25519 서명 업데이트 | 별도 서버 없이 latest/download/appcast.xml과 tag별 archive 사용. 공개키 포함 및 publisher 작업 중. production 인증서·공증·실제 게시/업그레이드 QA 미완료 |
+| D11 | Sshot 표시명·독자 macOS 아이콘·native AppKit 설정 | 0.3.0(build 4) 예정. stable identity 및 저장 설정 유지, UI/아이콘 별도 작성 후 독립 검토·로컬 설치 확인 |
 
 ## 공식 자료
 
@@ -74,3 +75,4 @@ ScreenCaptureKit content filter에서 자체 프로세스를 제외하고 showsC
 - [NSScreen](https://developer.apple.com/documentation/appkit/nsscreen)
 - [CGPreflightScreenCaptureAccess](https://developer.apple.com/documentation/coregraphics/cgpreflightscreencaptureaccess())
 - [Notarizing macOS software before distribution](https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution)
+- [Apple HIG: Designing for macOS](https://developer.apple.com/design/human-interface-guidelines/designing-for-macos): native 설정 창·정보 밀도·크기 조절·메뉴/키보드 설계 참고. 링크 자체는 UI 실행 검증 증거가 아닙니다.

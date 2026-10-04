@@ -25,10 +25,10 @@ SSHOT_NOTARY_PROFILE='your-existing-profile' \
 SSHOT_RELEASE_TEAM_ID='YOURTEAMID' \
 bash scripts/prepare-github-release.sh
 SSHOT_RELEASE_TEAM_ID='YOURTEAMID' \
-bash scripts/publish-github-release.sh 0.2.1 dist/update-0.2.1.실제출력값
+bash scripts/publish-github-release.sh 0.3.0 dist/update-0.3.0.실제출력값
 ```
 
-준비 스크립트는 기본 0.2.1(build 3)과 저장소의 공개키를 사용합니다. `SSHOT_RELEASE_TEAM_ID`는 실제 Developer ID 서명의 Team ID와 일치해야 합니다. publisher는 archive·appcast·SHA256SUMS·release-manifest.json을 업로드하며 기본은 draft입니다. manifest의 commit/build/key/archive hash와 앱의 봉인된 SSHOTSourceCommit을 HEAD에 연결하고, 로컬·원격·GitHub 저장소 tag 일치, archive Ed25519 및 signed feed 검증을 수행합니다. 세 번째 인자 `--publish`는 검증 후 공개하는 명시적 경로입니다. 이미 생성한 draft를 공개할 때에는 해당 draft의 target·asset과 QA를 재확인한 뒤 `gh release edit v0.2.1 --repo kyungseok-lee/sshot --draft=false --latest`를 사용합니다. 이 예제는 현재 실행·게시 완료 증거가 아닙니다.
+준비 스크립트는 기본 0.3.0(build 4)과 저장소의 공개키를 사용합니다. `SSHOT_RELEASE_TEAM_ID`는 실제 Developer ID 서명의 Team ID와 일치해야 합니다. publisher는 archive·appcast·SHA256SUMS·release-manifest.json을 업로드하며 기본은 draft입니다. manifest의 commit/build/key/archive hash와 앱의 봉인된 SSHOTSourceCommit을 HEAD에 연결하고, 로컬·원격·GitHub 저장소 tag 일치, archive Ed25519 및 signed feed 검증을 수행합니다. 세 번째 인자 `--publish`는 검증 후 공개하는 명시적 경로입니다. 이미 생성한 draft를 공개할 때에는 해당 draft의 target·asset과 QA를 재확인한 뒤 `gh release edit v0.3.0 --repo kyungseok-lee/sshot --draft=false --latest`를 사용합니다. 이 예제는 현재 실행·게시 완료 증거가 아닙니다.
 
 ## 서로 다른 서명의 역할
 

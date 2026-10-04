@@ -21,6 +21,7 @@ func run(_ mode: String, commit: String = "reviewed") throws -> Int32 {
     let task = Process()
     task.executableURL = URL(fileURLWithPath: "/usr/bin/swift")
     task.arguments = ["scripts/release-manifest.swift", mode, directory.path, commit, "0.2.1", publicKey]
+    var environment = ProcessInfo.processInfo.environment; environment["SSHOT_BUILD_NUMBER"] = "3"; task.environment = environment
     task.standardOutput = FileHandle.nullDevice
     try task.run(); task.waitUntilExit(); return task.terminationStatus
 }
