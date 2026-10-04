@@ -1,21 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="800" viewBox="0 0 1600 800" role="img" aria-labelledby="title description">
-  <title id="title">ShotClip — Capture. Copy. Continue.</title>
-  <desc id="description">Original illustration of the ShotClip capture-and-clipboard icon beside a Select, Capture, Paste flow. English and Korean supported. No captured screen content.</desc>
+  <title id="title">Shot Clip — Capture. Copy. Continue.</title>
+  <desc id="description">Original illustration of the Shot Clip capture-and-copy-sheet icon beside a Select, Capture, Paste flow. English and Korean supported. No captured screen content.</desc>
   <defs><linearGradient id="gradient1" x1="2.447%" y1="65.451%" x2="97.553%" y2="34.549%"><stop stop-color="#FAFCFF"/><stop offset="1" stop-color="#ECF3FF"/></linearGradient>
 <filter id="shadow2" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0.000" dy="-18.000" stdDeviation="16.000" flood-color="#101A4D" flood-opacity="0.240"/></filter>
 <linearGradient id="gradient3" x1="28.081%" y1="94.940%" x2="71.919%" y2="5.060%"><stop stop-color="#5285FA"/><stop offset="1" stop-color="#14379F"/></linearGradient>
 <filter id="shadow4" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="5.000" dy="-17.000" stdDeviation="15.000" flood-color="#071D60" flood-opacity="0.380"/></filter>
 <linearGradient id="gradient5" x1="45.642%" y1="99.810%" x2="54.358%" y2="0.190%"><stop stop-color="#FFFFFF"/><stop offset="1" stop-color="#E5EEFF"/></linearGradient>
-<linearGradient id="gradient6" x1="43.041%" y1="99.513%" x2="56.959%" y2="0.487%"><stop stop-color="#DAF3FF"/><stop offset="1" stop-color="#A8D2F9"/></linearGradient>
-<linearGradient id="gradient7" x1="32.899%" y1="96.985%" x2="67.101%" y2="3.015%"><stop stop-color="#57B3DC"/><stop offset="1" stop-color="#2C78C4"/></linearGradient>
-<linearGradient id="gradient8" x1="28.869%" y1="95.315%" x2="71.131%" y2="4.685%"><stop stop-color="#3DD6C4"/><stop offset="1" stop-color="#2F95AE"/></linearGradient>
+<linearGradient id="gradient6" x1="50.000%" y1="100.000%" x2="50.000%" y2="0.000%"><stop stop-color="#82B0F8"/><stop offset="1" stop-color="#4575D7"/></linearGradient>
+<filter id="shadow7" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="2.000" dy="-7.000" stdDeviation="6.500" flood-color="#183E91" flood-opacity="0.200"/></filter>
+<linearGradient id="gradient8" x1="50.000%" y1="100.000%" x2="50.000%" y2="0.000%"><stop stop-color="#F8FFFF"/><stop offset="1" stop-color="#DCF6EF"/></linearGradient>
 <filter id="shadow9" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0.000" dy="-8.000" stdDeviation="6.000" flood-color="#10245B" flood-opacity="0.200"/></filter>
 <linearGradient id="gradient10" x1="50.000%" y1="100.000%" x2="50.000%" y2="0.000%"><stop stop-color="#C4FFF0"/><stop offset="1" stop-color="#68E4CB"/></linearGradient></defs>
   <g transform="translate(0 800) scale(1 -1)"><path d="M 0.000 0.000 L 1600.000 0.000 L 1600.000 800.000 L 0.000 800.000 Z M 0.000 0.000" fill="url(#gradient1)"/>
 <path d="M 1563.345 -58.345 C 1692.218 70.528 1692.218 279.472 1563.345 408.345 C 1434.472 537.218 1225.528 537.218 1096.655 408.345 C 967.782 279.472 967.782 70.528 1096.655 -58.345 C 1225.528 -187.218 1434.472 -187.218 1563.345 -58.345" fill="#D9F4EF" fill-opacity="0.540"/>
 <path d="M 1704.810 537.190 C 1831.730 664.111 1831.730 869.889 1704.810 996.810 C 1577.889 1123.730 1372.111 1123.730 1245.190 996.810 C 1118.270 869.889 1118.270 664.111 1245.190 537.190 C 1372.111 410.270 1577.889 410.270 1704.810 537.190" fill="#DBE7FF" fill-opacity="0.660"/>
 <g transform="translate(112.000 639.008) scale(1 -1)"><text fill="#267B8B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="19.000" font-weight="600">CAPTURE TO CLIPBOARD</text></g>
-<g transform="translate(106.000 533.938) scale(1 -1)"><text fill="#172852" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="104.000" font-weight="700">ShotClip</text></g>
+<g transform="translate(106.000 532.250) scale(1 -1)"><text fill="#172852" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="96.000" font-weight="700">Shot Clip</text></g>
 <g transform="translate(112.000 451.016) scale(1 -1)"><text fill="#2C446C" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="38.000" font-weight="500">Capture. Copy. Continue.</text></g>
 <g transform="translate(114.000 365.906) scale(1 -1)"><text fill="#657894" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="28.000" font-weight="400">Keep your ideas moving.</text></g>
 <g transform="translate(114.000 325.906) scale(1 -1)"><text fill="#657894" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="28.000" font-weight="400">One small utility for macOS.</text></g>
@@ -37,7 +37,6 @@
 </g>
 <path d="M 282.000 928.000 C 179.276 928.000 96.000 844.724 96.000 742.000 L 96.000 282.000 C 96.000 179.276 179.276 96.000 282.000 96.000 L 742.000 96.000 C 844.724 96.000 928.000 179.276 928.000 282.000 L 928.000 742.000 C 928.000 844.724 844.724 928.000 742.000 928.000 Z M 282.000 928.000" fill="url(#gradient3)"/>
 <path d="M 281.000 925.000 C 180.485 925.000 99.000 843.515 99.000 743.000 L 99.000 281.000 C 99.000 180.485 180.485 99.000 281.000 99.000 L 743.000 99.000 C 843.515 99.000 925.000 180.485 925.000 281.000 L 925.000 743.000 C 925.000 843.515 843.515 925.000 743.000 925.000 Z M 281.000 925.000" fill="none" stroke="#D1E8FF" stroke-width="3.000" stroke-opacity="0.350" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M 170.000 821.000 C 360.000 950.000 660.000 950.000 850.000 821.000" fill="none" stroke="#E2F1FF" stroke-width="4.000" stroke-opacity="0.200" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M 384.000 729.000 L 249.000 729.000 L 249.000 603.000" fill="none" stroke="#6EF1D9" stroke-width="55.000" stroke-opacity="1.000" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M 610.000 729.000 L 745.000 729.000 L 745.000 603.000" fill="none" stroke="#6EF1D9" stroke-width="55.000" stroke-opacity="1.000" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M 384.000 326.000 L 249.000 326.000 L 249.000 452.000" fill="none" stroke="#6EF1D9" stroke-width="55.000" stroke-opacity="1.000" stroke-linecap="round" stroke-linejoin="round"/>
@@ -48,12 +47,14 @@
 </g>
 <path d="M 402.000 708.000 C 378.804 708.000 360.000 689.196 360.000 666.000 L 360.000 264.000 C 360.000 240.804 378.804 222.000 402.000 222.000 L 706.000 222.000 C 729.196 222.000 748.000 240.804 748.000 264.000 L 748.000 666.000 C 748.000 689.196 729.196 708.000 706.000 708.000 Z M 402.000 708.000" fill="url(#gradient5)"/>
 <path d="M 402.000 706.000 C 379.909 706.000 362.000 688.091 362.000 666.000 L 362.000 264.000 C 362.000 241.909 379.909 224.000 402.000 224.000 L 706.000 224.000 C 728.091 224.000 746.000 241.909 746.000 264.000 L 746.000 666.000 C 746.000 688.091 728.091 706.000 706.000 706.000 Z M 402.000 706.000" fill="none" stroke="#FFFFFF" stroke-width="3.000" stroke-opacity="0.780" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M 424.000 607.000 C 411.850 607.000 402.000 597.150 402.000 585.000 L 402.000 331.000 C 402.000 318.850 411.850 309.000 424.000 309.000 L 684.000 309.000 C 696.150 309.000 706.000 318.850 706.000 331.000 L 706.000 585.000 C 706.000 597.150 696.150 607.000 684.000 607.000 Z M 424.000 607.000" fill="url(#gradient6)"/>
-<clipPath id="pictureClip"><path d="M 424.000 607.000 C 411.850 607.000 402.000 597.150 402.000 585.000 L 402.000 331.000 C 402.000 318.850 411.850 309.000 424.000 309.000 L 684.000 309.000 C 696.150 309.000 706.000 318.850 706.000 331.000 L 706.000 585.000 C 706.000 597.150 696.150 607.000 684.000 607.000 Z M 424.000 607.000"/></clipPath><g clip-path="url(#pictureClip)">
-<path d="M 661.824 519.176 C 671.392 528.744 671.392 544.256 661.824 553.824 C 652.256 563.392 636.744 563.392 627.176 553.824 C 617.608 544.256 617.608 528.744 627.176 519.176 C 636.744 509.608 652.256 509.608 661.824 519.176" fill="#FFFFFF" fill-opacity="0.940"/>
-<path d="M 396.000 313.000 L 396.000 403.000 L 493.000 520.000 L 614.000 381.000 L 674.000 450.000 L 722.000 393.000 L 722.000 313.000 Z M 396.000 313.000" fill="url(#gradient7)"/>
-<path d="M 396.000 309.000 L 396.000 350.000 L 485.000 432.000 L 572.000 353.000 L 634.000 413.000 L 719.000 330.000 L 719.000 309.000 Z M 396.000 309.000" fill="url(#gradient8)"/>
+<path d="M 437.000 597.000 C 425.954 597.000 417.000 588.046 417.000 577.000 L 417.000 377.000 C 417.000 365.954 425.954 357.000 437.000 357.000 L 626.000 357.000 C 637.046 357.000 646.000 365.954 646.000 377.000 L 646.000 577.000 C 646.000 588.046 637.046 597.000 626.000 597.000 Z M 437.000 597.000" fill="url(#gradient6)"/>
+<path d="M 437.000 597.000 C 425.954 597.000 417.000 588.046 417.000 577.000 L 417.000 377.000 C 417.000 365.954 425.954 357.000 437.000 357.000 L 626.000 357.000 C 637.046 357.000 646.000 365.954 646.000 377.000 L 646.000 577.000 C 646.000 588.046 637.046 597.000 626.000 597.000 Z M 437.000 597.000" fill="none" stroke="#2450A4" stroke-width="10.000" stroke-opacity="0.240" stroke-linecap="round" stroke-linejoin="round"/>
+<g filter="url(#shadow7)">
+<path d="M 503.000 535.000 C 492.507 535.000 484.000 526.493 484.000 516.000 L 484.000 330.000 C 484.000 319.507 492.507 311.000 503.000 311.000 L 657.000 311.000 C 667.493 311.000 676.000 319.507 676.000 330.000 L 676.000 516.000 C 676.000 526.493 667.493 535.000 657.000 535.000 Z M 503.000 535.000" fill="#FFFFFF" fill-opacity="1.000"/>
 </g>
+<path d="M 503.000 535.000 C 492.507 535.000 484.000 526.493 484.000 516.000 L 484.000 330.000 C 484.000 319.507 492.507 311.000 503.000 311.000 L 657.000 311.000 C 667.493 311.000 676.000 319.507 676.000 330.000 L 676.000 516.000 C 676.000 526.493 667.493 535.000 657.000 535.000 Z M 503.000 535.000" fill="url(#gradient8)"/>
+<path d="M 526.000 473.000 L 631.000 473.000" fill="none" stroke="#338CBA" stroke-width="15.000" stroke-opacity="1.000" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 526.000 431.000 L 607.000 431.000" fill="none" stroke="#338CBA" stroke-width="15.000" stroke-opacity="1.000" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M 475.000 274.000 C 472.239 274.000 470.000 271.761 470.000 269.000 L 470.000 269.000 C 470.000 266.239 472.239 264.000 475.000 264.000 L 634.000 264.000 C 636.761 264.000 639.000 266.239 639.000 269.000 L 639.000 269.000 C 639.000 271.761 636.761 274.000 634.000 274.000 Z M 475.000 274.000" fill="#C0D0E6" fill-opacity="1.000"/>
 <g filter="url(#shadow9)">
 <path d="M 494.000 732.000 C 481.298 732.000 471.000 721.702 471.000 709.000 L 471.000 678.000 C 471.000 665.298 481.298 655.000 494.000 655.000 L 616.000 655.000 C 628.702 655.000 639.000 665.298 639.000 678.000 L 639.000 709.000 C 639.000 721.702 628.702 732.000 616.000 732.000 Z M 494.000 732.000" fill="#123479" fill-opacity="1.000"/>

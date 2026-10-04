@@ -1,4 +1,4 @@
-# ShotClip technical validation
+# Shot Clip technical validation
 
 [Architecture](architecture.md) · [Design system](design-system.md) · [QA results](qa-results.md)
 

@@ -15,13 +15,13 @@ import Carbon
     private var shortcut=Shortcut()
     private var guide: SettingsWindow?
     private var recorder: Any?
-    private var mode:SelectionMode = .mask
+    private var mode:SelectionMode = .drag
     private var toast:NSPanel?
     private var restarting=false
     func applicationDidFinishLaunching(_ notification: Notification) {
         if CommandLine.arguments.contains("--self-test") { Task { await SelfTest.run() };return }
         if let data=UserDefaults.standard.data(forKey:"shortcut"),let saved=try? JSONDecoder().decode(Shortcut.self,from:data),saved.isValid { shortcut=saved }
-        mode=SelectionMode(rawValue:UserDefaults.standard.string(forKey:"mode") ?? "mask") ?? .mask
+        mode=SelectionMode(rawValue:UserDefaults.standard.string(forKey:"mode") ?? "drag") ?? .drag
         configureHotkeyAction()
         coordinator.onFinish={ [weak self] in self?.finishUI() }
         coordinator.onError={ [weak self] error in
@@ -32,28 +32,25 @@ import Carbon
             self?.message(L10n.format("capture.failed",detail))
         }
         let result=hotkey?.register(shortcut) ?? OSStatus(paramErr)
-        status=NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength);status.button?.image=NSImage(systemSymbolName:"viewfinder",accessibilityDescription:L10n.text("capture.accessibility"));status.button?.toolTip=L10n.text("app.name");status.button?.setAccessibilityLabel(L10n.text("capture.accessibility"))
+        status=NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength);status.button?.image=CaptureGlyph.image();status.button?.toolTip=L10n.text("app.name");status.button?.setAccessibilityLabel(L10n.text("capture.accessibility"))
         updater.onChange={ [weak self] in self?.refreshStatus() }
         updater.start()
         configureMainMenu();updateMenu()
         NotificationCenter.default.addObserver(self,selector:#selector(screenChanged),name:NSApplication.didChangeScreenParametersNotification,object:nil)
         NSWorkspace.shared.notificationCenter.addObserver(self,selector:#selector(screenChanged),name:NSWorkspace.willSleepNotification,object:nil)
         NotificationCenter.default.addObserver(self,selector:#selector(refreshStatus),name:NSApplication.didBecomeActiveNotification,object:nil)
-        showGuide()
+        if !UserDefaults.standard.bool(forKey:"welcome0.5Shown") {
+            UserDefaults.standard.set(true,forKey:"welcome0.5Shown");showGuide()
+            if !CGPreflightScreenCaptureAccess() {guide?.select(.permission)}
+        }
         if result != noErr { message(L10n.format("shortcut.registration_failed",String(result))) }
     }
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool { showGuide(); return true }
     private func updateMenu() {
-        let menu=NSMenu()
-        menu.delegate=self
-        let permission=NSMenuItem(title:L10n.text(CGPreflightScreenCaptureAccess() ? "menu.status.ready":"menu.status.review"),action:nil,keyEquivalent:"");permission.isEnabled=false;menu.addItem(permission)
-        menu.addItem(.separator())
-        for (index,entry) in [(L10n.format("menu.fixed_shortcut",shortcut.label),#selector(mask)),(L10n.text("capture.drag"),#selector(drag)),(L10n.text("menu.settings"),#selector(openGuide)),(L10n.text("menu.updates"),#selector(checkUpdates)),(L10n.text("menu.quit"),#selector(quit))].enumerated() {
-            let (title,action)=entry
-            if index == 2 || index == 4 {menu.addItem(.separator())}
-            let item=NSMenuItem(title:title,action:action,keyEquivalent:"");item.target=self;menu.addItem(item)
-        }
-        status.menu=menu
+        let menu=CaptureMenu.make(ready:CGPreflightScreenCaptureAccess(),mode:mode,shortcut:shortcut,
+            canCheck:updater.canCheckForUpdates,target:self,actions:.init(area:#selector(drag),fixed:#selector(mask),
+                permission:#selector(openAccess),settings:#selector(openGuide),updates:#selector(checkUpdates),quit:#selector(quit)))
+        menu.delegate=self;status.menu=menu
     }
     private func configureMainMenu() {
         let main=NSMenu()
@@ -80,13 +77,15 @@ import Carbon
         NSApp.mainMenu=main;NSApp.windowsMenu=windowMenu
     }
     func menuWillOpen(_ menu:NSMenu) {
-        menu.items.first?.title=L10n.text(CGPreflightScreenCaptureAccess() ? "menu.status.ready":"menu.status.review")
+        menu.item(withTag:CaptureMenu.permissionTag)?.isHidden=CGPreflightScreenCaptureAccess()
+        menu.item(withTag:CaptureMenu.updatesTag)?.isEnabled=updater.canCheckForUpdates
     }
     private func configureHotkeyAction() { hotkey?.action={ [weak self] in guard let self else {return};self.begin(self.mode) } }
     @objc private func mask() { begin(.mask) }
     @objc private func drag() { begin(.drag) }
     @objc private func quit() { NSApp.terminate(nil) }
     @objc private func openGuide() { showGuide() }
+    @objc private func openAccess() { showGuide();guide?.select(.permission) }
     @objc private func screenChanged() { if coordinator.state != .idle { finish(); message(L10n.text("capture.screen_changed")) } }
     func begin(_ mode: SelectionMode) {
         guard !restarting else {return}
@@ -98,20 +97,20 @@ import Carbon
         }
         guard let screen=NSScreen.screens.first(where:{$0.frame.contains(NSEvent.mouseLocation)}) ?? NSScreen.main else { finish();return }
         previous=NSWorkspace.shared.frontmostApplication
-        self.mode=mode;UserDefaults.standard.set(mode.rawValue,forKey:"mode")
+        self.mode=mode;UserDefaults.standard.set(mode.rawValue,forKey:"mode");updateMenu()
         let window=OverlayWindow(contentRect:screen.frame,styleMask:.borderless,backing:.buffered,defer:false)
         window.level = .screenSaver;window.isOpaque=false;window.backgroundColor = .clear;window.collectionBehavior=[.canJoinAllSpaces,.fullScreenAuxiliary];window.isReleasedWhenClosed=false
         let view=SelectionView(frame:CGRect(origin:.zero,size:screen.frame.size));view.mode=mode
         let fallback=CGRect(x:screen.frame.midX-200,y:screen.frame.midY-150,width:400,height:300)
         let global=SelectionGeometry.clamped(lastRect ?? fallback,within:screen.frame)
-        view.rect=SelectionGeometry.valid(global) ? global.offsetBy(dx:-screen.frame.minX,dy:-screen.frame.minY) : fallback.offsetBy(dx:-screen.frame.minX,dy:-screen.frame.minY)
+        view.rect=mode == .drag ? .zero : (SelectionGeometry.valid(global) ? global.offsetBy(dx:-screen.frame.minX,dy:-screen.frame.minY) : fallback.offsetBy(dx:-screen.frame.minX,dy:-screen.frame.minY))
         view.cancel={ [weak self] in self?.finish() }
         view.selection={ [weak self] local in self?.perform(local.offsetBy(dx:screen.frame.minX,dy:screen.frame.minY),screen:screen) }
         window.contentView=view;overlay=window;guide?.orderOut(nil);NSApp.activate(ignoringOtherApps:true);window.makeKeyAndOrderFront(nil);window.makeFirstResponder(view)
     }
     private func perform(_ rect: CGRect, screen: NSScreen) {
         guard coordinator.state == .selecting else { return }; lastRect=rect
-        if let view=overlay?.contentView as? SelectionView { mode=view.mode;UserDefaults.standard.set(mode.rawValue,forKey:"mode") }
+        if let view=overlay?.contentView as? SelectionView { mode=view.mode;UserDefaults.standard.set(mode.rawValue,forKey:"mode");updateMenu() }
         overlay?.orderOut(nil)
         coordinator.confirm(capture:{ [capture] in try await capture.capture(rect:rect,screen:screen) },commit:{[weak self] image in try ClipboardService().store(image);self?.showCopied()},schedule:{ fire in
             let timer=Timer.scheduledTimer(withTimeInterval:12,repeats:false){_ in fire()};return {timer.invalidate()}
@@ -143,7 +142,7 @@ import Carbon
         refreshStatus();NSApp.activate(ignoringOtherApps:true);guide?.makeKeyAndOrderFront(nil)
     }
     @objc private func refreshStatus() {
-        guide?.refresh(permission:PermissionStatus(),shortcut:shortcut.label,login:loginStatusText,update:updater.statusText,automaticEnabled:updater.automaticallyChecksForUpdates,configured:updater.isConfigured,canCheck:updater.canCheckForUpdates)
+        guide?.refresh(permission:PermissionStatus(),shortcut:CaptureMenu.shortcutDisplay(shortcut),login:loginStatusText,loginEnabled:SMAppService.mainApp.status == .enabled,loginNeedsApproval:SMAppService.mainApp.status == .requiresApproval,update:updater.statusText,automaticEnabled:updater.automaticallyChecksForUpdates,configured:updater.isConfigured,canCheck:updater.canCheckForUpdates)
         if status != nil {updateMenu()}
     }
     @objc private func requestPermission() { _=CGRequestScreenCaptureAccess();refreshStatus() }

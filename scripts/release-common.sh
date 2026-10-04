@@ -3,6 +3,8 @@
 SHOTCLIP_REPOSITORY='kyungseok-lee/shotclip'
 SHOTCLIP_CANONICAL_FEED='https://github.com/kyungseok-lee/shotclip/releases/latest/download/appcast.xml'
 SHOTCLIP_CANONICAL_KEY='gbN8bdU/ElNPW3vAeX0BCAv4qokA1biQeOUgXNEhdac='
+SHOTCLIP_DISPLAY_NAME='Shot Clip'
+SHOTCLIP_APP_BUNDLE_NAME='Shot Clip.app'
 
 release_fail() { printf '%s\n' "$*" >&2; exit 1; }
 plist_value() { /usr/libexec/PlistBuddy -c "Print :$2" "$1"; }
@@ -64,12 +66,12 @@ release_reviewed_head() {
 release_verify_bundle() {
     local bundle="$1" commit="$2" plist="$1/Contents/Info.plist" signature resource_bundle
     [[ -d "$bundle" && ! -L "$bundle" ]] || release_fail 'Release app bundle is missing or a symlink.'
-    [[ "$(plist_value "$plist" CFBundleIdentifier)" == dev.shotclip.app && "$(plist_value "$plist" CFBundleExecutable)" == shotclip && "$(plist_value "$plist" CFBundleName)" == ShotClip && "$(plist_value "$plist" CFBundleDisplayName)" == ShotClip ]] || release_fail 'App name, identifier or executable differs from ShotClip metadata.'
-    [[ -f "$bundle/Contents/MacOS/shotclip" && ! -L "$bundle/Contents/MacOS/shotclip" ]] || release_fail 'ShotClip executable is missing or a symlink.'
+    [[ "$(plist_value "$plist" CFBundleIdentifier)" == dev.shotclip.app && "$(plist_value "$plist" CFBundleExecutable)" == shotclip && "$(plist_value "$plist" CFBundleName)" == "$SHOTCLIP_DISPLAY_NAME" && "$(plist_value "$plist" CFBundleDisplayName)" == "$SHOTCLIP_DISPLAY_NAME" ]] || release_fail 'App name, identifier or executable differs from Shot Clip metadata.'
+    [[ -f "$bundle/Contents/MacOS/shotclip" && ! -L "$bundle/Contents/MacOS/shotclip" ]] || release_fail 'Shot Clip executable is missing or a symlink.'
     [[ "$(plist_value "$plist" CFBundleShortVersionString)" == "$SHOTCLIP_VERSION" && "$(plist_value "$plist" CFBundleVersion)" == "$SHOTCLIP_BUILD_NUMBER" && "$(plist_value "$plist" SHOTCLIPSourceCommit)" == "$commit" ]] || release_fail 'Artifact version, build or source commit differs from reviewed release.'
     [[ "$(plist_value "$plist" SHOTCLIPReleaseMode)" == "$SHOTCLIP_RELEASE_MODE" ]] || release_fail 'Artifact release mode differs from the explicitly selected mode.'
     [[ "$(plist_value "$plist" SUFeedURL)" == "$SHOTCLIP_CANONICAL_FEED" && "$(plist_value "$plist" SUPublicEDKey)" == "$SHOTCLIP_CANONICAL_KEY" && "$(plist_value "$plist" SUVerifyUpdateBeforeExtraction)" == true && "$(plist_value "$plist" SURequireSignedFeed)" == true ]] || release_fail 'Artifact HTTPS feed, Ed25519 key or signed-update policy is invalid.'
-    [[ "$(plist_value "$plist" LSMinimumSystemVersion)" == 14.0 && "$(plist_value "$plist" CFBundleDevelopmentRegion)" == en ]] || release_fail 'ShotClip requires macOS 14+ and English development localization.'
+    [[ "$(plist_value "$plist" LSMinimumSystemVersion)" == 14.0 && "$(plist_value "$plist" CFBundleDevelopmentRegion)" == en ]] || release_fail 'Shot Clip requires macOS 14+ and English development localization.'
     [[ -d "$bundle/Contents" && ! -L "$bundle/Contents" && -d "$bundle/Contents/Resources" && ! -L "$bundle/Contents/Resources" ]] || release_fail 'App resource directory is missing or a symlink.'
     resource_bundle="$bundle/Contents/Resources/shotclip_shotclip.bundle"
     release_resource_directory "$resource_bundle" >/dev/null || release_fail 'English/Korean SwiftPM localization bundle is missing or unsafe.'

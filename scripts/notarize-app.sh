@@ -7,7 +7,7 @@ release_configuration
 release_reviewed_head >/dev/null
 : "${SHOTCLIP_NOTARY_PROFILE:?Set SHOTCLIP_NOTARY_PROFILE to an existing notarytool Keychain profile}"
 bash scripts/build-app.sh
-bundle="$(pwd)/dist/ShotClip.app"
+bundle="$(pwd)/dist/$SHOTCLIP_APP_BUNDLE_NAME"
 signature="$(codesign -dv "$bundle" 2>&1)"
 [[ "$signature" == *'Authority=Developer ID Application:'* && "$signature" == *"TeamIdentifier=$SHOTCLIP_RELEASE_TEAM_ID"* ]] || release_fail 'App is not signed with the expected Developer ID identity/team.'
 archive="$(pwd)/dist/shotclip-notarization.zip"

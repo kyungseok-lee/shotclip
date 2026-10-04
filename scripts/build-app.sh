@@ -10,17 +10,18 @@ if [[ "$release_mode" != development ]]; then
 elif [[ "$signing_identity" != '-' ]]; then
     release_fail 'Use explicit developer-id release mode for Developer ID signing.'
 fi
-version="${SHOTCLIP_VERSION:-0.4.1}"
-build_number="${SHOTCLIP_BUILD_NUMBER:-6}"
+version="${SHOTCLIP_VERSION:-0.5.0}"
+build_number="${SHOTCLIP_BUILD_NUMBER:-7}"
 [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ && "$build_number" =~ ^[1-9][0-9]*$ ]] || release_fail 'Version must be N.N.N; build number must be a positive integer.'
-if pgrep -x shotclip >/dev/null; then release_fail 'Quit ShotClip before rebuilding its app bundle.'; fi
+if pgrep -x shotclip >/dev/null; then release_fail 'Quit Shot Clip before rebuilding its app bundle.'; fi
 swift build -c release
 binary_dir="$(swift build -c release --show-bin-path)"
 framework="$(pwd)/.build/artifacts/sparkle/Sparkle/Sparkle.xcframework/macos-arm64_x86_64/Sparkle.framework"
 [[ -d "$framework" ]] || { printf '%s\n' 'Resolved Sparkle framework missing.' >&2; exit 1; }
 mkdir -p dist
 staging="$(mktemp -d "$(pwd)/dist/build.XXXXXX")"
-bundle="$staging/ShotClip.app"
+bundle="$staging/$SHOTCLIP_APP_BUNDLE_NAME"
+output_app="$(pwd)/dist/$SHOTCLIP_APP_BUNDLE_NAME"
 mkdir -p "$bundle/Contents/MacOS" "$bundle/Contents/Resources" "$bundle/Contents/Frameworks"
 cp "$binary_dir/shotclip" "$bundle/Contents/MacOS/shotclip"
 cp resources/Info.plist "$bundle/Contents/Info.plist"
@@ -49,11 +50,11 @@ else
     codesign "${sign_options[@]}" "$bundle"
 fi
 codesign --verify --deep --strict "$bundle"
-if pgrep -x shotclip >/dev/null; then release_fail 'ShotClip started during the build; refusing to replace a potentially running bundle.'; fi
-[[ ! -L dist/ShotClip.app ]] || release_fail 'dist/ShotClip.app is a symlink; refusing replacement.'
-if [[ -e dist/ShotClip.app ]]; then mv dist/ShotClip.app "$staging/previous-ShotClip.app"; fi
-if ! mv "$bundle" dist/ShotClip.app; then
-    if [[ -d "$staging/previous-ShotClip.app" && ! -e dist/ShotClip.app ]]; then mv "$staging/previous-ShotClip.app" dist/ShotClip.app; fi
+if pgrep -x shotclip >/dev/null; then release_fail 'Shot Clip started during the build; refusing to replace a potentially running bundle.'; fi
+[[ ! -L "$output_app" ]] || release_fail 'Output app is a symlink; refusing replacement.'
+if [[ -e "$output_app" ]]; then mv "$output_app" "$staging/previous-$SHOTCLIP_APP_BUNDLE_NAME"; fi
+if ! mv "$bundle" "$output_app"; then
+    if [[ -d "$staging/previous-$SHOTCLIP_APP_BUNDLE_NAME" && ! -e "$output_app" ]]; then mv "$staging/previous-$SHOTCLIP_APP_BUNDLE_NAME" "$output_app"; fi
     exit 1
 fi
 fixture="$staging/shotclip-fixture.app"
@@ -62,12 +63,12 @@ cp "$binary_dir/shotclip-fixture" "$fixture/Contents/MacOS/shotclip-fixture"
 cp resources/Info.plist "$fixture/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c 'Set :CFBundleIdentifier dev.shotclip.fixture' "$fixture/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c 'Set :CFBundleExecutable shotclip-fixture' "$fixture/Contents/Info.plist"
-/usr/libexec/PlistBuddy -c 'Set :CFBundleName ShotClip Fixture' "$fixture/Contents/Info.plist"
-/usr/libexec/PlistBuddy -c 'Set :CFBundleDisplayName ShotClip Fixture' "$fixture/Contents/Info.plist"
+/usr/libexec/PlistBuddy -c 'Set :CFBundleName Shot Clip Fixture' "$fixture/Contents/Info.plist"
+/usr/libexec/PlistBuddy -c 'Set :CFBundleDisplayName Shot Clip Fixture' "$fixture/Contents/Info.plist"
 codesign --force --sign - "$fixture"
 codesign --verify --deep --strict "$fixture"
 if pgrep -x shotclip-fixture >/dev/null; then release_fail 'Quit shotclip-fixture before replacing the fixture bundle.'; fi
 [[ ! -L dist/shotclip-fixture.app ]] || release_fail 'Fixture target is a symlink.'
 if [[ -e dist/shotclip-fixture.app ]]; then mv dist/shotclip-fixture.app "$staging/previous-shotclip-fixture.app"; fi
 mv "$fixture" dist/shotclip-fixture.app
-printf '%s\n' "$(pwd)/dist/ShotClip.app"
+printf '%s\n' "$output_app"

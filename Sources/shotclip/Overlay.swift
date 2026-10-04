@@ -11,9 +11,17 @@ final class OverlayWindow: NSWindow {
     override var canBecomeMain: Bool { true }
 }
 final class SelectionView: NSView {
-    var mode: SelectionMode = .mask {
+    var mode: SelectionMode = .drag {
         didSet {
-            modeControl.selectedSegment=mode == .mask ? 0:1
+            if mode == .drag {
+                if SelectionGeometry.valid(rect) {rememberedRect=rect}
+                rect = .zero
+            }
+            else if !SelectionGeometry.valid(rect) {
+                rect=SelectionGeometry.clamped(rememberedRect ?? CGRect(x:bounds.midX-200,y:bounds.midY-150,width:400,height:300),within:bounds)
+            }
+            window?.invalidateCursorRects(for:self)
+            modeControl.selectedSegment=mode == .drag ? 0:1
             captureButton.isHidden=mode == .drag
             if mode == .drag,window?.firstResponder === captureButton {window?.makeFirstResponder(self)}
             updateAccessibility();needsDisplay=true
@@ -22,18 +30,32 @@ final class SelectionView: NSView {
     var rect=CGRect.zero {didSet {updateAccessibility()}}
     var selection: ((CGRect) -> Void)?
     var cancel: (() -> Void)?
+    private var rememberedRect:CGRect?
     private var origin=CGPoint.zero
     private var original=CGRect.zero
     private var handle: Int?
     private var movable=false
     private lazy var captureButton=NSButton(title:L10n.text("capture.start"),target:self,action:#selector(confirm))
     private lazy var cancelButton=NSButton(title:L10n.text("action.cancel"),target:self,action:#selector(cancelSelection))
-    private lazy var modeControl=NSSegmentedControl(labels:[L10n.text("capture.fixed"),L10n.text("capture.drag")],trackingMode:.selectOne,target:self,action:#selector(selectCaptureMode))
+    private lazy var modeControl=NSSegmentedControl(labels:[L10n.text("capture.area"),L10n.text("capture.fixed")],trackingMode:.selectOne,target:self,action:#selector(selectCaptureMode))
+    private let toolbar = SelectionToolbar()
+    private let hint = NSTextField(labelWithString: "")
+    private let dimensions = NSTextField(labelWithString: "")
     override init(frame frameRect:NSRect) {
         super.init(frame:frameRect)
-        captureButton.frame=CGRect(x:30,y:95,width:100,height:32);cancelButton.frame=CGRect(x:145,y:95,width:100,height:32)
-        modeControl.frame=CGRect(x:260,y:95,width:260,height:32);modeControl.selectedSegment=0
-        addSubview(captureButton);addSubview(cancelButton);addSubview(modeControl)
+        toolbar.appearance=NSAppearance(named:.vibrantDark)
+        addSubview(toolbar)
+        hint.font = .systemFont(ofSize:12,weight:.medium);hint.textColor = .white
+        hint.setContentCompressionResistancePriority(.defaultLow,for:.horizontal)
+        dimensions.font = .monospacedSystemFont(ofSize:11,weight:.medium);dimensions.textColor = .white
+        let top=NSStackView(views:[hint,NSView(),dimensions]);top.orientation = .horizontal;top.spacing=12;top.alignment = .centerY
+        let controls=NSStackView(views:[modeControl,NSView(),cancelButton,captureButton]);controls.orientation = .horizontal;controls.spacing=8;controls.alignment = .centerY
+        let content=NSStackView(views:[top,controls]);content.orientation = .vertical;content.spacing=10;content.alignment = .leading
+        toolbar.addSubview(content);content.translatesAutoresizingMaskIntoConstraints=false
+        top.translatesAutoresizingMaskIntoConstraints=false;controls.translatesAutoresizingMaskIntoConstraints=false
+        NSLayoutConstraint.activate([content.leadingAnchor.constraint(equalTo:toolbar.leadingAnchor,constant:16),content.trailingAnchor.constraint(equalTo:toolbar.trailingAnchor,constant:-16),content.topAnchor.constraint(equalTo:toolbar.topAnchor,constant:14),content.bottomAnchor.constraint(equalTo:toolbar.bottomAnchor,constant:-14),top.widthAnchor.constraint(equalTo:content.widthAnchor),controls.widthAnchor.constraint(equalTo:content.widthAnchor)])
+        captureButton.bezelStyle = .rounded;captureButton.bezelColor = .controlAccentColor;cancelButton.bezelStyle = .rounded
+        modeControl.selectedSegment=0
         captureButton.setAccessibilityLabel(L10n.text("capture.start"));cancelButton.setAccessibilityLabel(L10n.text("action.cancel"))
         modeControl.setAccessibilityLabel(L10n.text("overlay.mode_label"));modeControl.setAccessibilityHelp(L10n.text("overlay.mode_help"))
         setAccessibilityElement(true);setAccessibilityRole(.group);setAccessibilityLabel(L10n.text("overlay.title"))
@@ -43,8 +65,15 @@ final class SelectionView: NSView {
     required init?(coder:NSCoder) { fatalError("init(coder:) is unavailable") }
     @objc private func confirm() { if SelectionGeometry.valid(rect) { selection?(rect) } }
     @objc private func cancelSelection() { cancel?() }
-    @objc private func selectCaptureMode() {mode=modeControl.selectedSegment == 0 ? .mask:.drag}
+    @objc private func selectCaptureMode() {mode=modeControl.selectedSegment == 0 ? .drag:.mask}
+    override func layout() {
+        super.layout()
+        let width=min(620,max(0,bounds.width-32));toolbar.frame=CGRect(x:max(16,(bounds.width-width)/2),y:24,width:width,height:91)
+    }
+    override func resetCursorRects() {addCursorRect(bounds,cursor:mode == .drag ? .crosshair:.arrow)}
     private func updateAccessibility() {
+        hint.stringValue=L10n.text(mode == .mask ? "overlay.mask_help":"overlay.drag_help")
+        dimensions.stringValue=SelectionGeometry.valid(rect) ? L10n.format("overlay.dimensions",Double(rect.width),Double(rect.height)):""
         setAccessibilityHelp(L10n.text(mode == .mask ? "overlay.mask_help":"overlay.drag_help"))
         setAccessibilityValue(L10n.format("overlay.selection_value",Double(rect.width),Double(rect.height),Double(rect.minX),Double(rect.minY)))
     }
@@ -60,18 +89,16 @@ final class SelectionView: NSView {
     override func draw(_ dirtyRect: NSRect) {
         NSColor.black.withAlphaComponent(0.35).setFill(); let shade=NSBezierPath(rect:bounds);shade.append(NSBezierPath(rect:rect));shade.windingRule = .evenOdd;shade.fill()
         captureButton.isHidden=mode == .drag
-        let path=NSBezierPath(rect:rect);NSColor.black.setStroke();path.lineWidth=4;path.stroke()
-        NSColor.white.setStroke();path.lineWidth=2;path.stroke()
+        guard SelectionGeometry.valid(rect) else {return}
+        let path=NSBezierPath(rect:rect);NSColor.black.withAlphaComponent(0.6).setStroke();path.lineWidth=3;path.stroke()
+        NSColor.white.setStroke();path.lineWidth=1.5;path.stroke()
         if window?.firstResponder === self {NSColor.keyboardFocusIndicatorColor.setStroke();let focus=NSBezierPath(rect:rect.insetBy(dx:-4,dy:-4));focus.lineWidth=2;focus.stroke()}
         if mode == .mask {
-            NSColor.white.setFill(); for p in handles { NSBezierPath(rect:CGRect(x:p.x-4,y:p.y-4,width:8,height:8)).fill() }
+            for point in handles {
+                let handle=NSBezierPath(roundedRect:CGRect(x:point.x-4,y:point.y-4,width:8,height:8),xRadius:2,yRadius:2)
+                NSColor.white.setFill();handle.fill();NSColor.controlAccentColor.setStroke();handle.lineWidth=1.5;handle.stroke()
+            }
         }
-        let reduceTransparency=NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency
-        NSColor.black.withAlphaComponent(reduceTransparency ? 1:0.88).setFill()
-        NSBezierPath(roundedRect:CGRect(x:16,y:16,width:min(bounds.width-32,940),height:128),xRadius:8,yRadius:8).fill()
-        let text=L10n.text(mode == .mask ? "overlay.mask_help":"overlay.drag_help")
-        (text as NSString).draw(in:CGRect(x:30,y:30,width:min(bounds.width-60,900),height:27),withAttributes:[.foregroundColor:NSColor.white,.font:NSFont.systemFont(ofSize:14,weight:.semibold)])
-        (L10n.text("overlay.display_help") as NSString).draw(in:CGRect(x:30,y:60,width:min(bounds.width-60,900),height:28),withAttributes:[.foregroundColor:NSColor.white,.font:NSFont.systemFont(ofSize:12)])
     }
     override func mouseDown(with event: NSEvent) {
         origin=convert(event.locationInWindow,from:nil); original=rect
@@ -101,11 +128,21 @@ final class SelectionView: NSView {
         case .focusNext:window?.selectNextKeyView(self)
         case .focusPrevious:window?.selectPreviousKeyView(self)
         case .move:
+            guard SelectionGeometry.valid(rect) else {return}
             let d:CGFloat=event.modifierFlags.contains(.shift) ? 10 : 1
             let delta=CGSize(width:event.keyCode == 123 ? -d : event.keyCode == 124 ? d : 0,height:event.keyCode == 125 ? -d : event.keyCode == 126 ? d : 0)
             if event.modifierFlags.contains(.option) { rect=SelectionGeometry.resized(rect,corner:.topRight,by:delta,within:bounds) }
             else { rect=SelectionGeometry.translated(rect,by:delta,within:bounds) };needsDisplay=true
         case nil: super.keyDown(with:event)
         }
+    }
+}
+
+private final class SelectionToolbar:NSView {
+    override func draw(_ dirtyRect:NSRect) {
+        let opacity:CGFloat=NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency ? 1:0.9
+        let path=NSBezierPath(roundedRect:bounds.insetBy(dx:0.5,dy:0.5),xRadius:14,yRadius:14)
+        NSColor(calibratedWhite:0.09,alpha:opacity).setFill();path.fill()
+        NSColor.white.withAlphaComponent(0.15).setStroke();path.lineWidth=1;path.stroke()
     }
 }

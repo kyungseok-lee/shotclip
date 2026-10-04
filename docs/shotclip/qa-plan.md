@@ -1,4 +1,4 @@
-# ShotClip QA plan
+# Shot Clip QA plan
 
 [Trace](verification.md) · [Results](qa-results.md) · [Update operations](update-operations.md) · [한국어](#한국어)
 
@@ -11,11 +11,15 @@ From the repository root:
 ```sh
 swift test
 swift scripts/test-release-manifest.swift
+python3 scripts/test-install-migration.py
+python3 scripts/test-release-archive.py
+bash scripts/test-release-gates.sh
+bash scripts/test-resource-bundle.sh
 bash -n scripts/build-app.sh scripts/install-app.sh scripts/prepare-update.sh scripts/prepare-github-release.sh scripts/publish-github-release.sh
 plutil -lint resources/Info.plist
 git diff --check
 bash scripts/build-app.sh
-codesign --verify --deep --strict dist/ShotClip.app
+codesign --verify --deep --strict 'dist/Shot Clip.app'
 ```
 
 Do not replace a running app or run signing/build changes from an uncontrolled parallel task. Record the actual test count/environment/commit when performed. Inspect sealed bundle identity/executable/version, en/ko resources, unchanged public key, canonical HTTPS URL, and required signed feed/update flags. An ad-hoc local signature check is not a Gatekeeper or notarization pass.
@@ -29,15 +33,27 @@ Do not replace a running app or run signing/build changes from an uncontrolled p
 | Migration / language | Only valid shortcut/mode migrate; destination wins; malformed/second-run ignored; no consent/login/updater/key copy; English default and en/ko parity/fallback/persistence |
 | Release | Explicit preview mode and reviewed commit; source/tag/version/manifest/hash agreement; tampered archive/feed rejection; safe archive layout; no Keychain access in publisher |
 
+## Inert native layout previews
+
+After an authorized build, use the actual product views with inert callbacks:
+
+```sh
+'dist/Shot Clip.app/Contents/MacOS/shotclip' --ui-preview dist/ui-qa/en-light --language en --appearance light
+'dist/Shot Clip.app/Contents/MacOS/shotclip' --ui-preview dist/ui-qa/ko-dark --language ko --appearance dark
+```
+
+Repeat for `en`/`ko` × `light`/`dark`. Inspect all panes at default/minimum sizes, access-ready/unavailable, collapsed/expanded troubleshooting, pending language/login and update-busy states, and selection toolbar. The renderer runs before preferences/AppDelegate: no hotkey/updater/TCC/capture/clipboard or desktop screenshot. Output is synthetic view artwork under ignored `dist/`. The menu image draws the shared NSMenu model and does **not** prove native popup interaction. Only the remembered-mode row shows the current-layout physical-key/modifier shortcut hint; Carbon owns the global binding and no extra native capture key equivalent is invented. Direct binary launch here applies only to the inert preview, not real capture/TCC testing.
+
 ## User’s short acceptance check
 
-1. Open `/Applications/ShotClip.app`. For a downloaded preview, verify the source and follow Apple’s [per-app first-launch flow](https://support.apple.com/en-us/102445) if needed.
-2. Choose capture, request Screen Recording, allow **ShotClip**, return and Check Again; restart if access is still unavailable. Denial must preserve usable settings and the clipboard.
+1. Open `/Applications/Shot Clip.app`. For a downloaded preview, verify the source and follow Apple’s [per-app first-launch flow](https://support.apple.com/en-us/102445) if needed.
+2. Choose capture, request Screen Recording, allow **Shot Clip**, return and Check Again; restart if access is still unavailable. Denial must preserve usable settings and the clipboard.
 3. Move/resize Fixed Region, capture with Return/Capture, and paste in an image-capable app. Repeat in Drag Region, including a reverse drag.
 4. Put nonsensitive synthetic content on the clipboard, cancel with Escape, and inspect that the prior content remains. Do not submit the content.
 5. With another app active, check `⌃⇧⌘5`; change the shortcut and restart to check persistence. M switches mode; Tab/Shift-Tab reaches controls with visible focus.
 6. Set 한국어 in General, restart, and inspect menu/settings/overlay/errors/labels; switch back to English. Compare minimum-size and light/dark layouts.
-7. For a historical Sshot installation, install ShotClip manually once, check only selected preference migration, and grant fresh Screen Recording. Do not assume login registration or permission was migrated.
+7. For a historical Sshot installation, install Shot Clip manually once, check only selected preference migration, and grant fresh Screen Recording. Do not assume login registration or permission was migrated.
+8. For ShotClip 0.4.x, manually install the verified `Shot Clip.app` folder and check existing valid settings remain. The same ID needs no new defaults migration; ad-hoc replacement may still need permission reapproval.
 
 Report only version, case ID, mode, permission status, error code/message, expected/actual result, and reproduction steps. No screen images, app/window names, clipboard content, or passwords.
 
@@ -47,7 +63,7 @@ After granting access to the built product:
 
 ```sh
 qa_output_dir=$(mktemp -d)
-open -n -W -o "$qa_output_dir/self-test.json" dist/ShotClip.app --args --self-test
+open -n -W -o "$qa_output_dir/self-test.json" 'dist/Shot Clip.app' --args --self-test
 sed -n '1,200p' "$qa_output_dir/self-test.json"
 ```
 
@@ -63,6 +79,6 @@ Verify Ed25519-signed archive **and feed**, uploaded bytes, source/tag consisten
 
 에이전트는 코드 리뷰·빠른 자동/정적 검증을 맡고 실제 캡처·권한·붙여 넣기는 사용자가 맡습니다. 위 명령과 절차는 계획이며 실행 결과가 아닙니다. VoiceOver/포커스 GUI도 미실행입니다.
 
-짧은 체크는 ShotClip 실행 → 새 화면 기록 허용 → 고정/드래그 캡처·붙여 넣기 → Escape의 기존 내용 보존 → 단축키/M/Tab → 영어/한국어 재시작 적용 → 과거 앱의 수동 설치와 선택 설정 이전 순서입니다. 문제 공유에는 버전·오류·재현 순서만 필요하고 화면·클립보드 내용은 필요하지 않습니다.
+짧은 체크는 Shot Clip 실행 → 새 화면 기록 허용 → 고정/드래그 캡처·붙여 넣기 → Escape의 기존 내용 보존 → 단축키/M/Tab → 영어/한국어 재시작 적용 → 과거 앱의 수동 설치와 선택 설정 이전 순서입니다. 문제 공유에는 버전·오류·재현 순서만 필요하고 화면·클립보드 내용은 필요하지 않습니다.
 
 harness는 합성 화면·고유 named pasteboard와 메타데이터만 사용합니다. SKIP은 PASS가 아닙니다. 실제 업그레이드·다중 화면·다른 OS/CPU 지원을 자동 테스트로 대신하지 않으며, 승인된 ad-hoc 프리뷰에는 기존 키로 archive/feed 서명과 원격 산출물 일치를 확인합니다.

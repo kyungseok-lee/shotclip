@@ -21,27 +21,27 @@ with zipfile.ZipFile(sys.argv[1]) as archive:
         if name in names or "\\" in name or name.startswith("/") or any(part in ("", ".", "..") for part in name.split("/")):
             fail("Release archive contains a duplicate or unsafe path")
         names.add(name)
-        if not (name == "ShotClip.app" or name.startswith("ShotClip.app/") or name == "__MACOSX" or name == "__MACOSX/ShotClip.app" or name.startswith("__MACOSX/ShotClip.app/") or name == "__MACOSX/._ShotClip.app"):
-            fail("Release ZIP must contain only ShotClip.app and its resource-fork metadata")
+        if not (name == "Shot Clip.app" or name.startswith("Shot Clip.app/") or name == "__MACOSX" or name == "__MACOSX/Shot Clip.app" or name.startswith("__MACOSX/Shot Clip.app/") or name == "__MACOSX/._Shot Clip.app"):
+            fail("Release ZIP must contain only Shot Clip.app and its resource-fork metadata")
         file_type = stat.S_IFMT(item.external_attr >> 16)
-        if name == "__MACOSX/ShotClip.app" and (not item.is_dir() or file_type not in (0, stat.S_IFDIR)):
+        if name == "__MACOSX/Shot Clip.app" and (not item.is_dir() or file_type not in (0, stat.S_IFDIR)):
             fail("Release archive metadata app root must be a directory")
         if file_type not in (0, stat.S_IFREG, stat.S_IFDIR, stat.S_IFLNK):
             fail("Release archive contains a special file")
         if file_type == stat.S_IFLNK:
-            if not name.startswith("ShotClip.app/") or item.file_size > 4096:
+            if not name.startswith("Shot Clip.app/") or item.file_size > 4096:
                 fail("Release archive has an unsafe symbolic link")
             target = archive.read(item).decode("utf-8")
             resolved = posixpath.normpath(posixpath.join(posixpath.dirname(name), target))
             # Sparkle's framework links use forward-only relative targets. Reject '..'
             # even when lexical normalization looks safe: another link can change its meaning.
-            if not target or target.startswith("/") or ".." in target.split("/") or "\\" in target or "\0" in target or not resolved.startswith("ShotClip.app/"):
+            if not target or target.startswith("/") or ".." in target.split("/") or "\\" in target or "\0" in target or not resolved.startswith("Shot Clip.app/"):
                 fail("Release archive symbolic link escapes the app bundle")
             symlinks.add(name)
     for name in names:
         if any(parent in symlinks for parent in ("/".join(name.split("/")[:i]) for i in range(1, len(name.split("/"))))):
             fail("Release archive writes through a symbolic-link parent")
-    if "ShotClip.app/Contents/Info.plist" not in names or "ShotClip.app/Contents/MacOS/shotclip" not in names:
-        fail("Release archive is missing ShotClip metadata or executable")
+    if "Shot Clip.app/Contents/Info.plist" not in names or "Shot Clip.app/Contents/MacOS/shotclip" not in names:
+        fail("Release archive is missing Shot Clip metadata or executable")
     if archive.testzip() is not None:
         fail("Release archive CRC verification failed")

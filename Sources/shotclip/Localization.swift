@@ -5,9 +5,18 @@ import Darwin
 enum L10n {
     static let languageKey = AppPreferences.languageKey
     private static let defaults = UserDefaults(suiteName: SafeDefaultsMigration.currentDomain) ?? .standard
-    static let language = AppLanguage.resolve(defaults.persistentDomain(forName: SafeDefaultsMigration.currentDomain)?[languageKey] as? String)
+    // Preview language is selected before any preference lookup. It never writes
+    // the user's persistent language or invokes the normal app startup path.
+    private static var previewLanguage: AppLanguage? {
+        guard CommandLine.arguments.contains("--ui-preview"),
+              let index = CommandLine.arguments.firstIndex(of: "--language"),
+              CommandLine.arguments.indices.contains(index + 1) else { return nil }
+        return AppLanguage(rawValue: CommandLine.arguments[index + 1])
+    }
+    static let language = previewLanguage ?? AppLanguage.resolve(defaults.persistentDomain(forName: SafeDefaultsMigration.currentDomain)?[languageKey] as? String)
     static var selectedLanguage: AppLanguage {
-        AppLanguage.resolve(defaults.persistentDomain(forName: SafeDefaultsMigration.currentDomain)?[languageKey] as? String)
+        if let previewLanguage { return previewLanguage }
+        return AppLanguage.resolve(defaults.persistentDomain(forName: SafeDefaultsMigration.currentDomain)?[languageKey] as? String)
     }
     static var selection: LanguageSelection { LanguageSelection(active: language, selected: selectedLanguage) }
     static let bundle: Bundle = {

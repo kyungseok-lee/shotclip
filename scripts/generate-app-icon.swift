@@ -129,11 +129,6 @@ func drawIcon(_ art: Artwork, small: Bool = false) {
     art.gradient(tile, 0x5285FA, 0x14379F, angle: -64)
     if !small {
         art.stroke(rounded(99, 99, 826, 826, 182), 0xD1E8FF, width: 3, alpha: 0.35)
-        // A restrained upper glint gives the flattened legacy tile a material edge.
-        let glint = NSBezierPath()
-        glint.move(to: NSPoint(x: 170, y: 821))
-        glint.curve(to: NSPoint(x: 850, y: 821), controlPoint1: NSPoint(x: 360, y: 950), controlPoint2: NSPoint(x: 660, y: 950))
-        art.stroke(glint, 0xE2F1FF, width: 4, alpha: 0.20)
     }
     let frameWidth: CGFloat = small ? 63 : 55
     for (x, y, dx, dy) in [(249.0, 729.0, 135.0, -126.0), (745.0, 729.0, -135.0, -126.0),
@@ -148,24 +143,17 @@ func drawIcon(_ art: Artwork, small: Bool = false) {
         art.shadow(0x071D60, alpha: 0.38, blur: small ? 20 : 30, x: 5, y: -17) { art.fill(card, 0xFFFFFF) }
         art.gradient(card, 0xFFFFFF, 0xE5EEFF, angle: -85)
         if !small { art.stroke(rounded(362, 224, 384, 482, 40), 0xFFFFFF, width: 3, alpha: 0.78) }
-        let picture = rounded(402, 309, 304, 298, 22)
-        art.gradient(picture, 0xDAF3FF, 0xA8D2F9, angle: -82)
-        if !small {
-            NSGraphicsContext.saveGraphicsState()
-            picture.addClip()
-            art.elements.append("<clipPath id=\"pictureClip\"><path d=\"\(svgPath(picture))\"/></clipPath><g clip-path=\"url(#pictureClip)\">")
-            art.fill(NSBezierPath(ovalIn: NSRect(x: 620, y: 512, width: 49, height: 49)), 0xFFFFFF, alpha: 0.94)
-            let distant = path([(396,313), (396,403), (493,520), (614,381), (674,450), (722,393), (722,313)], close: true)
-            art.gradient(distant, 0x57B3DC, 0x2C78C4, angle: -70)
-            let foreground = path([(396,309), (396,350), (485,432), (572,353), (634,413), (719,330), (719,309)], close: true)
-            art.gradient(foreground, 0x3DD6C4, 0x2F95AE, angle: -65)
-            art.elements.append("</g>")
-            NSGraphicsContext.restoreGraphicsState()
-            art.fill(rounded(470, 264, 169, 10, 5), 0xC0D0E6)
-        } else {
-            // One broad mountain remains an image cue without noisy tiny details.
-            art.fill(path([(405,312), (550,489), (700,312)], close: true), 0x33BDBB)
-        }
+        // A captured region and offset copy sheet, shared with the menu mark.
+        // No landscape/photo-editor cue: the symbol describes capture and copy.
+        let region = rounded(417, 357, 229, 240, 20)
+        art.gradient(region, 0x82B0F8, 0x4575D7, angle: -90)
+        art.stroke(region, 0x2450A4, width: small ? 15 : 10, alpha: 0.24)
+        let sheet = rounded(484, 311, 192, 224, 19)
+        art.shadow(0x183E91, alpha: 0.20, blur: 13, x: 2, y: -7) { art.fill(sheet, 0xFFFFFF) }
+        art.gradient(sheet, 0xF8FFFF, 0xDCF6EF, angle: -90)
+        art.stroke(path([(526,473), (631,473)]), 0x338CBA, width: small ? 18 : 15)
+        art.stroke(path([(526,431), (607,431)]), 0x338CBA, width: small ? 18 : 15)
+        if !small { art.fill(rounded(470, 264, 169, 10, 5), 0xC0D0E6) }
         // A broad mint clip bridges the paper edge and gives the brand its “Clip”.
         let clip = rounded(471, 655, 168, 77, 23)
         art.shadow(0x10245B, alpha: 0.20, blur: 12, y: -8) { art.fill(clip, 0x123479) }
@@ -179,7 +167,7 @@ func render(width: Int, height: Int, logicalWidth: Int, logicalHeight: Int, draw
         bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false,
         colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0),
         let context = NSGraphicsContext(bitmapImageRep: bitmap) else {
-        throw NSError(domain: "ShotClipArtwork", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unable to create image context"])
+        throw NSError(domain: "Shot ClipArtwork", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unable to create image context"])
     }
     bitmap.size = NSSize(width: width, height: height)
     NSGraphicsContext.saveGraphicsState(); NSGraphicsContext.current = context
@@ -187,7 +175,7 @@ func render(width: Int, height: Int, logicalWidth: Int, logicalHeight: Int, draw
     context.cgContext.scaleBy(x: CGFloat(width)/CGFloat(logicalWidth), y: CGFloat(height)/CGFloat(logicalHeight))
     let art = Artwork(); drawing(art)
     guard let data = bitmap.representation(using: .png, properties: [:]) else {
-        throw NSError(domain: "ShotClipArtwork", code: 2, userInfo: [NSLocalizedDescriptionKey: "Unable to encode PNG"])
+        throw NSError(domain: "Shot ClipArtwork", code: 2, userInfo: [NSLocalizedDescriptionKey: "Unable to encode PNG"])
     }
     return (data, art)
 }
@@ -208,15 +196,15 @@ if hasBrandOutput {
     try FileManager.default.createDirectory(at: brand, withIntermediateDirectories: true)
     let (icon, iconArt) = try render(width: 1024, height: 1024, logicalWidth: 1024, logicalHeight: 1024) { drawIcon($0) }
     try icon.write(to: brand.appendingPathComponent("shotclip-icon.png"))
-    try iconArt.svg(width: 1024, height: 1024, title: "ShotClip app icon",
-                    description: "Mint capture corners surround an ivory clipped image card on a cobalt tile.")
+    try iconArt.svg(width: 1024, height: 1024, title: "Shot Clip app icon",
+                    description: "Mint capture corners surround an ivory clipboard with an offset copy sheet on a cobalt tile.")
         .write(to: brand.appendingPathComponent("shotclip-icon.svg"), atomically: true, encoding: .utf8)
     let (hero, heroArt) = try render(width: 1600, height: 800, logicalWidth: 1600, logicalHeight: 800) { art in
         art.gradient(rounded(0, 0, 1600, 800, 0), 0xFAFCFF, 0xECF3FF, angle: -18)
         art.fill(NSBezierPath(ovalIn: NSRect(x: 1000, y: -155, width: 660, height: 660)), 0xD9F4EF, alpha: 0.54)
         art.fill(NSBezierPath(ovalIn: NSRect(x: 1150, y: 442, width: 650, height: 650)), 0xDBE7FF, alpha: 0.66)
         art.text("CAPTURE TO CLIPBOARD", at: NSPoint(x: 112, y: 635), size: 19, weight: .semibold, value: 0x267B8B)
-        art.text("ShotClip", at: NSPoint(x: 106, y: 512), size: 104, weight: .bold, value: 0x172852)
+        art.text("Shot Clip", at: NSPoint(x: 106, y: 512), size: 96, weight: .bold, value: 0x172852)
         art.text("Capture. Copy. Continue.", at: NSPoint(x: 112, y: 443), size: 38, weight: .medium, value: 0x2C446C)
         art.text("Keep your ideas moving.", at: NSPoint(x: 114, y: 360), size: 28, weight: .regular, value: 0x657894)
         art.text("One small utility for macOS.", at: NSPoint(x: 114, y: 320), size: 28, weight: .regular, value: 0x657894)
@@ -235,9 +223,9 @@ if hasBrandOutput {
         art.transformed(placement, svg: "translate(952 107) scale(0.56)") { drawIcon(art) }
     }
     try hero.write(to: brand.appendingPathComponent("shotclip-hero.png"))
-    try heroArt.svg(width: 1600, height: 800, title: "ShotClip — Capture. Copy. Continue.",
-                    description: "Original illustration of the ShotClip capture-and-clipboard icon beside a Select, Capture, Paste flow. English and Korean supported. No captured screen content.")
+    try heroArt.svg(width: 1600, height: 800, title: "Shot Clip — Capture. Copy. Continue.",
+                    description: "Original illustration of the Shot Clip capture-and-copy-sheet icon beside a Select, Capture, Paste flow. English and Korean supported. No captured screen content.")
         .write(to: brand.appendingPathComponent("shotclip-hero.svg"), atomically: true, encoding: .utf8)
-    print("Generated original ShotClip brand SVG/PNG assets")
+    print("Generated original Shot Clip brand SVG/PNG assets")
 }
-print("Generated original ShotClip icon: 10 PNG representations, 16–1024 pixels")
+print("Generated original Shot Clip icon: 10 PNG representations, 16–1024 pixels")

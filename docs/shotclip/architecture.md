@@ -1,4 +1,4 @@
-# ShotClip architecture and decisions
+# Shot Clip architecture and decisions
 
 [Design system](design-system.md) · [Development plan](development-plan.md) · [Technical evidence](technical-validation.md) · [한국어](#한국어)
 
@@ -31,11 +31,11 @@ Encode before touching the clipboard. Snapshot all existing item/type data (limi
 
 ## Identity, permission, and privacy
 
-Target bundle `dev.shotclip.app`, executable `shotclip`, installation `/Applications/ShotClip.app`. Migrate only selected validated legacy defaults while preserving new values. Do not migrate Screen Recording consent, entire domains, login registration, or update trust. The new identity expects fresh TCC permission; ad-hoc replacements may need regrant. No TCC reset/DB editing or permission bypass.
+Display name Shot Clip; unchanged bundle `dev.shotclip.app`, executable `shotclip`; canonical installation `/Applications/Shot Clip.app`. The installer verifies the new app before recoverably backing up prior `ShotClip.app` and historical `sshot.app`, with rollback of all paths. The 0.4.x domain/settings/key remain; only historical `dev.sshot.app` needs selected validated-default migration. No whole-domain, Screen Recording, login or trust migration. Ad-hoc replacement may need regrant; no TCC reset/DB editing or bypass. Stock Sparkle may retain its old host path; canonical folder migration is manual.
 
 English defaults; a saved `en` / `ko` choice applies after restart to app-owned surfaces. Use native semantic tokens and labeled status/recovery, with M for mode and native Tab focus. System Settings/Sparkle-owned language behavior is separate.
 
-Images remain in memory, with no storage/upload. Do not log capture/screen/clipboard content, observed app names, or window titles. Diagnostics/harness may report safe case IDs, state, error codes, dimensions, or sample-match booleans. Exposing ShotClip’s own path in a recovery view does not authorize logging it.
+Images remain in memory, with no storage/upload. Do not log capture/screen/clipboard content, observed app names, or window titles. Diagnostics/harness may report safe case IDs, state, error codes, dimensions, or sample-match booleans. Exposing Shot Clip’s own path in a recovery view does not authorize logging it.
 
 ## Decision register
 
@@ -51,8 +51,8 @@ Images remain in memory, with no storage/upload. Do not log capture/screen/clipb
 | D08 | GitHub ad-hoc developer preview | Supersedes Developer ID prerequisite; no notarization claim |
 | D09 | Running menu bar process; opt-in login | First launch needed; no quit-state launcher |
 | D10 | Sparkle, canonical HTTPS, existing Ed25519 archive/feed signing | Historical local cryptographic QA; new public assets/upgrades unverified |
-| D11 | Native settings/icon/semantic tokens | Historical 0.3.0 UI evidence; ShotClip GUI/accessibility checks separate |
-| D12 | New ShotClip identity and allowlisted defaults migration | Approved 2026-10-05; fresh TCC regrant and actual migration checks required |
+| D11 | Capture-first native menu, compact settings/toolbar, crop-copy icon | Approved 0.5 design; inert native layout previews separate from capture/accessibility QA |
+| D12 | Stable Shot Clip identity with verified folder/display rename | Approved 0.5; same-ID settings/key retained, historical allowlist migration retained; signed fixture rollback/identity checks required |
 | D13 | English default, explicit Korean, restart applies | Approved 2026-10-05; resource/text/persistence checks required |
 | D14 | Source/tag/artifact alignment and explicit preview disclosure | Approved preview route; no key export/rotation, no fabricated release QA |
 
@@ -62,4 +62,4 @@ Apple primary references: [SCScreenshotManager](https://developer.apple.com/docu
 
 SwiftPM/AppKit 메뉴 막대 앱이며 ScreenCaptureKit으로 한 화면의 영역만 캡처합니다. 상태는 idle → selecting → processing → idle이고 세션 토큰·timeout으로 늦은 결과와 중복 쓰기를 막습니다. PNG/TIFF 인코딩과 전체 클립보드 snapshot 이후에만 교체하며 외부 변경을 보호합니다. OS 원자성·복원 실패 한계는 공개합니다.
 
-새 식별자 `dev.shotclip.app`와 `/Applications/ShotClip.app`을 사용하고 유효한 단축키/모드만 이전합니다. 권한은 새로 허용하며 TCC를 조작하지 않습니다. 영어 기본/한국어 선택은 재시작하여 적용합니다. D08은 승인된 ad-hoc 프리뷰로 변경되었고 Developer ID/공증은 이번 배포 조건이 아닙니다. 캡처·클립보드·앱/창 정보는 저장하거나 로그/원격으로 보내지 않습니다.
+표시 이름 Shot Clip과 `/Applications/Shot Clip.app`을 사용하고 `dev.shotclip.app`·기존 설정·키는 유지합니다. 새 앱 검증 후 이전 폴더를 백업하고 실패 시 복원합니다. 과거 Sshot의 다른 ID에서만 유효한 단축키/모드를 이전하며 ad-hoc 교체 후 권한 재허용이 필요할 수 있습니다. TCC는 조작하지 않습니다. 영어 기본/한국어 선택은 재시작하여 적용합니다. D08은 승인된 ad-hoc 프리뷰로 변경되었고 Developer ID/공증은 이번 배포 조건이 아닙니다. 캡처·클립보드·앱/창 정보는 저장하거나 로그/원격으로 보내지 않습니다.

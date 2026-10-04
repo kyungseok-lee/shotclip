@@ -1,4 +1,4 @@
-# ShotClip verification and requirement trace
+# Shot Clip verification and requirement trace
 
 [Requirements](requirements.md) · [Development plan](development-plan.md) · [QA plan](qa-plan.md) · [Results](qa-results.md) · [한국어](#한국어)
 
@@ -19,9 +19,9 @@ Plans do not establish passes. Automatic tests cover deterministic geometry/stat
 | R11 | P1,P5 / D05 | Storage/network/log paths and buffer lifetime review | Metadata-only successful-capture diagnostics; no sensitive output |
 | R12 | P2,P5 / D09,D11 | Key mapping and accessible-label/focus source review | M, native Tab/Shift-Tab, VoiceOver, error/sleep/display recovery |
 | R13 | P6–P7 / D10,D14 | URL/key fail closed; signed feed/archive/manifest; tamper rejection | Uploaded bytes/canonical feed; actual version upgrade |
-| R14 | P2–P4 / D11–D13 | ShotClip plist/icon/semantic tokens, settings actions | Both languages, minimum size, light/dark/contrast, no clipping |
+| R14 | P2–P4 / D11–D13 | Shot Clip plist/crop-copy icon, capture-first shared menu, quiet lifecycle; inert native previews | Native popup/focus/accessibility separately tested; both languages/minimum sizes/appearances |
 | R15 | P4 / D13 | English default, key parity, fallback, saved choice, bundled resources | Restart applies all app-owned UI; Korean layout/labels |
-| R16 | P3,P7 / D12 | New ID/executable/path; validated allowlist; new values win; rerun | One-time manual legacy install, fresh permission, login opt-in |
+| R16 | P3,P7 / D12 | Unchanged ID/executable/settings/key; spaced app root; signed temp migration/wrong-ID/three-path rollback fixtures | Canonical manual-folder migration and exact installed payload; historical Sshot grant separate; actual update unrun |
 | R17 | P6–P7 / D08,D14 | Explicit ad-hoc mode, clean reviewed source/tag/artifact, signatures | Preview notes, downloaded artifact, per-app first launch; no notarization claim |
 
 ## Evidence rules
@@ -34,7 +34,7 @@ An independent verifier reviews final changes in a separate context. Keep docume
 
 ## Document checks
 
-Confirm R01–R17 appear in requirements and verification; phases/decisions map them in development/architecture. Check Markdown relative files/fragments and whitespace, current source paths, ShotClip naming, bilingual entry points, and explicit prediction labels. Historical audit entries may keep legacy names only under an archive disclaimer. See [handoff](handoff.md) for this worker’s actual checks.
+Confirm R01–R17 appear in requirements and verification; phases/decisions map them in development/architecture. Check Markdown relative files/fragments and whitespace, current source paths, Shot Clip naming, bilingual entry points, and explicit prediction labels. Historical audit entries may keep legacy names only under an archive disclaimer. See [handoff](handoff.md) for this worker’s actual checks.
 
 ## 한국어
 

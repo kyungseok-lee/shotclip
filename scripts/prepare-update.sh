@@ -20,9 +20,9 @@ else
     bash scripts/notarize-app.sh
 fi
 [[ "$(release_reviewed_head)" == "$source_commit" ]] || release_fail 'Reviewed source changed during preparation.'
-release_verify_bundle dist/ShotClip.app "$source_commit"
+release_verify_bundle "dist/$SHOTCLIP_APP_BUNDLE_NAME" "$source_commit"
 output="$(mktemp -d "$(pwd)/dist/update-$SHOTCLIP_VERSION.XXXXXX")"
-ditto -c -k --sequesterRsrc --keepParent dist/ShotClip.app "$output/shotclip-$SHOTCLIP_VERSION.zip"
+ditto -c -k --sequesterRsrc --keepParent "dist/$SHOTCLIP_APP_BUNDLE_NAME" "$output/shotclip-$SHOTCLIP_VERSION.zip"
 bash scripts/release-content.sh "$output"
 "$tools/generate_appcast" --account "$account" --download-url-prefix "$SHOTCLIP_UPDATE_DOWNLOAD_URL_PREFIX" "$output"
 swift scripts/release-manifest.swift create "$output" "$source_commit" "$SHOTCLIP_VERSION" "$SHOTCLIP_CANONICAL_KEY"

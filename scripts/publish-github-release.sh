@@ -27,7 +27,7 @@ swift scripts/release-manifest.swift verify "$directory" "$commit" "$version" "$
 python3 scripts/verify-release-archive.py "$archive"
 mkdir "$staging/extracted"
 ditto -x -k "$archive" "$staging/extracted"
-release_verify_bundle "$staging/extracted/ShotClip.app" "$commit"
+release_verify_bundle "$staging/extracted/$SHOTCLIP_APP_BUNDLE_NAME" "$commit"
 remote_commit="$(git ls-remote origin "refs/tags/$tag^{}" | awk '{print $1}')"
 if [[ -z "$remote_commit" ]]; then remote_commit="$(git ls-remote origin "refs/tags/$tag" | awk '{print $1}')"; fi
 [[ "$remote_commit" == "$commit" ]] || release_fail 'Push the exact reviewed version tag first.'
@@ -39,9 +39,9 @@ if [[ "$action" == '--check' ]]; then
     exit 0
 fi
 if [[ "$SHOTCLIP_RELEASE_MODE" == ad-hoc ]]; then
-    title="ShotClip $version (ad-hoc preview; NOT notarized)"
+    title="Shot Clip $version (ad-hoc preview; NOT notarized)"
 else
-    title="ShotClip $version (Developer ID; notarized)"
+    title="Shot Clip $version (Developer ID; notarized)"
 fi
 gh release create "$tag" "$archive" "$feed" "$directory/SHA256SUMS" "$directory/release-manifest.json" "$directory/RELEASE-NOTES.md" "$directory/README.txt" --repo "$SHOTCLIP_REPOSITORY" --verify-tag --draft --title "$title" --notes-file "$directory/RELEASE-NOTES.md"
 # Confirm uploaded bytes before any transition out of draft. Do not overwrite assets.
