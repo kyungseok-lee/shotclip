@@ -2,7 +2,11 @@
 
 [English](README.md)
 
+![ShotClip: 코발트색 바탕의 민트 캡처 모서리·아이보리 클립보드 아이콘과 Capture. Copy. Continue. 문구](docs/shotclip/assets/shotclip-hero.png)
+
 화면 영역을 선택하면 이미지를 바로 클립보드에 복사하는 작은 macOS 메뉴 막대 앱입니다. **고정 영역** 또는 **드래그 영역**으로 캡처한 뒤 다른 앱에서 `⌘V`로 붙여 넣습니다.
+
+**0.4.1(build 6) 시각 개선 버전을 준비 중**입니다. 캡처와 클립보드를 표현하는 새 아이콘과 독자적인 브랜드 이미지를 제공합니다. 이미지는 실제 화면을 포함하지 않은 합성 일러스트이며 게시·설치 결과는 검증 후 기록합니다.
 
 **ShotClip 0.4.0(build 5)**를 **Apple Silicon(arm64) 전용** GitHub 개발자 프리뷰로 공개했습니다. **Ad-hoc 서명이며 공증되지 않았습니다.** [ZIP 다운로드](https://github.com/kyungseok-lee/shotclip/releases/download/v0.4.0/shotclip-0.4.0.zip), [v0.4.0 릴리스](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.4.0)를 이용하세요. 2026-10-05 KST에 독립 검토된 구현 소스 [`ab57fca`](https://github.com/kyungseok-lee/shotclip/commit/ab57fcace589f2c786ba183778d1b1bb4e77fe87)에서 게시했습니다.
 

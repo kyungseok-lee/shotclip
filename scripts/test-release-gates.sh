@@ -3,12 +3,13 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 unset SHOTCLIP_RELEASE_MODE SHOTCLIP_ACKNOWLEDGE_AD_HOC SHOTCLIP_SIGN_IDENTITY SHOTCLIP_RELEASE_TEAM_ID SHOTCLIP_VERSION SHOTCLIP_BUILD_NUMBER SHOTCLIP_UPDATE_PUBLIC_KEY SHOTCLIP_UPDATE_FEED_URL SHOTCLIP_UPDATE_DOWNLOAD_URL_PREFIX SHOTCLIP_REVIEWED_COMMIT
+current_version="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' resources/Info.plist)"
 count=0
 reject() {
     local expected="$1" output status
     shift
     set +e
-    output="$(env "$@" bash scripts/publish-github-release.sh 0.4.0 /nonexistent --check 2>&1)"
+    output="$(env "$@" bash scripts/publish-github-release.sh "$current_version" /nonexistent --check 2>&1)"
     status="$?"
     set -e
     [[ "$status" != 0 && "$output" == *"$expected"* ]] || { printf 'FAIL: expected rejection: %s\n%s\n' "$expected" "$output" >&2; exit 1; }
@@ -21,7 +22,7 @@ reject 'requires SHOTCLIP_SIGN_IDENTITY=-' SHOTCLIP_RELEASE_MODE=ad-hoc SHOTCLIP
 reject 'requires an explicit Developer ID Application identity' SHOTCLIP_RELEASE_MODE=developer-id
 reject 'requires SHOTCLIP_RELEASE_TEAM_ID' SHOTCLIP_RELEASE_MODE=developer-id 'SHOTCLIP_SIGN_IDENTITY=Developer ID Application: synthetic'
 reject 'development builds cannot be published' SHOTCLIP_RELEASE_MODE=development
-reject 'version/build must match reviewed' SHOTCLIP_RELEASE_MODE=ad-hoc SHOTCLIP_ACKNOWLEDGE_AD_HOC=YES SHOTCLIP_VERSION=0.4.1
+reject 'version/build must match reviewed' SHOTCLIP_RELEASE_MODE=ad-hoc SHOTCLIP_ACKNOWLEDGE_AD_HOC=YES SHOTCLIP_VERSION=99.99.99
 reject 'version/build must match reviewed' SHOTCLIP_RELEASE_MODE=ad-hoc SHOTCLIP_ACKNOWLEDGE_AD_HOC=YES SHOTCLIP_BUILD_NUMBER=999
 reject 'canonical HTTPS configuration' SHOTCLIP_RELEASE_MODE=ad-hoc SHOTCLIP_ACKNOWLEDGE_AD_HOC=YES SHOTCLIP_UPDATE_PUBLIC_KEY=invalid
 reject 'canonical HTTPS configuration' SHOTCLIP_RELEASE_MODE=ad-hoc SHOTCLIP_ACKNOWLEDGE_AD_HOC=YES SHOTCLIP_UPDATE_FEED_URL=http://invalid.example/appcast.xml

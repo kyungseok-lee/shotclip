@@ -2,7 +2,11 @@
 
 [한국어](README.ko.md)
 
+![ShotClip: mint capture corners and an ivory clipboard on a cobalt icon, with the message Capture. Copy. Continue.](docs/shotclip/assets/shotclip-hero.png)
+
 A small macOS menu bar app that captures a selected region straight to the clipboard. Select with **Fixed Region** or **Drag Region**, then paste into another app with `⌘V`.
+
+The **0.4.1 (build 6) visual refresh is in preparation**, with a clearer capture-and-clipboard icon and original brand illustrations. These images are synthetic artwork; they contain no captured screens. Publication and installation evidence will be recorded after verification.
 
 **ShotClip 0.4.0 (build 5)** is available as a GitHub developer preview for **Apple Silicon (arm64) only**. **Ad-hoc signed; NOT notarized.** [Download the ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.4.0/shotclip-0.4.0.zip) or view the [v0.4.0 release](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.4.0), published on 2026-10-05 KST from reviewed source [`ab57fca`](https://github.com/kyungseok-lee/shotclip/commit/ab57fcace589f2c786ba183778d1b1bb4e77fe87).
 

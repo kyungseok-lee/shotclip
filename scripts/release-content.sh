@@ -21,6 +21,12 @@ English is the default language; Korean is also included.
 Archive architecture: $architecture. Intel and macOS 14 runtime behavior are unverified.
 Distribution: $status
 
+## What's new
+
+- A refreshed app icon pairs mint capture corners with an ivory clipboard and an original illustrated image.
+- New synthetic brand artwork presents the capture-to-clipboard workflow in the English and Korean project documentation.
+- The ShotClip bundle identity, preferences, signed-update trust and English/Korean support remain compatible with ShotClip 0.4.0.
+
 The app name, executable and bundle identifier changed from the legacy app.
 Quit the previous app before moving ShotClip.app to Applications.
 Screen Recording permission may need to be granted again after migration or an ad-hoc update.
@@ -35,6 +41,12 @@ ShotClip은 macOS 14 이상에서 선택 영역을 캡처하여 클립보드에 
 영어가 기본이며 한국어를 함께 제공합니다.
 아카이브 아키텍처: $architecture. Intel 및 macOS 14 실제 동작은 미검증입니다.
 배포: $korean
+
+### 변경 사항
+
+- 민트색 캡처 모서리, 아이보리색 클립보드와 독자적인 이미지 일러스트를 결합한 새 앱 아이콘을 제공합니다.
+- 실제 화면을 사용하지 않은 새 브랜드 이미지로 영어·한국어 프로젝트 문서에 캡처→클립보드 흐름을 표현합니다.
+- ShotClip 0.4.0과 번들 식별자, 설정, 서명 업데이트 신뢰 및 영어·한국어 지원을 유지합니다.
 
 앱 이름, 실행 파일 및 번들 식별자가 이전 앱에서 변경되었습니다.
 이전 앱을 종료한 뒤 ShotClip.app을 응용 프로그램 폴더로 이동하세요.

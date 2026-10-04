@@ -6,7 +6,7 @@ let arguments = CommandLine.arguments
 guard arguments.count == 6 else { fail("Expected mode, directory, commit, version, public key") }
 let mode = arguments[1], directory = URL(fileURLWithPath: arguments[2]), commit = arguments[3], version = arguments[4], key = arguments[5]
 let environment = ProcessInfo.processInfo.environment
-let build = environment["SHOTCLIP_BUILD_NUMBER"] ?? "5"
+let build = environment["SHOTCLIP_BUILD_NUMBER"] ?? "6"
 let releaseMode = environment["SHOTCLIP_RELEASE_MODE"] ?? ""
 guard ["create", "verify"].contains(mode), ["ad-hoc", "developer-id"].contains(releaseMode),
       commit.range(of: "^[0-9a-f]{40}$", options: .regularExpression) != nil,

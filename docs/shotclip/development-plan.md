@@ -2,7 +2,7 @@
 
 [Product plan](product-plan.md) · [Design system](design-system.md) · [Requirements](requirements.md) · [한국어](#한국어)
 
-Updated 2026-10-05. Follow requirements → design → implementation → verification. Prior Sshot `0.3.0` (build `4`) is historical evidence; proposed ShotClip `0.4.0` (build `5`) needs its own checks. This plan does not record test passes.
+Updated 2026-10-05. Follow requirements → design → implementation → verification. Prior Sshot `0.3.0` (build `4`) and published ShotClip `0.4.0` (build `5`) are earlier evidence; the `0.4.1` (build `6`) visual refresh needs its own checks. This plan does not record test passes.
 
 ## Ordered work and trace
 
@@ -18,6 +18,10 @@ Updated 2026-10-05. Follow requirements → design → implementation → verifi
 | P7: release and update QA | R13, R16–R17 | Migration boundary and update compatibility | Draft assets and release operations | Publisher verifies uploaded assets/feed; user-owned first-launch/TCC/capture and actual upgrade evidence; gaps recorded |
 
 Implementation paths are relative to the repository. No additional features beyond capture-to-clipboard, native interaction, localization, rebrand, and preview delivery are required.
+
+### 0.4.1 visual refresh follow-up
+
+R14 → the [icon/artwork contract](design-system.md#icon-and-brand-artwork) → deterministic icon/hero generation and English/Korean README assets → inspect 16/32/1024 px renders, all ICNS sizes and packaged icon. R16 → retain the existing bundle ID, preference domains and update trust while advancing to build 6. R17 → independent source/artifact review → main/tag push → prepare/sign/verify/publish → install and verify the newest app → remove superseded GitHub release artifacts and recoverably move verified old local versions. Preserve Git source/tag history and record the actual results in [QA](qa-results.md) and [handoff](handoff.md).
 
 ## Migration contract
 
@@ -43,4 +47,4 @@ The approved route is the GitHub ad-hoc developer preview. Developer ID/notariza
 
 기존 `dev.sshot.app`에서 유효한 단축키와 선택 모드만 이전하고 새 ShotClip 값은 우선합니다. 전체 defaults·이미지·영역·권한·업데이트 내부 상태·키를 복사하지 않습니다. 영어가 기본이고 한국어 선택은 명시적으로 저장합니다. 새 앱의 권한·로그인 등록은 별개이며 과거 앱에서 Sparkle로 자동 이전되는지는 미검증입니다.
 
-실제 캡처·권한·붙여 넣기는 사용자 담당입니다. 자동 테스트·문서 검증을 앱 동작 통과로 바꾸지 않습니다. 기존 Ed25519 키와 `sshot` 계정을 유지하고 archive와 feed 서명 모두 검증합니다. 이번 배포는 GitHub ad-hoc 개발자 프리뷰이며 Developer ID/공증은 요구하지 않습니다. `0.4.0`(build `5`)은 실제 번들 확인 전까지 제안입니다.
+실제 캡처·권한·붙여 넣기는 사용자 담당입니다. 자동 테스트·문서 검증을 앱 동작 통과로 바꾸지 않습니다. 기존 Ed25519 키와 `sshot` 계정을 유지하고 archive와 feed 서명 모두 검증합니다. 이번 배포는 GitHub ad-hoc 개발자 프리뷰이며 Developer ID/공증은 요구하지 않습니다. `0.4.1`(build `6`)은 실제 번들 확인 전까지 제안입니다. 아이콘·합성 브랜드 이미지, 작은 크기와 ICNS 패키지, 독립 검토, 원격 게시·최신 설치를 확인한 뒤 사용자가 승인한 과거 버전 정리를 수행합니다.

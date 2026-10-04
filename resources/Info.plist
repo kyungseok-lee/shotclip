@@ -9,8 +9,8 @@
 <key>CFBundleIconFile</key><string>AppIcon</string>
 <key>CFBundleExecutable</key><string>shotclip</string>
 <key>CFBundlePackageType</key><string>APPL</string>
-<key>CFBundleShortVersionString</key><string>0.4.0</string>
-<key>CFBundleVersion</key><string>5</string>
+<key>CFBundleShortVersionString</key><string>0.4.1</string>
+<key>CFBundleVersion</key><string>6</string>
 <key>SUFeedURL</key><string>https://github.com/kyungseok-lee/shotclip/releases/latest/download/appcast.xml</string>
 <key>SUPublicEDKey</key><string>gbN8bdU/ElNPW3vAeX0BCAv4qokA1biQeOUgXNEhdac=</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>

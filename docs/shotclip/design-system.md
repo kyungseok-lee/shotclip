@@ -31,6 +31,20 @@ Reviewed 2026-10-05 against Apple primary sources and the AppKit baseline. This 
 
 AppKit resolves semantic colors for the active appearance; do not persist resolved colors. Honor [Reduce Transparency](https://developer.apple.com/documentation/appkit/nsworkspace/accessibilitydisplayshouldreducetransparency) with opaque help/control surfaces without obscuring selection. Keep feedback brief/nonblocking and suppress decorative motion for Reduce Motion; essential state remains available afterward. Verify light/dark/Increase Contrast over synthetic bright, dark, patterned screens; tokens alone do not prove accessibility.
 
+## Icon and brand artwork
+
+The 0.4.1 visual refresh uses a centered ivory clipboard/photo card, mint region-selection corners and an original abstract landscape on a deep cobalt tile. The icon contains no text or screenshots. A clear silhouette and restrained shapes should remain recognizable at 16/32 px; inspect the actual small renders rather than assuming the 1024 px design scales well. [Apple’s app icon guidance](https://developer.apple.com/design/human-interface-guidelines/app-icons), checked 2026-10-05, informs the simple illustrated concept and emphasis on small-size recognition.
+
+`scripts/generate-app-icon.swift` is the deterministic AppKit source of the ten 1×/2× PNG representations used to create `AppIcon.icns`. This macOS 14+ packaging path uses flattened static artwork. It does not claim Icon Composer layers or system-adaptive Liquid Glass icon effects described in current Apple guidance. Rendered icon/packaging checks and native appearance/accessibility QA are separate evidence.
+
+The project hero is [PNG](assets/shotclip-hero.png), with an editable [SVG](assets/shotclip-hero.svg); the [1024 px icon preview](assets/shotclip-icon.png) and [icon SVG](assets/shotclip-icon.svg) share the app artwork. The hero’s “Capture. Copy. Continue.” message and capture→clipboard motif illustrate the existing workflow. Both READMEs provide localized alternative text. All artwork is original synthetic graphics, without captured screens, app/window information or clipboard contents; no additional product feature is implied.
+
+From the repository root, regenerate the iconset and all four brand assets:
+
+```sh
+swift scripts/generate-app-icon.swift dist/visual-qa/ShotClip.iconset --brand-assets docs/shotclip/assets
+```
+
 ## Components and progressive permissions
 
 | Component / state | Behavior and copy |
@@ -66,3 +80,5 @@ English is the development/fallback language; persist explicit `en` or `ko`, def
 **2027 TREND PREDICTION**은 설계 가설이며 Apple 로드맵이나 확정 사실이 아닙니다. Apple HIG/AppKit/현지화 문서를 근거로 `labelColor`, `secondaryLabelColor`, `controlAccentColor` 등 native 토큰과 상태 문구/기호를 사용합니다. 설정은 일반/권한/업데이트, 긴 설명은 펼쳐 보기로 구성합니다. 캡처 시 권한 이유를 설명하고 명시적 요청·재확인·설정 이동·재시작을 제공합니다. 예측 때문에 OCR·저장·클라우드나 최소 OS를 확대하지 않습니다.
 
 영어가 기본이고 **English / 한국어** 선택을 저장한 뒤 재시작하여 적용합니다. 메뉴·오버레이·오류·접근성 설명까지 번역하고 시스템 및 Sparkle 창의 언어는 별도로 확인합니다. Tab/Shift+Tab은 포커스 이동, Return은 확정, Escape는 취소, 방향키는 이동, Option+방향키는 크기 조절, `M`은 모드 전환입니다. 이 키보드 결정은 승인되었지만 VoiceOver/포커스 GUI 검증은 미실행입니다. GUI 캡처·권한 QA는 사용자 담당이고 이 문서는 통과 기록이 아닙니다.
+
+0.4.1 아이콘은 코발트색 바탕 위에 민트색 영역 모서리와 아이보리 클립보드·추상 풍경을 결합합니다. 글자·실제 화면은 넣지 않고 16/32 px 실물을 확인합니다. 현재 빌드는 10개 PNG 표현을 ICNS로 묶는 macOS 14 이상용 정적 이미지이며 Icon Composer/Liquid Glass의 동적 효과를 구현했다고 주장하지 않습니다. 영어·한국어 README의 브랜드 이미지에는 각 언어의 대체 설명을 제공하며 캡처·창·클립보드 데이터는 포함하지 않습니다.
