@@ -56,6 +56,15 @@
 - production 제한: Developer ID 인증서·공증이 아직 없습니다. Ed25519 키는 archive 서명용이며 OS 신뢰·TCC 문제를 해결하지 않습니다. 실제 release/asset 게시·feed 접근·자동 업그레이드는 미검증입니다.
 - 다음 단계: 코드 검토·빠른 자동 검증 후 코드 commit/push → 사용자 수동 QA 결과 기록. 공개 앱 배포는 원격 commit/tag 일치·production 서명/공증·release QA 후 draft를 명시적으로 공개합니다. 세부 운영은 [업데이트 운영](update-operations.md)에 기록합니다.
 
+## 코드 인계 및 원격 반영 기록
+
+- 변경 범위: GitHub 업데이트 구성·서명/게시 준비, 권한 안내·복구 UI, 캡처 QA 창 lifetime 수정.
+- 빠른 검증: 자동 테스트 25개·synthetic negative 6개 통과, shell/plist/diff 검사 및 독립 코드 리뷰 승인. 실제 캡처 QA는 사용자 인수입니다.
+- 코드 커밋: `3fc3eb80a1bd2b2444b373f55decd881d07a6740`, `main`. `git push origin main` 성공 및 원격 main=로컬 HEAD 확인, 해당 시점 worktree clean.
+- 설치 앱: 0.2.1(build 3)은 코드 커밋 전 개발 번들의 source baseline을 사용하므로 production artifact가 아닙니다. 불필요한 TCC identity 변경을 피하기 위해 이 인계 기록만으로 재빌드하지 않았습니다.
+- 남은 항목: 사용자 수동 캡처/권한 QA, Developer ID·공증, 공개 release asset 게시 및 종단간 업데이트. 공개 asset은 게시하지 않았습니다.
+- 이 종료 문서의 후속 커밋 ID는 `git log -1`로 확인합니다. 문서 내부에 자기 자신의 커밋 hash를 기록하지 않습니다.
+
 ## 후속 기록 템플릿
 
 | 항목 | 기록할 내용 |
