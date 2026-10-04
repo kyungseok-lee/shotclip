@@ -49,5 +49,5 @@ enum SelfTest {
         testOverlay?.close();testBoard?.releaseGlobally()
         return exitCode == 0
     }
-    private static func emit(_ record:[String:Any]) { if let data=try? JSONSerialization.data(withJSONObject:record,options:.sortedKeys),let value=String(data:data,encoding:.utf8) {print(value)} }
+    private static func emit(_ record:[String:Any]) { if let data=try? JSONSerialization.data(withJSONObject:record,options:.sortedKeys),let value=String(data:data,encoding:.utf8) {print(value);fflush(stdout)} }
 }

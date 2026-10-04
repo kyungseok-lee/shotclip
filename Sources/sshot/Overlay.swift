@@ -2,6 +2,11 @@ import AppKit
 import CaptureCore
 enum SelectionMode: String { case mask, drag }
 final class OverlayWindow: NSWindow {
+    override init(contentRect: NSRect, styleMask: NSWindow.StyleMask, backing: NSWindow.BackingStoreType, defer flag: Bool) {
+        super.init(contentRect:contentRect,styleMask:styleMask,backing:backing,defer:flag)
+        // Swift retains every overlay, including QA windows, until cleanup completes.
+        isReleasedWhenClosed=false
+    }
     override var canBecomeKey: Bool { true }
     override var canBecomeMain: Bool { true }
 }

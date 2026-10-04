@@ -14,6 +14,7 @@ Swift 기반 메뉴 막대 앱을 구현했습니다. SwiftPM으로 빌드하고
 | CoordinateMapper | AppKit 화면 좌표, 캡처 좌표, 픽셀 배율 변환 |
 | CaptureService | UI를 제외한 영역 캡처, 오류·타임아웃 처리 |
 | ClipboardService | 이미지 표현 준비 및 성공 시 클립보드 교체 |
+| UpdateService | Sparkle 초기화, HTTPS feed/공개키 구성 검증, 업데이트 메뉴 상태 |
 
 ## 상태 및 실패 처리
 
@@ -35,7 +36,11 @@ ScreenCaptureKit content filter에서 자체 프로세스를 제외하고 showsC
 
 ## 권한·프라이버시·배포
 
-화면 기록 권한만을 기본 필요 권한으로 검토합니다. 전역 단축키 구현 때문에 접근성·입력 모니터링 권한이 필요한지는 선택 API에 따라 확인하고 필요한 경우에만 안내합니다. 자동 붙여 넣기가 없으므로 이를 이유로 접근성 권한을 요청하지 않습니다.
+제품 사용에는 화면 기록 권한이 필요하며 접근성·전체 디스크 접근 권한은 요구하지 않습니다. 앱 실행 여부와 화면 기록 권한을 별도로 표시하고, 활성화 시 현재 권한을 재확인합니다. 현재 실행 앱의 경로를 보여주고 해당 앱을 Finder에서 표시하여 여러 빌드의 권한 혼동을 줄입니다.
+
+개발 ad-hoc 서명은 코드 교체 시 cdhash 기반 identity가 달라져 재허용이 필요할 수 있습니다. 배포는 고정 앱 식별자와 동일 Developer ID identity, `/Applications/sshot.app` 경로를 유지합니다. 이는 반복 재허용을 줄이는 운영안이며 OS의 추가 요청이 절대 없다는 보장은 아닙니다.
+
+업데이트는 Sparkle을 사용합니다. 빌드 시 HTTPS appcast URL과 Ed25519 공개키를 주입하며 미설정·비HTTPS 구성은 비활성화합니다. 개인 서명 키는 저장소·앱 번들에 넣지 않습니다. 앱 번들의 Developer ID 서명·공증과 업데이트 archive의 Sparkle 서명을 각각 검증합니다. 실제 HTTPS 호스팅·feed·키·이전 버전에서의 업그레이드 성공은 미검증입니다. 업데이트 통신에 캡처/클립보드 내용을 포함하지 않습니다.
 
 캡처는 메모리에서 처리하며 파일 자동 저장·네트워크 전송을 하지 않습니다. 로그에는 오류 코드·상태·소요 시간만 기록하고 화면 내용·클립보드 데이터·창 제목·앱 이름은 제외합니다. 샘플 및 버그 재현 자료에는 합성 테스트 화면만 사용합니다.
 
@@ -56,6 +61,7 @@ ScreenCaptureKit content filter에서 자체 프로세스를 제외하고 showsC
 | D07 | 선택 중 UI 활성화, 처리 중 무시 | 제품에서 사용하는 coordinator의 취소/timeout/늦은 결과 테스트 통과 |
 | D08 | 로컬 ad-hoc 앱 + Developer ID 공증 준비 | 로컬 서명 검사 통과. 유효 인증서 0으로 공증·배포 QA 차단 |
 | D09 | 메뉴 막대 상주, opt-in 로그인 시작 | 첫 직접 실행 필요. 종료 상태 cold launch 없음. 로그인 등록 실제 실행은 미검증 |
+| D10 | Sparkle, GitHub Releases HTTPS appcast·Ed25519 서명 업데이트 | 별도 서버 없이 latest/download/appcast.xml과 tag별 archive 사용. 공개키 포함 및 publisher 작업 중. production 인증서·공증·실제 게시/업그레이드 QA 미완료 |
 
 ## 공식 자료
 

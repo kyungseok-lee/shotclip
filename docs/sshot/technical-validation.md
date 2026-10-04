@@ -28,6 +28,16 @@
 
 최종 구현 일치 여부와 실제 화면 캡처 결과는 QA 기록에서 검증한다. 위 probe만으로 단계 1의 실제 캡처 gate 또는 전체 QA 완료를 주장하지 않는다.
 
+## 권한 재실행 이후 확인
+
+사용자가 화면 기록을 허용하고 다시 실행한 뒤에도 실제 제품 self-test는 SKIP이었다. 직접 바이너리 실행뿐 아니라 LaunchServices `open -n -W ... --args --self-test`에서도 같은 결과를 확인했다.
+
+제품에 한정한 macOS TCC 로그에서 `Failed to match existing code requirement for subject dev.sshot.app and service kTCCServiceScreenCapture`를 확인했다. 허용 항목의 이전 cdhash와 현재 ad-hoc 앱의 cdhash가 달랐다. 이는 CGPreflight 오검출을 추측할 상황이 아니라 저장된 코드 identity의 불일치다. 허용 스위치만 다시 켜도 기존 requirement가 갱신되지 않았다.
+
+이전 sshot 권한 항목만 시스템 설정 UI에서 제거했으며 다른 앱 권한은 변경하지 않았다. 파일 선택 창의 자동 키보드 입력이 focus 제한으로 실패한 뒤 사용자가 현재 앱을 다시 허용했다. 이후 설정에서 sshot 허용을 확인했고 LaunchServices 실행은 preflight를 통과하여 실제 캡처까지 도달했다. 터미널 직접 실행은 iTerm이 responsible process로 판정되므로 제품 권한 gate의 증거로 사용하지 않는다. TCC DB 직접 수정이나 `tccutil reset`, 권한 판별 우회는 수행하지 않았다.
+
+이후 self-test에서 `objc_release`/autorelease pool의 SIGSEGV를 확인했다. 테스트 overlay의 `isReleasedWhenClosed` 설정 누락을 수정 대상으로 확인하고 독립 검토를 진행 중이다. 실제 캡처 QA와 push는 계속 미완료다.
+
 ## 공식 근거
 
 - [SCScreenshotManager](https://developer.apple.com/documentation/screencapturekit/scscreenshotmanager)

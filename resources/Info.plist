@@ -5,8 +5,10 @@
 <key>CFBundleName</key><string>sshot</string>
 <key>CFBundleExecutable</key><string>sshot</string>
 <key>CFBundlePackageType</key><string>APPL</string>
-<key>CFBundleShortVersionString</key><string>0.1.0</string>
-<key>CFBundleVersion</key><string>1</string>
+<key>CFBundleShortVersionString</key><string>0.2.1</string>
+<key>CFBundleVersion</key><string>3</string>
+<key>SUFeedURL</key><string>https://github.com/kyungseok-lee/sshot/releases/latest/download/appcast.xml</string>
+<key>SUPublicEDKey</key><string>gbN8bdU/ElNPW3vAeX0BCAv4qokA1biQeOUgXNEhdac=</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>LSUIElement</key><true/>
 <key>NSHighResolutionCapable</key><true/>
