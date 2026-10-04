@@ -9,9 +9,9 @@
 | 검증 | 현재 상태 | 증거 및 범위 |
 | --- | --- | --- |
 | 기술 probe | 통과 | [기술 기록](technical-validation.md): SDK 컴파일, exclusive hotkey 중복 오류, named pasteboard PNG/TIFF |
-| 자동 회귀 | 통과 | 최신 부모 실행 2026-10-04 23:23 swift test 25개, 0 failure. 기존 20개에 permission presentation 2개·update configuration 3개 추가 |
-| release app bundle | 통과(로컬) | 현재 0.2.1(build 3) release 및 codesign --verify --deep --strict 통과. Sparkle framework/rpath 검사, /Applications/sshot.app 설치·실행 확인. 0.2.0 검사도 과거 기록으로 존재. ad-hoc이며 Developer ID 배포와 구분 |
-| 실제 합성 화면 캡처 | SKIP / 권한 대기 | 최신 제품 --self-test가 metadata SKIP와 exit 77. 3 display harness 준비, 통과 아님 |
+| 자동 회귀 | 통과 | 최신 부모 실행 2026-10-04 23:38:30 swift test 25개, 0 failure. 기존 20개에 permission presentation 2개·update configuration 3개 추가 |
+| release app bundle | 통과(로컬) | 현재 0.3.0(build 4) clean 구현 HEAD release·ICNS·codesign --verify --deep --strict 통과, /Applications 설치 재확인. 0.2.0/0.2.1은 과거 검증 기록. ad-hoc이며 Developer ID 배포와 구분 |
+| 실제 합성 화면 캡처 | 과거 0.2.1 SKIP / 사용자 인수 | 0.2.1 self-test metadata SKIP, 3 display harness 준비. 0.3.0 self-test는 실행하지 않았으며 통과 아님 |
 | 고정 마스크 UI | 미실행 | 이동·resize·확정·취소·재사용 |
 | 즉시 드래그 UI | 미실행 | 정방향·역방향·무효 영역·모드 전환 |
 | 전역 단축키/설정 | 부분 통과 | Finder 활성화 시 변경한 키가 sshot 권한 안내를 여는 것 확인. 설정 저장·재실행 및 기본값 복구 확인. Shift 숫자 label 버그 수정 후 ⌃⇧⌘5 표시 확인. 반복 호출·실제 overlay는 권한 대기 |
@@ -22,7 +22,7 @@
 | 권한 철회/sleep-wake/깨끗한 계정 | 미검증 | 사용자 환경 설정을 자동 reset하지 않음 |
 | Developer ID/공증/Gatekeeper | 차단 | 유효 signing identity 0. 인증서·공증 및 별도 환경 필요 |
 | 권한 안내 개선 | 부분 통과 | 설치 앱의 AX·화면으로 주황색 권한 미적용·비활성 캡처·ad-hoc 안내·경로/버전 확인. 다시 확인의 미허용 상태 유지, 같은 /Applications 앱 재시작·0.2.0(build 2)·기본 단축키 안내 확인. 설정 버튼은 시스템 설정의 ‘화면 및 시스템 오디오 녹음’ 페이지, 현재 앱 위치 버튼은 Finder Applications의 sshot.app 선택으로 확인. 권한 요청 및 실제 허용 후 갱신은 미검증 |
-| Sparkle 자동 업데이트 | 로컬 구성·서명 QA 통과 / 공개 종단간 미검증 | 현재 0.2.1은 실제 공개키와 GitHub feed를 포함하고 로컬 archive/feed 검증 통과. 0.2.0의 미설정 modal은 과거 회귀 증거. 공개 feed asset은 미게시로 404이며 실제 업그레이드 없음 |
+| Sparkle 자동 업데이트 | 로컬 구성·서명 QA 통과 / 공개 종단간 미검증 | 현재 0.3.0은 실제 공개키/GitHub feed 유지·설정 UI 확인. archive/feed 암호 검증은 0.2.1 로컬 QA 증거. 0.2.0 미설정 modal은 과거 회귀 증거. 공개 asset 미게시, 실제 업그레이드 없음 |
 
 별도 reviewer가 권한 상태·정확한 bundle 재시작/단축키 해제·복구, Sparkle fail-closed 구성, 내부부터의 framework/helper 서명, installer 백업·검증·복원, 릴리스 script의 기존 키 조회 및 게시 미수행을 검토하여 차단 결함 없음을 확인했습니다. shell syntax와 diff 검사 통과. 독립 scratch 테스트의 실행 결과 로그는 회수하지 못했으므로 추가 통과 증거로 사용하지 않습니다.
 
@@ -60,7 +60,17 @@ Keychain 승인 후 `generate_appcast`가 새 update 1개를 생성하고 exit 0
 
 ## 표시·설정 개선 후속 요청
 
-사용자가 기본 기능에 대해 ‘잘 되는 것 같다’고 보고했습니다. 이는 정성적인 사용 확인이며 요구사항별 수동 QA나 전체 지원 환경 통과 증거는 아닙니다. R14/D11에 따라 Sshot 표시명·독자 아이콘·native 설정 창과 0.3.0(build 4)을 준비하며, 새 버전 빌드·설치·검증 결과는 실행 후 기록합니다. GitHub Releases는 현재 0개로 삭제 대상이 없고 Developer ID 인증서는 0개입니다. 미공증 developer preview 공개 여부에 대한 응답이 없는 상태에서는 기존 production 공개 gate를 유지합니다.
+사용자가 이전 버전의 기본 기능에 대해 ‘잘 되는 것 같다’고 보고했습니다. 이는 정성적인 사용 확인이며 새 0.3.0의 캡처·전체 지원 환경 통과 증거는 아닙니다. R14/D11의 표시·설정 변경은 아래 설치 기록을 따릅니다. GitHub Releases는 0개로 삭제 대상이 없고 Developer ID 인증서는 0개입니다. 미공증 developer preview 공개 여부 응답이 없으므로 기존 production 공개 gate를 유지합니다.
+
+### 0.3.0(build 4) 설치 및 설정 확인
+
+- 구현 commit `32685dcb5b03f2ea450798c44e26e10c5eb0a557`의 clean HEAD에서 release 빌드(3.53초)·ICNS 생성·nested deep/strict 서명 검사 통과. `/Applications/sshot.app`에 설치 후 동일 경로·버전·서명 재확인.
+- 실제 native 설정 화면의 Sshot 이름·독자 아이콘·일반/권한/업데이트 3섹션, 기본 단축키 `⌃⇧⌘5`, 버전 0.3.0(4), 자동 확인 OFF를 확인. dark appearance의 각 화면을 검사했고 권한 미적용 주황 표시·disabled capture·세부 정보의 현재 경로/ad-hoc 안내를 확인했습니다.
+- 일반 크기에서 내용은 보였으나 resize 시도는 실제 창 크기를 바꾸지 못했습니다. resizing/minimum size 동작은 미검증입니다. 실제 캡처는 실행하지 않았으며 사용자 인수 상태입니다.
+- 식별자와 버전을 검증한 구버전 앱 7개를 휴지통으로 이동했습니다(Applications 백업 3개, dist 중간 빌드 4개). 원래 경로가 없어졌음을 확인했고 휴지통에서 복원할 수 있습니다. 현재 설치 앱은 유지했습니다.
+- `dist/sshot-0.3.0.zip`(약 2.2MB)을 로컬 앱 archive로 생성하고 `unzip -tq` 무결성 검사를 통과했습니다. production 서명·업데이트 feed가 없는 개발용 archive이며 공개 release가 아닙니다. 이전 `dist/github-local-qa.*`의 0.2.1 zip/feed/manifest 3개를 확인한 뒤 해당 QA 폴더도 별도로 휴지통에 옮겼습니다. 현재 앱과 최신 zip은 유지하며 휴지통 자료는 복원 가능합니다.
+- stable bundle ID·설정 domain은 유지했지만 실제 ad-hoc 코드 hash는 바뀝니다. 0.3.0에서 권한 미적용 상태를 관찰했으며 새 버전 캡처/self-test는 사용자 인수입니다.
+- 공개 GitHub Releases 0개·Developer ID 인증서 0개. 공개 asset 게시·자동 업데이트 성공은 없습니다. 후속 문서 commit은 구현 commit과 다르며 현재 개발 번들을 production artifact로 재사용하지 않습니다.
 
 ## 알려진 플랫폼 한계
 

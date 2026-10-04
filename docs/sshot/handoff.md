@@ -5,9 +5,9 @@
 - 단계: 기술 probe·앱 구현·자동 회귀 및 로컬 release 빌드 완료. 실제 캡처 QA는 권한 대기이며 전체 QA·배포 완료를 선언하지 않았습니다.
 - 사용자 승인 범위: 문서 기반 개발 및 Git push. 최신 요청에 따라 캡처/권한 수동 QA는 사용자가 맡고 에이전트는 코드 검토와 빠른 자동 검증 후 코드 커밋·push를 진행합니다. 장시간 GUI 테스트는 중단합니다.
 - 산출물: CaptureCore, AppKit 앱, 합성 fixture/self-test, 자동 테스트, 앱 빌드·공증 준비 스크립트, 설계·QA 문서.
-- 제품 이름: sshot(잠정).
-- 앱 빌드/테스트: 2026-10-04 23:23 SwiftPM 자동 테스트 25개·0 failure. 현재 0.2.1(build 3) 로컬 release 및 deep/strict ad-hoc 서명 검사·`/Applications/sshot.app` 설치 확인. self-test는 권한 SKIP이며 실제 캡처·붙여 넣기는 사용자 인수 상태입니다.
-- 기술 결정: architecture.md와 technical-validation.md에 채택한 D01~D10 및 플랫폼 한계 기록. Developer ID 인증서 0으로 D08 공증 배포는 미완료.
+- 제품 표시 이름: Sshot. 실행 파일·저장소 이름은 sshot입니다.
+- 앱 빌드/테스트: 최신 빠른 자동 테스트 25개·negative 6개 통과. 현재 0.3.0(build 4) 로컬 release·ICNS 및 deep/strict ad-hoc 서명 검사·`/Applications/sshot.app` 설치와 설정 3섹션 확인. 실제 캡처·붙여 넣기는 사용자 인수 상태입니다.
+- 기술 결정: architecture.md와 technical-validation.md에 채택한 D01~D11 및 플랫폼 한계 기록. Developer ID 인증서 0으로 D08 공증 배포는 미완료.
 - 원격 반영: 코드 검토·빠른 자동 검증 후 검토된 변경을 커밋·push할 수 있습니다. 사용자 수동 캡처 QA 미완료를 코드 push 차단 조건으로 사용하지 않습니다. 실제 commit은 `git log -1`, 원격 반영은 로컬 HEAD와 `git ls-remote origin refs/heads/main`으로 확인합니다. 공개 바이너리 release gate는 유지합니다.
 
 ## 2026-10-04 구현 기록
@@ -65,12 +65,15 @@
 - 남은 항목: 사용자 수동 캡처/권한 QA, Developer ID·공증, 공개 release asset 게시 및 종단간 업데이트. 공개 asset은 게시하지 않았습니다.
 - 이 종료 문서의 후속 커밋 ID는 `git log -1`로 확인합니다. 문서 내부에 자기 자신의 커밋 hash를 기록하지 않습니다.
 
-## Sshot 0.3.0 표시·설정 개선 계획
+## Sshot 0.3.0 표시·설정 개선 기록
 
 - 사용자 보고: 기본 동작이 잘 된다는 정성 확인. 실제 전체 수동 QA 통과로 확대하지 않습니다. 캡처 장시간 테스트는 계속 사용자 담당입니다.
-- 예정 변경: Sshot 표시명, 독자 macOS 아이콘, native AppKit 설정 창, 0.3.0(build 4). 현재 설치 검증 버전은 0.2.1(build 3)입니다.
-- 유지: `dev.sshot.app`, executable `sshot`, `/Applications/sshot.app`, 기존 UserDefaults 및 GitHub feed·공개키. 표시 개선을 위해 TCC identity를 바꾸지 않습니다. ad-hoc 새 코드 서명 자체는 재허용을 유발할 수 있습니다.
-- 순서: 별도 UI/아이콘 작성 → 독립 검토·빠른 자동 검증 → 로컬 설치·표시 확인 → 정확히 확인한 구버전만 휴지통으로 이동 → 코드 commit/push. 아직 수행하지 않은 작업은 예정입니다.
+- 완료 변경: Sshot 표시명, 독자 macOS 아이콘, native AppKit 설정 창, 0.3.0(build 4) 로컬 설치. 구현 commit은 `32685dcb5b03f2ea450798c44e26e10c5eb0a557`입니다. 이 종료 문서의 실제 commit은 `git log -1`로 확인합니다.
+- 유지: `dev.sshot.app`, executable `sshot`, `/Applications/sshot.app`, 기존 UserDefaults domain 및 GitHub feed·공개키. stable ID는 유지하지만 ad-hoc 코드 hash는 변경되며 현재 0.3.0에서 권한 미적용을 관찰했습니다. 필요하면 재허용해야 합니다.
+- 검증: 독립 코드/아이콘 검토·빠른 25개 자동 테스트/negative 6개·shell/plist/diff 검사, clean 구현 HEAD release 빌드·서명·설치 통과. 실제 dark 설정 화면의 3섹션/아이콘/단축키/버전/자동 확인 OFF/권한 세부 정보를 확인했습니다. resize 시도는 크기를 바꾸지 못해 미검증이며 캡처 GUI 테스트는 수행하지 않았습니다.
+- 정리: 같은 앱 ID와 구버전 build를 확인한 백업/중간 앱 7개를 휴지통으로 이동하고 기존 경로 제거를 확인했습니다. 현재 설치 앱은 유지하고 삭제 앱은 휴지통에서 복구할 수 있습니다.
+- 추가 산출물/정리: `dist/sshot-0.3.0.zip`(약 2.2MB) 생성 및 unzip 무결성 검사 통과. production 서명/feed 없는 로컬 개발 archive입니다. 이전 `dist/github-local-qa.*`의 zip/feed/manifest 3개를 검증한 뒤 해당 폴더를 별도로 휴지통 이동했고 최신 zip·현재 앱은 유지했습니다. 0.3.0 self-test는 실행하지 않았습니다.
+- 인수: 개발 ad-hoc 교체 후 필요하면 사용자가 화면 기록을 다시 허용하고 짧은 캡처 체크를 수행합니다. 코드·종료 문서 push 반영은 HEAD/원격 일치로 확인합니다. 설치 앱은 구현 commit의 개발 번들이며 이후 문서 commit과 production 자료로 혼동하지 않습니다.
 - 공개 배포: Releases 0개로 삭제 대상 없음, Developer ID 인증서 0개. 미공증 developer preview 공개 여부 질문의 답이 없으므로 공개 앱 게시 gate는 유지합니다.
 
 ## 후속 기록 템플릿
