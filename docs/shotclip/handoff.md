@@ -2,6 +2,20 @@
 
 [Documentation](README.md) · [Development plan](development-plan.md) · [QA results](qa-results.md)
 
+## 2026-10-05 0.6.0 documentation handoff
+
+- Direction: target `0.6.0` (build `8`), supplied-reference native settings/menu, native NSMenu shortcut column, immediate English / 한국어 app-localization and supported custom Sparkle user-driver dialogs. macOS-owned prompts follow OS language; Screen Recording regrant/restart remains separate. Current settings sizes/rail/native controls and menu/localization changes were inspected. Final integrated UI/build/user-driver fixtures and independent approval remain pending; the coordinator instructed this lane to freeze target-only prepublication docs for review.
+- Current delivery: latest recorded public/installed release remains `0.5.0` (build `7`). No 0.6 release/installation completion, new commit/tag or remote equality is claimed by this authoring lane. The dated 0.5 record below remains its original evidence, including its restart-only language behavior.
+- Owned files: `README.md`, `README.ko.md` and the twelve non-review Markdown documents in `docs/shotclip`. No source/test/resource/script, review-file, screenshot, app/preferences/TCC/clipboard/Keychain, Git or remote mutations by this worker.
+- Verified report reading: coordinator synthetic release/security checks PASS (25 crypto/policy negatives, 16 gates, 22 resources, 15 unsafe/two valid ZIP and eight signed temporary installer cases); initial 14 staging-folder Trash moves totaling 12,897,238 bytes in `dist/cleanup-0.6-initial.json`. `.build/` retained. These are bounded fixture/initial-cleanup results, not a new UI or release pass.
+- Writer checks: source/document audit and official Apple native API content reading performed. Document checks PASS for 14 owned Markdown files, 119 relative file/fragment links, 19 repository source references, R01–R17/D01–D14/P0–P7, English/Korean companions, prediction labels, fences, newlines, no new environment-specific paths and scoped `git diff --check`. Earlier QA/handoff/technical sections are byte-for-byte unchanged. Native settings dimensions/controls and menu/live-localization source inspected; final executor/user-driver results remain pending. No independent approval is issued here.
+- Coordinator baseline: 36 core tests and 21 English-dark inert views/state transitions reported; final integrated 0.6 build/driver verification is pending. These baseline counts are not a full 0.6 approval.
+- Unrun: actual capture/pixels/TCC/paste, VoiceOver/native focus, clean-account downloaded first launch, macOS 14/Intel, real rollback and real Sparkle upgrade. This worker also ran no app test/build/preview or installation.
+- Git at documentation start: `main`, HEAD `26e386674c42061c0565b40f5422310963ea8a97`; existing shared executor source changes preserved. This worker makes no commit/push/tag.
+- Next: a separate follow-up writer records final executor/driver/runtime evidence; obtain independent review only after stable source/docs/artifacts, then coordinator commit/push/tag → existing-key prepare/sign/verify/publish → exact install/verification → authorized remaining cleanup. Record exact final branch/source/tag and remote equality only after they are supplied.
+
+한국어: 0.6.0(8)의 native 참조 스타일 설정/메뉴·오른쪽 단축키 열·즉시 언어 전환을 문서에 반영하며 최신 공개/설치 증거는 아직 0.5.0입니다. 보안 fixture·초기 build 폴더 14개 정리·36 test/21 합성 뷰 baseline 범위를 기록하며 최종 통합 빌드/driver·독립 리뷰·게시·설치 완료를 주장하지 않습니다. 14개 문서·119개 상대 링크·19개 소스 참조 확인 후 조정자의 지시에 따라 사전 게시 문서를 동결하고 후속 writer가 최종 증거를 기록합니다. 과거 날짜별 기록은 보존하며 조정자가 실제 Git·릴리스·설치·최종 정리 결과를 이어서 기록합니다.
+
 ## 2026-10-05 0.5.0 handoff
 
 - Current: [v0.5.0](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.5.0) / [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.5.0/shotclip-0.5.0.zip), published 04:30:38 KST; 0.5.0(7), arm64, ad-hoc signed, **NOT notarized**. Six live assets and canonical feed passed byte/signature/ZIP checks; [current QA](qa-results.md#2026-10-05-050-publication-installation-and-cleanup) records hashes and ownership.

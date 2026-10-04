@@ -10,8 +10,8 @@ if [[ "$release_mode" != development ]]; then
 elif [[ "$signing_identity" != '-' ]]; then
     release_fail 'Use explicit developer-id release mode for Developer ID signing.'
 fi
-version="${SHOTCLIP_VERSION:-0.5.0}"
-build_number="${SHOTCLIP_BUILD_NUMBER:-7}"
+version="${SHOTCLIP_VERSION:-0.6.0}"
+build_number="${SHOTCLIP_BUILD_NUMBER:-8}"
 [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ && "$build_number" =~ ^[1-9][0-9]*$ ]] || release_fail 'Version must be N.N.N; build number must be a positive integer.'
 if pgrep -x shotclip >/dev/null; then release_fail 'Quit Shot Clip before rebuilding its app bundle.'; fi
 swift build -c release
@@ -71,4 +71,8 @@ if pgrep -x shotclip-fixture >/dev/null; then release_fail 'Quit shotclip-fixtur
 [[ ! -L dist/shotclip-fixture.app ]] || release_fail 'Fixture target is a symlink.'
 if [[ -e dist/shotclip-fixture.app ]]; then mv dist/shotclip-fixture.app "$staging/previous-shotclip-fixture.app"; fi
 mv "$fixture" dist/shotclip-fixture.app
+# Only after both generated bundles pass verification and replacement succeeds.
+# Failed builds retain their private staging folder for recovery.
+[[ "$staging" == "$(pwd)/dist/build."* && -d "$staging" && ! -L "$staging" ]] || release_fail 'Unexpected build staging directory.'
+rm -rf -- "$staging"
 printf '%s\n' "$output_app"

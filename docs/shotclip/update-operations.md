@@ -2,7 +2,7 @@
 
 [Product decision](product-plan.md) · [QA plan](qa-plan.md) · [Results](qa-results.md) · [한국어](#한국어)
 
-Published 2026-10-05 04:30:38 KST (2026-10-04T19:30:38Z): [Shot Clip v0.5.0](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.5.0), the latest public GitHub **ad-hoc developer preview; NOT notarized; arm64 only**. Developer ID is a separate route. Public assets and the exact installed app passed verification; an actual same-ID Sparkle upgrade remains unrun.
+Latest recorded public release at the 0.6 development checkpoint, published 2026-10-05 04:30:38 KST (2026-10-04T19:30:38Z): [Shot Clip v0.5.0](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.5.0), the latest public GitHub **ad-hoc developer preview; NOT notarized; arm64 only**. Developer ID is a separate route. Public assets and the exact installed app passed verification; an actual same-ID Sparkle upgrade remains unrun.
 
 | Item | Current contract |
 | --- | --- |
@@ -17,6 +17,14 @@ Published 2026-10-05 04:30:38 KST (2026-10-04T19:30:38Z): [Shot Clip v0.5.0](htt
 | Required trust | Ed25519 archive/signed feed; `SUVerifyUpdateBeforeExtraction` and `SURequireSignedFeed` enabled |
 
 Latest/download selects the latest public release, so each release must contain its correct appcast. Archive URLs remain tag-specific. Draft assets are not a public update feed. The current canonical feed matched the prepared/tag bytes; repeat this check for future releases.
+
+## 0.6.0 preparation checkpoint
+
+The next target is **0.6.0 (build 8)**. The coordinator owns new source/docs/artifact review, commit/push/tag, clean-source preparation with existing Ed25519 trust, publication, exact installation and remaining cleanup. Do not reuse `v0.5.0`, replace a prior tag or declare publication from a successful fixture/build alone. Record the exact reviewed source/tag, sealed version/build/mode, archive/feed hashes, public uploaded bytes and installed payload when each step actually completes.
+
+Reference-style native settings/menu and immediate app-localization are the 0.6 scope. The supported custom Sparkle user driver is planned to update app-owned new/visible update dialogs live, with synthetic callback/choice/progress/cancellation evidence distinct from a real upgrade. macOS permission/security prompts still follow OS language; a Screen Recording restart/regrant remains independent of language changes.
+
+Coordinator release/security fixtures have passed (25 crypto/policy rejections, 16 gates, 22 resources, 15 unsafe/two valid ZIP, eight signed temporary installer cases); logs are `dist/{crypto,gates,resources,archive,install}-0.6-tests.log`. Initial recoverable cleanup moved 14 prior build staging folders (11 iconsets, three empty), 12,897,238 bytes, to Trash; `.build/` and the current app retained. These results do not establish a 0.6 public feed, installed app, actual update or completed final cleanup. See [current QA](qa-results.md#2026-10-05-060-documentation-and-development-checkpoint).
 
 ## Verified v0.5.0 operations
 
@@ -81,11 +89,13 @@ The 0.4.x → 0.5.0 visible-name/path change keeps `dev.shotclip.app` and saved 
 
 The historical `dev.sshot.app` → `dev.shotclip.app` migration also requires manual installation. Only selected valid shortcut/mode preferences migrate; Screen Recording and login registration do not. Grant access to Shot Clip afresh for that older-ID migration; do not promise legacy Sparkle replacement compatibility.
 
-English is the default; choose English / 한국어 in General settings and restart to apply. Automatic update checks are opt-in and OFF by default. Public feed integrity is verified; an actual automatic upgrade is not.
+English is the default. In 0.6, English / 한국어 changes app-owned text and update dialogs immediately and persists for next launch. The older published 0.5 release applies the choice after restart; its dated evidence remains unchanged. Automatic update checks are opt-in and OFF by default. Public feed integrity is verified; an actual automatic upgrade is not.
 
 Historical Sshot 0.2.1 local archive/feed cryptographic checks passed; the then-public feed returned HTTP 404. These remain dated legacy results; current Shot Clip publication is recorded above, while actual upgrades remain untested. See [historical results](qa-results.md).
 
 ## 한국어
+
+현재 다음 릴리스 목표는 0.6.0(8)이며 아래 0.5 공개/설치 증거와 구분합니다. 참조 스타일 native 설정/메뉴와 즉시 언어 전환, 지원되는 Sparkle 사용자 driver를 개발하고 새 독립 리뷰·소스/tag 일치·게시·정확한 설치·최종 정리 증거를 조정자가 기록합니다. 초기 build 폴더 14개·12,897,238바이트만 복구 가능한 휴지통으로 옮겼고 `.build/`는 유지합니다.
 
 2026-10-05 04:30:38 KST에 최신 [v0.5.0](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.5.0) / [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.5.0/shotclip-0.5.0.zip)을 공개했습니다. Shot Clip 0.5.0(7), arm64 전용 ad-hoc·미공증이며 tag/manifest/설치 앱의 source는 `3d803a9`로 후속 문서 commit과 구분합니다. 기존 키 서명·공개 자료 6개/feed·ZIP·새 `/Applications/Shot Clip.app`의 168개 항목/서명·125개 언어 키·단일 정상 실행을 확인했습니다. 별도 공개 자료/설치/정리 검증도 통과했습니다.
 
@@ -95,4 +105,4 @@ Historical Sshot 0.2.1 local archive/feed cryptographic checks passed; the then-
 
 다음 릴리스는 Info.plist의 버전과 단조 증가 build를 모두 높이고 구현·독립 리뷰·테스트·commit 후 **새** tag를 만듭니다. `v0.5.0` 및 이전 tag를 재사용·교체하지 않습니다. ad-hoc 모드/제약 인정, 독립 검토된 전체 commit, 일치하는 버전/build/tag와 기존 Keychain 계정 `sshot`을 명시합니다. 준비는 기존 키만 조회하고 게시하지 않으며 publisher `--check`는 Keychain 접근/업로드 없는 검증입니다. 기본 draft와 명시적 `--publish`를 구분하고 실제 준비 폴더·원격 commit/tag·산출물/feed·미실행 항목을 기록합니다. 위 0.4.0 설정은 과거 재현 기록이며 다시 게시하는 절차가 아닙니다.
 
-영어 기본/한국어는 재시작 적용, 자동 확인은 선택 사항이며 기본 OFF입니다. 최초 실행은 Apple의 앱별 허용 절차를 따릅니다. Ed25519는 공증·TCC를 대신하지 않고 기존 키를 내보내거나 재생성하지 않습니다. 최종 문서 독립 리뷰와 문서 commit/push는 이 작성 기록 이후 조정자가 수행합니다.
+0.6은 영어 기본/한국어 선택을 앱 소유 문구와 업데이트 창에 즉시 적용하고 다음 실행에도 유지합니다. 현재 공개된 0.5의 재시작 적용은 과거 버전 동작으로 구분합니다. macOS 권한/보안 창은 OS 언어를 따르며 화면 기록 재허용/재시작은 별개입니다. 자동 확인은 선택 사항이며 기본 OFF입니다. 최초 실행은 Apple의 앱별 허용 절차를 따릅니다. Ed25519는 공증·TCC를 대신하지 않고 기존 키를 내보내거나 재생성하지 않습니다. 최종 문서 독립 리뷰와 문서 commit/push는 이 작성 기록 이후 조정자가 수행합니다.

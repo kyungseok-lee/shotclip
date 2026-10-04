@@ -2,6 +2,20 @@
 
 [Architecture](architecture.md) · [Design system](design-system.md) · [QA results](qa-results.md)
 
+## 2026-10-05 0.6 native-menu documentation review
+
+This documentation lane inspected current native menu and explicit en/ko localization changes; implementation and independent verification continue in separate lanes. Apple pages initially returned JavaScript shells and the web Markdown fetch rejected the content type. A read-only HTTPS retrieval of the official `.md` pages supplied their actual content on 2026-10-05:
+
+| Primary source | Documentation implication |
+| --- | --- |
+| [NSMenuItem.keyEquivalent](https://developer.apple.com/documentation/appkit/nsmenuitem/keyequivalent) / [keyEquivalentModifierMask](https://developer.apple.com/documentation/appkit/nsmenuitem/keyequivalentmodifiermask) | Native shortcuts use an unmodified key and a separate modifier mask. Derive them from the configured key/layout; keep text titles free of padded shortcut hints |
+| [NSToolbar](https://developer.apple.com/documentation/appkit/nstoolbar) | Native window navigation can use toolbar items in the title-bar area; exact layout remains a project choice |
+| [NSPopUpButton](https://developer.apple.com/documentation/appkit/nspopupbutton) | Native list selection fits the English / 한국어 control; menu tracking does not reflect arbitrary programmatic menu changes mid-track |
+
+Reproduce by requesting the linked URL with `.md` appended and inspect the symbol title/discussion. Source inspection alone does not prove focus, native popup behavior, live language rendering or a real capture. The 0.6 plan uses explicit app-localization lookup plus refresh notifications and a supported custom Sparkle user driver for app-owned update dialogs; macOS-owned permission/security prompts remain OS-controlled. The user-driver implementation, synthetic callback fixtures and independent verdict must be recorded separately before completion claims. No app, preferences, TCC, clipboard, Keychain, Git or network mutations were made in this documentation lane.
+
+한국어: Apple의 공식 Markdown 원문을 읽어 native 단축키의 key/modifier 분리, toolbar 및 언어 선택 popup 동작을 확인했습니다. 소스 확인은 실제 포커스·메뉴·언어·캡처 통과를 뜻하지 않습니다. 0.6은 앱 소유 언어의 즉시 갱신과 지원되는 Sparkle 사용자 driver를 계획하고 macOS 시스템 창은 OS 언어 범위로 구분합니다.
+
 ## 2026-10-05 documentation-source review
 
 Method: inspected current Swift/AppKit sources and existing docs without operating capture GUI; consulted official Apple documentation through web retrieval and Apple's public DocC JSON endpoints (`developer.apple.com/tutorials/data/…`). JavaScript-only page shells were not treated as content evidence: the native design/accessibility/materials and package-localization JSON returned the document titles and content. No SDK probe, build, capture, permission grant, clipboard write, installation, or release was performed in this documentation lane.

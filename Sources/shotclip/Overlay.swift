@@ -60,9 +60,18 @@ final class SelectionView: NSView {
         modeControl.setAccessibilityLabel(L10n.text("overlay.mode_label"));modeControl.setAccessibilityHelp(L10n.text("overlay.mode_help"))
         setAccessibilityElement(true);setAccessibilityRole(.group);setAccessibilityLabel(L10n.text("overlay.title"))
         nextKeyView=captureButton;captureButton.nextKeyView=cancelButton;cancelButton.nextKeyView=modeControl;modeControl.nextKeyView=self
-        updateAccessibility()
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshLocalization), name: L10n.languageDidChange, object: nil)
+        refreshLocalization()
     }
     required init?(coder:NSCoder) { fatalError("init(coder:) is unavailable") }
+    @objc func refreshLocalization() {
+        captureButton.title = L10n.text("capture.start"); cancelButton.title = L10n.text("action.cancel")
+        captureButton.setAccessibilityLabel(captureButton.title); cancelButton.setAccessibilityLabel(cancelButton.title)
+        modeControl.setLabel(L10n.text("capture.area"), forSegment: 0)
+        modeControl.setLabel(L10n.text("capture.fixed"), forSegment: 1)
+        modeControl.setAccessibilityLabel(L10n.text("overlay.mode_label")); modeControl.setAccessibilityHelp(L10n.text("overlay.mode_help"))
+        setAccessibilityLabel(L10n.text("overlay.title")); updateAccessibility(); needsDisplay = true
+    }
     @objc private func confirm() { if SelectionGeometry.valid(rect) { selection?(rect) } }
     @objc private func cancelSelection() { cancel?() }
     @objc private func selectCaptureMode() {mode=modeControl.selectedSegment == 0 ? .drag:.mask}

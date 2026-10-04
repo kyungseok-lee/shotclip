@@ -4,52 +4,53 @@ import CaptureCore
 
 @MainActor
 final class UpdateService {
-    private var controller: SPUStandardUpdaterController?
+    private var updater: SPUUpdater?
+    private let userDriver = LocalizedUpdateDriver()
+    private var attemptedStartup = false
     private var observation: NSKeyValueObservation?
     var onChange: (() -> Void)?
-    private var initializationError:Int?
-    var statusText:String {
-        if let initializationError {return L10n.format("updates.initialization_failed",String(initializationError))}
-        guard isConfigured else {return L10n.text("updates.unconfigured")}
-        return L10n.text(canCheckForUpdates ? "updates.ready":"updates.busy")
+    private var initializationError: Int?
+    var statusText: String {
+        if let initializationError { return L10n.format("updates.initialization_failed", String(initializationError)) }
+        guard isConfigured else { return L10n.text("updates.unconfigured") }
+        return L10n.text(canCheckForUpdates ? "updates.ready" : "updates.busy")
     }
-    var isConfigured: Bool { controller != nil }
-    var canCheckForUpdates: Bool { controller?.updater.canCheckForUpdates ?? false }
+    var isConfigured: Bool { updater != nil }
+    var canCheckForUpdates: Bool { updater?.canCheckForUpdates ?? false }
     var automaticallyChecksForUpdates: Bool {
-        get { controller?.updater.automaticallyChecksForUpdates ?? false }
+        get { updater?.automaticallyChecksForUpdates ?? false }
         set {
-            guard let updater = controller?.updater else { return }
+            guard let updater else { return }
             updater.automaticallyChecksForUpdates = newValue
             onChange?()
         }
     }
     func start() {
-        guard controller == nil,
-              UpdateConfiguration(feed: Bundle.main.object(forInfoDictionaryKey: "SUFeedURL") as? String,
+        guard !attemptedStartup else { return }
+        attemptedStartup = true
+        guard UpdateConfiguration(feed: Bundle.main.object(forInfoDictionaryKey: "SUFeedURL") as? String,
                                   publicKey: Bundle.main.object(forInfoDictionaryKey: "SUPublicEDKey") as? String) != nil else { return }
-        let instance = SPUStandardUpdaterController(startingUpdater: false, updaterDelegate: nil, userDriverDelegate: nil)
-        do { try instance.updater.start() }
+        // One updater and one supported driver for the service's lifetime.
+        // Initial automatic-check/signing/feed defaults remain in Info.plist.
+        let instance = SPUUpdater(hostBundle: .main, applicationBundle: .main, userDriver: userDriver, delegate: nil)
+        do { try instance.start() }
         catch {
-            initializationError=(error as NSError).code
+            initializationError = (error as NSError).code
             onChange?()
             return
         }
-        controller = instance
-        observation = instance.updater.observe(\.canCheckForUpdates, options: [.initial, .new]) { [weak self] _, _ in
+        updater = instance
+        observation = instance.observe(\.canCheckForUpdates, options: [.initial, .new]) { [weak self] _, _ in
             Task { @MainActor [weak self] in self?.onChange?() }
         }
-        initializationError=nil
+        initializationError = nil
         onChange?()
     }
     func checkForUpdates() {
-        guard let controller else {
-            let alert = NSAlert()
-            alert.messageText = L10n.text("updates.server_unavailable")
-            alert.informativeText = statusText
-            alert.addButton(withTitle:L10n.text("action.ok"))
-            alert.runModal()
+        guard let updater else {
+            userDriver.showUpdaterError(NSError(domain: "ShotClipUpdateConfiguration", code: initializationError ?? 0), acknowledgement: {})
             return
         }
-        controller.checkForUpdates(nil)
+        updater.checkForUpdates()
     }
 }

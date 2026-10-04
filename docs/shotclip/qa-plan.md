@@ -42,7 +42,11 @@ After an authorized build, use the actual product views with inert callbacks:
 'dist/Shot Clip.app/Contents/MacOS/shotclip' --ui-preview dist/ui-qa/ko-dark --language ko --appearance dark
 ```
 
-Repeat for `en`/`ko` × `light`/`dark`. Inspect all panes at default/minimum sizes, access-ready/unavailable, collapsed/expanded troubleshooting, pending language/login and update-busy states, and selection toolbar. The renderer runs before preferences/AppDelegate: no hotkey/updater/TCC/capture/clipboard or desktop screenshot. Output is synthetic view artwork under ignored `dist/`. The menu image draws the shared NSMenu model and does **not** prove native popup interaction. Only the remembered-mode row shows the current-layout physical-key/modifier shortcut hint; Carbon owns the global binding and no extra native capture key equivalent is invented. Direct binary launch here applies only to the inert preview, not real capture/TCC testing.
+Repeat for `en`/`ko` × `light`/`dark`. Inspect all panes at default/minimum sizes, access-ready/unavailable, collapsed/expanded troubleshooting, live-language transitions, pending-login and update-busy states, and selection toolbar. The renderer runs before preferences/AppDelegate: no hotkey/updater/TCC/capture/clipboard or desktop screenshot. Output is synthetic view artwork under ignored `dist/`. The menu image draws the shared NSMenu model and does **not** prove native popup interaction. Only the remembered-mode row uses the current-layout physical-key/modifier native key equivalent; Settings uses `⌘,` and Quit `⌘Q`. Carbon provides the registered global binding while NSMenu uses its native key-equivalent column. Inspect the production menu model for title/key/modifier values; a synthetic menu image does not prove native popup input or duplicate-event handling. Direct binary launch here applies only to the inert preview, not real capture/TCC testing.
+
+## Live-language and update-dialog fixtures
+
+Use the production language selection/refresh path in inert previews for en→ko→en, checking menus, settings navigation/labels, selection controls and current state. Exercise the supported custom Sparkle `SPUUserDriver` callbacks with synthetic update objects and reply closures: visible/new dialogs relabel immediately; skip/later/install/permission/cancel choices reply correctly and exactly once; progress/error/completion remain localized and usable. The fixture must start no updater/network/install, save no preferences, and touch no TCC/capture/clipboard/Keychain. Record actual commands/counts and separate synthetic callbacks from a real version upgrade.
 
 ## User’s short acceptance check
 
@@ -51,7 +55,7 @@ Repeat for `en`/`ko` × `light`/`dark`. Inspect all panes at default/minimum siz
 3. Move/resize Fixed Region, capture with Return/Capture, and paste in an image-capable app. Repeat in Drag Region, including a reverse drag.
 4. Put nonsensitive synthetic content on the clipboard, cancel with Escape, and inspect that the prior content remains. Do not submit the content.
 5. With another app active, check `⌃⇧⌘5`; change the shortcut and restart to check persistence. M switches mode; Tab/Shift-Tab reaches controls with visible focus.
-6. Set 한국어 in General, restart, and inspect menu/settings/overlay/errors/labels; switch back to English. Compare minimum-size and light/dark layouts.
+6. In 0.6, set 한국어 in General and inspect the immediate menu/settings/overlay/messages/accessibility-label change; switch back to English without restarting. Check the same pane, permission/login/update state and selected capture region remain. Repeat with a visible app-owned update dialog, then restart once to check persistence. macOS permission/security prompts follow OS language. Compare minimum-size and light/dark layouts. The older 0.5 release uses restart-only language application.
 7. For a historical Sshot installation, install Shot Clip manually once, check only selected preference migration, and grant fresh Screen Recording. Do not assume login registration or permission was migrated.
 8. For ShotClip 0.4.x, manually install the verified `Shot Clip.app` folder and check existing valid settings remain. The same ID needs no new defaults migration; ad-hoc replacement may still need permission reapproval.
 
@@ -79,6 +83,6 @@ Verify Ed25519-signed archive **and feed**, uploaded bytes, source/tag consisten
 
 에이전트는 코드 리뷰·빠른 자동/정적 검증을 맡고 실제 캡처·권한·붙여 넣기는 사용자가 맡습니다. 위 명령과 절차는 계획이며 실행 결과가 아닙니다. VoiceOver/포커스 GUI도 미실행입니다.
 
-짧은 체크는 Shot Clip 실행 → 새 화면 기록 허용 → 고정/드래그 캡처·붙여 넣기 → Escape의 기존 내용 보존 → 단축키/M/Tab → 영어/한국어 재시작 적용 → 과거 앱의 수동 설치와 선택 설정 이전 순서입니다. 문제 공유에는 버전·오류·재현 순서만 필요하고 화면·클립보드 내용은 필요하지 않습니다.
+짧은 체크는 Shot Clip 실행 → 새 화면 기록 허용 → 고정/드래그 캡처·붙여 넣기 → Escape의 기존 내용 보존 → 단축키/M/Tab → 영어/한국어 즉시 전환·상태 보존·다음 실행의 선택 유지 → 과거 앱의 수동 설치와 선택 설정 이전 순서입니다. 문제 공유에는 버전·오류·재현 순서만 필요하고 화면·클립보드 내용은 필요하지 않습니다.
 
 harness는 합성 화면·고유 named pasteboard와 메타데이터만 사용합니다. SKIP은 PASS가 아닙니다. 실제 업그레이드·다중 화면·다른 OS/CPU 지원을 자동 테스트로 대신하지 않으며, 승인된 ad-hoc 프리뷰에는 기존 키로 archive/feed 서명과 원격 산출물 일치를 확인합니다.

@@ -18,6 +18,10 @@ enum UIPreview {
         let output = URL(fileURLWithPath: arguments[index + 1], isDirectory: true)
         let appearanceName = arguments[appearanceIndex + 1]
         let appearance = NSAppearance(named: appearanceName == "dark" ? .darkAqua : .aqua)!
+        // persistentDomain reads the explicitly named domain directly; no suite
+        // initialization or persistence is needed in this read-only fixture.
+        let defaults = UserDefaults.standard
+        let preferencesBefore = defaults.persistentDomain(forName: SafeDefaultsMigration.currentDomain) ?? [:]
         let application = NSApplication.shared; application.setActivationPolicy(.prohibited)
         application.appearance = appearance
         let empty: () -> Void = {}
@@ -25,45 +29,72 @@ enum UIPreview {
         appearance.performAsCurrentDrawingAppearance {
             previewWindow = SettingsWindow(actions: .init(mask: empty, drag: empty, shortcut: empty, login: empty,
                 request: empty, settings: empty, recheck: empty, restart: empty, reveal: empty,
-                update: empty, automatic: { _ in }, language: { _ in }))
+                update: empty, automatic: { _ in }, language: { L10n.select($0) }))
             previewWindow.appearance = appearance
         }
         let window = previewWindow!
         let permission = { (ready: Bool) in PermissionStatus(isReady: ready, isAdHoc: true,
-            bundleURL: URL(fileURLWithPath: "/Applications/Shot Clip.app"), version: "0.5.0 (7)") }
+            bundleURL: URL(fileURLWithPath: "/Applications/Shot Clip.app"), version: "0.6.0 (8)") }
         let prefix = "\(language.rawValue)-\(appearanceName)"
+        let shortcutDisplay = CaptureMenu.shortcutDisplay(Shortcut())
         var files: [String] = []
+        var phase = "overlay-keyboard"
+        func renderMinimum(_ label: String) throws {
+            let originalFrame = window.frame
+            window.setFrame(NSRect(origin: .zero, size: window.minSize), display: false)
+            let filename = "\(prefix)-\(label)-minimum.png"
+            try render(window.contentView!, to: output.appendingPathComponent(filename)); files.append(filename)
+            window.setFrame(originalFrame, display: false)
+        }
         do {
+            if arguments.contains("--updater-only") {
+                phase = "updater-fixture-only"
+                try FileManager.default.createDirectory(at: output, withIntermediateDirectories: true)
+                let updateFiles = try UpdatePreview.run(output: output, appearance: appearance)
+                guard NSDictionary(dictionary: preferencesBefore).isEqual(to: defaults.persistentDomain(forName: SafeDefaultsMigration.currentDomain) ?? [:]) else { throw PreviewError.behavior }
+                let record: [String: Any] = ["case": "ui-preview-updater-only", "result": "PASS", "files": updateFiles, "preferencesWritten": false, "captureTested": false, "clipboardTouched": false]
+                print(String(data: try JSONSerialization.data(withJSONObject: record, options: .sortedKeys), encoding: .utf8)!); fflush(stdout); exit(0)
+            }
             try verifyOverlayKeyboardInvariants()
+            phase = "shortcut-menu-dispatch"
+            try verifyShortcutAndMenuDispatch()
+            phase = "settings-render"
             try FileManager.default.createDirectory(at: output, withIntermediateDirectories: true)
             for (ready, state) in [(true, "ready"), (false, "access-needed")] {
-                window.refresh(permission: permission(ready), shortcut: "⌃⇧⌘5", login: L10n.text("login.off"),
-                    update: L10n.text("updates.ready"), automaticEnabled: false, configured: true, canCheck: true)
+                window.refresh(permission: permission(ready), shortcut: shortcutDisplay, login: L10n.text("login.off"),
+                    update: L10n.text("updates.ready"), updateText: { L10n.text("updates.ready") }, automaticEnabled: false, configured: true, canCheck: true)
                 for (section, label) in [(SettingsWindow.Section.general, "general"), (.permission, "access"), (.updates, "updates")] {
                     window.select(section)
                     for (minimum, size) in [(false, "default"), (true, "minimum")] {
                         if minimum { window.setFrame(NSRect(origin: .zero, size: window.minSize), display: false) }
-                        else { window.setContentSize(NSSize(width: 620, height: 510)) }
+                        else { window.setContentSize(NSSize(width: 720, height: 560)) }
                         let filename = "\(prefix)-\(label)-\(size)-\(state).png"
                         try render(window.contentView!, to: output.appendingPathComponent(filename)); files.append(filename)
                     }
                 }
             }
-            window.setContentSize(NSSize(width: 620, height: 510)); window.select(.permission)
+            window.setContentSize(NSSize(width: 720, height: 560)); window.select(.permission)
             window.showTroubleshootingForPreview()
             var filename = "\(prefix)-access-troubleshooting.png"
             try render(window.contentView!, to: output.appendingPathComponent(filename)); files.append(filename)
+            try renderMinimum("access-troubleshooting")
             window.select(.general)
-            window.refresh(permission: permission(true), shortcut: "⌃⇧⌘5", login: L10n.text("login.approval"), loginNeedsApproval: true,
-                update: L10n.text("updates.busy"), automaticEnabled: false, configured: true, canCheck: false,
-                languageSelection: LanguageSelection(active: language, selected: language == .english ? .korean : .english))
-            filename = "\(prefix)-general-pending-approval.png"
+            window.refresh(permission: permission(true), shortcut: shortcutDisplay, login: L10n.text("login.approval"), loginNeedsApproval: true,
+                update: L10n.text("updates.busy"), updateText: { L10n.text("updates.busy") }, automaticEnabled: false, configured: true, canCheck: false)
+            filename = "\(prefix)-general-approval.png"
             try render(window.contentView!, to: output.appendingPathComponent(filename)); files.append(filename)
+            try renderMinimum("general-approval")
             window.select(.updates)
             filename = "\(prefix)-updates-busy.png"
             try render(window.contentView!, to: output.appendingPathComponent(filename)); files.append(filename)
-            let fakeActions = CaptureMenu.Actions(area: Selector(("fixtureArea")), fixed: Selector(("fixtureFixed")),
-                permission: Selector(("fixturePermission")), settings: Selector(("fixtureSettings")), updates: Selector(("fixtureUpdates")), quit: Selector(("fixtureQuit")))
+            try renderMinimum("updates-busy")
+            window.refresh(permission: permission(true), shortcut: shortcutDisplay, login: L10n.text("login.off"),
+                update: L10n.text("updates.unconfigured"), updateText: { L10n.text("updates.unconfigured") }, automaticEnabled: false, configured: false, canCheck: false)
+            filename = "\(prefix)-updates-unconfigured.png"
+            try render(window.contentView!, to: output.appendingPathComponent(filename)); files.append(filename)
+            try renderMinimum("updates-unconfigured")
+            let fakeActions = CaptureMenu.Actions(area: #selector(InertMenuReceiver.area(_:)), fixed: #selector(InertMenuReceiver.fixed(_:)),
+                permission: #selector(InertMenuReceiver.noop(_:)), settings: #selector(InertMenuReceiver.noop(_:)), updates: #selector(InertMenuReceiver.noop(_:)), quit: #selector(InertMenuReceiver.noop(_:)))
             for (mode, label) in [(SelectionMode.drag, "area"), (.mask, "fixed")] {
                 let menu = CaptureMenu.make(ready: true, mode: mode, shortcut: Shortcut(), canCheck: true, target: nil, actions: fakeActions)
                 let view = MenuFixture(menu: menu); view.appearance = appearance
@@ -78,13 +109,172 @@ enum UIPreview {
                 filename = "\(prefix)-overlay-\(label).png"
                 try render(scene, to: output.appendingPathComponent(filename)); files.append(filename)
             }
+            phase = "live-language-transitions"
+            try verifyLanguageTransitions(window: window, permission: permission(true),
+                initial: language, appearance: appearance, output: output, files: &files)
+            phase = "updater-fixture"
+            files += try UpdatePreview.run(output: output, appearance: appearance)
+            phase = "preference-preservation"
+            guard NSDictionary(dictionary: preferencesBefore).isEqual(to: defaults.persistentDomain(forName: SafeDefaultsMigration.currentDomain) ?? [:]) else { throw PreviewError.behavior }
             let record: [String: Any] = ["case": "ui-preview", "result": "PASS", "language": language.rawValue,
                 "appearance": appearanceName, "files": files, "nativeMenuPopupTested": false,
-                "captureTested": false, "clipboardTouched": false, "preferencesWritten": false, "overlayKeyboardInvariants": true]
+                "captureTested": false, "clipboardTouched": false, "preferencesWritten": false, "overlayKeyboardInvariants": true, "sameProcessLanguageTransitions": ["en-to-ko", "ko-to-en"],
+                "settingsWindowPreserved": true, "settingsControlStatePreserved": true, "selectedSectionPreserved": true, "scrollOriginPreserved": true, "focusedControlPreserved": true,
+                "settingsGeometryVerified": true, "settingsRootSizes": [[720, 560], [620, 480]], "settingsMinimumViewportHeight": 424,
+                "nativeMenuKeyEquivalents": true, "appMenuCaptions": true, "overlayLanguageRefresh": true, "sparkleDialogsTested": false, "localizedUpdateDriverFixture": true, "sparkleLiveUpgradeTested": false, "inertNativeMenuDispatch": true, "captureSingleFlight": true, "carbonRoutingTested": false, "currentKeyboardLayoutOnly": true, "alternateKeyboardLayoutsTested": false, "inputSourceSwitchTested": false]
             let data = try JSONSerialization.data(withJSONObject: record, options: .sortedKeys)
-            print(String(data: data, encoding: .utf8)!); fflush(stdout); exit(0)
+            print(String(data: data, encoding: .utf8)!); fflush(stdout)
+            if arguments.contains("--native-menu") { showNativePreview(window: window, appearance: appearance) }
+            exit(0)
         } catch {
-            fputs("UI fixture render failed\n", stderr); exit(1)
+            fputs("UI fixture failed: \(phase) / \(error)\n", stderr); exit(1)
+        }
+    }
+    @MainActor private static func showNativePreview(window: SettingsWindow, appearance: NSAppearance) {
+        // Explicit reviewer-only route. It retains the inert SettingsWindow and
+        // a real native menu with dummy targets, never launching AppDelegate.
+        let receiver = InertMenuReceiver()
+        let actions = CaptureMenu.Actions(area: #selector(InertMenuReceiver.area(_:)), fixed: #selector(InertMenuReceiver.fixed(_:)),
+            permission: #selector(InertMenuReceiver.noop(_:)), settings: #selector(InertMenuReceiver.noop(_:)),
+            updates: #selector(InertMenuReceiver.noop(_:)), quit: #selector(InertMenuReceiver.finishPreview(_:)))
+        let menu = CaptureMenu.make(ready: false, mode: .drag, shortcut: Shortcut(), canCheck: false, target: receiver, actions: actions)
+        NSApp.setActivationPolicy(.regular)
+        NSApp.mainMenu = CaptureMenu.applicationMenu(ready: false, mode: .drag, shortcut: Shortcut(), canCheck: false, target: receiver, actions: actions)
+        window.select(.general); window.makeKeyAndOrderFront(nil); NSApp.activate(ignoringOtherApps: true)
+        DispatchQueue.main.async {
+            let chosen = menu.popUp(positioning: nil, at: NSPoint(x: window.contentView!.bounds.maxX - 300, y: window.contentView!.bounds.maxY - 72), in: window.contentView)
+            print("{\"case\":\"ui-preview-native-menu\",\"result\":\"DISMISSED\",\"actionSelected\":\(chosen),\"dummyCaptureDispatches\":\(receiver.dispatches),\"captureTested\":false}")
+            fflush(stdout); NSApp.stop(nil)
+        }
+        withExtendedLifetime(receiver) { NSApp.run() }
+        window.close()
+    }
+    @MainActor private static func verifyShortcutAndMenuDispatch() throws {
+        let stale = Shortcut(key: 23, label: "stale label is not a shortcut")
+        let number = CaptureMenu.presentation(stale)
+        let letter = CaptureMenu.presentation(Shortcut(key: 0, label: "wrong"))
+        let punctuation = CaptureMenu.presentation(Shortcut(key: 27, label: "wrong"))
+        let backspace = CaptureMenu.presentation(Shortcut(key: 51))
+        let delete = CaptureMenu.presentation(Shortcut(key: 117))
+        let enter = CaptureMenu.presentation(Shortcut(key: 76))
+        let returnKey = CaptureMenu.presentation(Shortcut(key: 36))
+        let left = CaptureMenu.presentation(Shortcut(key: 123))
+        let function = CaptureMenu.presentation(Shortcut(key: 122))
+        let unresolved = CaptureMenu.presentation(Shortcut(key: UInt32.max, label: "5"))
+        guard let numberKey = number.equivalent, numberKey.utf16.count == 1, number.visual == "⌃⇧⌘" + numberKey.uppercased(), number.modifiers == [.control, .shift, .command] else { throw PreviewError.numberMapping }
+        // Printable physical keys follow the active keyboard layout, which can
+        // differ from US ANSI (including dead-key and input-method layouts).
+        // A stale persisted label must never become a native equivalent.
+        guard let letterKey = letter.equivalent, let punctuationKey = punctuation.equivalent,
+              letterKey.utf16.count == 1, punctuationKey.utf16.count == 1,
+              letter.visual == "⌃⇧⌘" + letterKey.uppercased(), punctuation.visual == "⌃⇧⌘" + punctuationKey.uppercased(),
+              letterKey != "wrong", punctuationKey != "wrong" else { throw PreviewError.printableMapping }
+        guard backspace.equivalent == "\u{8}", delete.equivalent == "\u{7f}", returnKey.equivalent == "\r", enter.equivalent == "\u{3}", left.equivalent == "\u{f702}" else { throw PreviewError.specialMapping }
+        guard function.equivalent == "\u{f704}", function.visual == "⌃⇧⌘F1" else { throw PreviewError.functionMapping(code: function.equivalent?.unicodeScalars.first?.value ?? 0, visual: function.visual) }
+        guard unresolved.equivalent == nil, unresolved.visual.contains(String(UInt32.max)), unresolved.visual != "⌃⇧⌘5", !number.spoken.isEmpty else { throw PreviewError.fallbackMapping }
+        let receiver = InertMenuReceiver()
+        let actions = CaptureMenu.Actions(area: #selector(InertMenuReceiver.area(_:)), fixed: #selector(InertMenuReceiver.fixed(_:)),
+            permission: #selector(InertMenuReceiver.noop(_:)), settings: #selector(InertMenuReceiver.noop(_:)),
+            updates: #selector(InertMenuReceiver.noop(_:)), quit: #selector(InertMenuReceiver.noop(_:)))
+        for printable in [Shortcut(key: 0, label: "wrong"), Shortcut(key: 27, label: "wrong")] {
+            let actual = CaptureMenu.presentation(printable)
+            let menu = CaptureMenu.make(ready: true, mode: .drag, shortcut: printable, canCheck: true, target: receiver, actions: actions)
+            guard menu.item(withTag: CaptureMenu.areaTag)?.keyEquivalent == actual.equivalent,
+                  menu.item(withTag: CaptureMenu.areaTag)?.attributedTitle == nil,
+                  menu.item(withTag: CaptureMenu.fixedTag)?.keyEquivalent.isEmpty == true else { throw PreviewError.printableMapping }
+        }
+        for mode in [SelectionMode.drag, .mask] {
+            receiver.reset()
+            let menu = CaptureMenu.make(ready: true, mode: mode, shortcut: stale, canCheck: true, target: receiver, actions: actions)
+            guard let event = NSEvent.keyEvent(with: .keyDown, location: .zero, modifierFlags: number.modifiers,
+                timestamp: 0, windowNumber: 0, context: nil, characters: numberKey, charactersIgnoringModifiers: numberKey, isARepeat: false, keyCode: 23),
+                menu.performKeyEquivalent(with: event), receiver.dispatches == 1, receiver.opened == 1, receiver.mode == mode else { throw PreviewError.menuDispatch }
+            receiver.simulateGlobal(mode)
+            guard receiver.dispatches == 2, receiver.opened == 1, receiver.broughtForward == 1 else { throw PreviewError.captureSingleFlight }
+        }
+    }
+    @MainActor private static func verifyLanguageTransitions(window: SettingsWindow, permission: PermissionStatus,
+        initial: AppLanguage, appearance: NSAppearance, output: URL, files: inout [String]) throws {
+        let controls = window.previewControls
+        let shortcutDisplay = CaptureMenu.shortcutDisplay(Shortcut())
+        let windowIdentity = ObjectIdentifier(window)
+        let languageIdentity = ObjectIdentifier(controls.language)
+        let loginIdentity = ObjectIdentifier(controls.login)
+        let automaticIdentity = ObjectIdentifier(controls.automatic)
+        window.select(.general); window.makeFirstResponder(controls.language)
+        window.refresh(permission: permission, shortcut: shortcutDisplay, login: L10n.text("login.on"), loginEnabled: true,
+            update: L10n.text("updates.busy"), updateText: { L10n.text("updates.busy") }, automaticEnabled: true, configured: true, canCheck: false)
+        let frame = window.frame
+        let overlay = SelectionView(frame: NSRect(x: 0, y: 0, width: 960, height: 600))
+        overlay.mode = .mask; overlay.rect = NSRect(x: 140, y: 150, width: 420, height: 230)
+        let rect = overlay.rect
+        let actions = CaptureMenu.Actions(area: #selector(InertMenuReceiver.area(_:)), fixed: #selector(InertMenuReceiver.fixed(_:)),
+            permission: #selector(InertMenuReceiver.noop(_:)), settings: #selector(InertMenuReceiver.noop(_:)), updates: #selector(InertMenuReceiver.noop(_:)), quit: #selector(InertMenuReceiver.noop(_:)))
+        var baselineEquivalent: String?
+        for destination in [initial == .english ? AppLanguage.korean : .english, initial] {
+            let sourceLanguage = L10n.language
+            controls.language.selectItem(at: AppLanguage.allCases.firstIndex(of: destination)!)
+            guard let action = controls.language.action,
+                  controls.language.sendAction(action, to: controls.language.target) else { throw PreviewError.behavior }
+            guard L10n.language == destination, ObjectIdentifier(window) == windowIdentity, window.frame == frame,
+                  window.selectedSection == .general, window.firstResponder === controls.language,
+                  ObjectIdentifier(window.previewControls.language) == languageIdentity,
+                  ObjectIdentifier(window.previewControls.login) == loginIdentity,
+                  ObjectIdentifier(window.previewControls.automatic) == automaticIdentity,
+                  controls.login.state == .on, controls.login.isEnabled, controls.automatic.state == .on,
+                  controls.automatic.isEnabled, !controls.checkUpdates.isEnabled, controls.shortcut.title == shortcutDisplay,
+                  controls.language.indexOfSelectedItem == AppLanguage.allCases.firstIndex(of: destination),
+                  overlay.mode == .mask, overlay.rect == rect,
+                  overlay.accessibilityLabel() == (destination == .english ? "Capture selection" : "캡처 영역 선택") else { throw PreviewError.behavior }
+            let expectedTitle = destination == .english ? "Shot Clip Settings" : "Shot Clip 설정"
+            let expectedSettings = destination == .english ? "Settings…" : "설정…"
+            let expectedArea = destination == .english ? "Capture Area" : "영역 캡처"
+            guard window.title == expectedTitle,
+                  controls.updateStatus.stringValue == (destination == .english ? "Update checking is temporarily unavailable while the updater is busy." : "업데이트 처리 중에는 잠시 새 업데이트를 확인할 수 없습니다."),
+                  controls.permissionTitle.stringValue == (destination == .english ? "Screen Recording is ready" : "화면 기록 준비 완료"),
+                  controls.pageTitle.stringValue == (destination == .english ? "General" : "일반"),
+                  controls.loginLabel.stringValue == (destination == .english ? "Launch at login" : "로그인 시 시작"),
+                  controls.automaticLabel.stringValue == (destination == .english ? "Automatically check for updates" : "자동으로 업데이트 확인") else { throw PreviewError.behavior }
+            for mode in [SelectionMode.drag, .mask] {
+                let menu = CaptureMenu.make(ready: false, mode: mode, shortcut: Shortcut(), canCheck: false, target: nil, actions: actions)
+                let app = CaptureMenu.applicationMenu(ready: false, mode: mode, shortcut: Shortcut(), canCheck: false, target: nil, actions: actions)
+                guard let capture = app.items[1].submenu,
+                      let current = menu.item(withTag: mode == .drag ? CaptureMenu.areaTag : CaptureMenu.fixedTag),
+                      let other = menu.item(withTag: mode == .drag ? CaptureMenu.fixedTag : CaptureMenu.areaTag),
+                      current.attributedTitle == nil, current.view == nil, !current.keyEquivalent.isEmpty,
+                      current.keyEquivalentModifierMask == [.control, .shift, .command], other.keyEquivalent.isEmpty,
+                      menu.item(withTag: CaptureMenu.areaTag)?.title == expectedArea,
+                      menu.item(withTag: CaptureMenu.settingsTag)?.title == expectedSettings,
+                      menu.item(withTag: CaptureMenu.settingsTag)?.keyEquivalent == ",",
+                      menu.item(withTag: CaptureMenu.settingsTag)?.keyEquivalentModifierMask == .command,
+                      menu.item(withTag: CaptureMenu.quitTag)?.keyEquivalent == "q",
+                      menu.item(withTag: CaptureMenu.quitTag)?.keyEquivalentModifierMask == .command,
+                      menu.item(withTag: CaptureMenu.updatesTag)?.isEnabled == false,
+                      capture.items.map(\.title) == menu.items.map(\.title),
+                      capture.items.map(\.keyEquivalent) == menu.items.map(\.keyEquivalent),
+                      app.items[0].submenu?.items.first?.title == expectedSettings,
+                      app.items[2].title == (destination == .english ? "Edit" : "편집"),
+                      app.items[3].title == (destination == .english ? "Window" : "윈도우") else { throw PreviewError.behavior }
+                if let baselineEquivalent { guard current.keyEquivalent == baselineEquivalent else { throw PreviewError.behavior } }
+                else { baselineEquivalent = current.keyEquivalent }
+            }
+            let label = "live-\(sourceLanguage.rawValue)-to-\(destination.rawValue)"
+            let filename = "\(label)-\(appearance.name.rawValue)-general.png"
+            try render(window.contentView!, to: output.appendingPathComponent(filename)); files.append(filename)
+            window.select(.permission); window.showTroubleshootingForPreview()
+            window.contentView?.layoutSubtreeIfNeeded()
+            let scroll = window.previewScrollView
+            scroll.contentView.scroll(to: NSPoint(x: 0, y: 30)); scroll.reflectScrolledClipView(scroll.contentView)
+            let origin = scroll.contentView.bounds.origin
+            let focused = window.firstResponder
+            guard origin.y > 0 else { throw PreviewError.behavior }
+            L10n.select(destination == .english ? .korean : .english)
+            guard scroll.contentView.bounds.origin == origin, window.firstResponder === focused, window.selectedSection == .permission, window.troubleshootingVisible, window.frame == frame else { throw PreviewError.behavior }
+            L10n.select(destination)
+            guard window.selectedSection == .permission, window.troubleshootingVisible, window.frame == frame, scroll.contentView.bounds.origin == origin, window.firstResponder === focused else { throw PreviewError.behavior }
+            let accessFile = "\(label)-\(appearance.name.rawValue)-access-troubleshooting.png"
+            try render(window.contentView!, to: output.appendingPathComponent(accessFile)); files.append(accessFile)
+            window.select(.general); window.makeFirstResponder(controls.language)
         }
     }
     @MainActor private static func verifyOverlayKeyboardInvariants() throws {
@@ -112,9 +302,31 @@ enum UIPreview {
     }
     @MainActor private static func render(_ view: NSView, to output: URL) throws {
         var encoded: Data?
+        // NSWindow owns its root frame and guide. Examine the complete native
+        // layout rather than trusting a content subtree's fitting size.
+        view.window?.layoutIfNeeded()
+        view.layoutSubtreeIfNeeded()
+        if let window = view.window as? SettingsWindow {
+            let size = view.bounds.size
+            let geometry = window.previewGeometry
+            guard [NSSize(width: 720, height: 560), NSSize(width: 620, height: 480)].contains(size),
+                  window.contentLayoutRect.size == size,
+                  window.contentRect(forFrameRect: window.frame).size == size,
+                  geometry.pages.width == size.width - 72, geometry.pages.height == size.height - 56,
+                  geometry.viewport.height >= size.height - 57,
+                  geometry.viewport.width >= size.width - 90,
+                  geometry.document.height >= 200, geometry.document.width >= size.width - 90,
+                  !window.previewScrollView.isHidden,
+                  geometry.controls.allSatisfy({ $0.bounds.width > 0 && $0.bounds.height > 0 && !$0.isHiddenOrHasHiddenAncestor })
+            else { throw PreviewError.settingsGeometry(root: size, pages: geometry.pages.size, viewport: geometry.viewport.size) }
+        }
         view.effectiveAppearance.performAsCurrentDrawingAppearance {
             view.layoutSubtreeIfNeeded()
             guard let cached = view.bitmapImageRepForCachingDisplay(in: view.bounds) else { return }
+            if view.window is SettingsWindow {
+                let backing = view.convertToBacking(view.bounds).size
+                guard cached.pixelsWide == Int(backing.width.rounded()), cached.pixelsHigh == Int(backing.height.rounded()) else { return }
+            }
             view.cacheDisplay(in: view.bounds, to: cached)
             // cacheDisplay captures only content, without the native window's
             // background. Flatten onto its semantic surface, never the desktop.
@@ -134,7 +346,11 @@ enum UIPreview {
         guard let data = encoded else { throw PreviewError.render }
         try data.write(to: output)
     }
-    private enum PreviewError: Error { case render, behavior }
+    private enum PreviewError: Error {
+        case render, behavior, numberMapping, printableMapping, specialMapping, fallbackMapping, menuDispatch, captureSingleFlight
+        case settingsGeometry(root: NSSize, pages: NSSize, viewport: NSSize)
+        case functionMapping(code: UInt32, visual: String)
+    }
 }
 
 // Public NSMenu has no direct bitmap view API. This clearly synthetic fixture
@@ -163,10 +379,9 @@ private final class MenuFixture: NSView {
                 NSColor.separatorColor.setStroke(); let line = NSBezierPath()
                 line.move(to: NSPoint(x: 12, y: y + 8)); line.line(to: NSPoint(x: bounds.width - 12, y: y + 8)); line.stroke()
             } else {
-                let plainTitle = item.attributedTitle?.string.components(separatedBy: "\t").first ?? item.title
+                let plainTitle = item.title
                 (plainTitle as NSString).draw(at: NSPoint(x: 41, y: y), withAttributes: [.font: NSFont.menuFont(ofSize: 13), .foregroundColor: NSColor.labelColor])
-                let attributedParts = item.attributedTitle?.string.components(separatedBy: "\t") ?? []
-                var hint = attributedParts.count == 2 ? attributedParts[1] : ""
+                var hint = ""
                 if !item.keyEquivalent.isEmpty {
                     let flags = item.keyEquivalentModifierMask
                     hint = (flags.contains(.control) ? "⌃" : "") + (flags.contains(.option) ? "⌥" : "")
@@ -194,6 +409,30 @@ private final class OverlayFixture: NSView {
         for i in 0..<4 {
             NSColor.separatorColor.withAlphaComponent(0.3).setFill()
             NSBezierPath(roundedRect: NSRect(x: 200, y: 210 + i * 40, width: 480 - i * 60, height: 12), xRadius: 6, yRadius: 6).fill()
+        }
+    }
+}
+
+// Exercises native NSMenu action dispatch and existing CaptureCoordinator's
+// single-flight semantics without a Carbon registration, overlay, or capture.
+@MainActor private final class InertMenuReceiver: NSObject {
+    private var coordinator = CaptureCoordinator<Bool>()
+    private(set) var dispatches = 0
+    private(set) var opened = 0
+    private(set) var broughtForward = 0
+    private(set) var mode: SelectionMode?
+    func reset() { coordinator.cancel(); dispatches = 0; opened = 0; broughtForward = 0; mode = nil }
+    @objc func area(_ sender: Any?) { begin(.drag) }
+    @objc func fixed(_ sender: Any?) { begin(.mask) }
+    @objc func noop(_ sender: Any?) {}
+    @objc func finishPreview(_ sender: Any?) { NSApp.stop(nil) }
+    func simulateGlobal(_ mode: SelectionMode) { begin(mode) }
+    private func begin(_ mode: SelectionMode) {
+        dispatches += 1; self.mode = mode
+        switch coordinator.begin(permission: true) {
+        case .opened: opened += 1
+        case .bringForward: broughtForward += 1
+        default: break
         }
     }
 }

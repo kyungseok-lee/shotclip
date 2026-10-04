@@ -61,8 +61,7 @@
 "settings.login_change" = "로그인 시작 설정 변경…";
 "settings.usage" = "Return: 캡처 · Esc: 취소 · M: 모드 전환\n다른 앱에서 ⌘V로 붙여 넣으세요. 미리보기에서는 ⌘N으로 클립보드 이미지를 열 수 있습니다.";
 "settings.language" = "언어";
-"settings.language_help" = "언어 변경은 재시작 후 적용됩니다.";
-"settings.language_pending" = "언어를 저장했습니다. 재시작해 적용하세요.";
+"settings.language_help" = "변경 사항이 바로 적용됩니다.";
 "permission.ready.title" = "● 캡처 준비 완료";
 "permission.review.title" = "● 화면 기록 권한 확인 필요";
 "permission.ready.explanation" = "현재 실행 중인 Shot Clip에 화면 기록 권한이 적용되어 있습니다. 일반에서 캡처 방식을 선택하세요.";
@@ -113,7 +112,7 @@
 "capture.fixed_help" = "마지막 영역을 조절한 뒤 Return을 눌러 복사합니다.";
 "menu.enable_access" = "화면 기록 허용…";
 "settings.capture_hint" = "드래그해 캡처 · 고정 영역은 마지막 선택을 기억합니다";
-"settings.capture_access_hint" = "첫 캡처에서 화면 기록 권한 설정을 안내합니다.";
+"settings.capture_access_hint" = "캡처하려면 화면 기록 권한이 필요합니다. 캡처를 선택하여 설정을 확인하세요.";
 "settings.shortcut_help" = "마지막으로 사용한 캡처 모드를 엽니다";
 "login.approval_action" = "승인…";
 "permission.settings_short" = "시스템 설정…";
@@ -124,3 +123,42 @@
 "permission.review.summary" = "선택한 화면 영역을 복사할 수 있도록 Shot Clip을 허용하세요.";
 "overlay.dimensions" = "%.0f × %.0f";
 "shortcut.key_number" = "키 %@";
+
+/* Reference-style settings and live language. */
+"settings.capture_section" = "캡처";
+"settings.app_section" = "앱";
+"settings.screen_recording_section" = "화면 기록";
+"settings.recovery_section" = "권한 복구";
+"settings.shortcut_change_accessibility" = "캡처 단축키 변경";
+"settings.section_help" = "%@ 설정 보기";
+"settings.selected" = "선택됨";
+"settings.not_selected" = "선택되지 않음";
+"settings.expanded" = "펼쳐짐";
+"settings.collapsed" = "접힘";
+"permission.open_action" = "열기…";
+"permission.status_label" = "권한 상태";
+"permission.restart_label" = "권한 복구를 위해 재시작";
+"permission.location_label" = "실행 중인 앱 위치";
+"permission.reveal_short" = "Finder에서 보기";
+"version.label" = "현재 버전";
+"updates.check_label" = "수동 업데이트 확인";
+
+/* Spoken shortcut presentation. */
+"shortcut.modifier.control" = "컨트롤";
+"shortcut.modifier.option" = "옵션";
+"shortcut.modifier.shift" = "시프트";
+"shortcut.modifier.command" = "커맨드";
+"shortcut.key.return" = "리턴";
+"shortcut.key.enter" = "숫자 키패드 엔터";
+"shortcut.key.tab" = "탭";
+"shortcut.key.escape" = "이스케이프";
+"shortcut.key.backspace" = "백스페이스";
+"shortcut.key.forward_delete" = "앞으로 삭제";
+"shortcut.key.left" = "왼쪽 화살표";
+"shortcut.key.right" = "오른쪽 화살표";
+"shortcut.key.down" = "아래쪽 화살표";
+"shortcut.key.up" = "위쪽 화살표";
+"shortcut.key.home" = "홈";
+"shortcut.key.end" = "엔드";
+"shortcut.key.page_up" = "페이지 위로";
+"shortcut.key.page_down" = "페이지 아래로";

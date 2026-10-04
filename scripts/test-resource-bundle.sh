@@ -8,11 +8,13 @@ trap 'rm -rf "$fixture_root"' EXIT
 count=0
 
 make_bundle() {
-    local bundle="$1" layout="$2" resource_dir="$1" language
+    local bundle="$1" layout="$2" resource_dir="$1" language table
     if [[ "$layout" == native ]]; then resource_dir="$bundle/Contents/Resources"; fi
     for language in en ko; do
         mkdir -p "$resource_dir/$language.lproj"
-        printf '"fixture" = "Synthetic resource";\n' > "$resource_dir/$language.lproj/Localizable.strings"
+        for table in Localizable Updates; do
+            printf '"fixture" = "Synthetic resource";\n' > "$resource_dir/$language.lproj/$table.strings"
+        done
     done
 }
 
@@ -40,7 +42,8 @@ for layout in flat native; do
     accept "$bundle" "$resource_dir"
 
     for language in en ko; do
-        table="$resource_dir/$language.lproj/Localizable.strings"
+        for table_name in Localizable Updates; do
+        table="$resource_dir/$language.lproj/$table_name.strings"
         mv "$table" "$resource_dir/saved.strings"
         reject "$bundle"
         ln -s ../saved.strings "$table"
@@ -50,6 +53,7 @@ for layout in flat native; do
         reject "$bundle"
         rmdir "$table"
         mv "$resource_dir/saved.strings" "$table"
+        done
     done
 
     mv "$resource_dir/en.lproj" "$resource_dir/saved.lproj"
@@ -80,4 +84,4 @@ mkdir -p "$mixed/Contents/Resources/en.lproj"
 reject "$mixed"
 reject "$fixture_root/missing.bundle"
 
-printf 'PASS: %s resource layout checks (native/flat, missing languages, nonregular tables, symlink rejection); temp fixtures only\n' "$count"
+printf 'PASS: %s resource layout checks (native/flat, missing languages/tables, both Localizable/Updates nonregular tables, symlink rejection); temp fixtures only\n' "$count"

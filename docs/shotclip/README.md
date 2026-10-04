@@ -2,6 +2,8 @@
 
 [English README](../../README.md) · [한국어 README](../../README.ko.md)
 
+Current development target: **0.6.0 (build 8)**, reference-style native settings/menu and immediate app language switching. Latest recorded public release remains 0.5.0; new release/install evidence belongs in QA and handoff.
+
 Read requirements → design → implementation order → verification. Plans describe the target; QA results describe only performed checks.
 
 | Document | Purpose |
@@ -20,4 +22,4 @@ Read requirements → design → implementation order → verification. Plans de
 
 ## 한국어
 
-현재 제품명은 Shot Clip이고 공개 문서는 영어를 기본으로 하며 한국어 README와 계획별 한국어 요약을 제공합니다. R01–R17을 설계·구현·QA까지 연결하고, 계획과 실제 검증 기록을 구분합니다. 과거 Sshot 기록의 이름·식별자·산출물은 당시 증거로 보존합니다. 실제 캡처 GUI 테스트는 사용자가 맡으며 문서 검증으로 대신하지 않습니다.
+현재 개발 목표는 참조 스타일 native 설정/메뉴와 즉시 영어/한국어 전환을 포함하는 0.6.0(build 8)이며, 현재 기록된 공개 버전은 0.5.0입니다. 제품명은 Shot Clip이고 공개 문서는 영어를 기본으로 하며 한국어 README와 계획별 한국어 요약을 제공합니다. R01–R17을 설계·구현·QA까지 연결하고, 계획과 실제 검증 기록을 구분합니다. 과거 Sshot 기록의 이름·식별자·산출물은 당시 증거로 보존합니다. 실제 캡처 GUI 테스트는 사용자가 맡으며 문서 검증으로 대신하지 않습니다.

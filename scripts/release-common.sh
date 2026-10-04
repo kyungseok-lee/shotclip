@@ -12,7 +12,7 @@ plist_value() { /usr/libexec/PlistBuddy -c "Print :$2" "$1"; }
 # SwiftPM emits either a native macOS bundle or a flat resource directory.
 # Reject links in the bundle/table path rather than following them during copying.
 release_resource_directory() {
-    local bundle="$1" resource_dir language
+    local bundle="$1" resource_dir language table
     [[ -d "$bundle" && ! -L "$bundle" ]] || return 1
     if [[ -e "$bundle/Contents" || -L "$bundle/Contents" ]]; then
         [[ -d "$bundle/Contents" && ! -L "$bundle/Contents" ]] || return 1
@@ -23,7 +23,9 @@ release_resource_directory() {
     fi
     for language in en ko; do
         [[ -d "$resource_dir/$language.lproj" && ! -L "$resource_dir/$language.lproj" ]] || return 1
-        [[ -f "$resource_dir/$language.lproj/Localizable.strings" && ! -L "$resource_dir/$language.lproj/Localizable.strings" ]] || return 1
+        for table in Localizable Updates; do
+            [[ -f "$resource_dir/$language.lproj/$table.strings" && ! -L "$resource_dir/$language.lproj/$table.strings" ]] || return 1
+        done
     done
     printf '%s\n' "$resource_dir"
 }

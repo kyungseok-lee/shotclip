@@ -35,19 +35,28 @@ install_verified_app "$2" "$3"
 '''
 
 
-def make_app(path, marker, *, identifier="dev.shotclip.app", name="Shot Clip", executable="shotclip", build="7"):
+def make_app(path, marker, *, identifier="dev.shotclip.app", name="Shot Clip", executable="shotclip", build="8", resource_layout="native"):
     (path / "Contents/MacOS").mkdir(parents=True)
     (path / "Contents/Resources").mkdir()
     info = {"CFBundleIdentifier": identifier, "CFBundleName": name,
             "CFBundleDisplayName": name, "CFBundleExecutable": executable,
             "CFBundlePackageType": "APPL", "CFBundleVersion": build,
-            "CFBundleShortVersionString": "0.5.0" if build == "7" else "0.4.1"}
+            "CFBundleShortVersionString": {"8": "0.6.0", "7": "0.5.0"}.get(build, "0.4.1")}
     with (path / "Contents/Info.plist").open("wb") as file:
         plistlib.dump(info, file)
     fixture_executable = path / "Contents/MacOS" / executable
     shutil.copyfile("/usr/bin/true", fixture_executable)
     fixture_executable.chmod(0o755)
     (path / "Contents/Resources/fixture-marker").write_text(marker)
+    # Current native fixtures include both explicit localization tables. Prior
+    # bundles intentionally retain their older Localizable-only payload.
+    resources = path / "Contents/Resources/shotclip_shotclip.bundle"
+    if resource_layout == "native": resources = resources / "Contents/Resources"
+    for language in ["en", "ko"]:
+        folder = resources / (language + ".lproj")
+        folder.mkdir(parents=True)
+        for table in (["Localizable", "Updates"] if build == "8" else ["Localizable"]):
+            (folder / (table + ".strings")).write_text('"fixture" = "Synthetic resource";\n')
     subprocess.run(["/usr/bin/codesign", "--force", "--sign", "-", "--identifier", identifier, str(path)],
                    check=True, capture_output=True)
 
@@ -78,7 +87,7 @@ with tempfile.TemporaryDirectory(prefix="shotclip-install-fixtures.") as tempora
     applications = root / "migration/Applications with spaces"
     applications.mkdir(parents=True)
     previous = applications / "ShotClip.app"
-    make_app(previous, "prior", name="ShotClip", build="6")
+    make_app(previous, "prior", name="ShotClip", build="7")
     run_install(source, applications)
     target = applications / "Shot Clip.app"
     backup = next(applications.glob(".shotclip-install.*"))
@@ -94,7 +103,7 @@ with tempfile.TemporaryDirectory(prefix="shotclip-install-fixtures.") as tempora
         ("Shot Clip.app", "canonical", "Shot Clip", "dev.shotclip.app", "shotclip"),
         ("ShotClip.app", "prior", "ShotClip", "dev.shotclip.app", "shotclip"),
         ("sshot.app", "legacy", "Sshot", "dev.sshot.app", "sshot")]:
-        make_app(applications / filename, label, name=name, identifier=identifier, executable=executable, build="6")
+        make_app(applications / filename, label, name=name, identifier=identifier, executable=executable, build="7")
     run_install(source, applications)
     backup = next(applications.glob(".shotclip-install.*"))
     assert marker(applications / "Shot Clip.app") == "fresh"
@@ -106,7 +115,7 @@ with tempfile.TemporaryDirectory(prefix="shotclip-install-fixtures.") as tempora
         applications = root / subject / "Applications"
         applications.mkdir(parents=True)
         prior = applications / "ShotClip.app"
-        make_app(prior, "untouched", name="ShotClip", identifier="dev.other.app" if subject == "previous" else "dev.shotclip.app", build="6")
+        make_app(prior, "untouched", name="ShotClip", identifier="dev.other.app" if subject == "previous" else "dev.shotclip.app", build="7")
         test_source = source
         if subject == "source":
             test_source = root / "wrong source/Shot Clip.app"
@@ -126,13 +135,45 @@ with tempfile.TemporaryDirectory(prefix="shotclip-install-fixtures.") as tempora
             ("Shot Clip.app", "canonical", "Shot Clip", "dev.shotclip.app", "shotclip"),
             ("ShotClip.app", "prior", "ShotClip", "dev.shotclip.app", "shotclip"),
             ("sshot.app", "legacy", "Sshot", "dev.sshot.app", "sshot")]:
-            make_app(applications / filename, label, name=name, identifier=identifier, executable=executable, build="6")
+            make_app(applications / filename, label, name=name, identifier=identifier, executable=executable, build="7")
         result = run_install(source, applications, mode, expected=False)
         restored = [marker(applications / name) for name in ["Shot Clip.app", "ShotClip.app", "sshot.app"]]
         assert restored == ["canonical", "prior", "legacy"], (mode, restored, result.stdout, result.stderr)
         for name in ["Shot Clip.app", "ShotClip.app", "sshot.app"]: check_signature(applications / name)
         assert marker(next(applications.glob(".shotclip-install.*")) / "failed-Shot Clip.app") == "fresh"
         checks += 1
+
+    # Current flat resource bundles are also supported by the same transaction.
+    flat_source = root / "flat source/Shot Clip.app"
+    make_app(flat_source, "flat-fresh", resource_layout="flat")
+    applications = root / "flat/Applications"
+    applications.mkdir(parents=True)
+    run_install(flat_source, applications)
+    assert marker(applications / "Shot Clip.app") == "flat-fresh"
+    check_signature(applications / "Shot Clip.app")
+    checks += 1
+
+    # Valid signatures cannot rescue incomplete or unsafe current updater tables.
+    # Reject before staging or changing an older 0.5 canonical installation.
+    for language in ["en", "ko"]:
+        for failure in ["missing", "symlink", "directory"]:
+            bad_source = root / (language + "-" + failure) / "Source/Shot Clip.app"
+            make_app(bad_source, "bad-resources")
+            table = bad_source / "Contents/Resources/shotclip_shotclip.bundle/Contents/Resources" / (language + ".lproj/Updates.strings")
+            table.unlink()
+            if failure == "symlink": table.symlink_to("Localizable.strings")
+            if failure == "directory": table.mkdir()
+            subprocess.run(["/usr/bin/codesign", "--force", "--sign", "-", "--identifier", "dev.shotclip.app", str(bad_source)], check=True, capture_output=True)
+            check_signature(bad_source)
+            applications = root / (language + "-" + failure) / "Applications"
+            applications.mkdir(parents=True)
+            canonical = applications / "Shot Clip.app"
+            make_app(canonical, "older-canonical", build="7")
+            result = run_install(bad_source, applications, expected=False)
+            assert "settings and update resources" in result.stderr
+            assert marker(canonical) == "older-canonical" and not list(applications.glob(".shotclip-install.*"))
+            check_signature(canonical)
+            checks += 1
 
     # A prior bundle symlink is not followed or replaced.
     applications = root / "symlink/Applications"
@@ -144,4 +185,4 @@ with tempfile.TemporaryDirectory(prefix="shotclip-install-fixtures.") as tempora
     assert not list(applications.glob(".shotclip-install.*"))
     checks += 1
 
-print(f"PASS: {checks} signed temporary installer cases (spaces, same-ID migration, distinct backups, wrong IDs, three-path rollback, symlink rejection); no real install or launch")
+print(f"PASS: {checks} signed temporary installer cases (spaces, same-ID migration, distinct backups, wrong IDs, older payload rollback, native/flat tables, missing/unsafe Updates rejection, symlink rejection); no real install or launch")

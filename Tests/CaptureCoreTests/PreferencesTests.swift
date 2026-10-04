@@ -10,19 +10,14 @@ final class PreferencesTests: XCTestCase {
         for invalid in [nil, "", "ko-KR", "fr", "Korean"] as [String?] { XCTAssertEqual(AppLanguage.resolve(invalid), .english) }
         XCTAssertEqual(AppLanguage.allCases.map(\.rawValue), ["en", "ko"])
     }
-    func testSavedLanguageRoundTripAndRestartSnapshot() throws {
+    func testSavedLanguageRoundTripAndNextLaunchFrameworkPreference() throws {
         let values = AppPreferences.languageValues(.korean)
         let data = try PropertyListSerialization.data(fromPropertyList: values, format: .binary, options: 0)
         let saved = try XCTUnwrap(try PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any])
         let selected = AppLanguage.resolve(saved[AppPreferences.languageKey] as? String)
         XCTAssertEqual(selected, .korean)
         XCTAssertEqual(AppPreferences.startupValues(current: saved, legacy: [:])["AppleLanguages"] as? [String], ["ko"])
-        var selection = LanguageSelection(active: .english, selected: selected)
-        XCTAssertTrue(selection.requiresRestart)
-        XCTAssertEqual(selection.active, .english)
-        selection.selected = .english
-        XCTAssertFalse(selection.requiresRestart)
-        XCTAssertFalse(LanguageSelection(active: .korean, selected: .korean).requiresRestart)
+        XCTAssertEqual(AppPreferences.languageValues(.english)["AppleLanguages"] as? [String], ["en"])
     }
     func testMigrationCopiesOnlyValidShortcutAndMode() throws {
         let data = try JSONEncoder().encode(CaptureShortcut())

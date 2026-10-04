@@ -36,6 +36,8 @@ import Carbon
         updater.onChange={ [weak self] in self?.refreshStatus() }
         updater.start()
         configureMainMenu();updateMenu()
+        NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: L10n.languageDidChange, object: nil)
+        DistributedNotificationCenter.default().addObserver(self, selector: #selector(refreshStatus), name: Notification.Name(kTISNotifySelectedKeyboardInputSourceChanged as String), object: nil)
         NotificationCenter.default.addObserver(self,selector:#selector(screenChanged),name:NSApplication.didChangeScreenParametersNotification,object:nil)
         NSWorkspace.shared.notificationCenter.addObserver(self,selector:#selector(screenChanged),name:NSWorkspace.willSleepNotification,object:nil)
         NotificationCenter.default.addObserver(self,selector:#selector(refreshStatus),name:NSApplication.didBecomeActiveNotification,object:nil)
@@ -46,37 +48,30 @@ import Carbon
         if result != noErr { message(L10n.format("shortcut.registration_failed",String(result))) }
     }
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool { showGuide(); return true }
-    private func updateMenu() {
-        let menu=CaptureMenu.make(ready:CGPreflightScreenCaptureAccess(),mode:mode,shortcut:shortcut,
+    private func updateMenu(presentation: CaptureMenu.ShortcutPresentation? = nil) {
+        let menu=CaptureMenu.make(ready:CGPreflightScreenCaptureAccess(),mode:mode,shortcut:shortcut,presentation:presentation,
             canCheck:updater.canCheckForUpdates,target:self,actions:.init(area:#selector(drag),fixed:#selector(mask),
                 permission:#selector(openAccess),settings:#selector(openGuide),updates:#selector(checkUpdates),quit:#selector(quit)))
         menu.delegate=self;status.menu=menu
     }
-    private func configureMainMenu() {
-        let main=NSMenu()
-        let appItem=NSMenuItem();main.addItem(appItem)
-        let appMenu=NSMenu(title:L10n.text("app.name"));appItem.submenu=appMenu
-        for (key,action,equivalent) in [("menu.settings",#selector(openGuide),","),("menu.updates",#selector(checkUpdates),"")] {
-            let item=NSMenuItem(title:L10n.text(key),action:action,keyEquivalent:equivalent);item.target=self;appMenu.addItem(item)
-        }
-        appMenu.addItem(.separator())
-        let hide=NSMenuItem(title:L10n.text("menu.hide"),action:#selector(NSApplication.hide(_:)),keyEquivalent:"h");hide.target=NSApp;appMenu.addItem(hide)
-        let hideOthers=NSMenuItem(title:L10n.text("menu.hide_others"),action:#selector(NSApplication.hideOtherApplications(_:)),keyEquivalent:"h");hideOthers.keyEquivalentModifierMask=[.command,.option];hideOthers.target=NSApp;appMenu.addItem(hideOthers)
-        let showAll=NSMenuItem(title:L10n.text("menu.show_all"),action:#selector(NSApplication.unhideAllApplications(_:)),keyEquivalent:"");showAll.target=NSApp;appMenu.addItem(showAll)
-        appMenu.addItem(.separator())
-        let quit=NSMenuItem(title:L10n.text("menu.quit"),action:#selector(NSApplication.terminate(_:)),keyEquivalent:"q");quit.target=NSApp;appMenu.addItem(quit)
-        let editItem=NSMenuItem(title:L10n.text("menu.edit"),action:nil,keyEquivalent:"");main.addItem(editItem)
-        let edit=NSMenu(title:editItem.title);editItem.submenu=edit
-        for (key,action,equivalent) in [("menu.undo","undo:","z"),("menu.redo","redo:","Z"),("menu.cut","cut:","x"),("menu.copy","copy:","c"),("menu.paste","paste:","v"),("menu.select_all","selectAll:","a")] {
-            edit.addItem(NSMenuItem(title:L10n.text(key),action:Selector(action),keyEquivalent:equivalent))
-        }
-        let windowItem=NSMenuItem(title:L10n.text("menu.window"),action:nil,keyEquivalent:"");main.addItem(windowItem)
-        let windowMenu=NSMenu(title:windowItem.title);windowItem.submenu=windowMenu
-        windowMenu.addItem(NSMenuItem(title:L10n.text("menu.minimize"),action:#selector(NSWindow.performMiniaturize(_:)),keyEquivalent:"m"))
-        windowMenu.addItem(NSMenuItem(title:L10n.text("menu.close"),action:#selector(NSWindow.performClose(_:)),keyEquivalent:"w"))
-        NSApp.mainMenu=main;NSApp.windowsMenu=windowMenu
+    private var menuActions: CaptureMenu.Actions {
+        .init(area: #selector(drag), fixed: #selector(mask), permission: #selector(openAccess),
+              settings: #selector(openGuide), updates: #selector(checkUpdates), quit: #selector(quit))
+    }
+    private func configureMainMenu(presentation: CaptureMenu.ShortcutPresentation? = nil) {
+        let main = CaptureMenu.applicationMenu(ready: CGPreflightScreenCaptureAccess(), mode: mode,
+            shortcut: shortcut, presentation: presentation, canCheck: updater.canCheckForUpdates, target: self, actions: menuActions)
+        main.items[0].submenu?.delegate = self; main.items[1].submenu?.delegate = self
+        NSApp.mainMenu = main; NSApp.windowsMenu = main.items.last?.submenu
+    }
+    @objc private func languageChanged() {
+        status?.button?.toolTip = L10n.text("app.name")
+        status?.button?.setAccessibilityLabel(L10n.text("capture.accessibility"))
+        if let text = toast?.contentView?.subviews.first as? NSTextField { text.stringValue = L10n.text("capture.copied") }
+        refreshStatus()
     }
     func menuWillOpen(_ menu:NSMenu) {
+        CaptureMenu.applyShortcut(to: menu, mode: mode, presentation: CaptureMenu.presentation(shortcut))
         menu.item(withTag:CaptureMenu.permissionTag)?.isHidden=CGPreflightScreenCaptureAccess()
         menu.item(withTag:CaptureMenu.updatesTag)?.isEnabled=updater.canCheckForUpdates
     }
@@ -97,7 +92,7 @@ import Carbon
         }
         guard let screen=NSScreen.screens.first(where:{$0.frame.contains(NSEvent.mouseLocation)}) ?? NSScreen.main else { finish();return }
         previous=NSWorkspace.shared.frontmostApplication
-        self.mode=mode;UserDefaults.standard.set(mode.rawValue,forKey:"mode");updateMenu()
+        self.mode=mode;UserDefaults.standard.set(mode.rawValue,forKey:"mode");updateMenu();configureMainMenu()
         let window=OverlayWindow(contentRect:screen.frame,styleMask:.borderless,backing:.buffered,defer:false)
         window.level = .screenSaver;window.isOpaque=false;window.backgroundColor = .clear;window.collectionBehavior=[.canJoinAllSpaces,.fullScreenAuxiliary];window.isReleasedWhenClosed=false
         let view=SelectionView(frame:CGRect(origin:.zero,size:screen.frame.size));view.mode=mode
@@ -110,7 +105,7 @@ import Carbon
     }
     private func perform(_ rect: CGRect, screen: NSScreen) {
         guard coordinator.state == .selecting else { return }; lastRect=rect
-        if let view=overlay?.contentView as? SelectionView { mode=view.mode;UserDefaults.standard.set(mode.rawValue,forKey:"mode");updateMenu() }
+        if let view=overlay?.contentView as? SelectionView { mode=view.mode;UserDefaults.standard.set(mode.rawValue,forKey:"mode");updateMenu();configureMainMenu() }
         overlay?.orderOut(nil)
         coordinator.confirm(capture:{ [capture] in try await capture.capture(rect:rect,screen:screen) },commit:{[weak self] image in try ClipboardService().store(image);self?.showCopied()},schedule:{ fire in
             let timer=Timer.scheduledTimer(withTimeInterval:12,repeats:false){_ in fire()};return {timer.invalidate()}
@@ -137,13 +132,14 @@ import Carbon
     }
     private func showGuide() {
         if guide == nil {
-            guide=SettingsWindow(actions:.init(mask:{[weak self] in self?.mask()},drag:{[weak self] in self?.drag()},shortcut:{[weak self] in self?.recordShortcut()},login:{[weak self] in self?.loginSetting()},request:{[weak self] in self?.requestPermission()},settings:{[weak self] in self?.openPermission()},recheck:{[weak self] in self?.recheckPermission()},restart:{[weak self] in self?.restartApp()},reveal:{[weak self] in self?.revealApp()},update:{[weak self] in self?.checkUpdates()},automatic:{[weak self] enabled in self?.updater.automaticallyChecksForUpdates=enabled;self?.refreshStatus()},language:{[weak self] selected in L10n.save(selected);self?.refreshStatus()}))
+            guide=SettingsWindow(actions:.init(mask:{[weak self] in self?.mask()},drag:{[weak self] in self?.drag()},shortcut:{[weak self] in self?.recordShortcut()},login:{[weak self] in self?.loginSetting()},request:{[weak self] in self?.requestPermission()},settings:{[weak self] in self?.openPermission()},recheck:{[weak self] in self?.recheckPermission()},restart:{[weak self] in self?.restartApp()},reveal:{[weak self] in self?.revealApp()},update:{[weak self] in self?.checkUpdates()},automatic:{[weak self] enabled in self?.updater.automaticallyChecksForUpdates=enabled;self?.refreshStatus()},language:{[weak self] selected in L10n.select(selected);self?.refreshStatus()}))
         }
         refreshStatus();NSApp.activate(ignoringOtherApps:true);guide?.makeKeyAndOrderFront(nil)
     }
     @objc private func refreshStatus() {
-        guide?.refresh(permission:PermissionStatus(),shortcut:CaptureMenu.shortcutDisplay(shortcut),login:loginStatusText,loginEnabled:SMAppService.mainApp.status == .enabled,loginNeedsApproval:SMAppService.mainApp.status == .requiresApproval,update:updater.statusText,automaticEnabled:updater.automaticallyChecksForUpdates,configured:updater.isConfigured,canCheck:updater.canCheckForUpdates)
-        if status != nil {updateMenu()}
+        let presentation = CaptureMenu.presentation(shortcut)
+        guide?.refresh(permission:PermissionStatus(),shortcut:presentation.visual,spokenShortcut:presentation.spoken,login:loginStatusText,loginEnabled:SMAppService.mainApp.status == .enabled,loginNeedsApproval:SMAppService.mainApp.status == .requiresApproval,update:updater.statusText,updateText:{ [weak self] in self?.updater.statusText ?? L10n.text("updates.unconfigured") },automaticEnabled:updater.automaticallyChecksForUpdates,configured:updater.isConfigured,canCheck:updater.canCheckForUpdates)
+        if status != nil {updateMenu(presentation: presentation);configureMainMenu(presentation: presentation)}
     }
     @objc private func requestPermission() { _=CGRequestScreenCaptureAccess();refreshStatus() }
     @objc private func recheckPermission() {refreshStatus()}

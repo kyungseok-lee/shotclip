@@ -61,8 +61,7 @@
 "settings.login_change" = "Change Login Setting…";
 "settings.usage" = "Return: capture · Esc: cancel · M: switch mode\nPaste with ⌘V in another app. Use ⌘N in Preview to create an image from the clipboard.";
 "settings.language" = "Language";
-"settings.language_help" = "Restart to apply a language change.";
-"settings.language_pending" = "Language saved. Restart to apply.";
+"settings.language_help" = "Changes apply immediately.";
 "permission.ready.title" = "● Ready to capture";
 "permission.review.title" = "● Screen Recording access needs review";
 "permission.ready.explanation" = "Screen Recording access is effective for this running copy of Shot Clip. Choose a capture mode in General.";
@@ -113,7 +112,7 @@
 "capture.fixed_help" = "Adjust the last region, then press Return to copy it.";
 "menu.enable_access" = "Enable Screen Recording…";
 "settings.capture_hint" = "Drag to capture · Fixed Region keeps your last selection";
-"settings.capture_access_hint" = "Your first capture opens Screen Recording setup.";
+"settings.capture_access_hint" = "Capture needs Screen Recording access. Choose Capture to review setup.";
 "settings.shortcut_help" = "Opens your last used capture mode";
 "login.approval_action" = "Approve…";
 "permission.settings_short" = "System Settings…";
@@ -124,3 +123,42 @@
 "permission.review.summary" = "Allow Shot Clip to copy a selected part of your screen.";
 "overlay.dimensions" = "%.0f × %.0f";
 "shortcut.key_number" = "Key %@";
+
+/* Reference-style settings and live language. */
+"settings.capture_section" = "Capture";
+"settings.app_section" = "App";
+"settings.screen_recording_section" = "Screen Recording";
+"settings.recovery_section" = "Recovery";
+"settings.shortcut_change_accessibility" = "Change capture shortcut";
+"settings.section_help" = "Show %@ settings";
+"settings.selected" = "Selected";
+"settings.not_selected" = "Not selected";
+"settings.expanded" = "Expanded";
+"settings.collapsed" = "Collapsed";
+"permission.open_action" = "Open…";
+"permission.status_label" = "Access status";
+"permission.restart_label" = "Restart for permission recovery";
+"permission.location_label" = "Running app location";
+"permission.reveal_short" = "Show in Finder";
+"version.label" = "Current version";
+"updates.check_label" = "Manual update check";
+
+/* Spoken shortcut presentation. */
+"shortcut.modifier.control" = "Control";
+"shortcut.modifier.option" = "Option";
+"shortcut.modifier.shift" = "Shift";
+"shortcut.modifier.command" = "Command";
+"shortcut.key.return" = "Return";
+"shortcut.key.enter" = "Keypad Enter";
+"shortcut.key.tab" = "Tab";
+"shortcut.key.escape" = "Escape";
+"shortcut.key.backspace" = "Backspace";
+"shortcut.key.forward_delete" = "Forward Delete";
+"shortcut.key.left" = "Left Arrow";
+"shortcut.key.right" = "Right Arrow";
+"shortcut.key.down" = "Down Arrow";
+"shortcut.key.up" = "Up Arrow";
+"shortcut.key.home" = "Home";
+"shortcut.key.end" = "End";
+"shortcut.key.page_up" = "Page Up";
+"shortcut.key.page_down" = "Page Down";

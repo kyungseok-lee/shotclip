@@ -2,7 +2,7 @@
 
 [Product plan](product-plan.md) · [Design system](design-system.md) · [Requirements](requirements.md) · [한국어](#한국어)
 
-Updated 2026-10-05. Follow requirements → design → implementation → verification. Prior Sshot 0.3.0 and ShotClip 0.4.x are dated evidence; the approved Shot Clip `0.5.0` (build `7`) interaction/display refresh needs its own checks. This plan does not record test passes.
+Updated 2026-10-05. Follow requirements → design → implementation → verification. Prior Sshot 0.3.0 and ShotClip 0.4.x are dated evidence; the Shot Clip `0.6.0` (build `8`) native reference layout and immediate-language update needs its own checks. This plan does not record test passes.
 
 ## Ordered work and trace
 
@@ -12,16 +12,27 @@ Updated 2026-10-05. Follow requirements → design → implementation → verifi
 | P1: technical baseline | R06–R11 | D01–D05, D07; API, coordinates, clipboard transaction | `Sources/CaptureCore`; `Sources/shotclip/Services.swift` | Apple docs/SDK checks; geometry, state, failure/rollback tests; limitations recorded |
 | P2: native interaction | R01–R03, R06, R12, R14 | Tokens; D03, D06, D09, D11; permission recovery | `AppDelegate.swift`, `Overlay.swift`, `SettingsWindow.swift`, `PermissionStatus.swift` in `Sources/shotclip` | Shortcut conflict/restore; single-flight/cancel; labels/key handling review; UI checks separate |
 | P3: identity and migration | R14, R16 | D12; allowlist old preferences, preserve destination values | `Package.swift`, `resources/Info.plist`, app/fixture and build/install scripts | Bundle `dev.shotclip.app`, executable `shotclip`, `Shot Clip.app`; migration rerun/invalid-value tests; fresh TCC grant explained |
-| P4: localization | R15 | D13; English default with explicit `en` / `ko` selection | Localization resources, preference service, menu/settings/overlay/errors | Key parity, fallback, persisted choice, bundled resources; both layouts and accessibility labels reviewed |
+| P4: localization | R15 | D13; English default with explicit `en` / `ko` selection | Localization resources, preference service, menu/settings/overlay/errors | Key parity, fallback, live en→ko→en transition, persisted choice, bundled resources and state preservation; both layouts/accessibility labels reviewed; custom update-dialog live/callback fixtures; macOS prompts separate |
 | P5: capture acceptance | R02–R12 | D02, D04–D07; one display, in-memory image | Capture/clipboard services, opt-in synthetic fixture/harness | User-owned capture/permission/paste checks; PASS/FAIL/SKIP recorded; SKIP never PASS |
 | P6: preview preparation | R13, R17 | D08, D10, D14; GitHub ad-hoc preview, signed feed/archive | Release scripts, appcast, manifest, source-commit metadata | Clean source/tag/artifact alignment; local signature/archive checks; existing Ed25519 archive **and feed** verification; preview notes |
 | P7: release and update QA | R13, R16–R17 | Migration boundary and update compatibility | Draft assets and release operations | Publisher verifies uploaded assets/feed; user-owned first-launch/TCC/capture and actual upgrade evidence; gaps recorded |
 
 Implementation paths are relative to the repository. No additional features beyond capture-to-clipboard, native interaction, localization, rebrand, and preview delivery are required.
 
-### 0.5 interaction, brand and installation follow-up
+### 0.6 native reference and immediate-language follow-up
 
-1. Land R01/R03/R06/R14/R16 acceptance and the [workflow/design foundation](design-system.md#05-workflow-evidence-and-approved-direction) before UI implementation.
+1. Update R01/R14/R15, D11/D13 and this trace from the supplied reference before implementation. Keep the current identity, crop-copy artwork, capture engine, trust and defaults.
+2. Align native settings navigation and rows with the reference, using system colors and controls in General/Access/Updates. Populate the native NSMenu shortcut column from the configured physical-key/layout mapping on the remembered capture mode; include Settings `⌘,` and Quit `⌘Q`.
+3. Replace the launch-only app-localization snapshot with explicit en/ko selection and immediate view/menu/accessibility refresh. Preserve pane, shortcut/login/update state and current capture region. Keep Screen Recording restart guidance separate; include new/visible update dialogs through the planned supported custom Sparkle driver with synthetic live-refresh/callback/choice fixtures and independent review; macOS prompts remain OS-controlled.
+4. Advance the bundle/default metadata to 0.6.0(8), then run core, resource, release/archive and installer regressions. Render inert English/Korean light/dark settings/menu and repeated-language-transition previews; inspect default/minimum layouts and keyboard/focus evidence.
+5. Obtain independent source/docs/artifact review, commit/push/tag the reviewed source, prepare/sign with the existing key, verify/publish the new assets/feed and install/verify the exact payload. Each step needs its own recorded evidence.
+6. Reconcile workspace cleanup with the actual coordinator report. Initial recoverable cleanup removed 14 prior staging folders (11 iconsets, three empty), totaling 12,897,238 bytes; `.build/` remains until verification. Retire additional superseded artifacts only after latest release/install checks.
+
+Actual capture/TCC/paste, macOS 14/Intel, clean-account first launch and a real Sparkle upgrade remain separate unrun checks unless performed and recorded.
+
+### Earlier 0.5 interaction, brand and installation follow-up
+
+1. Land R01/R03/R06/R14/R16 acceptance and the [workflow/design foundation](design-system.md#workflow-evidence-and-approved-06-direction) before UI implementation.
 2. Implement native capture-first menus, grouped settings/Access recovery, quiet lifecycle and compact selection UI; preserve existing mode/shortcut and trust. Generate original crop/copy icon and matching menu glyph.
 3. Change visible plist names and bundle folder to `Shot Clip.app`, retain stable IDs/executable/resources and prepare 0.5.0(7). The installer stages/verifies new bytes, installs/verifies the canonical app before backing up prior `ShotClip.app`/historical `sshot.app`, and restores prior paths on failure.
 4. Run meaningful temporary signed-app transaction fixtures for spaces, same-ID previous-path migration, distinct backups, wrong-ID rejection and rollback; retain all unsafe ZIP tests while accepting only `Shot Clip.app` and matching AppleDouble metadata.
@@ -54,8 +65,8 @@ The approved route is the GitHub ad-hoc developer preview. Developer ID/notariza
 
 ## 한국어
 
-요구사항 → 설계 → 구현 → 검증 순서로 진행합니다. P0 문서 → P1 API/좌표/클립보드 → P2 native 상호작용 → P3 새 식별자와 설정 이전 → P4 영어/한국어 → P5 사용자 캡처 QA → P6 ad-hoc 프리뷰 준비 → P7 게시 및 실제 업데이트 QA 순서입니다. 요구사항·결정·파일·완료 증거를 함께 갱신합니다.
+요구사항 → 설계 → 구현 → 검증 순서로 진행합니다. P0 문서 → P1 API/좌표/클립보드 → P2 native 상호작용 → P3 기존 식별자 유지와 선택적 과거 설정 이전 → P4 영어/한국어 → P5 사용자 캡처 QA → P6 ad-hoc 프리뷰 준비 → P7 게시 및 실제 업데이트 QA 순서입니다. 요구사항·결정·파일·완료 증거를 함께 갱신합니다.
 
 기존 `dev.sshot.app`에서 유효한 단축키와 선택 모드만 이전하고 새 Shot Clip 값은 우선합니다. 전체 defaults·이미지·영역·권한·업데이트 내부 상태·키를 복사하지 않습니다. 영어가 기본이고 한국어 선택은 명시적으로 저장합니다. 새 앱의 권한·로그인 등록은 별개이며 과거 앱에서 Sparkle로 자동 이전되는지는 미검증입니다.
 
-실제 캡처·권한·붙여 넣기는 사용자 담당입니다. 기존 Ed25519 키와 `sshot` 계정으로 archive/feed를 검증하는 ad-hoc 프리뷰를 유지합니다. 목표는 `0.5.0`(build `7`)이며 설계 문서 후 UI·표시 이름·공백 앱 경로와 설치 복원 fixture를 구현합니다. 합성 native 미리보기·독립 검토·정확한 공개/최신 설치를 확인한 뒤 승인된 구버전을 정리합니다. 기존 ShotClip 0.4.x ID·설정은 유지하고 앱 폴더 이름은 수동 설치로 전환하며 실제 자동 업그레이드는 별도 미검증입니다.
+실제 캡처·권한·붙여 넣기는 사용자 담당입니다. 기존 Ed25519 키와 `sshot` 계정으로 archive/feed를 검증하는 ad-hoc 프리뷰를 유지합니다. 현재 목표는 `0.6.0`(build `8`)이며 참조 스타일의 native 설정/메뉴·오른쪽 단축키 열·즉시 언어 전환을 구현하고 기존 이름·아이콘·공백 경로·식별자·키를 유지합니다. 영어→한국어→영어 전환과 상태 보존을 검증하며 지원되는 custom Sparkle driver의 새/열린 업데이트 창/callback을 함께 검증하고 권한 재시작 및 macOS 시스템 창은 별도로 다룹니다. 합성 native 미리보기·독립 검토·정확한 공개/최신 설치를 확인한 뒤 승인된 구버전을 정리합니다. 기존 ShotClip 0.4.x ID·설정은 유지하고 앱 폴더 이름은 수동 설치로 전환하며 실제 자동 업그레이드는 별도 미검증입니다.

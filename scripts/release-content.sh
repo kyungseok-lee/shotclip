@@ -23,10 +23,10 @@ Distribution: $status
 
 ## What's new
 
-- Capture Area leads the native menu; Fixed Region remains available and the configured shortcut follows the remembered mode.
-- Compact General, Access and Updates settings put capture first and keep troubleshooting details collapsed.
-- A simple crop-and-copy app icon and matching menu glyph replace the photo/landscape metaphor.
-- The visible name is Shot Clip. The existing bundle identifier, preferences, signed-update key and English/Korean support are retained.
+- General, Access and Updates settings now use an icon sidebar, grouped rows and native switches and popup controls.
+- English and Korean apply immediately to settings, menus, capture controls and app-owned update dialogs without restarting Shot Clip.
+- Capture, Settings and Quit shortcuts share the native menu key-equivalent column. The configured shortcut follows the remembered capture mode and current keyboard layout.
+- Existing capture behavior, preferences, bundle identifier and signed-update trust are retained; automatic checks remain opt-in.
 
 Quit the previous app before moving Shot Clip.app to Applications.
 The canonical folder changes from ShotClip.app to Shot Clip.app, while dev.shotclip.app and executable shotclip stay unchanged.
@@ -46,10 +46,10 @@ Shot Clip은 macOS 14 이상에서 선택 영역을 캡처하여 클립보드에
 
 ### 변경 사항
 
-- native 메뉴의 첫 항목은 캡처 영역이며 고정 영역도 제공합니다. 실제 단축키는 마지막 선택 모드에 표시됩니다.
-- 일반·권한·업데이트 설정을 간결하게 정리하고 캡처를 우선하며 문제 해결 세부 정보는 접어 둡니다.
-- 사진/풍경 대신 단순한 crop+copy 앱 아이콘과 일관된 메뉴 기호를 제공합니다.
-- 표시 이름은 Shot Clip이며 기존 번들 식별자·설정·서명 업데이트 키와 영어·한국어 지원은 유지합니다.
+- 일반·권한·업데이트 설정에 아이콘 사이드바, 그룹 행, native 스위치와 팝업을 적용했습니다.
+- 앱을 재시작하지 않고 영어·한국어가 설정, 메뉴, 캡처 제어 및 앱의 업데이트 안내에 바로 적용됩니다.
+- 캡처·설정·종료 단축키를 native 메뉴 키 표시 열로 통일했습니다. 저장한 단축키는 마지막 캡처 모드와 현재 키보드 배열을 따릅니다.
+- 기존 캡처 동작·설정·번들 식별자와 서명 업데이트 신뢰를 유지하며 자동 확인은 사용자가 선택하여 켭니다.
 
 이전 앱을 종료한 뒤 Shot Clip.app을 응용 프로그램 폴더로 이동하세요.
 폴더 이름은 ShotClip.app에서 Shot Clip.app으로 바뀌고 dev.shotclip.app과 실행 파일 shotclip은 유지합니다.

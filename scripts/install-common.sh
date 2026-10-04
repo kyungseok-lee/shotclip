@@ -8,13 +8,20 @@ install_quit_check() {
 }
 
 install_verify_app() {
-    local path="$1" identifier="$2" executable="$3" display_name="${4:-}" plist="$1/Contents/Info.plist"
+    local path="$1" identifier="$2" executable="$3" display_name="${4:-}" plist="$1/Contents/Info.plist" resource_bundle
     [[ -d "$path" && ! -L "$path" && -d "$path/Contents" && ! -L "$path/Contents" && -f "$plist" && ! -L "$plist" ]] || release_fail 'App path or metadata is missing or a symlink; refusing replacement.'
     [[ "$(plist_value "$plist" CFBundleIdentifier)" == "$identifier" && "$(plist_value "$plist" CFBundleExecutable)" == "$executable" ]] || release_fail 'App identifier/executable does not match the expected migration source.'
     if [[ -n "$display_name" ]]; then
         [[ "$(plist_value "$plist" CFBundleName)" == "$display_name" && "$(plist_value "$plist" CFBundleDisplayName)" == "$display_name" ]] || release_fail 'New app display name does not match Shot Clip.'
     fi
     [[ -d "$path/Contents/MacOS" && ! -L "$path/Contents/MacOS" && -f "$path/Contents/MacOS/$executable" && ! -L "$path/Contents/MacOS/$executable" ]] || release_fail 'App executable is missing or a symlink.'
+    # New source, staged and canonical checks pass a display name. Older
+    # canonical/unspaced/legacy backups retain their previous payload contract.
+    if [[ -n "$display_name" ]]; then
+        [[ -d "$path/Contents/Resources" && ! -L "$path/Contents/Resources" ]] || release_fail 'New app resource directory is missing or a symlink.'
+        resource_bundle="$path/Contents/Resources/shotclip_shotclip.bundle"
+        release_resource_directory "$resource_bundle" >/dev/null || release_fail 'English/Korean settings and update resources are missing or unsafe.'
+    fi
     codesign --verify --deep --strict "$path"
 }
 

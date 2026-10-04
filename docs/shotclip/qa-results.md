@@ -2,6 +2,23 @@
 
 [QA plan](qa-plan.md) · [Verification](verification.md) · [Handoff](handoff.md)
 
+## 2026-10-05 0.6.0 documentation and development checkpoint
+
+Target: **Shot Clip 0.6.0 (build 8)**, reference-style native settings/menu and immediate English / 한국어 switching. This is a development checkpoint: the latest recorded public release is still v0.5.0, and 0.6 source review, package, publication, installation and final cleanup are not yet complete here. Older dated records below retain the exact version, language behavior and evidence they tested.
+
+| Check | Result, owner and limit |
+| --- | --- |
+| Current source/document audit | Documentation worker inspected existing docs and changing app/menu/localization sources; refreshed R01/R14/R15, D11/D13 and P2/P4 trace. This is authoring/source inspection, not independent approval or GUI acceptance |
+| Official native API reading | Documentation worker read Apple key-equivalent/modifier, toolbar and popup-button Markdown content over read-only HTTPS; method and links in [technical validation](technical-validation.md#2026-10-05-06-native-menu-documentation-review). No SDK/build/runtime probe in this lane |
+| Release/security regressions | Coordinator fresh fixture runs PASS: valid signed synthetic archive/feed in both modes plus 25 tamper/policy rejections; 16 release gates; 22 resource layouts; 15 unsafe ZIP cases plus two valid cases; eight signed temporary installer cases. Logs: `dist/{crypto,gates,resources,archive,install}-0.6-tests.log`. No real Keychain, remote publication, installed app, capture or clipboard actions; fixtures do not prove the new UI |
+| Initial workspace staging cleanup | Coordinator report `dist/cleanup-0.6-initial.json`: 14 old `dist/build.*` folders (11 generated iconsets and three empty), 12,897,238 bytes, moved recoverably to Trash. Documentation worker read the report. Source, `.build/`, current installed app and latest release remain; this is only the initial staging cleanup |
+| 0.6 UI/language/user-driver evidence | Coordinator supplied baseline coverage: 36 core tests and 21 English-dark inert views/state transitions. Final integrated UI/build/custom-driver fixtures and independent approval remain pending; no complete 0.6 build PASS is claimed. Planned supported custom `SPUUserDriver` includes visible/new update dialogs; macOS permission/security prompts follow OS language |
+| 0.6 source/tag/assets/install | Not yet recorded. Coordinator owns independent review, commit/push/tag, clean-source preparation/signing, public-byte/feed checks and exact installation |
+
+**Unrun in this documentation lane:** app build/tests, normal app operation, actual capture/pixels/TCC/paste, VoiceOver/native focus, clean-account downloaded first launch, macOS 14/Intel, real app rollback and end-to-end Sparkle upgrade. Source/synthetic/layout checks must not be promoted to those passes. Coordinator instructed this lane to freeze target-only prepublication docs for separate review; final implementation/release evidence will be recorded by a follow-up writer. Document checks PASS for 14 owned Markdown files, 119 relative links/fragments and 19 repository source references, with historical sections preserved. Current document checks and next evidence are recorded in [handoff](handoff.md#2026-10-05-060-documentation-handoff).
+
+한국어: 현재 0.6.0(8)은 참조 스타일 native 설정/메뉴와 즉시 언어 전환을 위한 개발 점검 기록이며 공개 최신은 아직 0.5.0입니다. 조정자가 보안/릴리스 fixture를 새로 실행했고 기존 build 폴더 14개·12,897,238바이트를 휴지통으로 옮긴 보고서를 확인했습니다. 소스·`.build/`·설치 앱·최신 릴리스는 유지하며 문서 작업자는 앱/권한/클립보드/Git/게시를 변경하지 않았습니다. 조정자는 36개 core test/21개 영어 dark 합성 뷰·상태 전환의 baseline 범위를 전달했지만 최종 통합 빌드/driver 검증·승인은 아직 별개입니다. 14개 문서·119개 상대 링크·19개 소스 참조의 문서 확인을 완료하고 사전 게시 문서를 동결합니다. 새 UI/driver·독립 리뷰·commit/push/tag·게시·설치·최종 정리는 후속 작업에서 실제 증거로 갱신합니다.
+
 ## 2026-10-05 0.5.0 publication, installation and cleanup
 
 Shot Clip **0.5.0 (build 7)** is the latest public release: [v0.5.0](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.5.0) · [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.5.0/shotclip-0.5.0.zip). Published 2026-10-05 04:30:38 KST (2026-10-04T19:30:38Z), neither draft nor prerelease. **Ad-hoc signed; NOT notarized; arm64 only.** Source/tag/manifest/installed app identify `3d803a9c45f72c1eb3c7328ca68321e1fdb1d2b4`; subsequent documentation commits do not change artifact provenance.

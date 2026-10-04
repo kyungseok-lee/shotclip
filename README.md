@@ -8,9 +8,11 @@ A small macOS menu bar app that captures a selected region straight to the clipb
 
 **Shot Clip 0.5.0 (build 7)** is the latest GitHub developer preview, published 2026-10-05 04:30:38 KST: [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.5.0/shotclip-0.5.0.zip) / [release](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.5.0), from reviewed source [`3d803a9`](https://github.com/kyungseok-lee/shotclip/commit/3d803a9c45f72c1eb3c7328ca68321e1fdb1d2b4). **Apple Silicon (arm64) only; ad-hoc signed; NOT notarized.**
 
-The redesign puts Capture Area first, groups settings into General / Access / Updates, and uses an original crop-and-copy icon. Project artwork is synthetic and contains no captured screens. The superseded 0.4.1 release/assets were removed after new publication and installation checks; source/tag history is retained.
+The published 0.5.0 redesign puts Capture Area first, groups settings into General / Access / Updates, and uses an original crop-and-copy icon. Project artwork is synthetic and contains no captured screens. The superseded 0.4.1 release/assets were removed after new publication and installation checks; source/tag history is retained.
 
-Six public assets, the signed feed and the exact installed app were verified. English dark-mode settings received limited native inspection; 76 inert English/Korean light/dark previews checked synthetic layouts. Actual capture, permission grants, paste, VoiceOver/native focus and automatic upgrades remain untested; see [QA results](docs/shotclip/qa-results.md#2026-10-05-050-publication-installation-and-cleanup).
+For 0.5.0, six public assets, the signed feed and the exact installed app were verified. English dark-mode settings received limited native inspection; 76 inert English/Korean light/dark previews checked synthetic layouts. Actual capture, permission grants, paste, VoiceOver/native focus and automatic upgrades remain untested; see [QA results](docs/shotclip/qa-results.md#2026-10-05-050-publication-installation-and-cleanup).
+
+**Current development target: 0.6.0 (build 8).** The development update uses a narrow General / Access / Updates icon rail, grouped native preference rows, and the standard menu shortcut column. English / 한국어 changes immediately; app-owned update dialogs are being integrated into the same live language flow. Source, layout and callback checks are recorded separately from release/installation in [current QA](docs/shotclip/qa-results.md#2026-10-05-060-documentation-and-development-checkpoint). A new release has not yet been recorded here. The downloadable 0.5.0 still uses its earlier settings layout and applies language after restart.
 
 ## Build and run
 
@@ -34,7 +36,7 @@ The ZIP contains `Shot Clip.app`; install it at `/Applications/Shot Clip.app`. T
 3. Move/resize Fixed Region and press Return or Capture. In Drag Region, release a valid drag to capture.
 4. Paste with `⌘V` in an image-capable app; Preview can open the clipboard image with `⌘N`.
 
-Escape cancels. Arrows move the region; Shift increases the step; Option+Arrows resizes its upper-right corner. `M` switches modes and Tab/Shift-Tab moves control focus. English is the default; choose **English / 한국어** in General settings and restart to apply.
+Escape cancels. Arrows move the region; Shift increases the step; Option+Arrows resizes its upper-right corner. `M` switches modes and Tab/Shift-Tab moves control focus. English is the default; the 0.6 development UI applies **English / 한국어** immediately from General settings and remembers the choice. Menu, settings, selection controls, app messages and app-owned update dialogs follow it. macOS-owned permission and security prompts follow the OS language. Screen Recording changes may still require a restart; that is separate from changing language.
 
 Each selection stays within one display. Fixed Region is remembered only during the current session; mode and shortcut preferences persist. Shot Clip must be running for the global shortcut to work. Login start is opt-in. No Accessibility or Full Disk Access permission is required.
 

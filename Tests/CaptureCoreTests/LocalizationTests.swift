@@ -59,11 +59,57 @@ final class LocalizationTests: XCTestCase {
             let table = language == .english ? ["fallback.test": "English fallback", "translated.test": "English"] : ["translated.test": "한국어"]
             let data = try PropertyListSerialization.data(fromPropertyList: table, format: .xml, options: 0)
             try data.write(to: folder.appendingPathComponent("Localizable.strings"))
+            let extraTable = language == .english ? ["fallback.test": "Separate English fallback", "translated.test": "Separate English"] : ["translated.test": "별도 한국어"]
+            try PropertyListSerialization.data(fromPropertyList: extraTable, format: .xml, options: 0)
+                .write(to: folder.appendingPathComponent("Extra.strings"))
         }
         let bundle = try XCTUnwrap(Bundle(url: directory))
         XCTAssertEqual(StringLocalization(bundle: bundle, language: .korean).text("fallback.test"), "English fallback")
         XCTAssertEqual(StringLocalization(bundle: bundle, language: .korean).text("translated.test"), "한국어")
         XCTAssertEqual(StringLocalization(bundle: bundle, language: AppLanguage.resolve("fr")).text("translated.test"), "English")
         XCTAssertEqual(StringLocalization(bundle: bundle, language: .korean).text("missing", defaultValue: "Explicit fallback"), "Explicit fallback")
+        let separate = StringLocalization(bundle: bundle, language: .korean, table: "Extra")
+        XCTAssertEqual(separate.text("translated.test"), "별도 한국어")
+        XCTAssertEqual(separate.text("fallback.test"), "Separate English fallback")
+        XCTAssertEqual(separate.text("missing", defaultValue: "Extra fallback"), "Extra fallback")
+        XCTAssertEqual(try LocalizationAudit.table(bundle: bundle, language: .english, table: "Extra")["translated.test"], "Separate English")
+        let live = AppLocalization(bundle: bundle, language: .english)
+        for language in [AppLanguage.korean, .english, .korean, .english] {
+            XCTAssertTrue(live.select(language))
+            XCTAssertEqual(live.language, language)
+            XCTAssertEqual(live.text("translated.test"), language == .english ? "English" : "한국어")
+            XCTAssertEqual(live.text("fallback.test"), "English fallback")
+            XCTAssertEqual(live.text("missing", defaultValue: "Explicit fallback"), "Explicit fallback")
+            XCTAssertEqual(live.text("unknown.key"), "unknown.key")
+            XCTAssertFalse(live.select(language))
+        }
+    }
+    func testLiveLanguageRoundTripUpdatesExistingLookupAndFormatting() throws {
+        let live = AppLocalization(bundle: try resources(), language: .english)
+        XCTAssertEqual(live.text("action.cancel"), "Cancel")
+        XCTAssertEqual(live.format("capture.failed", arguments: ["fixture"]), "Capture failed: fixture")
+        live.select(.korean)
+        XCTAssertEqual(live.text("action.cancel"), "취소")
+        XCTAssertEqual(live.format("capture.failed", arguments: ["fixture"]), "캡처 실패: fixture")
+        XCTAssertEqual(live.text("settings.general"), "일반")
+        live.select(.english)
+        XCTAssertEqual(live.text("action.cancel"), "Cancel")
+        XCTAssertEqual(live.text("settings.general"), "General")
+        XCTAssertEqual(live.format("capture.failed", arguments: ["fixture"]), "Capture failed: fixture")
+    }
+    func testMissingSelectedLanguageBundleFallsBackAndStillSwitches() throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("shotclip-english-only-" + UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let folder = directory.appendingPathComponent("en.lproj")
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        try PropertyListSerialization.data(fromPropertyList: ["fixture.title": "English only"], format: .xml, options: 0)
+            .write(to: folder.appendingPathComponent("Localizable.strings"))
+        let live = AppLocalization(bundle: try XCTUnwrap(Bundle(url: directory)), language: .english)
+        XCTAssertTrue(live.select(.korean))
+        XCTAssertEqual(live.language, .korean)
+        XCTAssertEqual(live.text("fixture.title"), "English only")
+        XCTAssertEqual(live.text("missing", defaultValue: "Explicit fallback"), "Explicit fallback")
+        XCTAssertTrue(live.select(.english))
+        XCTAssertEqual(live.text("fixture.title"), "English only")
     }
 }
