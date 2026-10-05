@@ -2,6 +2,18 @@
 
 [Documentation](README.md) · [Development plan](development-plan.md) · [QA results](qa-results.md)
 
+## 2026-10-06 local cleanup handoff
+
+The user-authorized unused/build-output cleanup is complete. The working tree was clean at documentation baseline `4a74a4dda4f87ae1b43a1a195d91d86c85057cb3` on `main`; all 89 tracked files were preserved. Installed/public Shot Clip remains 0.7.0 (build 9), immutable source/tag `53bd5d2ad05375be7a6296da4534815260a38d98`; no app source change or new release occurred.
+
+The exact prior 2,195-item cleanup batch and the separately reviewed new batch were permanently deleted. Their regular-file bytes total 751,833,009 (about 752 MB decimal); actual disk savings were not separately measured. [Current cleanup QA](qa-results.md#2026-10-06-local-unused-and-build-output-cleanup) records recursive counts and scope. The earlier recoverable-Trash/prepared-copy statements below remain historical; this record supersedes their current retention state.
+
+Retained: six verified public release files, five latest synthetic QA representatives and 52 current proof files (63 files in `dist`); installed app/signature/source/Git and public assets remain intact. The six byte-identical prepared duplicates and obsolete intermediate proof were removed. `.build`, root `build`, `DerivedData` and developer apps in `dist` are absent. Canonical app PID 35289 is running; two in-use production app cache directories totaling 390,952 regular-file bytes, including an empty Sparkle directory, remain. General user screenshots, TCC, preferences, keys and other Trash contents were untouched. Temporary HTML has an own ShotClip prefix, but its creator is unproven; no claim is made that all removed pixels were synthetic.
+
+Writer scope is these two documentation files only; independent review and any documentation commit/push are separate. Existing dated sections below are preserved byte-for-byte.
+
+한국어: 사용자 승인으로 미사용/빌드 산출물 정리를 완료했습니다. 시작 `main` 문서 기준은 `4a74a4d…`이며 추적 파일 89개와 공개/설치 0.7.0(9), 소스/태그 `53bd5d2…`를 보존했고 새 앱 배포는 없습니다. 검증한 이전 2,195개 항목 배치와 별도 검토한 새 배치를 영구 삭제했습니다. regular-file 합계는 751,833,009바이트(약 752 MB)이며 실제 디스크 절감량은 별도 측정하지 않았습니다. 공개 파일 6개·합성 QA 대표 5개·현재 증거 52개를 유지하고 같은 바이트의 준비 복사본/중간 자료를 제거했습니다. 빌드 캐시/개발 앱은 없으며 실행 중인 PID 35289의 사용 중 캐시 두 개(390,952바이트)는 유지했습니다. 일반 사용자 스크린샷·권한·설정·키·다른 휴지통은 변경하지 않았습니다. 임시 HTML 생성자는 미확인이고 제거한 픽셀 전체를 합성이라고 주장하지 않습니다. 자세한 수량은 최신 QA에 기록하고 아래 과거 본문은 그대로 보존합니다.
+
 ## 2026-10-05 0.7.0 delivery handoff
 
 - Delivered: [latest v0.7.0](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.7.0)/[ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.7.0/shotclip-0.7.0.zip), published 2026-10-05 22:06:35 KST, build 9/ad-hoc/arm64/NOT notarized. Source A `53bd5d2ad05375be7a6296da4534815260a38d98` is immutable tag/app provenance. Source main/tag ordinary push and canonical GitHub equality PASS; final docs commit follows separately.

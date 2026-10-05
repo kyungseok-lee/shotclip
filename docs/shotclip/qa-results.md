@@ -2,6 +2,24 @@
 
 [QA plan](qa-plan.md) · [Verification](verification.md) · [Handoff](handoff.md)
 
+## 2026-10-06 local unused and build-output cleanup
+
+**Completed within the authorized local scope.** The documentation baseline was clean `main` at `4a74a4dda4f87ae1b43a1a195d91d86c85057cb3`. All 89 tracked files and the canonical installed app/public assets/signature were preserved. Shot Clip remains 0.7.0 (build 9), immutable release/tag/app source `53bd5d2ad05375be7a6296da4534815260a38d98`; no app change or new release occurred.
+
+| Scope | Actual result |
+| --- | --- |
+| New project cleanup | 363 regular files / 14,684,193 bytes: six prepared duplicates byte-equal to the retained public files, earlier QA and intermediate logs. 29 generated empty directories removed |
+| Scoped temporary cleanup | Three own-prefixed groups, 12 files (11 PNG/one HTML), 1,273,972 bytes. HTML creator is unproven despite the ShotClip prefix; all removed pixels are not asserted synthetic. General user screenshots were excluded |
+| Prior own Trash batch | Exact previously recorded 2,195 move items validated and permanently removed: recursively 7,581 regular files + 2,257 directories + 101 links = 9,939 entries; 735,874,844 regular-file bytes |
+| New own Trash batch | Separately independently approved, then permanently removed: 375 regular files + 39 directories + zero links; 15,958,165 regular-file bytes |
+| Total removed regular-file bytes | 751,833,009 bytes, about 752 MB decimal. Actual filesystem disk savings were not separately measured |
+| Retained current evidence | Six verified public release files, five latest synthetic QA representatives, 52 current proof files: 63 files in `dist`. The duplicate prepared six are no longer retained |
+| Runtime/cache preservation | Canonical app running PID 35289. Two in-use production app cache directories remain, 390,952 regular-file bytes including an empty Sparkle directory. `.build`, root `build`, `DerivedData` and developer apps in `dist` absent. TCC/preferences/keys/other Trash contents untouched |
+
+Ignored evidence: `.omc/plans/cleanup-unused-move-proof-20261006.json`, `.omc/plans/cleanup-old-trash-permanent-proof-20261006.json` and `.omc/plans/cleanup-new-trash-permanent-proof-20261006.json`, with the existing plan/baseline. This is local filesystem cleanup evidence, not new capture/runtime/release testing. Writer changed only this record and [handoff](handoff.md#2026-10-06-local-cleanup-handoff); independent document review and any Git commit/push remain separate. All earlier dated bodies are unchanged. Their prepared-copy/recoverable-Trash retention statements describe 2026-10-05 and are superseded by this current state.
+
+한국어: 승인한 로컬 정리를 완료했으며 시작 `main`/`4a74a4d…`의 추적 파일 89개·설치/공개 0.7.0(9)·소스/태그 `53bd5d2…`를 보존했습니다. 프로젝트 363파일/14,684,193바이트(동일 바이트의 준비 복사본 6개 포함)와 자체 접두사 임시 그룹 3개/12파일(11 PNG·1 HTML)/1,273,972바이트, 빈 생성 디렉터리 29개를 정리했습니다. HTML 생성자는 미확인이고 제거한 픽셀 전체를 합성으로 단정하지 않습니다. 이전 2,195개 이동 항목의 정확한 배치를 검증한 뒤 7,581파일·2,257디렉터리·101링크/735,874,844바이트를 영구 삭제했고, 별도 독립 승인한 새 배치 375파일·39디렉터리·0링크/15,958,165바이트도 영구 삭제했습니다. regular-file 합계 751,833,009바이트(약 752 MB)이며 실제 디스크 절감량은 별도 측정하지 않았습니다. 공개 6개·합성 QA 대표 5개·현재 증거 52개(총 63파일), 실행 중 PID 35289 앱과 사용 중 캐시 두 개/390,952바이트를 유지했습니다. 빌드 캐시/개발 앱은 없고 일반 사용자 스크린샷·TCC·설정·키·다른 휴지통은 변경하지 않았습니다. 새 앱 테스트/배포를 주장하지 않으며 아래 과거 기록은 당시 사실로 그대로 보존합니다.
+
 ## 2026-10-05 0.7.0 publication and Sparkle installation
 
 **Published/latest/installed PASS within stated scope.** Shot Clip 0.7.0(build 9) was published 2026-10-05 22:06:35 KST (13:06:35Z): [release](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.7.0) / [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.7.0/shotclip-0.7.0.zip). Immutable source/tag/app provenance is `53bd5d2ad05375be7a6296da4534815260a38d98` (source A); final delivery documentation is a separate later commit. Prior candidate and earlier dated bodies below remain unchanged and describe their original checkpoints.
