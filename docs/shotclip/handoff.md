@@ -1,6 +1,48 @@
 # Shot Clip handoff
 
-[Documentation](README.md) · [Development plan](development-plan.md) · [QA results](qa-results.md)
+[Usage](../../README.md) · [Development plan](development-plan.md) · [QA results](qa-results.md#current-evidence) · [한국어](#한국어)
+
+## Current status
+
+This is a **documentation-only usage refresh** requested after the completed 0.8.1 delivery. Start baseline: clean `main` at `66cbe749a25b6bd289885420cb0fff89e8b5307e`. The public/installed app remains **0.8.1 (build 11)** from immutable source/tag `3140c27629708eecca53ff820066356be7cf443d`, published 2026-10-06 05:42:17 KST. The baseline main ordinary push/remote equality and completed app work are recorded in `dist/security-0.8.1-qa/final-completion-audit.json`; they are not new tests performed for this refresh.
+
+Requirements and the ordered documentation plan were recorded before this rewrite. The two root READMEs now prioritize installation, capture/copy/paste, preview/save, settings and troubleshooting in English/Korean, without historical release notes. Current documents describe source-backed behavior and practical limits. Original verified QA/technical/handoff evidence remains collapsed where needed for twelve unchanged independent reports and existing fragment links; Git history retains prior complete bodies.
+
+## Changes and ownership
+
+| Author lane | Changed documents |
+| --- | --- |
+| Reader documentation | `README.md`, `README.ko.md`, `docs/shotclip/README.md` |
+| Related documentation | `architecture.md`, `design-system.md`, `development-plan.md`, `handoff.md`, `product-plan.md`, `qa-plan.md`, `qa-results.md`, `requirements.md`, `technical-validation.md`, `update-operations.md`, `verification.md` in `docs/shotclip` |
+
+R01–R17, D01–D18 and P0–P10 tracing remains; the existing R18 in-memory preview requirement is also retained. Production and explicitly isolated QA commands match real scripts. Fresh auto-check OFF/existing preserved, process-only last region, in-memory preview, explicit PNG export, clipboard commit/rollback limitations and ad-hoc/arm64/permission limitations are stated without expanding support.
+
+No code, scripts, AGENTS, release-content, public assets, installed app, preferences, clipboard, TCC or key changes belong to this task. No new app version, build, runtime QA, install, release or tag is needed or claimed.
+
+## Document checks and evidence
+
+Author evidence is `dist/readme-refresh-2026-10-06/related-docs-check.json`: current-document paths/hashes, local links/fragments, trace IDs, protected-file equality, twelve immutable report hashes and retained historical anchors. The ignored root `baseline.json` protects 84 tracked files outside the fourteen-document scope and seven tag objects. Author checks are separate from approval.
+
+Author static checks passed: 27 Markdown files (14 current documents, twelve immutable reports and AGENTS), 226 local links, 91 fragments, complete R01–R18/D01–D18/P0–P10 IDs, English/Korean summaries and `git diff --check`. All 84 protected-file hashes and seven tag objects match baseline; original handoff/QA ledgers and required review anchors remain. These are document checks, not new app tests or independent approval. Separate full-document review and the new ordinary main push remain pending. This handoff cannot record its own future commit hash; read actual `git log -1` after the ordinary documentation commit and verify remote main equality.
+
+## Remaining work and resume
+
+1. Independently review the frozen fourteen-document diff, facts, links, history boundaries and author evidence. Correct concrete issues before approval.
+2. Commit the approved documentation-only scope and push `main` normally; verify exact local/origin/GitHub main equality. Preserve all tags and source A.
+3. Confirm the six existing public assets/feed remain unchanged and record actual commit/push/completion evidence. Do not rebuild, retag, republish or reinstall for this task.
+
+The latest real-app capture/paste/permission/native-save and broader platform/accessibility limits remain [unrun](qa-results.md#unrun-and-distribution-limits). They are not blockers to this documentation-only refresh and are not silently converted to PASS.
+
+## 한국어
+
+이번 작업은 사용법 중심 README 한영 개편과 관련 문서 정리만 수행합니다. 시작 main은 `66cbe749…307e`, 앱은 이미 공개·설치된 0.8.1(11)/소스 A `3140c276…443d`이며 이전 작업의 일반 push·배포·설치·정상 재시작은 완료했습니다. 앱·코드·설정·권한·클립보드·키·공개 자료는 바꾸거나 재검증하지 않습니다.
+
+현재 본문은 실제 사용·개발/격리 QA·요구사항 추적과 한계를 먼저 안내하고 과거 검증 근거/앵커는 접힌 영역에 보존합니다. 작성자 문서 검사와 독립 승인을 구분하며 다음 단계는 14개 문서 독립 검토, 일반 main commit/push와 실제 원격 일치 확인입니다. 미래 commit hash를 만들어 기록하지 않습니다.
+
+<details>
+<summary>Historical handoffs retained for audit and immutable review links</summary>
+
+The following are original checkpoint records, not the current work queue. Their “latest/current/unreleased/pending” statements apply only to the dates and source they identify. The completed status above supersedes their pending delivery or documentation-push wording.
 
 ## 2026-10-06 0.8.1 delivery handoff
 
@@ -322,3 +364,6 @@ Everything below is historical 2026-10-04/0.2.x–0.3.0 evidence. Legacy brandin
 | Git | 브랜치, 최종 commit ID, 원격 일치 확인 결과 |
 
 작업자의 로컬 절대 경로나 비밀값에 의존하는 지시를 남기지 않습니다. 진행 중 작업이 있는 경우 완료한 작업과 미완료 작업을 분리하고, 도구가 지원하지 않는 명령을 실행했다고 기록하지 않습니다.
+
+
+</details>

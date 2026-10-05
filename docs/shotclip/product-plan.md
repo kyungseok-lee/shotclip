@@ -1,126 +1,57 @@
 # Shot Clip product plan
 
-[Documentation](README.md) · [Development plan](development-plan.md) · [Design system](design-system.md) · [한국어](#한국어)
-
-## 2026-10-06 delivered 0.8.1 scope
-
-**Shot Clip 0.8.1 (build 11)** is the latest public/installed release. It closes the three bounded security findings without changing the copy-first journey, bilingual settings/fonts or native controls. Invalid-feed expiry fallback is disabled; production has no development QA execution path and the inspected public app contains no private developer-home/absolute source/build paths. Synthetic QA remains available in its separate host.
-
-[Delivery QA](qa-results.md#2026-10-06-081-publication-installation-and-retirement) records exact signed/public files, real Sparkle installation, bounded native language/latest-check evidence and completed prior public retirement/exact generated cleanup and normal unchanged-payload cold restart. Existing settings/identity/key/privacy limits remain. Ad-hoc/arm64/not-notarized/library-validation constraints and real capture/paste/full accessibility/platform limits remain disclosed. Earlier dated current/latest/pending statements are historical; final documentation B/push is separate from immutable source A.
-
-한국어: 최신 공개·설치 0.8.1(11)은 세 보안 수정과 기존 복사 우선 기능·한영 배치/폰트·설정/키를 유지합니다. 실제 공개/설치·정상 동작·정리 상태는 새 QA를 따르며 미실행 캡처/별도환경을 통과로 확대하지 않습니다.
-
-## 2026-10-06 current security scope
-
-The authorized **0.8.1 (build 11)** work fixes three bounded security findings: invalid-feed timeout acceptance, reachable development QA paths in the public app, and embedded private developer-home and absolute source/build paths. It retains the copy-first journey, English/Korean settings geometry, fonts/resources, native behavior and existing update trust/preferences. Development fixtures remain available in a separate QA host; they are excluded from public startup.
-
-Public/installed 0.8.0 (build 10) is the verified baseline, not a new 0.8.1 delivery. Follow [R13/R11 requirements](requirements.md#2026-10-06-081-security-requirements), [D18/P10 plan](development-plan.md#2026-10-06-ordered-081-security-work) and [current results](qa-results.md#2026-10-06-081-security-findings-and-candidate-status). Existing ad-hoc/arm64/not-notarized and library-validation limitations remain disclosed. Earlier dated current/latest/pending statements below are historical.
-
-한국어: 0.8.1 (build 11)은 invalid feed 시간 경과 수용·공개 QA 진입·개발자 경로 metadata 세 건을 수정하는 범위입니다. 복사 우선 기능·한영 배치/폰트/자료·기존 설정/키를 보존하며 새 공개/설치가 있기 전 기준은 0.8.0 (build 10)입니다.
-
-Frozen author security/isolated layout tests and root sealed package/normal candidate checks pass. The detailed ledger separates those scopes from pending independent approval and new public installation.
-
-## 2026-10-06 delivered product
-
-**Shot Clip 0.8.0(10)** is the latest public/installed developer preview. It keeps the copy-first journey and ships language-invariant settings: window, form and reading position stay fixed when switching English/Korean at the same size/state; long diagnostics may grow the shared layout after state change/resize. Exact signed public/latest installation, real Sparkle upgrade and normal General language/root geometry have separate proof.
-
-[Current QA](qa-results.md#2026-10-06-080-publication-installation-and-retirement) records synthetic full-frame scope and runtime limits. Prior public/local app versions and generated outputs are removed; source tags/history, latest artifacts, small proof and unrelated user data remain. Cold restart passes with the same public payload. 0.8 capture/paste, macOS 14/Intel/clean-account/full accessibility are unverified. Earlier current/latest/pending statements below are historical; final documentation B push is separate.
-
-한국어: 최신 공개·설치 0.8.0(10)은 복사 우선 기능과 같은 상태/크기의 한·영 설정 배치/읽던 위치를 유지합니다. 실제 공개·Sparkle·정확한 설치·General 전환과 합성 전체 프레임을 구분합니다. 구버전/산출물을 삭제하고 최신 앱·Git 이력/태그·작은 증거를 보존했으며 실제 캡처/별도환경/접근성은 통과로 표시하지 않습니다.
-
-## 2026-10-06 current product direction
-
-The 0.8.0(10) candidate keeps the copy-first journey and improves settings so choosing English or 한국어 preserves the same window, navigation, form geometry and reading position at the same size/state. Readable fonts/line heights, bilingual maximum text reservations and aligned native controls must prevent clipping at default/minimum sizes. Long diagnostics may grow after a genuine state change or resize. See [R14/R15](requirements.md#2026-10-06-080-bilingual-settings-contract) and [D17](design-system.md#2026-10-06-language-invariant-settings-design).
-
-The settings implementation passes four sealed author matrices and separate reproduction; actual normal runtime and delivery remain separately evidenced. Public/installed 0.7.0(9) remains the baseline until 0.8 delivery is verified. The request includes current documentation, latest installation, deletion of all past public releases and owned obsolete local apps/generated outputs after latest verification, and ordinary `main` push. Preserve Git source/tags, identity/settings/key and unrelated user data. Earlier dated current/latest/pending claims below describe their original snapshots; [current QA](qa-results.md#2026-10-06-080-language-invariant-settings) is authoritative.
-
-한국어: 복사 우선 기능을 유지하며0.8.0(10)에서 같은 크기/상태의 한·영 설정 배치·폼·읽던 위치를 유지하도록 개선합니다. 최신 검증 뒤 과거 공개/로컬 앱을 삭제하되 Git 이력/태그·기존 설정/키·무관한 데이터는 보존합니다. 실제 결과가 있기 전까지 공개/설치 기준은0.7.0(9)입니다.
-
-## 2026-10-05 0.7.0 delivered scope
-
-**Published and installed: Shot Clip 0.7.0 (build 9)**, 2026-10-05 22:06:35 KST (13:06:35Z). The immutable [release/tag](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.7.0), public archive and installed app identify source `53bd5d2ad05375be7a6296da4534815260a38d98`. Normal source/tag push and remote equality passed; all six public redownloads and the canonical latest signed feed equal the independently approved preparation. Actual Sparkle 0.6.0(8)→0.7.0(9) download/extract/Install and Relaunch succeeded, with all 175 installed entries/bytes/links/file and directory modes equal the public ZIP; no manual installer was used. Ad-hoc signed, arm64 only, NOT notarized.
-
-The delivered journey is permission-ready selection→successful clipboard commit→optional lower-right thumbnail/original Fit/100%→explicit native PNG save. Dismiss/cancel/close/error preserve the clipboard; no automatic capture storage/history/upload or sensitive logs. The eight UI changes are part of this public version, with existing square artwork, identity/settings/key and automatic checks OFF retained. Actual same-ID upgrade is now verified on this host, separately from permission-dependent capture acceptance.
-
-Korean normal runtime confirmed version/latest-feed result and acknowledgment; unavailable capture commands stay hidden and explicit Screen Recording recovery opens Access. Screen Recording is unavailable: candidate and installed capture harnesses report permission-SKIP, with no real capture/general paste/TCC grant/reset. Two native-automation shortcut attempts leave Carbon routing UNVERIFIED, without establishing a product defect. Full accessibility, macOS 14/Intel/clean-account and unprovided hardware/layout coverage remain unverified. The old 0.6 updater used a missing-plain-text notes fallback; notes display is not a passed claim. Nine non-time preference key digests remain equal, only `SULastCheckTime` changed after actual manual update checks, no keys added/removed and no raw values retained.
-
-Recoverable cleanup and a true normal cold restart passed after cache removal: the installed 175-entry tree/signature and 173+57 language diagnostics remain valid; final canonical PID is 80286. [Delivery QA](qa-results.md#2026-10-05-070-publication-and-sparkle-installation) records the bounded removals and retained proof. Earlier snapshots below remain dated context. The [independent delivery verdict](release-review-0.7.0.md) is separate; documentation commits are verified by local/remote Git equality and do not change immutable release/tag/app source A.
-
-한국어: 2026-10-05 22:06:35 KST에0.7.0(build 9)/소스`53bd5d2…`를 최신 공개했습니다. 공개6개 바이트/feed와 실제 Sparkle0.6→0.7 설치/재실행·175개 설치 항목/서명/173+57언어 자료를 확인했으며 수동 설치기는 사용하지 않았습니다. ad-hoc arm64·미공증입니다. 한국어 정상 최신 확인/권한 메뉴→Access를 확인했고 권한 없는 실제 캡처/붙여 넣기는SKIP, 전역 단축키는 자동화 두 시도로 미확정이며 결함 판정이 아닙니다. 전체 접근성/다른 OS·CPU·계정·장비와 이전 updater의 노트 표시는 통과를 주장하지 않습니다. 아홉 비시간 설정 digest는 같고 수동 확인 시각만 바뀌었습니다. 복구 가능한 정리 후 정상 cold restart/PID 80286과 설치 항목·서명·173+57 자료를 재확인했습니다. 과거 기록은 보존하고 독립 배포 판정/별도 문서 commit을 소스A와 구분합니다.
-
-## 2026-10-05 0.7.0 release candidate
-
-The latest explicit request authorizes remaining verification, documentation, normal Git push, a new GitHub release and latest installation. Source `resources/Info.plist` targets **0.7.0 (build 9)**. The public and installed 0.6.0(8) app, source `e87e40e…`, remains the verified baseline until new publication and installation evidence is recorded. The earlier [UI approval](qa-review-ui-refresh.md) covers its exact 0.6 development inputs; the new version, documentation and release files require separate approval. Earlier no-deployment statements below describe the preceding request and are superseded for current work. Preserve the existing identity, keys, settings, automatic-update defaults, approved eight-item behavior and historical records.
-
-The 0.7 journey remains copy-first: permission-ready capture, successful clipboard commit, optional lower-right thumbnail/original Fit/100%, and PNG only at an explicitly accepted native destination. No automatic capture storage/history/upload or sensitive logs. Release delivery adds reviewed new source/tag, signed public artifacts and verified latest installation; it does not imply unperformed macOS 14/Intel/clean-account or capture/upgrade acceptance. [Current QA](qa-results.md#2026-10-05-070-release-candidate) records each result.
-
-Repository-hygiene steering adds a professional `.gitignore` update and thorough related source/release/build/installer inspection before push and publication. The executor froze only `.gitignore` and passed37 intended ignored paths/29 required visible paths/all78 tracked paths visible with `--no-index`; independent verification also passed43 ignored/33 visible cases. Only known transient OMC paths are ignored; shared SwiftPM schemes/configuration, `Package.resolved`, fonts/licenses and docs remain visible. Read-only related release/build/installer inspection reported no additional blocker; the final candidate/source verdict is recorded separately in `qa-review-0.7.0.md`. This preserves required source/resources/docs, locally retained ignored QA proof and existing user edits.
-
-한국어: 최신 요청으로 남은 검증·문서·일반 push·새 GitHub 릴리스·최신 설치를 진행합니다. 소스는 0.7.0(build 9)이며 새 게시/설치 전까지 공개·설치 0.6.0(8)/`e87e40e`는 기존 기준입니다. 앞선 UI 독립 승인은 당시 동결 입력에만 적용하고 새 후보/자료 검토와 실제 결과를 구분합니다. 아래 과거 요청의 배포 제외 문구는 당시 기록이며 현재 요청으로 대체됩니다. 기존 식별자·설정·키·자동 확인 기본값과 여덟 구현·과거 증거를 보존합니다.
-
-## Current unreleased UI extension
-
-The eight-item refresh is an implementation/review request, separate from the public/installed 0.6.0(8) release. It adds consistent typography/layout, square navigation/icon presentation, compact update dialogs and a native-style capture toolbar. Four language/appearance fixtures and 36 core tests passed; final sealed development-bundle checks and a 62-assertion native PNG save gate passed; author/root evidence is complete; the independent verdict is recorded separately in `qa-review-ui-refresh.md`. Optional original-image preview and **user-selected PNG export** extend the copy-first journey; copying still succeeds before any thumbnail, preview or save interaction. No automatic file saving/history or sensitive logs are introduced. See [requirements R18](requirements.md) and [current QA](qa-results.md#2026-10-05-unreleased-eight-item-ui-refresh).
-
-한국어: 현재 여덟 UI 개선은 미배포 구현/검토 범위입니다. 복사는 미리보기보다 먼저 완료하며 원본 보기와 명시적 PNG 저장을 선택적으로 제공합니다. 자동 저장·이력·민감정보 로그는 만들지 않고 기존 공개/설치 0.6.0과 구분합니다.
-
-Decision date: 2026-10-05. This is the approved direction, not a claim that the proposed release has passed runtime QA.
+[Usage](../../README.md) · [Requirements](requirements.md#requirements) · [Design](design-system.md) · [한국어](#한국어)
 
 ## Product and audience
 
-Shot Clip is a small macOS menu bar utility for people who repeatedly paste selected screen regions into another app. Its promise is **select a region, copy the image, paste with ⌘V**. Fixed Region reuses a selection during the current session; Drag Region selects a new region on release. Each capture stays within one display.
+Shot Clip is a small menu bar app for people who repeatedly copy a selected part of the screen into a document, chat or editor. Its main path is **select → copy → paste**. An optional in-memory preview and deliberate PNG save support people who also need a file.
 
-macOS already supports copying screenshots to the clipboard. Shot Clip adds a consistent copy-first workflow and a reusable region. See [Apple’s screenshot guide](https://support.apple.com/guide/mac-help/take-a-screenshot-mh26782/mac).
+The current public app is **0.8.1 (build 11)**. It requires macOS 14 or later; the published binary is arm64 and ad-hoc signed without Apple notarization. Current-host verification and remaining coverage are recorded in [QA results](qa-results.md#current-evidence). This documentation refresh changes no app behavior or distribution file.
 
 ## Essential journey
 
-1. Open Shot Clip. The existing first-run setup explains capture-to-clipboard once without a system permission prompt; later launches remain quiet and Finder reopen opens settings.
-2. Choose Capture Area (drag) first or Fixed Region from the menu, or press the configurable shortcut (default `⌃⇧⌘5`) for the remembered mode. Fresh users default to drag; existing valid preferences remain.
-3. If access is unavailable, the menu hides both unusable capture actions and offers explicit Access setup; the global shortcut also opens that setup. Use one primary recovery action and keep restart/location/diagnostics in collapsed troubleshooting.
-4. Adjust a valid region. Confirm Fixed Region with Capture or Return; release a valid drag to capture. Escape cancels.
-5. Capture and encode PNG/TIFF in memory, then commit to the clipboard. Only after a successful write, dismiss the overlay, return to the previous app and show a lower-right thumbnail on the capture display.
-6. The person presses `⌘V` in an image-capable destination; Preview can use `⌘N`. Clicking the thumbnail opens the original image with Fit/100% and an explicit Save PNG action. Closing without saving keeps the clipboard usable. Shot Clip sends no keystrokes to other apps.
+1. Open Shot Clip once. It stays in the menu bar; later launches are quiet and opening it again in Finder shows settings.
+2. Press `⌃⇧⌘5` to use the last-used mode, or choose **Capture Area** or **Fixed Region** from the menu. New users start with Capture Area. The app must be running for the global shortcut to work.
+3. If Screen Recording access is unavailable, the menu and shortcut open **Access** setup. Request access there, allow Shot Clip in macOS settings, then **Check Again**; restart the app if needed. The app does not request system permission automatically at launch.
+4. Drag and release a valid Capture Area, or adjust a Fixed Region and press **Capture** or Return. Escape cancels; `M` switches modes.
+5. A successful capture copies PNG/TIFF image data and returns focus to the previous app. Press `⌘V` in a destination that accepts images; Preview can create an image from the clipboard with `⌘N`.
+6. A lower-right thumbnail briefly offers the original image. Click it for Fit/100% and **Save…** to export PNG; a file is written only after native save-panel acceptance. Closing, cancelling or starting another capture does not rewrite the clipboard.
 
-Cancellation, denial, capture failure, and encoding failure leave the clipboard untouched. Clipboard replacement uses a snapshot and guarded recovery, but `NSPasteboard` offers no atomic replacement guarantee; write/rollback failures remain visible. See [architecture](architecture.md).
+The last region is session-only, with a centered 400×300 pt fallback clamped to the selected display. Mode, shortcut and language preferences persist. There is no saved capture history or way to reopen a dismissed image from history.
 
 ## Scope and success
 
-| In scope | Acceptance signal |
+| Product behavior | Requirement |
 | --- | --- |
-| Two region modes, global shortcut, session-only region reuse | R01–R03, R07, R10; logic checks plus user-owned capture QA |
-| Immediate PNG/TIFF copy and clear success/failure | R04–R05, R08–R09; user checks image paste and cancellation |
-| Lower-right thumbnail, original-image preview, optional PNG export | R11/R18; original pixels, user-driven save and clipboard retention |
-| Reference-style native settings/menu, progressive permissions, keyboard operation | R06, R12, R14; accessible labels/focus and both language layouts |
-| English default, explicit English / 한국어 setting | R15; immediate app-owned refresh, persistence, complete copy, fallback, and layout checks |
-| Shot Clip display/path with stable identity | R16; unchanged bundle/executable/settings/key, verified manual canonical-folder migration |
-| GitHub preview with verified signed updates | R13, R17; ad-hoc limitations disclosed, archive and feed verified |
+| Two region modes, running-process shortcut, one display per selection | R01–R03, R07, R10 |
+| Immediate image copy; user-controlled paste; safe cancellation before commit | R04–R05, R08–R09 |
+| Progressive Access recovery and native keyboard controls | R06, R12 |
+| In-memory original preview and explicit PNG export | R11, R18 |
+| Readable native settings with immediate English/Korean refresh | R14–R15 |
+| Stable identity and verified signed update distribution | R13, R16–R17 |
 
-No cloud, capture history, automatic image storage, OCR, editing, annotations, video, scrolling capture, automatic paste, cross-display stitching, or quit-state shortcut launcher. Network access is for update distribution only. Do not log or upload captured images, screen content, clipboard contents, app names, or window titles.
-
-Success is assessed through metadata-only QA: correct region/pixels, no overlay in results, unchanged clipboard before success, recoverable denial/cancellation, and usable keyboard/language flows. No telemetry is required.
+Cancellation, denial, capture failure and encoding failure leave the clipboard untouched. Clipboard write failure uses guarded recovery; platform races and rollback failures prevent an unconditional preservation guarantee. No capture upload, automatic file storage, OCR, annotation, image editing, scrolling/video capture, cross-display stitching, automatic paste or quit-state shortcut launcher is included.
 
 ## Native settings and language
 
-Use the supplied reference to guide native window navigation, spacing and aligned preference rows. Keep General, Access and Updates focused on existing capture, shortcut, login, language, permission and update controls. When ready, the menu stays Capture Area first and Fixed Region second; when unavailable it shows explicit Access instead. Mapped shortcuts use the native right-hand column. The unreleased refresh uses process-local Roboto/Noto Sans KR, semantic tokens, square rail/icon geometry, consistent full-text padding, compact content-sized update dialogs and an Apple-reference capture toolbar. The app-owned English / 한국어 choice updates text immediately and persists for the next launch. Preserve the active pane, permission/update state, selected region and unrelated settings during language changes. A permission-related restart may still be required after changing Screen Recording access. A supported custom Sparkle `SPUUserDriver` relabels new and already-visible app-owned update dialogs while retaining callbacks, progress, focus and unchanged release-note selection/scroll. One updater retains signed-feed/archive verification and automatic checks OFF; changing language never recreates the updater. macOS system prompts follow OS language.
+**General** contains shortcut/mode actions, optional login start and English/한국어 selection. **Access** contains effective permission status and recovery, with detailed location/signing advice behind Troubleshooting. **Updates** contains version, manual checks and the automatic-check switch. Fresh automatic checks default OFF; an existing choice is preserved, and automatic download/install is disabled.
+
+Changing language immediately relabels app-owned menus, settings, selection controls and update dialogs while preserving state. macOS permission/security prompts follow the OS language. Settings use the same structural frames at the same state/window size in both languages; long content can scroll at smaller sizes. Bundled fonts register only within the process.
 
 ## Identity and delivery
 
-| Item | Approved target |
+| Item | Current value |
 | --- | --- |
-| Brand / repository | Shot Clip / [kyungseok-lee/shotclip](https://github.com/kyungseok-lee/shotclip) |
-| Bundle / executable / installation | `dev.shotclip.app` / `shotclip` / `/Applications/Shot Clip.app` |
-| Current reviewed source | `0.6.0` (build `8`); sealed release/public bytes, exact installation and bounded runtime/cleanup verified; full acceptance remains separate |
-| Distribution | GitHub ad-hoc developer preview; no Apple developer enrollment required by this plan |
-| Update trust | Existing Ed25519 public key and Keychain account `sshot` retained; no private-key export, regeneration, or rotation |
+| Name / bundle ID / executable | Shot Clip / `dev.shotclip.app` / `shotclip` |
+| Canonical app | `/Applications/Shot Clip.app` |
+| Public distribution | [0.8.1](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.8.1), arm64 ad-hoc preview, not notarized |
+| Release source | `3140c27629708eecca53ff820066356be7cf443d` |
+| Update trust | Canonical HTTPS feed, existing Ed25519 archive/feed key, no invalid-feed timeout fallback |
 
-Shot Clip 0.6 retains the spaced app folder established in 0.5. ShotClip 0.4.x → Shot Clip 0.5 keeps `dev.shotclip.app` and preferences; manual installation adopts the new spaced app folder after verification, retaining recoverable prior copies. Stock Sparkle may keep the old host folder; actual automatic upgrade remains untested. Historical `dev.sshot.app` migration copies only selected valid preferences and needs a fresh grant; ad-hoc replacement can also need reapproval. Developer ID/notarization is outside this preview. Publication and actual updates need separate evidence; see [update operations](update-operations.md).
+Legacy identity/folder migration is an installation compatibility boundary, not a product feature or automatic-folder-rename promise. See [update operations](update-operations.md#trust-and-migration-limits). Current support comes from executed evidence, not the requirement list.
 
 ## 한국어
 
-Shot Clip은 macOS 메뉴 막대에서 영역을 선택하고 이미지를 즉시 클립보드에 복사하는 작은 도구입니다. 고정 영역은 현재 실행 세션에서 재사용하고 드래그 영역은 놓는 즉시 캡처합니다. 사용자가 다른 앱에서 `⌘V`로 붙여 넣으며, 한 번의 선택은 한 화면 안으로 제한합니다.
+Shot Clip은 메뉴 막대에서 선택한 화면 영역을 바로 복사하는 앱입니다. 한 번 실행한 뒤 `⌃⇧⌘5`로 마지막 모드를 열거나 메뉴에서 Capture Area/Fixed Region을 고릅니다. 드래그는 유효한 영역에서 놓으면 복사하고, 고정 영역은 Capture/Return으로 확정합니다. Escape로 취소하고 `M`으로 모드를 바꿉니다. 이미지가 가능한 앱에서 `⌘V`, 미리보기에서는 `⌘N`을 사용합니다.
 
-첫 실행에서는 기능을 설명하고 캡처 요청 시 화면 기록 권한을 단계적으로 안내합니다. 취소·거부·캡처/인코딩 실패 전에는 클립보드를 변경하지 않습니다. 클립보드 쓰기와 복원에는 OS의 원자성 한계가 있으므로 오류를 숨기지 않습니다. 영어가 기본이며 일반 설정에서 **English / 한국어**를 선택하면 앱 소유 메뉴·설정·오버레이 문구가 즉시 바뀌고 재실행 후에도 선택을 유지합니다. 화면 기록 권한 변경 후 필요한 재시작은 언어 전환과 별개입니다. 지원되는 custom Sparkle driver의 새/열린 업데이트 창도 즉시 바꾸며 callback·진행률·포커스·변경되지 않은 릴리스 노트 선택/스크롤을 유지합니다. 언어 변경은 updater를 재생성하지 않고 서명 feed/archive·기본 자동 확인 OFF를 유지합니다. macOS 권한/보안 창은 OS 언어를 따릅니다.
-
-브랜드는 Shot Clip, 저장소는 `kyungseok-lee/shotclip`, 기존 식별자는 `dev.shotclip.app`, 실행 파일은 `shotclip`, 새 설치 위치는 `/Applications/Shot Clip.app`입니다. `0.6.0`(build `8`) 소스 승인은 실제 캡처·접근성·업그레이드 전체 검증을 뜻하지 않습니다. 기존 0.4.x 설정을 유지하고 새 앱 검증 후 기존 폴더를 복구 가능한 백업으로 옮깁니다. 과거 Sshot의 다른 ID에서만 선택 설정을 이전하며 ad-hoc 교체 후 권한 재허용이 필요할 수 있습니다.
-
-GitHub ad-hoc 개발자 프리뷰 배포가 승인되었고 Developer ID/공증은 이번 범위에서 제외합니다. 기존 Keychain `sshot` 계정과 Ed25519 공개키는 유지하며 키를 내보내거나 재생성하지 않습니다. 캡처 GUI 테스트는 사용자가 맡습니다. 성공 후 우측 하단 썸네일을 누르면 원본을 보고 PNG 저장을 선택할 수 있고 닫거나 저장을 취소해도 클립보드는 유지합니다. 자동 저장·캡처 이력·클라우드·OCR은 제공하지 않습니다.
+권한이 없으면 Access에서 화면 기록을 허용하고 Check Again/재시작으로 확인합니다. 성공 후 썸네일은 메모리에 있는 원본을 열며 **저장…**의 저장 창을 승인한 경우에만 PNG 파일을 씁니다. 영역은 실행 중에만 기억하고 캡처 이력·자동 저장·업로드는 없습니다. 언어는 즉시 바뀌며 새 설치의 자동 업데이트 확인은 OFF입니다. 현재 공개본은 0.8.1(11), macOS 14+용 arm64 ad-hoc·미공증 배포이며 실제 검증 범위는 QA 문서에서 확인합니다.

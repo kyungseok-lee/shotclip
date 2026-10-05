@@ -1,6 +1,43 @@
 # Shot Clip QA results
 
-[QA plan](qa-plan.md) · [Verification](verification.md) · [Handoff](handoff.md)
+[QA plan](qa-plan.md) · [Requirement trace](verification.md#requirement-trace) · [Handoff](handoff.md#current-status) · [한국어](#한국어)
+
+## Current evidence
+
+The public and installed app is **0.8.1 (build 11)**, published 2026-10-06 05:42:17 KST: [release](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.8.1). Its immutable source/tag is `3140c27629708eecca53ff820066356be7cf443d`. The completed documentation/main baseline is `66cbe749a25b6bd289885420cb0fff89e8b5307e`. The coordinator's `dist/security-0.8.1-qa/final-completion-audit.json` records PASS, exact local/origin/GitHub main equality, ordinary push and unchanged source/tag/public bytes. This documentation refresh reruns no app, build, install or release test.
+
+| Verified scope | Accepted result and practical limit |
+| --- | --- |
+| Core and artifact regressions | 36 core tests; resource 34, publishing 17, archive 15 unsafe + two valid, installer 15, crypto 25 reject + two valid. Temporary fixtures do not prove a real installer/update/capture outcome |
+| Security S01–S03 / D18 | Six accepted/71 rejected security fixtures; 27 production retired-QA-argument cases reject before startup. Production excludes capture-helper/self-test/UI-preview hooks and uses exact integer feed-expiry 0; later valid signed feeds remain eligible. No live 20-day invalid-feed simulation |
+| Standalone resources and full artifact | Sealed/public/installed scanner: 99 regular files, nine symlinks, six Mach-O files; zero prohibited private-home/checkout/absolute-build paths, app-owned QA markers or unsafe RPATHs. Installed en/ko has 173 app + 57 update keys and source-identical fonts/licenses/icons. Standard Sparkle helpers remain |
+| D17 settings layout | Author and independent lanes each ran two isolated matrices: 352 renders/200 paired cases/lane, 139 app-owned structural views/case, 25 states and four sizes. Full frame/document/window/scroll/focus equality, glyph containment/adjacent-line ink, native title ink and five negative guard kinds pass; matrix stderr is empty. Independent execution used the finalized test binary, not an independent rebuild |
+| Source and public assets | Reviewed clean source A, signature/resources and existing-key Ed25519 archive/feed gates pass. All six public downloads and latest signed feed equal approved bytes; public ZIP is 8,195,818 bytes, SHA256 `95535fda907d2f4e50b18ae7b5c681c21440aa8c2f8ca2ecab8c7a407aa15829`. No key export/regeneration |
+| Actual update and installed payload | Actual Sparkle 0.8.0(10)→0.8.1(11), without manual installer; all 177 installed entries including root match public bytes, links and modes, with strict signature/security/resources. Installation evidence is separate from fixture tests |
+| Normal installed UI and cold restart | All three panes, current version, existing automatic checks ON and Screen Recording-needed state read. General ko→en→ko restores a 25-element accessibility tree/native 720×608 pt root/content 720×580. Normal cold restart PID 38014 passes the unchanged installed payload without build caches. This native tree scope is smaller than the isolated 139-view matrix |
+| Preferences | Ten-key set and nine non-time digests remain baseline-equal; only `SULastCheckTime` changes with update checks. Korean/existing auto ON remain; fresh auto default is OFF. Digest equality does not establish that no writes occurred; raw values are not retained |
+| Completed cleanup | 714 approved roots, 8,003 regular files/1,032,025,832 regular-file bytes removed; six synthetic representatives, compact logs/JSON/proofs and six public assets retained. Build/QA/dev/extracted/prepared duplicates are absent. Removed bytes are not measured freed disk space; no general Trash cleanup is claimed |
+
+[Independent security review](qa-review-0.8.1.md) and [independent delivery review](release-review-0.8.1.md) cover their frozen inputs. All twelve immutable review reports remain unchanged. Named source/public/install/native/preference/cleanup proofs live in ignored `dist/security-0.8.1-author` and `dist/security-0.8.1-qa`; detailed historical ledgers below retain exact reports and the limits recorded at each checkpoint.
+
+## Unrun and distribution limits
+
+Real 0.8.1 capture/paste, self-test/native-save, permission grants/resets and general clipboard actions were **not run**. Screen Recording-needed observation is not a capture-harness PASS/SKIP. Release-notes fallback was observed; rendered notes are not PASS. Full accessibility, macOS 14, Intel, clean-account and other hardware remain unverified. The release is arm64/ad-hoc, not Apple notarized, with the existing Sparkle library-validation exception.
+
+## Documentation-only verification
+
+The current documentation work changes fourteen reader documents, with no application, assets, immutable reviews or release-content edits. Author link/fragment/trace/protected-hash checks are recorded in `dist/readme-refresh-2026-10-06/related-docs-check.json`; independent review and the new ordinary main push are separate coordinator steps. This file does not claim those pending steps have passed.
+
+## 한국어
+
+현재 공개·설치 앱은 0.8.1(11), 소스 A `3140c276…443d`이고 문서/main 기준 `66cbe749…307e`의 일반 push·원격 일치까지 완료되었습니다. 실제 Sparkle 업데이트·177개 설치 항목·캐시 없는 정상 재시작과 전체 산출물/리소스 검사를 확인했습니다. 한영 전체 배치는 격리 matrix, 정상 UI는 25개 접근성 요소와 루트 크기 범위로 구분합니다.
+
+실캡처/일반 붙여 넣기·권한·native-save·전체 접근성·다른 OS/CPU/계정과 장기 무효 feed 실험은 미실행입니다. 이번 변경은 문서만 정리하며 앱 검증을 재실행하지 않습니다. 아래 기록은 당시 검증 근거이며 과거 “current/unreleased/pending” 문구가 현재 작업 상태를 뜻하지 않습니다.
+
+<details>
+<summary>Historical verified QA ledgers and checkpoint evidence</summary>
+
+These original records preserve evidence and immutable-review anchors. Version chronology and then-pending delivery statements are historical, not the current reading path or outstanding app work. Retired public downloads may be unavailable; Git tags and these records remain.
 
 ## 2026-10-06 0.8.1 publication installation and retirement
 
@@ -467,3 +504,6 @@ NSPasteboard 교체와 복원은 OS atomic transaction이 아니다. 캡처·인
 Native UI는 orca computer get-app-state/hotkey 및 실행 후 실제 앱 상태를 확인했다. 합성 키 입력의 provider 성공만으로 통과하지 않고 sshot 권한 modal 또는 설정 label 변화를 확인했다. 앱의 안내 창 스크린샷도 확인했으며 이미지 파일은 저장소에 추가하지 않았다.
 
 시스템 설정의 sshot 스위치는 켜짐으로 관찰했으나 최신 앱의 권한 요청·preflight와 self-test는 여전히 거부/SKIP이다. ad-hoc 서명의 designated requirement는 `codesign -d -r-`에서 cdhash 기반으로 확인했다. 빌드 교체로 기존 허용이 현재 바이너리에 적용되지 않는 상황으로 추정하며, 최신 앱을 기준으로 사용자가 화면 기록 허용을 다시 적용하고 재실행한 뒤 검증해야 한다. 설정 스위치만으로 권한 QA 통과를 주장하지 않는다.
+
+
+</details>
