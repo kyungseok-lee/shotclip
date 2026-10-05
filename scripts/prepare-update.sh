@@ -7,8 +7,8 @@ source_commit="$(release_reviewed_head)"
 if [[ "$SHOTCLIP_RELEASE_MODE" == developer-id ]]; then
     : "${SHOTCLIP_NOTARY_PROFILE:?Existing notarytool Keychain profile is required for Developer ID mode}"
 fi
-tools="$(pwd)/.build/artifacts/sparkle/Sparkle/bin"
-[[ -x "$tools/generate_keys" && -x "$tools/generate_appcast" ]] || release_fail 'Resolve the exact Sparkle 2.10.0 dependency first.'
+tools="$(pwd)/.build/production/artifacts/sparkle/Sparkle/bin"
+[[ -x "$tools/generate_keys" && -x "$tools/generate_appcast" ]] || release_fail 'Resolve Sparkle 2.10.0 with swift package --scratch-path .build/production resolve first.'
 # INTENTIONAL LEGACY COMPATIBILITY: existing private key is stored under sshot.
 # Lookup-only -p must never be omitted. Do not export, rotate, delete or recreate it.
 account="${SHOTCLIP_UPDATE_KEY_ACCOUNT:-sshot}"

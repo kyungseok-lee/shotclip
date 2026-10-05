@@ -2,6 +2,20 @@
 
 [Product plan](product-plan.md) · [Development trace](development-plan.md) · [Verification](verification.md) · [한국어](#한국어)
 
+## 2026-10-06 0.8.1 security requirements
+
+The new authorized target is **0.8.1 (build 11)**. Starting clean main is `f6113b96600224fe0304689286bb368bd9a9ad7b`; public/installed 0.8.0 (build 10) remains the delivery baseline. Three reported findings define **R13/R11 → D18 → P10** below. They were recorded before implementation. Frozen author security/core/isolated QA and separate root candidate package/native evidence now pass within the [QA ledger](qa-results.md#2026-10-06-081-security-findings-and-candidate-status); independent candidate approval and new delivery remain pending. Earlier dated current/latest/pending statements remain historical under this newer scope.
+
+| Finding / trace | Required behavior and proof |
+| --- | --- |
+| S01: invalid-feed timeout fallback / R13 | Set `SUSignedFeedFailureExpirationInterval` to exact integer 0: no elapsed-time fallback may accept an invalidly signed feed. Preference/language changes must not weaken that policy. A later valid signed feed remains eligible; this does not permanently refuse valid updates after transient signature/network errors. Existing Ed25519 archive/feed checks stay intact; test invalid-feed rejection across elapsed intervals and valid-feed acceptance separately |
+| S02: reachable QA routes in public app / R11 | The production binary must not dispatch sibling QA helpers, self-test or UI-preview entry paths, regardless of arguments or neighboring files. Development QA remains available only in an explicitly isolated QA build; test production-mode rejection/non-dispatch and real isolated QA coverage. Neither path may grant/reset TCC or alter the general clipboard |
+| S03: developer path metadata in public app / R11 | Remove private developer-home and absolute source/build paths from the published app. Scan the complete artifact, including app-owned and bundled code/resources/metadata, with safe relative-file/match-class diagnostics; reject the release on a prohibited path. Negative fixtures must show that detections are active rather than checking only one executable |
+
+Retain English/Korean geometry/font/resource contracts, native behavior, identity/settings, existing update keys and privacy limits. The existing ad-hoc/not-notarized distribution and Sparkle library-validation exception remain disclosed constraints; they are not a new Developer ID requirement. Frozen candidate source/build/tests/scanner have their own bounded evidence; independent approval, new source/tag/main push, public/latest installation and cleanup remain separate gates.
+
+한국어: 새 목표는 0.8.1 (build 11)이며 기존 공개·설치 0.8.0 (build 10)을 기준으로 R13/R11→D18→P10을 추가합니다. invalid feed는 signature-failure recovery interval 0으로 시간 경과 뒤에도 수용하지 않으며 나중의 유효한 서명 feed는 허용합니다. 공개 앱의 sibling helper/self-test/UI-preview 실행 경로를 제거합니다. 개발 QA는 격리 빌드에만 남기며 공개 앱 전체의 개발자 홈/빌드 경로를 검사해 검출 시 배포를 거부합니다. 한영 배치/폰트·기존 키/설정/개인정보 경계를 유지하고 ad-hoc·미공증/library-validation 예외는 기존 제약으로 구분합니다. 동결 작성자 QA와 별도 정상 후보/패키지는 범위별로 통과했으며 독립 승인·새 공개/설치/push는 대기입니다.
+
 ## 2026-10-06 0.8.0 delivered requirements
 
 R14/R15→D17→P9 ships in **0.8.0 (build 10)**. Same-size/state bilingual settings keep default 720×580/minimum 620×480 pt, 160 pt common form lanes, 13/12/14/18 pt roles and 20/18/22/28 pt nominal minimum lines with full fallback-ink allowance. Complete paired-frame fixtures and separate normal General root-frame/translation/restored-tree evidence satisfy their bounded scopes; [delivery QA](qa-results.md#2026-10-06-080-publication-installation-and-retirement) records the details.

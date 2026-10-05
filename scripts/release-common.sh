@@ -7,6 +7,7 @@ SHOTCLIP_DISPLAY_NAME='Shot Clip'
 SHOTCLIP_APP_BUNDLE_NAME='Shot Clip.app'
 
 release_fail() { printf '%s\n' "$*" >&2; exit 1; }
+SHOTCLIP_RELEASE_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 plist_value() { /usr/libexec/PlistBuddy -c "Print :$2" "$1"; }
 
 # SwiftPM emits either a native macOS bundle or a flat resource directory.
@@ -32,6 +33,7 @@ release_resource_directory() {
 
 release_configuration() {
     : "${SHOTCLIP_RELEASE_MODE:?Set SHOTCLIP_RELEASE_MODE to ad-hoc or developer-id explicitly}"
+    [[ "${SHOTCLIP_BUILD_FLAVOR:-production}" == production ]] || release_fail 'Publishing requires the production build flavor.'
     case "$SHOTCLIP_RELEASE_MODE" in
         ad-hoc)
             [[ "${SHOTCLIP_ACKNOWLEDGE_AD_HOC:-}" == YES ]] || release_fail 'Set SHOTCLIP_ACKNOWLEDGE_AD_HOC=YES: this public release is ad-hoc signed, NOT notarized; Gatekeeper may block first launch and screen recording permission may need reauthorization.'
@@ -77,6 +79,7 @@ release_verify_bundle() {
     [[ -d "$bundle/Contents" && ! -L "$bundle/Contents" && -d "$bundle/Contents/Resources" && ! -L "$bundle/Contents/Resources" ]] || release_fail 'App resource directory is missing or a symlink.'
     resource_bundle="$bundle/Contents/Resources/shotclip_shotclip.bundle"
     release_resource_directory "$resource_bundle" >/dev/null || release_fail 'English/Korean SwiftPM localization bundle is missing or unsafe.'
+    python3 "$SHOTCLIP_RELEASE_SCRIPT_DIR/verify-app-security.py" "$bundle" || release_fail 'Production app security gates failed.'
     codesign --verify --deep --strict "$bundle"
     signature="$(codesign -dv "$bundle" 2>&1)"
     if [[ "$SHOTCLIP_RELEASE_MODE" == ad-hoc ]]; then

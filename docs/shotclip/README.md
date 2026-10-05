@@ -2,6 +2,14 @@
 
 [English README](../../README.md) · [한국어 README](../../README.ko.md)
 
+## 2026-10-06 current 0.8.1 security work
+
+**Target: 0.8.1 (build 11); verified public/installed baseline: 0.8.0 (build 10).** R13/R11 → D18 → P10 fixes invalid-feed timeout fallback, removes production QA entry paths while preserving isolated development QA, and rejects private developer-home and absolute source/build paths anywhere in the published app. Shipped bilingual layout/fonts, native behavior, identity/preferences/keys and privacy limits remain required.
+
+Read [requirements](requirements.md#2026-10-06-081-security-requirements) → [design](design-system.md#2026-10-06-d18-security-and-qa-boundaries) → [ordered plan](development-plan.md#2026-10-06-ordered-081-security-work) → [QA ledger](qa-results.md#2026-10-06-081-security-findings-and-candidate-status) and [handoff](handoff.md#2026-10-06-081-security-handoff). Frozen author core/security/isolated QA and separate root candidate package/native checks pass; independent approval and new source/tag/public/install/push evidence remain pending; older dated current/latest/pending statements remain historical. Independent historical reviews retain their original scope.
+
+한국어: 현재 작업은 0.8.1 (build 11)의 R13/R11·D18/P10 보안 수정입니다. 검증된 공개·설치 기준은 0.8.0 (build 10)이며 새 결과/배포 통과를 앞서 주장하지 않습니다. 과거 날짜별 기록과 별도 리뷰는 그대로 보존합니다.
+
 ## 2026-10-06 current 0.8.0 delivery
 
 **Published and installed: Shot Clip 0.8.0 (build 10)**, [latest release](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.8.0). Follow [delivery QA](qa-results.md#2026-10-06-080-publication-installation-and-retirement), [current operations](update-operations.md#2026-10-06-080-current-operations), [delivery trace](verification.md#2026-10-06-080-delivery-trace), [independent delivery review](release-review-0.8.0.md) and [handoff](handoff.md#2026-10-06-080-delivery-handoff) for source A, exact artifacts, normal runtime and completed retirement/cleanup. R14/R15→D17→P9 is shipped; full paired geometry fixtures and bounded normal General language transition remain distinct evidence.

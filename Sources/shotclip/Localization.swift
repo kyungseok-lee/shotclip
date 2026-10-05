@@ -10,6 +10,7 @@ enum L10n {
         if Bundle.main.bundleIdentifier == SafeDefaultsMigration.currentDomain { return .standard }
         return UserDefaults(suiteName: SafeDefaultsMigration.currentDomain) ?? .standard
     }()
+    #if SHOTCLIP_QA
     // Preview language is selected before any preference lookup. It never writes
     // the user's persistent language or invokes the normal app startup path.
     private static var previewLanguage: AppLanguage? {
@@ -18,17 +19,26 @@ enum L10n {
               CommandLine.arguments.indices.contains(index + 1) else { return nil }
         return AppLanguage(rawValue: CommandLine.arguments[index + 1])
     }
+    #endif
     static let languageDidChange = Notification.Name("ShotClipAppLanguageDidChange")
     static var language: AppLanguage { localization.language }
     static let bundle: Bundle = {
-        // Installed apps must be independent of SwiftPM's generated absolute
-        // build-directory fallback. The release script owns copying this bundle.
+        // Only resources beside this executable are used. There is no generated
+        // SwiftPM accessor or source/build-directory fallback in either flavor.
         if let url = Bundle.main.resourceURL?.appendingPathComponent("shotclip_shotclip.bundle"),
            let installed = Bundle(url: url) { return installed }
-        if Bundle.main.bundleURL.pathExtension == "app" { return .main }
-        return Bundle.module
+        #if SHOTCLIP_QA
+        if Bundle.main.bundleURL.pathExtension != "app",
+           let adjacent = Bundle(url: URL(fileURLWithPath: CommandLine.arguments[0]).deletingLastPathComponent().appendingPathComponent("shotclip_shotclip.bundle")) { return adjacent }
+        #endif
+        fputs("Shot Clip resources are missing.\n", stderr)
+        exit(78)
     }()
-    private static let localization = AppLocalization(bundle: bundle, language: previewLanguage ?? AppLanguage.resolve(defaults.persistentDomain(forName: SafeDefaultsMigration.currentDomain)?[languageKey] as? String))
+    #if SHOTCLIP_QA
+    private static let localization = AppLocalization(bundle: bundle, language: previewLanguage ?? .english)
+    #else
+    private static let localization = AppLocalization(bundle: bundle, language: AppLanguage.resolve(defaults.persistentDomain(forName: SafeDefaultsMigration.currentDomain)?[languageKey] as? String))
+    #endif
     static func text(_ key: String, defaultValue: String? = nil) -> String {
         localization.text(key, defaultValue: defaultValue)
     }
@@ -43,13 +53,12 @@ enum L10n {
         for (key, value) in AppPreferences.startupValues(current: current, legacy: legacy) { defaults.set(value, forKey: key) }
     }
     @MainActor static func select(_ language: AppLanguage) {
-        // The synthetic runtime exercises the production transition without any
-        // persistent writes, including AppleLanguages or migration markers.
-        if !CommandLine.arguments.contains("--ui-preview") {
-            for (key, value) in AppPreferences.languageValues(language) { defaults.set(value, forKey: key) }
-        }
+        #if !SHOTCLIP_QA
+        for (key, value) in AppPreferences.languageValues(language) { defaults.set(value, forKey: key) }
+        #endif
         if localization.select(language) { NotificationCenter.default.post(name: languageDidChange, object: nil) }
     }
+    #if SHOTCLIP_QA
     static func runDiagnostic() -> Never {
         let record: [String: Any]
         let result: Int32
@@ -74,4 +83,5 @@ enum L10n {
         fflush(stdout)
         exit(result)
     }
+    #endif
 }

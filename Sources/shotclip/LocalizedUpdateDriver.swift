@@ -406,6 +406,7 @@ import CaptureCore
         pending = nil; retry = nil; item = nil; downloadedNotes = nil; notesFailed = false; received = 0; expected = 0; extraction = 0; hide()
     }
     func showUpdateInFocus() { if presentWindows && screen != nil { window.makeKeyAndOrderFront(nil); NSApp.activate(ignoringOtherApps: true) } }
+    #if SHOTCLIP_QA
     // Inert fixture snapshots contain only synthetic app-owned captions/state.
     var previewCaptions: [String] { [window.title, heading.stringValue, summary.stringValue, detail.stringValue, notes.string] + visibleActions.compactMap { $0 == .notes ? notesLink.title : actionButtons[$0]?.title } }
     var previewContentSize: NSSize { preferredSize }
@@ -465,4 +466,5 @@ import CaptureCore
     func focusPreviewAction() {
         if let first = visibleActions.first { window.makeFirstResponder(first == .notes ? notesLink : actionButtons[first]) }
     }
+    #endif
 }

@@ -86,6 +86,7 @@ enum AppTypography {
         ])
         return NSFont(descriptor: descriptor, size: size) ?? face
     }
+    #if SHOTCLIP_QA
     static var bundledFontsAvailable: Bool {
         guard let latinURL = registered["Roboto"], let koreanURL = registered["NotoSansKR"],
               let latin = NSFont(name: "Roboto-Regular", size: 13), let korean = NSFont(name: "NotoSansKR-Thin", size: 13),
@@ -121,6 +122,7 @@ enum AppTypography {
             "koreanRegularWeight": koreanRegular, "sectionWeight": sectionWeight,
             "shortcutSystemGlyphFallback": true]
     }
+    #endif
 }
 
 // AppKit labels recalculate their height using the actual assigned width.

@@ -2,6 +2,20 @@
 
 [Requirements](requirements.md) · [Development plan](development-plan.md) · [QA plan](qa-plan.md) · [Results](qa-results.md) · [한국어](#한국어)
 
+## 2026-10-06 0.8.1 security trace
+
+| Trace | Required new evidence / state |
+| --- | --- |
+| S01 / R13 → D18 → P10 | Invalid-feed signature-failure recovery interval 0; elapsed-time invalid-feed rejection and later valid-feed acceptance. Existing Ed25519 trust remains; source/configuration exact integer 0 and malformed-policy fixtures pass; pinned source establishes no-expiry semantics, not a live 20-day/network run |
+| S02 / R11 → D18 → P10 | No production sibling QA helper/self-test/UI-preview route; separate development QA host and retained synthetic coverage; production artifact/27 non-dispatch fixtures and portable isolated QA pass |
+| S03 / R11 → D18 → P10 | No private developer-home and absolute source/build paths anywhere in published app; full scanner plus contaminated negatives; 99-file/nine-symlink/six-Mach-O candidate scanner and six accepted/71 rejected security fixtures pass |
+| R14/R15 → D17 → P9 | Retain bilingual geometry, Roboto/Noto Sans KR/full-ink reservation/native controls; two sealed isolated matrices pass, 352 renders/200 cases/139 views per case; separate root native General evidence passes |
+| R13/R16/R17 → P6/P7 | New source/tag/ordinary remote equality, exact signed/public/latest feed and canonical latest installation/runtime, then owned obsolete-output cleanup; new delivery pending |
+
+[Finding ledger](qa-results.md#2026-10-06-081-security-findings-and-candidate-status) centralizes severity, bounded baseline facts, owners and actual outcomes. Current target is 0.8.1 (build 11), verified baseline public/installed 0.8.0 (build 10). Earlier current/latest/pending records remain historical; previous PASS results do not prove the new version. Preserve identity/preferences/key/privacy limits; ad-hoc/not-notarized/library-validation constraints remain separate.
+
+한국어: S01/R13·S02/S03/R11→D18/P10의 interval 0·production QA 제거/별도 QA·전체 artifact 개발 경로 검사를 새 근거로 추적합니다. D17 배치/폰트와 R13/R16/R17 공개/최신 설치/정리는 유지하되 새 결과는 아직 대기입니다.
+
 ## 2026-10-06 0.8.0 delivery trace
 
 | Trace | Actual evidence / limit |

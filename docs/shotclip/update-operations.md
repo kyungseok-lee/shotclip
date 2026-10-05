@@ -2,6 +2,16 @@
 
 [Product decision](product-plan.md) · [QA plan](qa-plan.md) · [Results](qa-results.md) · [한국어](#한국어)
 
+## 2026-10-06 0.8.1 candidate operations
+
+Target **0.8.1 (build 11)**, verified public/installed baseline 0.8.0 (build 10). R13 invalid-feed signature-failure recovery interval 0 forbids time-based acceptance of wrongly signed feeds; later valid signed feeds remain eligible. Production preparation must exclude QA entrypoints and private developer-home and absolute source/build paths throughout the app; explicit development QA is a separate host and cannot be the public artifact.
+
+Follow [P10 ordered work](development-plan.md#2026-10-06-ordered-081-security-work) and [security QA](qa-results.md#2026-10-06-081-security-findings-and-candidate-status): approve source/docs/core/isolated QA/production non-dispatch/full scanner evidence, then commit/tag/ordinary push; prepare clean signed production files with the existing key and independently approve exact bytes; publish/redownload latest feed/assets and verify canonical latest installation/normal runtime; only afterward retire prior public releases and obsolete owned app/build outputs, preserving Git source/tags, and reconcile final documentation. Frozen candidate author/core/security/scanner/isolated QA and root package/native/temporary regressions pass in current QA; independent candidate approval and new public/install/push/cleanup outcomes remain pending.
+
+Preserve Git source/tags/history, key/preferences/TCC and unrelated data. Automatic checks retain fresh default OFF and the host's existing setting. Ad-hoc, arm64-only, not-notarized and library-validation disclosures remain unchanged. Earlier dated current/latest/pending and download-retention statements are historical.
+
+한국어: 0.8.1 (build 11)은 P10 보안/격리 QA/전체 artifact 검증과 독립 승인을 먼저 하고 새 소스/태그/일반 push·기존 키 서명 준비·정확한 공개/latest 설치·이후 구버전 정리를 진행합니다. invalid feed의 시간 경과 수용은 막고 이후 유효 feed는 허용하며 기존 키/설정/권한·Git 이력을 유지합니다.
+
 ## 2026-10-06 0.8.0 current operations
 
 Latest public **[v0.8.0](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.8.0)** was published 2026-10-06 03:17:40 KST (2026-10-05T18:17:40Z), build 10, ad-hoc arm64/NOT notarized. Reviewed source/tag/app A=`215bf102d87c049e00ec18264a9c1318265f39fe` was ordinarily pushed and prepared from clean source with the existing Keychain `sshot` key. The candidate/source [approval](qa-review-0.8.0.md) and exact prepared/public/install reviews are separate.

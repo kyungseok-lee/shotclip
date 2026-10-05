@@ -6,6 +6,14 @@
 
 A small macOS menu bar app that captures a selected region straight to the clipboard. Select with **Capture Area** or **Fixed Region**, then paste into another app with `⌘V`.
 
+## 2026-10-06 current security work
+
+**0.8.1 (build 11) is the active candidate; verified public/installed latest remains 0.8.0 (build 10).** The candidate hardens invalid-feed handling, removes production QA execution paths while retaining a separate development QA host, and rejects private developer-home and absolute source/build paths throughout the published app. A later valid signed feed remains eligible. Existing bilingual layout/fonts/native behavior, settings/identity/update keys and privacy limits stay required.
+
+Frozen author core/security/isolated QA and separate sealed production package/native candidate checks pass. Independent approval, new publication and latest installation remain pending. Follow [security requirements](docs/shotclip/requirements.md#2026-10-06-081-security-requirements), [current QA](docs/shotclip/qa-results.md#2026-10-06-081-security-findings-and-candidate-status) and [handoff](docs/shotclip/handoff.md#2026-10-06-081-security-handoff). The 0.8 delivery details below are a historical baseline; they are not 0.8.1 results.
+
+## 2026-10-06 0.8.0 delivered baseline
+
 **Shot Clip 0.8.0 (build 10)** is the latest GitHub developer preview, published 2026-10-06 03:17:40 KST: [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.8.0/shotclip-0.8.0.zip) / [release](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.8.0), from reviewed source [`215bf10`](https://github.com/kyungseok-lee/shotclip/commit/215bf102d87c049e00ec18264a9c1318265f39fe). **Apple Silicon (arm64) only; ad-hoc signed; NOT notarized.**
 
 English/Korean settings keep the same window, navigation, rows, form controls and reading position at the same size/state. Roboto/Noto Sans KR, readable role sizes/line heights and a shared 160 pt form lane reserve full bilingual text without clipping. Default content is 720×580 pt; minimum is 620×480 pt. Long diagnostics may expand the shared layout after a state change or resize.

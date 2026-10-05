@@ -76,10 +76,12 @@ private final class OpaqueRailSurface: NSView {
     private let versionValue = WrappingLabel(wrappingLabelWithString: "")
     private let updateStatus = WrappingLabel(wrappingLabelWithString: "")
     private let captureHint = WrappingLabel(wrappingLabelWithString: "")
+    #if SHOTCLIP_QA
     private var layoutRows = [(view: NSView, content: [NSView])]()
     private var layoutCards = [(view: NSView, content: [NSView])]()
     private var layoutFooters = [(view: NSView, content: NSView)]()
     private var layoutHeadings = [NSTextField]()
+    #endif
     private var shortcutButton: NSButton!
     private var loginApprovalButton: NSButton!
     private var requestButton: NSButton!
@@ -91,7 +93,9 @@ private final class OpaqueRailSurface: NSView {
     private var detailsVisible = false
     private(set) var selectedSection: Section = .general
     var troubleshootingVisible: Bool { detailsVisible }
+    #if SHOTCLIP_QA
     var previewScrollView: NSScrollView { scrollViews[selectedSection.rawValue] }
+    #endif
 
     init(actions: Actions) {
         self.actions = actions
@@ -296,6 +300,7 @@ private final class OpaqueRailSurface: NSView {
         }
         if let responder = firstResponder as? NSView, responder.isHiddenOrHasHiddenAncestor { makeFirstResponder(railButtons[section.rawValue]) }
     }
+    #if SHOTCLIP_QA
     func showTroubleshootingForPreview() { if !detailsVisible { toggleDetails() } }
     func setTroubleshootingForPreview(_ visible: Bool) { if detailsVisible != visible { toggleDetails() } }
     // Fixture reads and exercises actual controls/actions; it does not recreate
@@ -344,6 +349,7 @@ private final class OpaqueRailSurface: NSView {
         for (index, card) in layoutCards.enumerated() { add(card.view, id: "detached-card.\(index)") }
         return views
     }
+    #endif
     @objc private func changeSection(_ sender: NSButton) { select(Section(rawValue: sender.tag) ?? .general) }
     @objc private func toggleAutomatic() { actions.automatic(automatic.state == .on) }
     @objc private func toggleLogin() { actions.login() }
@@ -434,7 +440,9 @@ private final class OpaqueRailSurface: NSView {
             (control as? NSStackView)?.setHuggingPriority(.required, for: .horizontal)
         }
         label.setContentHuggingPriority(.defaultLow, for: .horizontal); label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    #if SHOTCLIP_QA
         layoutRows.append((row, content))
+    #endif
         return row
     }
     private func section(_ key: String, rows: [NSView], footer: NSView? = nil) -> NSView {
@@ -450,7 +458,9 @@ private final class OpaqueRailSurface: NSView {
             title.leadingAnchor.constraint(equalTo: heading.leadingAnchor, constant: DesignTokens.rowPadding), title.trailingAnchor.constraint(equalTo: heading.trailingAnchor, constant: -DesignTokens.rowPadding),
             title.topAnchor.constraint(equalTo: heading.topAnchor), title.bottomAnchor.constraint(equalTo: heading.bottomAnchor)
         ])
+    #if SHOTCLIP_QA
         layoutHeadings.append(title)
+    #endif
         let section = stack([heading, content], vertical: true, spacing: 10)
         if let footer { section.addArrangedSubview(self.footer(footer)) }
         for view in section.arrangedSubviews { view.widthAnchor.constraint(equalTo: section.widthAnchor).isActive = true }
@@ -463,7 +473,10 @@ private final class OpaqueRailSurface: NSView {
             view.leadingAnchor.constraint(equalTo: footer.leadingAnchor, constant: DesignTokens.rowInset), view.trailingAnchor.constraint(equalTo: footer.trailingAnchor, constant: -DesignTokens.rowInset),
             view.topAnchor.constraint(equalTo: footer.topAnchor, constant: DesignTokens.rowPadding), view.bottomAnchor.constraint(equalTo: footer.bottomAnchor, constant: -DesignTokens.rowPadding)
         ])
-        layoutFooters.append((footer, view)); return footer
+        #if SHOTCLIP_QA
+        layoutFooters.append((footer, view))
+        #endif
+        return footer
     }
     private func group(_ views: [NSView]) -> NSView {
         let card = SettingsCard(); let content = NSStackView(views: views)
@@ -475,7 +488,9 @@ private final class OpaqueRailSurface: NSView {
             view.widthAnchor.constraint(equalTo: content.widthAnchor, constant: -2 * inset).isActive = true
 
         }
+    #if SHOTCLIP_QA
         layoutCards.append((card, views))
+    #endif
         return card
     }
     private func spacer() -> NSView {

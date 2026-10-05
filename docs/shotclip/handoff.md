@@ -2,6 +2,18 @@
 
 [Documentation](README.md) · [Development plan](development-plan.md) · [QA results](qa-results.md)
 
+## 2026-10-06 0.8.1 security handoff
+
+- Authorized target: **0.8.1 (build 11)** security fixes, latest public delivery/installation, current documentation and ordinary main push. Clean starting main: `f6113b96600224fe0304689286bb368bd9a9ad7b`; public/installed 0.8.0 (build 10) remains the baseline. Requirements → D18 design → P10 plan were written before implementation.
+- Scope: S01/R13 invalid-feed recovery interval 0 prevents elapsed-time acceptance while allowing later valid signed feeds; S02/R11 removes production QA routes and retains separate development `Shot Clip QA.app` / `dev.shotclip.qa`; S03/R11 removes private developer-home and absolute source/build paths and requires complete artifact scanning/contaminated negatives. [Current QA](qa-results.md#2026-10-06-081-security-findings-and-candidate-status) centralizes finding details and actual outcomes.
+- Preserve D17 bilingual layout/fonts/resources, native behavior, `dev.shotclip.app`, preferences and existing Ed25519 key/privacy limits. Root recorded installed metadata and ten preference-key digests before builds; no raw values are documented. No TCC/grant/reset/general clipboard or captured-content logging is authorized by QA isolation. Existing ad-hoc/not-notarized/library-validation limitations remain disclosed.
+- Actual candidate runtime: root's normal production ko→en→ko transition restores the complete 25-element General tree and 720×608 pt native root, reads all three panes/version 0.8.1(11)/existing automatic checks ON, and reports all ten preference digests equal. Screen Recording is needed; real capture/paste/permission-grant tests were not run. This is not new public/canonical latest-install proof.
+- Frozen candidate: 44 build/source plus 18 verification inputs; 36 core tests, security six accepts/71 rejects, 27 production QA-argument rejects, full scanner and two isolated layout matrices pass. Portable resources and absent-resource rejection pass without checkout/build fallback. Root package/native/regression evidence is separate; [current QA](qa-results.md#2026-10-06-081-security-findings-and-candidate-status) contains exact reports and limits.
+- Remaining work: independent source/docs/evidence review; new source/tag/ordinary push and exact signed/public/latest install/runtime; owned obsolete-output cleanup; evidence-based final docs/review and documentation push. These delivery/review gates are pending; completed candidate evidence is not public or installed latest proof.
+- Writer owns two root READMEs, twelve current non-review documents and release-note text only. Code/Git/app/UI/environment/preferences/key mutation and independent approval remain other lanes. All earlier dated bodies and review reports stay intact; historical latest/pending claims below retain only their original scope.
+
+한국어: 0.8.1 (build 11)의 R13/R11·D18/P10 요구사항/설계를 구현 전에 기록했습니다. 무효 feed 시간 경과 수용 차단·별도 QA/production 제거·전체 artifact 경로 검사를 진행하며 새 검증/공개/설치/push는 대기입니다. 기존 배치/폰트·설정/키/개인정보 경계와 과거 기록을 보존하고 작성/독립 승인은 분리합니다.
+
 ## 2026-10-06 0.8.0 delivery handoff
 
 - Delivered: [latest v0.8.0](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.8.0)/[ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.8.0/shotclip-0.8.0.zip), 2026-10-06 03:17:40 KST, 0.8.0(10), ad-hoc arm64/NOT notarized. Fixed source A/tag/app provenance `215bf102d87c049e00ec18264a9c1318265f39fe`; ordinary source/tag push and remote equality pass. Candidate and [independent delivery](release-review-0.8.0.md) approvals remain separate.

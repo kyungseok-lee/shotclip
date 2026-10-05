@@ -21,4 +21,6 @@ plist["SUAutomaticallyUpdate"] = false
 plist["SUAllowsAutomaticUpdates"] = false
 plist["SUVerifyUpdateBeforeExtraction"] = true
 plist["SURequireSignedFeed"] = true
+// Zero never expires a failed signed-feed policy into Sparkle's safe mode.
+plist["SUSignedFeedFailureExpirationInterval"] = 0
 try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0).write(to: URL(fileURLWithPath: path), options: .atomic)

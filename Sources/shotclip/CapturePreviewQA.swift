@@ -1,3 +1,4 @@
+#if SHOTCLIP_QA
 import AppKit
 import CaptureCore
 
@@ -490,3 +491,4 @@ enum CapturePreviewQA {
         @objc func recovery(_ sender: Any?) { recoveries += 1 }
     }
 }
+#endif

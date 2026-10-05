@@ -2,6 +2,36 @@
 
 [Trace](verification.md) · [Results](qa-results.md) · [Update operations](update-operations.md) · [한국어](#한국어)
 
+## 2026-10-06 0.8.1 security acceptance plan
+
+Follow **R13/R11 → D18 → P10** for candidate 0.8.1 (build 11); do not substitute 0.8 test results for new evidence. [Finding ledger](qa-results.md#2026-10-06-081-security-findings-and-candidate-status) records the baseline and actual outcomes.
+
+| Gate | Required independent-checkable evidence |
+| --- | --- |
+| S01 feed policy | Bundle `SUSignedFeedFailureExpirationInterval` is exact integer 0; reject absent, nonzero, negative, Boolean, string and floating-point values. invalidly signed feed remains rejected after elapsed recovery intervals, preference/language refresh and subsequent checks. Later valid signed feed succeeds. Archive Ed25519 authentication stays enforced; separate policy tests from public crypto and native update results |
+| S02 production isolation | Production argument/helper-neighbor fixtures cannot reach sibling QA/self-test/UI-preview routes or create QA output; inspect the published binary. Explicit separate QA host runs the retained synthetic suites without normal startup, production preference/TCC/general-clipboard actions or capture-content logs |
+| S03 artifact hygiene | Scan every published regular file and symlink/metadata path, all Mach-O code/resources including bundled frameworks/helpers and load commands. Reject private developer-home and absolute source/build paths using relative match-class diagnostics. Contaminated app-owned, nested dependency/resource and metadata fixtures demonstrate active failure; no raw home path in shared evidence |
+| Retained behavior | Fresh core tests, isolated bilingual layout matrices and representative renders; production localization/fonts/licenses/icons/self-contained resource resolution and signature checks. Normal native language/runtime evidence is distinct from synthetic geometry |
+| Delivery | Independently approved source/docs and exact clean signed preparation; new immutable source/tag/ordinary push, public redownload/latest feed equality, actual latest canonical install/runtime, exact owned obsolete-output cleanup and final document review |
+
+Production is the default; development QA requires an explicit build flavor. The current executor recipe uses separate scratch trees and a separate bundle ID, and source guards use `SHOTCLIP_QA`. QA rejects launch without an explicit localization/UI-preview/self-test route; production rejects retired QA arguments before localization/preferences/AppKit startup. Final source is frozen, and author security/production-argument/portable-resource/layout fixtures pass as recorded in the current QA ledger. Independent candidate approval and new delivery remain pending.
+
+```sh
+# Quit all Shot Clip processes before either build.
+bash scripts/build-app.sh
+python3 scripts/verify-app-security.py 'dist/Shot Clip.app'
+SHOTCLIP_BUILD_FLAVOR=qa bash scripts/build-app.sh
+'dist/qa/Shot Clip QA.app/Contents/MacOS/shotclip' --localization-self-test
+```
+
+Production uses `.build/production` and `dist/Shot Clip.app`; QA uses `.build/qa`, `dist/qa/Shot Clip QA.app` and `dev.shotclip.qa`. Preview outputs must stay in ignored synthetic evidence directories. Historical commands below that address QA flags in the production app are superseded by this split. Retain the source fonts/strings in each self-contained resource bundle. Preparing updates resolves tools with `swift package --scratch-path .build/production resolve`; publishing QA flavor is rejected.
+
+Preserve existing identity/settings/key, fresh automatic-check default OFF and this host's retained preference. Capture/TCC/general paste, full accessibility and alternate OS/CPU/hardware coverage remain unverified unless actually executed. Existing ad-hoc/not-notarized/library-validation constraints remain separate from these findings. Earlier dated plans/results below are historical.
+
+한국어: S01 무효 feed의 interval 0/시간 경과 거부·이후 유효 feed 수용, S02 production 비실행과 별도 QA, S03 전체 artifact/오염 negative를 새 근거로 검증합니다. 한영 배치·자료·서명·실제 정상 동작/설치·정리는 따로 확인하고 미실행 캡처/권한/접근성/별도환경을 통과로 표시하지 않습니다.
+
+Executed author scope: 36 core tests, security six accepts/71 rejects, 27 retired-argument rejects, a complete production scanner and two 176-render/100-case matrices. Feed expiry semantics are grounded in pinned source and exact plist/negative fixtures; no live 20-day feed wait or network acceptance run is claimed. Root normal candidate/package and temporary regressions have separate evidence. Retained manual capture/self-test/native-save/TCC/general paste and alternate environment checks were not run for this version.
+
 ## 2026-10-06 0.8.0 acceptance outcomes
 
 The planned candidate/core/build/paired layout gates and separate reproduction/review passed. [Delivery QA](qa-results.md#2026-10-06-080-publication-installation-and-retirement) records source/public/feed integrity, real Sparkle 0.7→0.8, exact latest installation, normal General language/root/restored AX evidence, old-version/generated-output retirement and cold restart. Normal three-pane/version readback does not expand General's paired runtime geometry proof; complete app-owned frame/scroll/focus/text proof belongs to inert matrices.

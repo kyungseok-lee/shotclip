@@ -2,6 +2,16 @@
 
 [Design system](design-system.md) · [Development plan](development-plan.md) · [Technical evidence](technical-validation.md) · [한국어](#한국어)
 
+## 2026-10-06 D18 security architecture
+
+**0.8.1 (build 11) candidate**, R13/R11 → D18 → P10. The updater must supply invalid-feed signature-failure recovery interval 0: time alone never permits accepting a wrongly signed feed, while later valid signed feeds remain eligible. Production-default builds exclude sibling QA helper, self-test and UI-preview entry paths. Development QA uses a separate `Shot Clip QA.app` / `dev.shotclip.qa` host with scratch output and no normal application startup. Public resource resolution must be self-contained, without source/build fallback.
+
+Published code, resources and metadata must contain no private developer-home or absolute source/build paths; a full-artifact scanner and contaminated negative fixtures enforce that boundary. Preserve D17 bilingual geometry/fonts/native controls, the production `dev.shotclip.app` identity, existing settings/update keys and capture/clipboard privacy. [Security requirements](requirements.md#2026-10-06-081-security-requirements), [design](design-system.md#2026-10-06-d18-security-and-qa-boundaries) and [current QA](qa-results.md#2026-10-06-081-security-findings-and-candidate-status) distinguish the contract from performed results. Earlier dated active/latest/pending statements are historical.
+
+한국어: D18은 invalid feed의 시간 경과 수용 차단, production QA 진입 제거, 별도 `Shot Clip QA.app` / `dev.shotclip.qa`와 scratch 격리, 공개 자료의 자체 해결/전체 경로 검사를 정의합니다. D17 배치·폰트·기존 식별자/설정/키와 개인정보 경계를 유지하며 실제 통과는 새 QA 근거로만 기록합니다.
+
+Frozen production/QA implementations and author tests now enforce these boundaries; root separately verified the sealed normal candidate and package. [Current QA](qa-results.md#2026-10-06-081-security-findings-and-candidate-status) records the exact scopes. Independent candidate approval and new public/canonical installation remain pending.
+
 ## 2026-10-06 0.8.0 delivered architecture
 
 D17 ships without changing capture/clipboard/preview boundaries, one public updater, stable identity or Ed25519 trust. Settings measure read-only bilingual alternatives and full glyph paths at line baselines/assigned widths, retaining native controls. Source A/tag/public archive and exact canonical installation match; real Sparkle 0.7→0.8 replaced the host and relaunched a new process. Cold restart still passes without build caches.

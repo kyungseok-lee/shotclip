@@ -92,12 +92,14 @@ import UniformTypeIdentifiers
     func refreshLanguage() { thumbnailView?.refreshLanguage(); preview?.refreshLanguage() }
 
     // Exercise the exact production button actions without desktop pixels.
+    #if SHOTCLIP_QA
     func clickThumbnailForPreview() { thumbnailView?.openButton.performClick(nil) }
     func clickDismissForPreview() { thumbnailView?.closeButton.performClick(nil) }
     func expireThumbnailForPreview() { dismissThumbnail() }
     var thumbnailCaptionForPreview: NSTextField? { thumbnailView?.caption }
     var thumbnailImageFrameForPreview: NSRect? { thumbnailView?.imageFrame }
     func setThumbnailCaptionForPreview(_ text: String) { thumbnailView?.setCaptionForPreview(text) }
+    #endif
 }
 
 private final class CaptureThumbnailPanel: NSPanel {
@@ -162,7 +164,9 @@ private final class CaptureThumbnailPanel: NSPanel {
         needsLayout = true
     }
     var imageFrame: NSRect { imageView.frame }
+    #if SHOTCLIP_QA
     func setCaptionForPreview(_ text: String) { caption.stringValue = text; needsLayout = true }
+    #endif
     @objc private func openImage() { open?() }
     @objc private func closeImage() { dismiss?() }
 }
@@ -175,6 +179,7 @@ private final class CaptureThumbnailPanel: NSPanel {
     private let dimensions = NSTextField(labelWithString: "")
     private let surface = CaptureImageDocumentView()
     private var savePanel: NSSavePanel?
+    #if SHOTCLIP_QA
     private(set) var saveRequests = 0
     private(set) var saveCompletions = 0
     private(set) var lastSaveResponse: NSApplication.ModalResponse?
@@ -182,6 +187,7 @@ private final class CaptureThumbnailPanel: NSPanel {
     var onSavePanelPresented: ((NSSavePanel) -> Void)?
     var beforePNGWriteForPreview: ((URL) -> Void)?
     var onSaveFailure: (() -> Void)?
+    #endif
     private var languageObserver: Any?
 
     init(image: CGImage, availableFrame: NSRect) {
@@ -279,32 +285,43 @@ private final class CaptureThumbnailPanel: NSPanel {
     @objc private func saveImage() {
         guard savePanel == nil else { return }
         let panel = makeSavePanel()
+        #if SHOTCLIP_QA
         // Native directory/name properties are configuration-phase-only. The
         // inert fixture configures a synthetic destination before presentation,
         // then exercises the same native sheet and completion as the app.
         configureSavePanelForPreview?(panel)
-        savePanel = panel; saveRequests += 1
+        saveRequests += 1
+        #endif
+        savePanel = panel
         saveButton.isEnabled = false
         panel.beginSheetModal(for: self) { [weak self, weak panel] response in
             guard let self else { return }
             let selectedURL = panel?.url
             panel?.orderOut(nil)
+            #if SHOTCLIP_QA
             self.lastSaveResponse = response; self.saveCompletions += 1
+            #endif
             self.savePanel = nil; self.saveButton.isEnabled = true
             guard response == .OK, let url = selectedURL else { return }
+            #if SHOTCLIP_QA
             // Inert QA can remove its own empty destination after real native
             // acceptance to exercise an actual write failure. Normal launches
             // never invoke this nil-by-default callback or replace the writer.
             if CommandLine.arguments.contains("--ui-preview") { self.beforePNGWriteForPreview?(url) }
+            #endif
             do { try self.writePNG(to: url) }
             catch {
+                #if SHOTCLIP_QA
                 if let onSaveFailure = self.onSaveFailure { onSaveFailure(); return }
+                #endif
                 let alert = NSAlert(); alert.messageText = L10n.text("capture.preview.save_failed")
                 alert.informativeText = L10n.text("capture.preview.save_failed_help")
                 alert.addButton(withTitle: L10n.text("action.ok")); alert.beginSheetModal(for: self)
             }
         }
+        #if SHOTCLIP_QA
         onSavePanelPresented?(panel)
+        #endif
     }
 
     func cancelSave() { savePanel?.cancel(nil) }
@@ -318,8 +335,10 @@ private final class CaptureThumbnailPanel: NSPanel {
         try data.write(to: url, options: .atomic)
     }
 
+    #if SHOTCLIP_QA
     var previewImageFrame: NSRect { surface.imageView.frame }
     var previewDocumentSize: NSSize { surface.frame.size }
+    #endif
 }
 
 @MainActor private final class CapturePreviewRootView: NSView {

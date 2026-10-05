@@ -1,3 +1,4 @@
+#if SHOTCLIP_QA
 import AppKit
 import CoreText
 import CaptureCore
@@ -37,7 +38,7 @@ enum UIPreview {
         }
         let window = previewWindow!
         let permission = { (ready: Bool) in PermissionStatus(isReady: ready, isAdHoc: true,
-            bundleURL: URL(fileURLWithPath: "/Applications/Shot Clip.app"), version: "0.8.0 (10)") }
+            bundleURL: URL(fileURLWithPath: "/Applications/Shot Clip.app"), version: "0.8.1 (11)") }
         let prefix = "\(language.rawValue)-\(appearanceName)"
         let shortcutDisplay = CaptureMenu.shortcutDisplay(Shortcut())
         var files: [String] = []
@@ -421,7 +422,7 @@ enum UIPreview {
                 L10n.select(.english)
                 window.select(fixture.section); window.setTroubleshootingForPreview(fixture.expanded)
                 let permission = PermissionStatus(isReady: fixture.ready, isAdHoc: fixture.adHoc,
-                    bundleURL: URL(fileURLWithPath: fixture.path), version: "0.8.0 (10)")
+                    bundleURL: URL(fileURLWithPath: fixture.path), version: "0.8.1 (11)")
                 let updateText: () -> String = {
                     if !fixture.alternatives.isEmpty { return fixture.alternatives[L10n.language == .english ? 0 : 1] }
                     if fixture.updateKey == "updates.initialization_failed" { return L10n.format(fixture.updateKey, String(Int.min)) }
@@ -821,3 +822,4 @@ private final class OverlayFixture: NSView {
         }
     }
 }
+#endif

@@ -2,6 +2,16 @@
 
 [Documentation](README.md) · [Development plan](development-plan.md) · [Design system](design-system.md) · [한국어](#한국어)
 
+## 2026-10-06 current security scope
+
+The authorized **0.8.1 (build 11)** work fixes three bounded security findings: invalid-feed timeout acceptance, reachable development QA paths in the public app, and embedded private developer-home and absolute source/build paths. It retains the copy-first journey, English/Korean settings geometry, fonts/resources, native behavior and existing update trust/preferences. Development fixtures remain available in a separate QA host; they are excluded from public startup.
+
+Public/installed 0.8.0 (build 10) is the verified baseline, not a new 0.8.1 delivery. Follow [R13/R11 requirements](requirements.md#2026-10-06-081-security-requirements), [D18/P10 plan](development-plan.md#2026-10-06-ordered-081-security-work) and [current results](qa-results.md#2026-10-06-081-security-findings-and-candidate-status). Existing ad-hoc/arm64/not-notarized and library-validation limitations remain disclosed. Earlier dated current/latest/pending statements below are historical.
+
+한국어: 0.8.1 (build 11)은 invalid feed 시간 경과 수용·공개 QA 진입·개발자 경로 metadata 세 건을 수정하는 범위입니다. 복사 우선 기능·한영 배치/폰트/자료·기존 설정/키를 보존하며 새 공개/설치가 있기 전 기준은 0.8.0 (build 10)입니다.
+
+Frozen author security/isolated layout tests and root sealed package/normal candidate checks pass. The detailed ledger separates those scopes from pending independent approval and new public installation.
+
 ## 2026-10-06 delivered product
 
 **Shot Clip 0.8.0(10)** is the latest public/installed developer preview. It keeps the copy-first journey and ships language-invariant settings: window, form and reading position stay fixed when switching English/Korean at the same size/state; long diagnostics may grow the shared layout after state change/resize. Exact signed public/latest installation, real Sparkle upgrade and normal General language/root geometry have separate proof.

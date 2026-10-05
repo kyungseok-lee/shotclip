@@ -2,6 +2,20 @@
 
 [Architecture](architecture.md) · [Design system](design-system.md) · [QA results](qa-results.md)
 
+## 2026-10-06 0.8.1 security validation scope
+
+The new **R13/R11 → D18 → P10** validation targets invalid-feed recovery interval 0, production QA exclusion with a separate development host, and a complete published-artifact path scanner. Later valid signed feeds remain eligible; the contract does not permanently refuse valid updates after transient network/signature errors. Official API/source review and new implementation/test outcomes belong to the [current ledger](qa-results.md#2026-10-06-081-security-findings-and-candidate-status).
+
+Primary sources were rechecked by the document-specialist on 2026-10-06 KST. [Sparkle customization](https://sparkle-project.org/documentation/customization/) requires `SUVerifyUpdateBeforeExtraction=true` with `SURequireSignedFeed=true`; signed-feed failure expiry defaults to 1,728,000 seconds (20 days), while exact numeric 0 disables that expiry. The [pinned Sparkle 2.10.0 appcast driver](https://github.com/sparkle-project/Sparkle/blob/eef1a539a373c1f1a320624b1130fc5de7b2e100/Sparkle/SUAppcastDriver.m#L136) corroborates rejection before expiry and degraded metadata handling afterward. Therefore `SUSignedFeedFailureExpirationInterval` must be an integer 0, checked in source/configuration and the final artifact. This closes the R13 feed-metadata policy gap; archive Ed25519 authentication was already enforced, so prior unsigned-code execution is not established. Reading those sources is not a runtime PASS.
+
+Require production-default self-contained resources and no source/build fallback; inspect all app-owned and bundled code/resources/metadata, including Mach-O load commands, then prove scanner rejection with contaminated negatives. Isolated `Shot Clip QA.app` / `dev.shotclip.qa` must avoid normal application startup and production preferences/TCC/general clipboard. Preserve shipped bilingual layout/fonts, signature trust and privacy boundaries. The existing ad-hoc/library-validation exception remains a disclosed constraint.
+
+The current implementation recipe suppresses debug metadata, uses `ConciseMagicFile` and file/debug prefix maps, and disables local/toolchain stdlib RPATH generation. Swift Build also injects compatibility RPATHs; packaging removes only existing active-toolchain stdlib RPATHs before signing and rejects unknown paths. The final artifact scanner checks raw/UTF-16LE/UTF-16BE bytes at both alignments, case-insensitive home/checkout/build prefixes, symlink targets, app-owned QA markers and all Mach-O debug/RPATH data. Source readback alone is not proof that the final artifact passes; the sealed candidate full scanner and deliberately contaminated fixtures now provide that evidence in current QA.
+
+The frozen candidate now passes the bounded author security/isolated QA tests and root package/native checks in [current QA](qa-results.md#2026-10-06-081-security-findings-and-candidate-status); independent approval and new delivery remain pending. The feed guarantee combines pinned source interpretation with exact plist/negative fixtures, not a live 20-day/network experiment. Baseline public/installed 0.8.0 (build 10) and earlier dated current/latest/pending evidence retain historical scope. macOS 14/Intel/clean-account/full accessibility and real capture/paste are not newly covered.
+
+한국어: 새 검증은 interval 0의 시간 경과 수용 차단·이후 유효 feed 허용, 별도 QA/production 진입 제거, 전체 코드/자료/metadata의 개발 경로 검사와 오염 negative입니다. 정상 시작/기존 설정·권한·일반 클립보드를 건드리지 않는 QA 경계를 유지하고 실제 새 결과 전에는 통과로 표시하지 않습니다.
+
 ## 2026-10-06 0.8.0 delivered technical evidence
 
 Source A/tag v0.8.0 and clean ad-hoc arm64 preparation now have exact public/latest-feed, existing-key Ed25519, real Sparkle 0.7→0.8 and canonical payload/signature/resources evidence. Successful cold restart after generated-output cleanup needs no build cache. [Delivery QA](qa-results.md#2026-10-06-080-publication-installation-and-retirement) names reports and artifact hashes; Apple/API readings below ground design choices rather than runtime passes.

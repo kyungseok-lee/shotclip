@@ -19,7 +19,9 @@ import Carbon
     private let capturePreview=CapturePreviewController()
     private var restarting=false
     func applicationDidFinishLaunching(_ notification: Notification) {
+        #if SHOTCLIP_QA
         if CommandLine.arguments.contains("--self-test") { Task { await SelfTest.run() };return }
+        #endif
         if let data=UserDefaults.standard.data(forKey:"shortcut"),let saved=try? JSONDecoder().decode(Shortcut.self,from:data),saved.isValid { shortcut=saved }
         mode=SelectionMode(rawValue:UserDefaults.standard.string(forKey:"mode") ?? "drag") ?? .drag
         configureHotkeyAction()

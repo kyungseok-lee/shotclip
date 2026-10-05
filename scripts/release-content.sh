@@ -23,19 +23,21 @@ Distribution: $status
 
 ## What's new
 
-- English/Korean settings keep the same window, navigation, rows, form-control geometry and reading position at the same size and state.
-- Settings reserve complete bilingual text height at each available width, with readable Roboto/Noto Sans KR sizes, consistent line heights, full multiline padding and aligned native form controls.
-- Genuine state changes or window resizing can expand the shared layout for long diagnostics; switching language alone preserves it.
-- Existing capture menus, square navigation/app artwork, compact update dialogs, capture toolbar and post-copy thumbnail/original preview/explicit PNG saving are retained.
-- No automatic capture storage, capture history or upload is added. Both complete font licenses are included.
-- Existing preferences, bundle identifier and signed-update trust are retained; automatic checks remain opt-in. Prior public releases and verified obsolete local app versions are retired after latest delivery verification; Git source tags remain.
+- Invalidly signed update feeds remain rejected without an elapsed-time recovery fallback. A later valid signed feed remains eligible; Ed25519 archive authentication and the existing update key stay intact.
+- The production app excludes development QA routes, the capture test helper, self-test and UI-preview code and rejects retired QA arguments before application startup. Synthetic QA remains available only in a separate development build.
+- Production packaging removes private developer-home and absolute source/build paths and checks the complete app, bundled code/resources, symlinks and Mach-O paths before signing/preparation.
+- English/Korean settings retain the same window, navigation, rows, form-control geometry and reading position at the same size/state, with readable Roboto/Noto Sans KR and complete bilingual text reservations. State changes or resize can expand the shared layout for long diagnostics.
+- Existing capture menus, native controls, post-copy thumbnail/original preview and explicit PNG saving remain. No automatic capture storage, history or upload is added; both complete font licenses are included.
+- Existing preferences, dev.shotclip.app identity and signed-update trust are retained. Automatic checks remain opt-in; an existing enabled preference is preserved.
 
-Quit the previous app before moving Shot Clip.app to Applications.
-The canonical folder changes from ShotClip.app to Shot Clip.app, while dev.shotclip.app and executable shotclip stay unchanged.
-Install manually once to adopt that folder name; stock Sparkle may update the old host folder in place.
-Historical Sshot used another bundle identifier and also requires manual installation.
+The current canonical Shot Clip.app installation can update from 0.8.0 to this release through Sparkle.
+For manual installation, quit the previous app before moving Shot Clip.app to Applications.
+Only historical ShotClip.app or Sshot installations need the earlier folder/identity migration guidance:
+install manually once to adopt Shot Clip.app; stock Sparkle may retain an older host folder.
+Historical Sshot used another bundle identifier and requires manual installation and a fresh permission grant.
 Screen Recording permission may need to be granted again after an ad-hoc replacement; TCC is not reset.
 Sparkle Ed25519 signatures authenticate updates; they do not grant macOS trust or permissions.
+Ad-hoc Sparkle compatibility retains the disclosed library-validation exception.
 On first launch, follow macOS Privacy & Security guidance if Gatekeeper blocks the app.
 Do not remove quarantine attributes or disable Gatekeeper.
 
@@ -48,19 +50,21 @@ Shot Clip은 macOS 14 이상에서 선택 영역을 캡처하여 클립보드에
 
 ### 변경 사항
 
-- 같은 창 크기·상태에서 영어/한국어를 바꿔도 설정 창·탐색·행·폼 컨트롤 배치·읽던 위치를 유지합니다.
-- 실제 너비에서 두 언어의 전체 문구 높이를 예약하고 Roboto/Noto Sans KR의 읽기 쉬운 크기·일정한 행간·여러 줄 여백과 정렬된 native 폼을 적용합니다.
-- 실제 상태 변경이나 창 resize 때 긴 진단의 공통 배치가 커질 수 있지만 언어만 바꿔서는 변하지 않습니다.
-- 기존 캡처 메뉴·정사각형 탐색/앱 아이콘·작은 업데이트 창·캡처 도구막대와 복사 후 썸네일/원본 보기·명시적 PNG 저장을 유지합니다.
-- 자동 캡처 저장·이력·업로드는 추가하지 않았고 두 글꼴의 전체 라이선스를 포함합니다.
-- 기존 설정·번들 식별자·서명 업데이트 신뢰와 선택적 자동 확인을 유지합니다. 최신 배포 검증 뒤 과거 공개 릴리스와 확인된 로컬 구버전을 정리하며 Git 소스 태그는 보존합니다.
+- 잘못 서명된 update feed는 시간이 지나도 수용하지 않습니다. 이후 유효하게 서명된 feed는 허용하며 Ed25519 archive 인증과 기존 업데이트 키를 유지합니다.
+- 공개 앱에서 개발 QA 경로·capture test helper·self-test·UI-preview 코드를 제외하고 과거 QA 인자를 정상 시작 전에 거부합니다. 합성 QA는 별도 개발 빌드에만 남깁니다.
+- production 패키징에서 비공개 개발자 홈과 절대 소스/빌드 경로를 제거하고 서명/준비 전에 앱 전체·번들 코드/자료·symlink·Mach-O 경로를 검사합니다.
+- 같은 크기/상태의 한영 설정 창·탐색·행·폼 컨트롤·읽던 위치, Roboto/Noto Sans KR의 읽기 쉬운 크기와 전체 두 언어 높이 예약을 유지합니다. 긴 진단의 공통 배치는 상태 변경/resize 때 커질 수 있습니다.
+- 기존 캡처 메뉴·native 컨트롤·복사 후 썸네일/원본 보기·명시적 PNG 저장을 유지합니다. 자동 캡처 저장·이력·업로드는 추가하지 않으며 두 글꼴의 전체 라이선스를 포함합니다.
+- 기존 설정·dev.shotclip.app 식별자·서명 업데이트 신뢰를 유지합니다. 자동 확인은 선택 사항이고 기존에 켠 설정은 보존합니다.
 
-이전 앱을 종료한 뒤 Shot Clip.app을 응용 프로그램 폴더로 이동하세요.
-폴더 이름은 ShotClip.app에서 Shot Clip.app으로 바뀌고 dev.shotclip.app과 실행 파일 shotclip은 유지합니다.
-새 폴더 이름을 적용하려면 한 번 수동 설치하세요. 기본 Sparkle는 기존 폴더 위치에서 업데이트할 수 있습니다.
-과거 Sshot은 다른 번들 식별자이므로 수동 설치가 필요합니다.
+현재 정식 Shot Clip.app 설치는 Sparkle로 0.8.0에서 이 버전으로 업데이트할 수 있습니다.
+수동 설치라면 이전 앱을 종료한 뒤 Shot Clip.app을 응용 프로그램 폴더로 이동하세요.
+과거 ShotClip.app 또는 Sshot 설치에만 기존 폴더/식별자 전환 안내가 적용됩니다.
+Shot Clip.app 폴더 이름을 적용하려면 한 번 수동 설치하며 기본 Sparkle는 과거 host 폴더를 유지할 수 있습니다.
+과거 Sshot은 다른 번들 식별자여서 수동 설치와 새 권한 허용이 필요합니다.
 ad-hoc 교체 후 화면 기록 권한을 다시 허용해야 할 수 있으며 TCC는 초기화하지 않습니다.
 Sparkle Ed25519 서명은 업데이트 출처를 검증하며 macOS 신뢰나 권한을 부여하지 않습니다.
+Ad-hoc Sparkle 호환성은 기존에 공개한 library-validation 예외를 유지합니다.
 최초 실행이 차단되면 macOS 개인정보 보호 및 보안 안내를 따르세요.
 격리 속성을 제거하거나 Gatekeeper를 비활성화하지 마세요.
 EOF

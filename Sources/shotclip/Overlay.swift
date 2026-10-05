@@ -111,8 +111,10 @@ final class SelectionView: NSView {
                 y: min(bounds.height - 26, rect.maxY + DesignTokens.inline), width: width, height: 22)
         }
     }
+    #if SHOTCLIP_QA
     var previewToolbar: NSView { toolbar }
     var previewToolbarControls: [NSView] { [cancelButton, modeControl, captureButton] }
+    #endif
     override func resetCursorRects() {addCursorRect(bounds,cursor:mode == .drag ? .crosshair:.arrow)}
     private func updateAccessibility() {
         dimensions.stringValue=SelectionGeometry.valid(rect) ? L10n.format("overlay.dimensions",Double(rect.width),Double(rect.height)):""

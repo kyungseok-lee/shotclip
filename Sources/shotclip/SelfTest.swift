@@ -1,3 +1,4 @@
+#if SHOTCLIP_QA
 import AppKit
 import CaptureCore
 import Darwin
@@ -51,3 +52,4 @@ enum SelfTest {
     }
     private static func emit(_ record:[String:Any]) { if let data=try? JSONSerialization.data(withJSONObject:record,options:.sortedKeys),let value=String(data:data,encoding:.utf8) {print(value);fflush(stdout)} }
 }
+#endif

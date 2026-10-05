@@ -14,7 +14,9 @@ let package = Package(
         .executableTarget(
             name: "shotclip",
             dependencies: ["CaptureCore", .product(name: "Sparkle", package: "Sparkle")],
-            resources: [.process("Resources")],
+            // Resources are packaged explicitly. SwiftPM's generated accessor
+            // embeds an absolute build-directory fallback in the executable.
+            exclude: ["Resources"],
             linkerSettings: [.unsafeFlags(["-Xlinker", "-rpath", "-Xlinker", "@executable_path/../Frameworks"])]
         ),
         .executableTarget(name: "shotclip-fixture"),

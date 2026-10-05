@@ -2,6 +2,21 @@
 
 [Product plan](product-plan.md) · [Design system](design-system.md) · [Requirements](requirements.md) · [한국어](#한국어)
 
+## 2026-10-06 ordered 0.8.1 security work
+
+Target **0.8.1 (build 11)**; start clean main `f6113b96600224fe0304689286bb368bd9a9ad7b`, public/installed 0.8.0 (build 10) baseline. Follow requirements → design → implementation → verification for the three [new requirements](requirements.md#2026-10-06-081-security-requirements); D18/P10 extends R13/R11 while retaining D17/P9.
+
+| Phase | Work / exit evidence |
+| --- | --- |
+| Requirements/design | Recorded the three findings and R13/R11→D18→P10 before executor edits; preserved layout/fonts/native behavior, identity/preferences/key and dated records |
+| P10 implementation | Invalid-feed signature-failure recovery interval 0 with no elapsed-time acceptance fallback; production QA/helper routes unavailable, isolated development QA retained; path-free published code/resources/metadata and full-artifact rejection scanner; version/build 0.8.1 (build 11) |
+| P10 verification | Core/valid-invalid signed-feed policy and elapsed-time regressions; production argument/sibling-helper non-dispatch fixtures and isolated QA runs; bilingual layout/resource/font checks; complete artifact scan plus contaminated negatives; independent source/docs/evidence approval |
+| P6/P7 delivery | New reviewed source/tag and ordinary main push equality; clean existing-key signed preparation and independent exact-file approval; public/latest byte/feed and canonical latest install/runtime evidence; prior public-release/owned obsolete-output retirement and accurate final documents |
+
+P10 implementation is frozen; author core/security/production scanner/isolated QA and root bounded regressions/package/normal candidate evidence pass in the [current QA ledger](qa-results.md#2026-10-06-081-security-findings-and-candidate-status). Independent approval and P6/P7 new source/tag/push/public/install/cleanup remain pending; this plan is not their PASS evidence. Use new version-specific evidence rather than reusing 0.8 results as new coverage; source/tag/app provenance and final documentation commits remain separate. Retain existing ad-hoc/not-notarized/library-validation disclosures without expanding this request to Developer ID enrollment.
+
+한국어: R13/R11·D18/P10 요구사항/설계를 먼저 기록한 뒤 invalid feed 시간 경과 수용 차단·공개 QA 경로 제거/개발 QA 격리·앱 전체 개발 경로 검사와 0.8.1 (build 11)을 구현합니다. 유효/무효 상태·production 비실행·격리 QA·한영 UI/자료·전체 artifact/오염 negative를 독립 검토하고 새 소스/태그/push·서명 공개/최신 설치·정리를 따로 검증합니다. 동결 작성자 QA·별도 정상 후보/패키지 근거를 기록했고 독립 승인·새 배포/설치/push는 대기이며 기존 결과를 새 통과로 바꾸지 않습니다.
+
 ## 2026-10-06 0.8.0 performed work
 
 P9/R14/R15/D17 implementation and independent candidate approval led to source A/new v0.8.0, ordinary source/tag push and clean existing-key preparation. Candidate core/build/font/resource/paired geometry gates passed; exact public/latest feed, real Sparkle 0.7→0.8, latest canonical payload and normal General language transition followed. P6/P7 then retired prior public/local versions and generated outputs after latest approval, retaining proof and passing cold restart. [Delivery QA](qa-results.md#2026-10-06-080-publication-installation-and-retirement) records chronology, independent owners and bounded results.

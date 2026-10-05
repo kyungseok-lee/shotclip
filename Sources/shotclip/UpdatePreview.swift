@@ -1,3 +1,4 @@
+#if SHOTCLIP_QA
 import AppKit
 import Sparkle
 import CaptureCore
@@ -307,3 +308,4 @@ private final class FixtureDownloadData: SPUDownloadData, @unchecked Sendable {
     init(_ text: String, mime: String) { fixtureData = Data(text.utf8); fixtureMIME = mime; super.init() }
     required init?(coder: NSCoder) { fatalError("Inert fixture only") }
 }
+#endif

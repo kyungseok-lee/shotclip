@@ -22,10 +22,12 @@ struct PermissionStatus {
             isAdHoc=flags.uint32Value & 0x0002 != 0
         } else {isAdHoc=nil}
     }
+    #if SHOTCLIP_QA
     // Inert UI fixture state. This initializer never queries TCC or signing APIs.
     init(isReady:Bool,isAdHoc:Bool?,bundleURL:URL,version:String) {
         self.isReady=isReady;self.isAdHoc=isAdHoc;self.bundleURL=bundleURL;self.version=version
     }
+    #endif
     var presentation:PermissionPresentation {PermissionPresentation(accessEffective:isReady,adHoc:isAdHoc)}
     var title:String {L10n.text(presentation.titleKey,defaultValue:presentation.title)}
     var explanation:String {L10n.text(presentation.explanationKey,defaultValue:presentation.explanation)}

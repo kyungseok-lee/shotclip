@@ -6,6 +6,14 @@
 
 화면 영역을 선택하면 이미지를 바로 클립보드에 복사하는 작은 macOS 메뉴 막대 앱입니다. **영역 캡처** 또는 **고정 영역**으로 캡처한 뒤 다른 앱에서 `⌘V`로 붙여 넣습니다.
 
+## 2026-10-06 현재 보안 수정
+
+**작업 후보는 0.8.1(build 11), 검증된 최신 공개·설치는 아직 0.8.0(build 10)입니다.** 잘못 서명된 feed의 시간 경과 수용을 막고 이후 유효한 feed는 허용합니다. 공개 앱의 QA 실행 경로를 제거하되 개발용 별도 QA 앱은 유지하고 공개 앱 전체의 비공개 개발자 홈과 절대 소스/빌드 경로를 거부합니다. 한영 배치/폰트/native 동작·설정/식별자/기존 업데이트 키·개인정보 경계는 보존합니다.
+
+동결 작성자 core/보안/별도 QA와 별도 정상 production 후보/패키지는 범위별 통과입니다. 독립 승인·새 공개/최신 설치는 대기입니다. [보안 요구사항](docs/shotclip/requirements.md#2026-10-06-081-security-requirements), [현재 QA](docs/shotclip/qa-results.md#2026-10-06-081-security-findings-and-candidate-status), [인수인계](docs/shotclip/handoff.md#2026-10-06-081-security-handoff)를 따릅니다. 아래 0.8 배포 내용은 과거 기준이며 0.8.1 결과로 확대하지 않습니다.
+
+## 2026-10-06 0.8.0 배포 기준
+
 **Shot Clip 0.8.0(build 10)**이 최신 GitHub 개발자 프리뷰입니다. 2026-10-06 03:17:40 KST에 공개했습니다: [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.8.0/shotclip-0.8.0.zip) / [릴리스](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.8.0), 검토한 소스 [`215bf10`](https://github.com/kyungseok-lee/shotclip/commit/215bf102d87c049e00ec18264a9c1318265f39fe). **Apple Silicon(arm64) 전용 ad-hoc·미공증** 배포입니다.
 
 같은 창 크기·상태에서 영어/한국어를 바꿔도 창·탐색·행·폼 컨트롤·읽던 위치를 유지합니다. Roboto/Noto Sans KR의 읽기 쉬운 크기/행간과 160 pt 공통 폼 폭으로 두 언어의 전체 문구를 잘림 없이 예약합니다. 기본 content는 720×580 pt, 최소는 620×480 pt이며 긴 진단은 실제 상태 변경이나 resize 뒤 공통 높이로 커질 수 있습니다.

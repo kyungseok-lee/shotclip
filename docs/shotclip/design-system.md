@@ -2,6 +2,16 @@
 
 [Product plan](product-plan.md) · [Development plan](development-plan.md) · [QA plan](qa-plan.md) · [한국어](#한국어)
 
+## 2026-10-06 D18 security and QA boundaries
+
+The 0.8.1 (build 11) candidate adds **D18: fail-closed updater state and isolated QA/artifact hygiene**, traced to R13/R11/P10. Preserve the shipped D17 settings layout, bundled Roboto/Noto Sans KR, nominal/full-ink metrics, bilingual resources and native controls. Security-state text must still use the same supported bilingual maximum at the same size/state; language changes cannot restart updater services or weaken signature-validation policy.
+
+Bundle `SUSignedFeedFailureExpirationInterval` supplies exact integer 0, so elapsed time never permits accepting an invalidly signed feed. Later valid signed feeds keep normal update eligibility; transient network/signature errors are not a permanent valid-update ban. Production startup has no QA sibling-helper/self-test/UI-preview dispatch. Explicitly isolated development QA owns synthetic fixtures and private pasteboards; public-artifact inspection replaces reliance on a reachable production QA shortcut. Release hygiene covers all code/resources/metadata, with relative diagnostic paths and no raw developer-home values in shared evidence. A complete artifact scan and deliberately contaminated fixtures are required before approval.
+
+This design contract preceded implementation. The frozen candidate preserves it with author security/isolated QA and separate normal candidate/package evidence in the [QA ledger](qa-results.md#2026-10-06-081-security-findings-and-candidate-status); reading the design alone is not runtime proof. Baseline remains public/installed 0.8.0 (build 10); earlier dated current/latest/pending sections below are historical. Ad-hoc/not-notarized/library-validation limitations remain documented and do not change the font/layout scope.
+
+한국어: D18은 invalid feed의 시간 경과 수용 차단/recovery interval 0, production QA 실행 경로 제거와 명시적 격리 개발 QA, 공개 앱 전체의 개발 경로 검사 경계를 정의합니다. D17 한영 설정 배치·Roboto/Noto Sans KR·기존 상태/키/서명 업데이트는 유지하고 나중의 유효한 서명 feed는 허용하며 언어 변경으로 검증 정책을 약하게 만들지 않습니다. 이 계약은 구현 전에 기록했고 동결 작성자 QA·별도 정상 후보/패키지 근거로 검증했습니다. 독립 승인과 새 공개/설치는 대기입니다.
+
 ## 2026-10-06 shipped language-invariant settings
 
 The 0.8.0(10) settings system ships D17: 720×580 pt default content/minimum 620×480, 160 pt common native form lane, body/caption/section/title 13/12/14/18 pt with nominal minimum 20/18/22/28 pt lines and bilingual full-ink reservation. Rail 72/header 56/inset 28/card 16/row padding 12 pt stay shared. Long diagnostics may enlarge the common maximum after state update/resize; language alone preserves it.
