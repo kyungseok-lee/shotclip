@@ -41,18 +41,18 @@ Requirements precede design, implementation and verification. These identifiers 
 | P4 | R15 | D13; localization/resources | English default, en/ko parity/fallback/live transitions, retained state, normal native language proof |
 | P5 | R02–R12 | D02,D04–D07; capture acceptance | Real capture/permission/paste is user-owned and not newly run for current delivery |
 | P6 | R13,R17 | D08,D10,D14; preview preparation | Reviewed clean source/tag, explicit mode, exact signed archive/feed/manifest |
-| P7 | R13,R16,R17 | Public/latest installation and cleanup | Historical 0.8.1 evidence: six public files/feed, real Sparkle upgrade, installed bytes, cold restart and scoped cleanup verified. New 0.8.2 delivery requires separate proof |
+| P7 | R13,R16,R17 | Public/latest installation and cleanup | Historical 0.8.1 evidence: six public files/feed, real Sparkle upgrade, installed bytes, cold restart and scoped cleanup verified. New 0.8.2 signed public/manual-installation evidence is recorded separately in QA results; no new actual Sparkle upgrade |
 | P8 | R04,R06,R09,R11,R12,R14,R15,R18 | D11,D13,D15,D16; consistent UI/original preview/export | Historical independently reviewed synthetic/native-save evidence; current normal capture/export not newly tested |
 | P9 | R14,R15 | D17; language-invariant settings | Complete paired geometry, glyph/line/padding guards, four sizes, preserved state and bounded normal native proof |
 | P10 | R11,R13 | D18; feed expiry/QA exclusion/path purity | Security negative fixtures, retired argv, full artifact scan, isolated QA and exact current delivery |
 
 ## Security implementation sequence
 
-The completed P10 sequence was contract → official/pinned-source research → strict feed policy and production/QA split → resource/metadata packaging → negative tests and isolated UI proof → independent source review → immutable source/tag/preparation/public bytes → actual latest upgrade/install/cold restart → approved cleanup and documentation/main push. It introduced no key rotation, TCC reset or general clipboard mutation. [QA results](qa-results.md#current-evidence) separates each gate.
+The completed P10 sequence was contract → official/pinned-source research → strict feed policy and production/QA split → resource/metadata packaging → negative tests and isolated UI proof → independent source review → immutable source/tag/preparation/public bytes → actual latest upgrade/install/cold restart → approved cleanup and documentation/main push. It introduced no key rotation, TCC reset or general clipboard mutation. [QA results](qa-results.md#current-evidence--082-build-12) separates each gate.
 
 ## Settings implementation sequence
 
-D17/P9 defined readable typography and a common bilingual full-content reservation before implementation. Code measured actual widths and fallback ink, fixed native control lanes and retained minimum-size scrolling. Full structural-frame comparisons and deliberately invalid geometry preceded review; native root/translation checks were a separate bounded runtime gate. The contract remains current in 0.8.1.
+D17/P9 defined readable typography and a common bilingual full-content reservation before implementation. Code measured actual widths and fallback ink, fixed native control lanes and retained minimum-size scrolling. Full structural-frame comparisons and deliberately invalid geometry preceded review; native root/translation checks were a separate bounded runtime gate. The contract remains current in 0.8.2.
 
 ## Migration contract
 
@@ -68,4 +68,4 @@ Only missing, validated shortcut/mode values migrate from `dev.sshot.app`; desti
 
 ## Next work
 
-Follow the current [handoff](handoff.md#current-status) for independent documentation/candidate review, tagged release preparation, public download/feed equality, latest installation and ordinary Git push verification. Record actual results; do not invent future commit hashes or app test runs.
+App source/tag/publication/manual installation, independent delivery review, scoped cleanup and same-payload cold restart are verified in [QA results](qa-results.md#current-evidence--082-build-12). Final independent documentation review, ordinary documentation commit/main push and exact remote equality are recorded after their gates in ignored `dist/docs-0.8.2-qa/final-completion-audit.json`. Read actual `git log -1` and `git ls-remote origin refs/heads/main` rather than a future self-referential commit hash. Preserve the published source/tag/assets; do not rebuild them for the final documentation commit. Record actual results in the [handoff](handoff.md).

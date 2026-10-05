@@ -2,9 +2,16 @@
 
 [Developer guide](README.md) · [QA results](qa-results.md) · [Release operations](update-operations.md)
 
-## Current status
+<a id="current-status"></a>
+## Current evidence — 0.8.2 (build 12)
 
-The 2026-10-06 request is documentation reorganization **and a new latest app release**, with ordinary Git push explicitly authorized. It supersedes the archived documentation-only restriction. The starting clean main is `6844445205691a2ef9c697fad34295312c3ddbf6`. The starting public/installed baseline is 0.8.1 (build 11), source/tag `3140c27629708eecca53ff820066356be7cf443d`. A new candidate does not become public or installed until actual evidence proves it.
+Published **2026-10-06 08:01:51 KST** (2026-10-05T23:01:51Z): [v0.8.2](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.8.2). Reviewed source/tag `d7c5d700fe906e3d8b8958fa919e5f21d7aa7d30` was verified equal to local main, remote main, remote tag and GitHub at source delivery. The source tag/app remains immutable while the final documentation main advances separately. All six public assets and the canonical latest signed feed equal the approved files. ZIP: 8,195,816 bytes; SHA256 `bd55e133766734fe9f2cce907c69372b45a355efa6a720c2c4760f0f5b11175f`.
+
+The verified **manual installer** installed the release; all 177 public/installed entries match bytes, symlinks and file/directory modes. Deep/strict signature, security scanner and resource verification pass. This release has no new actual Sparkle upgrade test. Normal installed runtime shows all three Korean settings panes, version 0.8.2 (12), existing automatic checks ON and a manual current signed-feed latest check. General exposes 25 accessibility elements with a 720×608 pt native root. Ten preference keys remain; nine non-time digests match and only `SULastCheckTime` changes.
+
+New isolated QA passes 352 renders/200 paired cases without changing normal preferences or the general clipboard. Candidate regression counts remain 36 core tests, six accepted/71 rejected security fixtures, 17 publishing-gate rejections, 15 unsafe archive rejections, 15 temporary installer cases, 34 resource checks and 27 retired production QA-argument rejections. New-version evidence does not substitute for real capture/paste, permission grants, native save, full accessibility, macOS 14, Intel or clean-account tests; those remain unrun.
+
+Evidence is retained under ignored `dist/docs-0.8.2-qa`: `artifact-review.json`, `public-check.json`, `public-release.json`, `installed-check.json`, `installed-security.json`, `native-general.json`, `native-updates.json`, `native-access.json`, `native-latest-check.json`, `preferences-after-install.json` and `candidate-summary.json`. Exact-artifact and independent delivery approval pass. Cleanup and same-payload cold restart also pass as recorded below. No app delivery task remains. Final documentation approval and exact ordinary main commit/push are recorded by the coordinator in ignored `dist/docs-0.8.2-qa/final-completion-audit.json` after those gates; inspect that proof and actual `git log -1`/`git ls-remote origin refs/heads/main` for completion.
 
 ## Documentation changes
 
@@ -12,24 +19,20 @@ The root English README is an app overview and quick start. `README.ko.md` is th
 
 R01–R18, D01–D18 and P0–P10 remain traceable. The app still supports Korean; documentation language policy does not alter localization resources. No capture feature is added by the document reorganization.
 
-## Verification and remaining work
+## Remaining work and limits
 
-Writer link/fragment/trace/source checks and independent review must be recorded separately. New-version tests, artifact/signature/resources/ZIP/feed/Ed25519 verification, reviewed Git commit/tag/push, actual public redownload equality, installation and bounded UI verification remain coordinator gates until their results are recorded.
+Source/tag/publication/manual installation, independent delivery review, scoped cleanup and same-payload cold restart are complete. The coordinator records final documentation approval and exact ordinary final main commit/push in ignored `dist/docs-0.8.2-qa/final-completion-audit.json` after those gates. No app delivery task remains. Preserve the tagged source and six approved public files; final documentation commits do not rebuild or retag the app.
 
-Real capture/paste, Screen Recording grants/resets, general clipboard actions, current-version native save, full accessibility, macOS 14/Intel/clean-account and other hardware are not proven by documentation checks or synthetic fixtures. The current preview remains arm64/ad-hoc, without Apple notarization; first-launch and permission-reapproval limitations remain.
+Real capture/paste, Screen Recording grants/resets, general clipboard actions, current-version native save, full accessibility, macOS 14/Intel/clean-account and other hardware remain unrun. The current preview is arm64/ad-hoc, without Apple notarization; first-launch and permission-reapproval limitations remain. Only the existing update-check timestamp changed among recorded preferences.
 
 ## Resume and completion record
 
 Check `git status --short --branch`, this handoff and QA results before continuing. Preserve user changes, established signing keys and Git history/tags. Record the actual changed files, executed checks with environment/evidence, unrun limits, remaining decisions, next steps and branch/commit/push/public-release state here. Read actual Git/public state rather than inventing the hash of a future documentation commit.
 
-## 0.8.2 candidate verification — 2026-10-06
+## Delivery completion and scoped cleanup
 
-The coordinator reports a successful **0.8.2 (build 12)** production candidate build. Fresh checks pass: 36 core tests; six accepted/71 rejected security fixtures; 17 publishing-gate rejections; 15 unsafe archive rejections; 15 temporary installer cases; 34 resource-layout checks. The candidate scanner inspects 99 regular files, nine symlinks and six Mach-O files with zero findings; 27 retired QA-argument cases reject with unchanged preference domains; deep/strict code signature verification passes. Candidate build output is retained in ignored `dist/docs-0.8.2-qa/candidate-build.log`; final compact evidence belongs in the same ignored QA directory.
+Independent delivery review passes for the exact public/manual-installed/native/preference evidence. Scoped cleanup removes six positively identified generated/backup roots and 348 redundant synthetic PNGs, retaining six representative renders, JSON/log/review evidence, six public files and the canonical app. The inventory records 7,306 regular files and 939,586,767 regular-file bytes removed; this is not measured freed disk space. The old backup was verified as the same bundle identity, version 0.8.1 (11), before removal. No general Trash or public release removal is claimed; Git history and the existing key are preserved.
 
-These are candidate results, not final tagged-source, public-download, installation or runtime proof. Independent candidate/artifact approval, new tag/push, publication, public file/feed comparison and installation/runtime remain pending. No real capture/paste, Screen Recording grant/reset or general clipboard test is claimed.
+Same-payload cold restart after cleanup succeeds with process 61956 replaced by 65489: Korean General retains 25 accessibility elements and a 720×608 pt native root, `.build` is absent, all 177 installed entries remain byte/link/mode identical, deep/strict signature passes and the ten-key/nine non-time preference digests remain equal. Only `SULastCheckTime` differs from the initial baseline. An immediate app lookup failed while launch was pending; success is established by the fresh PID-based observation, not by the failed lookup. Evidence: `dist/docs-0.8.2-qa/delivery-review.json`, `cleanup-result.json` and `cold-restart-check.json`.
 
-## Writer documentation checks
-
-Static checks pass for 17 current Markdown files, 111 local links and 26 fragments. R01–R18/D01–D18/P0–P10 coverage is present; all 28 historical documentation/assets files remain byte-identical to HEAD. `git diff --check` passes. Writer evidence is `dist/docs-0.8.2-qa/document-author-check.json`. These are author checks, not independent approval. Current branch is `main`; this writer created no commit or push. Final coordinator review and release gates remain pending.
-
-Independent candidate verification separately passed bundle metadata, security scanning, 27 retired-argument cases, resources and licenses. This does not approve the final prepared release artifacts; exact-artifact review remains pending.
+No app delivery task remains. The coordinator records final documentation approval and exact ordinary main commit/push in ignored `dist/docs-0.8.2-qa/final-completion-audit.json` after those gates; inspect the audit and actual Git state for completion. Final documentation commits do not rebuild or retag the published source.

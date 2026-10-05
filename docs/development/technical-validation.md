@@ -1,10 +1,10 @@
 # Shot Clip technical validation
 
-[Architecture](architecture.md) · [QA procedures](qa-plan.md) · [Executed evidence](qa-results.md#current-evidence)
+[Architecture](architecture.md) · [QA procedures](qa-plan.md) · [Executed evidence](qa-results.md#current-evidence--082-build-12)
 
 ## Current evidence and environment
 
-0.8.1 (build 11) source A, prepared/public/installed payload and cold restart are verified in the current QA ledger. Recorded host: macOS 27.0.1, Xcode 27.0, Swift 6.4, arm64. macOS 14 is the deployment minimum; macOS 14/Intel/clean-account runtime, full accessibility, real current-version capture/paste/grants/native-save and a live invalid-feed expiry-time experiment are unrun. These are recorded 0.8.1 results. New release checks must be recorded separately with their exact inputs.
+0.8.2 (build 12) prepared/public/manually installed payload and bounded native runtime are verified in the current QA ledger. Same-payload cold restart after scoped cleanup passes without build caches. Earlier 0.8.1 cold-restart/update evidence remains historical. Recorded host: macOS 27.0.1, Xcode 27.0, Swift 6.4, arm64. macOS 14 is the deployment minimum; macOS 14/Intel/clean-account runtime, full accessibility, real current-version capture/paste/grants/native-save and a live invalid-feed expiry-time experiment are unrun. Current 0.8.2 checks and historical probes are distinguished by their exact source and inputs.
 
 Official API/source consultation informs decisions; it is not runtime PASS. Preserve proposal, pinned source, executed logic/synthetic/native tests and unsupported environments as distinct evidence.
 

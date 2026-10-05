@@ -4,9 +4,9 @@
 
 ## Current operations
 
-The current public/installed app is [0.8.1 (build 11)](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.8.1), with reviewed source/tag `3140c27629708eecca53ff820066356be7cf443d`. Its six public files and canonical signed feed were redownloaded and matched to independent approved preparation. Actual Sparkle update, exact installed payload and normal cold restart are recorded in [QA](qa-results.md#current-evidence). The reorganization starts from clean main `6844445205691a2ef9c697fad34295312c3ddbf6`, separate from immutable app source 0.8.1.
+The public and manually installed app is [0.8.2 (build 12)](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.8.2), published 2026-10-06 08:01:51 KST from reviewed source/tag `d7c5d700fe906e3d8b8958fa919e5f21d7aa7d30`. Source-delivery local/remote main/tag/GitHub equality (before the final documentation main advances), exact six public downloads/latest signed feed, 177-entry installed payload equality and bounded normal runtime pass. See [QA results](qa-results.md#current-evidence--082-build-12) for the exact evidence and limits. Installation was manual; no new actual Sparkle upgrade is claimed.
 
-The current request authorizes a new latest release after documentation reorganization and independent review. New artifact/publication/installation checks are pending until recorded. Existing release files are not overwritten and historical source tags stay intact; prior public release assets were retired only after verified latest installation.
+Independent delivery review, scoped cleanup and same-payload cold restart pass; final documentation review and ordinary main commit/push are recorded after their gates in ignored `dist/docs-0.8.2-qa/final-completion-audit.json`. Existing release files/tags are not overwritten. Old public releases are retained unless separately authorized for retirement.
 
 ## User updates and first launch
 
@@ -49,4 +49,4 @@ Swift Build toolchain RPATH removal occurs only for verified active-toolchain li
 
 Keep the established Ed25519 public key and private Keychain account `sshot`; lookup/sign only, no export/rotation/regeneration. A display/repository rename does not authorize changing trust. Historical `dev.sshot.app` migration copies only missing valid shortcut/mode values, not language, permission, login, updater state or keys.
 
-The canonical spaced folder is `/Applications/Shot Clip.app`. Legacy folder/identity transition uses a verified manual installation; stock Sparkle can update its old host location and is not promised to rename it. [install-app](../../scripts/install-app.sh) stages/verifies before replacement and supports guarded backups/rollback. Current real newer-build update and exact installed bytes are verified; this does not prove every legacy identity, account, OS or permission scenario.
+The canonical spaced folder is `/Applications/Shot Clip.app`. Legacy folder/identity transition uses a verified manual installation; stock Sparkle can update its old host location and is not promised to rename it. [install-app](../../scripts/install-app.sh) stages/verifies before replacement and supports guarded backups/rollback. Historical 0.8.1 real newer-build update and current 0.8.2 manual installation/exact installed bytes are separately verified; this does not prove every legacy identity, account, OS or permission scenario.

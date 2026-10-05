@@ -6,7 +6,7 @@
 
 Shot Clip is a small menu bar app for people who repeatedly copy a selected part of the screen into a document, chat or editor. Its main path is **select → copy → paste**. An optional in-memory preview and deliberate PNG save support people who also need a file.
 
-The current public app is **0.8.1 (build 11)**. It requires macOS 14 or later; the published binary is arm64 and ad-hoc signed without Apple notarization. Current-host verification and remaining coverage are recorded in [QA results](qa-results.md#current-evidence). The documentation reorganization introduces no capture feature; the requested new release is tracked separately in the handoff.
+The current public app is **0.8.2 (build 12)**. It requires macOS 14 or later; the published binary is arm64 and ad-hoc signed without Apple notarization. Current-host verification and remaining coverage are recorded in [QA results](qa-results.md#current-evidence--082-build-12). The documentation reorganization introduces no capture feature; the requested new release is tracked separately in the handoff.
 
 ## Essential journey
 
@@ -44,8 +44,8 @@ Changing language immediately relabels app-owned menus, settings, selection cont
 | --- | --- |
 | Name / bundle ID / executable | Shot Clip / `dev.shotclip.app` / `shotclip` |
 | Canonical app | `/Applications/Shot Clip.app` |
-| Public distribution | [0.8.1](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.8.1), arm64 ad-hoc preview, not notarized |
-| Release source | `3140c27629708eecca53ff820066356be7cf443d` |
+| Public distribution | [0.8.2](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.8.2), arm64 ad-hoc preview, not notarized |
+| Release source | `d7c5d700fe906e3d8b8958fa919e5f21d7aa7d30` |
 | Update trust | Canonical HTTPS feed, existing Ed25519 archive/feed key, no invalid-feed timeout fallback |
 
 Legacy identity/folder migration is an installation compatibility boundary, not a product feature or automatic-folder-rename promise. See [update operations](update-operations.md#trust-and-migration-limits). Current support comes from executed evidence, not the requirement list.

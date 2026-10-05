@@ -8,7 +8,7 @@ The current request supersedes the prior documentation-only restriction. Separat
 
 ## Requirements
 
-These are acceptance criteria, not automatic PASS claims. [QA results](qa-results.md#current-evidence) distinguishes logic, synthetic UI, normal runtime and delivery evidence.
+These are acceptance criteria, not automatic PASS claims. [QA results](qa-results.md#current-evidence--082-build-12) distinguishes logic, synthetic UI, normal runtime and delivery evidence.
 
 | ID | Requirement | Acceptance criteria |
 | --- | --- | --- |
@@ -39,7 +39,7 @@ R14/R15 → D17 → P9 requires complete window/navigation/header/heading/row/ca
 
 ## Security acceptance
 
-R13/R11 → D18 → P10 requires: (S01) integer `SUSignedFeedFailureExpirationInterval=0`, without preventing later valid signed-feed retry; (S02) no production QA helper/self-test/UI-preview dispatch regardless of argv or neighboring files, with explicit isolated development QA retained; (S03) no private developer-home or absolute source/build metadata in the published app, proved by complete artifact inspection and contaminated negative fixtures. Existing fonts, layouts, preferences, keys and privacy limits stay intact. These changes are delivered in 0.8.1; [recorded evidence](qa-results.md#current-evidence) bounds the proof.
+R13/R11 → D18 → P10 requires: (S01) integer `SUSignedFeedFailureExpirationInterval=0`, without preventing later valid signed-feed retry; (S02) no production QA helper/self-test/UI-preview dispatch regardless of argv or neighboring files, with explicit isolated development QA retained; (S03) no private developer-home or absolute source/build metadata in the published app, proved by complete artifact inspection and contaminated negative fixtures. Existing fonts, layouts, preferences, keys and privacy limits stay intact. These changes are delivered in 0.8.1; [recorded evidence](qa-results.md#current-evidence--082-build-12) bounds the proof.
 
 ## Excluded scope
 

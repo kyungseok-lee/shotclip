@@ -1,10 +1,10 @@
 # Shot Clip verification and requirement trace
 
-[Requirements](requirements.md#requirements) · [Development phases](development-plan.md#ordered-work-and-trace) · [Results](qa-results.md#current-evidence)
+[Requirements](requirements.md#requirements) · [Development phases](development-plan.md#ordered-work-and-trace) · [Results](qa-results.md#current-evidence--082-build-12)
 
 ## Current evidence
 
-0.8.1 (build 11) is published/installed, with immutable source A `3140c27629708eecca53ff820066356be7cf443d`. Existing recorded proof covers exact signed public/latest/installed bytes, a real newer-build Sparkle upgrade, normal cold restart and bounded native language/pane behavior. New release checks must be recorded separately; existing 0.8.1 evidence is not proof for a new artifact. Logic/synthetic/native/delivery evidence below is deliberately separate.
+0.8.2 (build 12) is public and manually installed from `d7c5d700fe906e3d8b8958fa919e5f21d7aa7d30`. Source-delivery local/remote main/tag/GitHub equality (before the final documentation main advances), exact signed public/latest/installed bytes, current isolated layout matrices and bounded native Korean pane/latest-feed checks pass. No new actual Sparkle upgrade is claimed; historical 0.8.1 upgrade/cold-restart proof retains only its original scope. See [QA results](qa-results.md#current-evidence--082-build-12) for exact new evidence, completed delivery review/cleanup/cold restart, final documentation approval/push audit location and unrun capture/platform coverage.
 
 ## Requirement trace
 
