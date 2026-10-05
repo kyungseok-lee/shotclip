@@ -2,6 +2,14 @@
 
 [Design system](design-system.md) · [Development plan](development-plan.md) · [Technical evidence](technical-validation.md) · [한국어](#한국어)
 
+## 2026-10-06 0.8.0 delivered architecture
+
+D17 ships without changing capture/clipboard/preview boundaries, one public updater, stable identity or Ed25519 trust. Settings measure read-only bilingual alternatives and full glyph paths at line baselines/assigned widths, retaining native controls. Source A/tag/public archive and exact canonical installation match; real Sparkle 0.7→0.8 replaced the host and relaunched a new process. Cold restart still passes without build caches.
+
+[Delivery QA](qa-results.md#2026-10-06-080-publication-installation-and-retirement) separates full structural geometry fixtures from normal General root-frame/translation/restored-tree evidence and records preference digests. Existing automatic-checks ON is preserved; fresh default remains OFF. Last-check timestamp changes are reported as observations, not no-write proof. Prior public/local versions and generated outputs are retired while Git history/tags/key and unrelated data remain. Earlier current/latest/pending and retention statements below are historical.
+
+한국어: D17의 읽기 전용 두 언어 최대 높이와 native retained-view 전환을 배포했으며 캡처/클립보드/업데이트 신뢰는 유지합니다. 실제 Sparkle/정확한 설치·캐시 없이 재시작을 검증하고 matrix/정상 General 범위·설정 digest/확인 시각 변경을 구분합니다. 과거 버전/산출물은 삭제하고 Git 이력/태그·키는 보존합니다.
+
 ## 2026-10-06 D17 settings geometry
 
 The active candidate is 0.8.0(10), with public/installed 0.7.0(9) as baseline. Earlier dated active/latest/pending statements below are historical snapshots; [current QA](qa-results.md#2026-10-06-080-language-invariant-settings) determines actual delivery state.

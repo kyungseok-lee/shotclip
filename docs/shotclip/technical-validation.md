@@ -2,6 +2,14 @@
 
 [Architecture](architecture.md) · [Design system](design-system.md) · [QA results](qa-results.md)
 
+## 2026-10-06 0.8.0 delivered technical evidence
+
+Source A/tag v0.8.0 and clean ad-hoc arm64 preparation now have exact public/latest-feed, existing-key Ed25519, real Sparkle 0.7→0.8 and canonical payload/signature/resources evidence. Successful cold restart after generated-output cleanup needs no build cache. [Delivery QA](qa-results.md#2026-10-06-080-publication-installation-and-retirement) names reports and artifact hashes; Apple/API readings below ground design choices rather than runtime passes.
+
+Paired structural matrices and independent reproduction prove bilingual geometry at four content sizes. Tight CoreText paths at TextKit line baselines avoid the initial font-wide variable-font QA false positive while retaining full layout/cell completeness. Normal General language/root/restored AX evidence stays distinct from full structural fixtures and ordinary three-pane readback. Preference time changes are observed; a later automatic-check cause is an inference. Real 0.8 capture/paste/TCC/full accessibility/older OS/Intel/clean-account coverage is unrun, and release-note fallback is not displayed-notes PASS.
+
+Earlier current/latest/pending and old-download statements below are historical under current 0.8 delivery/retirement. 한국어: 소스 A/기존 키 준비·공개/feed·실제 Sparkle·정확한 설치/언어 자료·캐시 없이 재시작을 검증하고 matrix/정상 General 범위를 구분합니다. 시각 변경 원인의 자동 확인 추정과 실제 관찰을 분리하며 0.8 실제 캡처/별도환경/접근성 통과를 만들어내지 않습니다.
+
 ## 2026-10-06 settings typography primary sources
 
 The document-specialist checked repository references first, then official Apple DocC content on 2026-10-06 KST; `chub` was unavailable. These sources ground R14/R15/D17 sizing choices; reading API documentation does not prove runtime geometry. Earlier dated implementation/current/pending statements below retain historical scope. The current target is 0.8.0(10), baseline public/installed 0.7.0(9).

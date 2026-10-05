@@ -2,6 +2,14 @@
 
 [Trace](verification.md) · [Results](qa-results.md) · [Update operations](update-operations.md) · [한국어](#한국어)
 
+## 2026-10-06 0.8.0 acceptance outcomes
+
+The planned candidate/core/build/paired layout gates and separate reproduction/review passed. [Delivery QA](qa-results.md#2026-10-06-080-publication-installation-and-retirement) records source/public/feed integrity, real Sparkle 0.7→0.8, exact latest installation, normal General language/root/restored AX evidence, old-version/generated-output retirement and cold restart. Normal three-pane/version readback does not expand General's paired runtime geometry proof; complete app-owned frame/scroll/focus/text proof belongs to inert matrices.
+
+Future real capture/paste/TCC/full accessibility/alternate hardware/platform checks need actual authorization/environment. No 0.8 real-capture harness was run; the older 0.7 permission-SKIP is historical. Observed update-note fallback is not notes-rendering PASS. Preserve this host's existing automatic-checks ON while keeping fresh default OFF. Final document review/push is separate from source A. Earlier dated current/latest/pending statements below are historical procedures/outcomes; old download URLs are retired.
+
+한국어: 계획한 후보/독립 검증과 실제 최신 공개·Sparkle·설치·General 전환·구버전/산출물 정리·재시작을 확인했습니다. 전체 프레임은 inert matrix, 정상 paired 전환은 General 범위이고 0.8 실제 캡처 harness/붙여 넣기는 미실행입니다. 기존 자동 확인 ON·새 기본 OFF와 노트 fallback을 구분합니다.
+
 ## 2026-10-06 0.8.0 acceptance plan
 
 R14/R15/D17/P9 require an explicit **en → ko → en geometry comparison** across General/Access/Updates, light/dark, 720×580/620×480 pt plus actual 670×520/820×620 pt intermediate/resized content sizes, and supported access/login/update states. Include resize→language-switch→resize-back; distinguish any fixture-restored origin after an actual resize from automatic preservation during language switching. Compare window/content, rail/header, headings, every row/card/control, document extent, scroll offset and focus; report field/count coverage and rejected deliberately invalid geometry. Check full text/glyph/cell bounds, readable 13/12/14/18 pt settings roles with 20/18/22/28 pt nominal minimum line heights with larger fallback-ink allowance, at least 12 pt row padding and no overlap/clipping. Inspect representative renders and a normal native same-process transition; synthetic frames alone do not prove actual runtime behavior.

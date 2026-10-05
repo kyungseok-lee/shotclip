@@ -2,6 +2,14 @@
 
 [Product plan](product-plan.md) · [Development trace](development-plan.md) · [Verification](verification.md) · [한국어](#한국어)
 
+## 2026-10-06 0.8.0 delivered requirements
+
+R14/R15→D17→P9 ships in **0.8.0 (build 10)**. Same-size/state bilingual settings keep default 720×580/minimum 620×480 pt, 160 pt common form lanes, 13/12/14/18 pt roles and 20/18/22/28 pt nominal minimum lines with full fallback-ink allowance. Complete paired-frame fixtures and separate normal General root-frame/translation/restored-tree evidence satisfy their bounded scopes; [delivery QA](qa-results.md#2026-10-06-080-publication-installation-and-retirement) records the details.
+
+R13/R16/R17 now have reviewed source/tag/ordinary push, exact signed public/latest-feed equality, real Sparkle 0.7→0.8, latest canonical payload and completed old-version/generated-output retirement after latest verification. Git history/tags/key/preferences and unrelated data remain. Real 0.8 capture/paste was not run; the observed Screen Recording-needed hint is not a new harness SKIP/PASS. Earlier dated current/latest/pending statements and retired download links below are historical. Document B approval/push remains separate from source A.
+
+한국어: 0.8.0(10)에 R14/R15·D17/P9를 포함하고 정확한 공개/feed·실제 Sparkle/설치·General 전환과 구버전/산출물 정리를 별도 검증했습니다. 0.8 실제 캡처/붙여 넣기는 미실행이며 전체 프레임 matrix와 정상 General 범위를 구분하고 과거 기록·Git 이력/태그·키·무관한 데이터를 보존합니다.
+
 ## 2026-10-06 0.8.0 bilingual settings contract
 
 The current request targets **0.8.0 (build 10)**: stable English/Korean settings geometry, current documentation, latest-app delivery, removal of past app versions and normal `main` push. Public/installed 0.7.0(9) remains the baseline until new delivery is verified. Earlier dated current/pending/latest statements below are historical snapshots, superseded by this section and the [current QA ledger](qa-results.md).

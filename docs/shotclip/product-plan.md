@@ -2,6 +2,14 @@
 
 [Documentation](README.md) · [Development plan](development-plan.md) · [Design system](design-system.md) · [한국어](#한국어)
 
+## 2026-10-06 delivered product
+
+**Shot Clip 0.8.0(10)** is the latest public/installed developer preview. It keeps the copy-first journey and ships language-invariant settings: window, form and reading position stay fixed when switching English/Korean at the same size/state; long diagnostics may grow the shared layout after state change/resize. Exact signed public/latest installation, real Sparkle upgrade and normal General language/root geometry have separate proof.
+
+[Current QA](qa-results.md#2026-10-06-080-publication-installation-and-retirement) records synthetic full-frame scope and runtime limits. Prior public/local app versions and generated outputs are removed; source tags/history, latest artifacts, small proof and unrelated user data remain. Cold restart passes with the same public payload. 0.8 capture/paste, macOS 14/Intel/clean-account/full accessibility are unverified. Earlier current/latest/pending statements below are historical; final documentation B push is separate.
+
+한국어: 최신 공개·설치 0.8.0(10)은 복사 우선 기능과 같은 상태/크기의 한·영 설정 배치/읽던 위치를 유지합니다. 실제 공개·Sparkle·정확한 설치·General 전환과 합성 전체 프레임을 구분합니다. 구버전/산출물을 삭제하고 최신 앱·Git 이력/태그·작은 증거를 보존했으며 실제 캡처/별도환경/접근성은 통과로 표시하지 않습니다.
+
 ## 2026-10-06 current product direction
 
 The 0.8.0(10) candidate keeps the copy-first journey and improves settings so choosing English or 한국어 preserves the same window, navigation, form geometry and reading position at the same size/state. Readable fonts/line heights, bilingual maximum text reservations and aligned native controls must prevent clipping at default/minimum sizes. Long diagnostics may grow after a genuine state change or resize. See [R14/R15](requirements.md#2026-10-06-080-bilingual-settings-contract) and [D17](design-system.md#2026-10-06-language-invariant-settings-design).

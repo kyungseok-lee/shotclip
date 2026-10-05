@@ -2,6 +2,14 @@
 
 [English README](../../README.md) · [한국어 README](../../README.ko.md)
 
+## 2026-10-06 current 0.8.0 delivery
+
+**Published and installed: Shot Clip 0.8.0 (build 10)**, [latest release](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.8.0). Follow [delivery QA](qa-results.md#2026-10-06-080-publication-installation-and-retirement), [current operations](update-operations.md#2026-10-06-080-current-operations), [delivery trace](verification.md#2026-10-06-080-delivery-trace), [independent delivery review](release-review-0.8.0.md) and [handoff](handoff.md#2026-10-06-080-delivery-handoff) for source A, exact artifacts, normal runtime and completed retirement/cleanup. R14/R15→D17→P9 is shipped; full paired geometry fixtures and bounded normal General language transition remain distinct evidence.
+
+Only v0.8.0/six assets remain public. Earlier current/latest/pending and retention statements below are historical; retired release/download links are unavailable, while Git source/tags and dated records remain. Independent final document review and ordinary documentation commit B/main push follow this record without changing source A/tag/app/public bytes.
+
+한국어: 현재 공개·설치는 0.8.0(10)이며 D17/P9 한·영 설정 불변성·실제 Sparkle 설치·구버전 삭제·산출물 정리/재시작을 검증했습니다. 전체 프레임 matrix와 실제 General 전환을 구분하고 과거 공개 링크는 unavailable, Git 이력/태그는 보존합니다. 문서 B 검토/push는 소스 A·공개 바이트와 별도입니다.
+
 ## 2026-10-06 current 0.8.0 work
 
 The active target is **0.8.0 (build 10)** with language-invariant settings. Public/installed 0.7.0(9) remains the baseline until new delivery evidence exists. Earlier dated current/latest/pending statements below are historical snapshots; follow [current requirements](requirements.md#2026-10-06-080-bilingual-settings-contract), [settings design](design-system.md#2026-10-06-language-invariant-settings-design), [ordered work](development-plan.md#2026-10-06-ordered-080-work), [QA ledger](qa-results.md#2026-10-06-080-language-invariant-settings), [operations](update-operations.md#2026-10-06-080-delivery-and-retirement) and [handoff](handoff.md#2026-10-06-080-settings-handoff).

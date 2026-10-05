@@ -2,6 +2,14 @@
 
 [Product plan](product-plan.md) · [Development plan](development-plan.md) · [QA plan](qa-plan.md) · [한국어](#한국어)
 
+## 2026-10-06 shipped language-invariant settings
+
+The 0.8.0(10) settings system ships D17: 720×580 pt default content/minimum 620×480, 160 pt common native form lane, body/caption/section/title 13/12/14/18 pt with nominal minimum 20/18/22/28 pt lines and bilingual full-ink reservation. Rail 72/header 56/inset 28/card 16/row padding 12 pt stay shared. Long diagnostics may enlarge the common maximum after state update/resize; language alone preserves it.
+
+Paired four-way author matrices and independent reproduction prove complete app-owned structural frames, text, scroll and focus; normal installed General separately verifies root geometry/translation/restored AX tree. [Delivery QA](qa-results.md#2026-10-06-080-publication-installation-and-retirement) records their different scopes, packaged fonts/resources and successful cold restart after generated-output cleanup. Earlier current/latest/pending and sizing evidence below is historical under this shipped contract.
+
+한국어: 0.8은 720×580 기본·620×480 최소·160 pt 공통 폼과 읽기 쉬운 크기/기준 행간·두 언어 전체 잉크 최대 높이를 적용합니다. 전체 프레임 matrix와 실제 General 루트/AX 전환을 구분하며 긴 진단은 상태/resize에서만 공통 높이가 커질 수 있습니다.
+
 ## 2026-10-06 language-invariant settings design
 
 This is the 0.8.0(10) candidate contract for R14/R15/D17. Earlier dated sections below describe their original versions and evidence; the new geometry contract supersedes their active sizing rules. The frozen candidate implements this contract. Four sealed author matrices pass 704 rendered views/400 paired cases; independent reruns and representative visual inspection are recorded in current QA. Normal native runtime, final independent verdict and delivery remain separate.

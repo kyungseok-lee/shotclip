@@ -2,6 +2,22 @@
 
 [Product decision](product-plan.md) · [QA plan](qa-plan.md) · [Results](qa-results.md) · [한국어](#한국어)
 
+## 2026-10-06 0.8.0 current operations
+
+Latest public **[v0.8.0](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.8.0)** was published 2026-10-06 03:17:40 KST (2026-10-05T18:17:40Z), build 10, ad-hoc arm64/NOT notarized. Reviewed source/tag/app A=`215bf102d87c049e00ec18264a9c1318265f39fe` was ordinarily pushed and prepared from clean source with the existing Keychain `sshot` key. The candidate/source [approval](qa-review-0.8.0.md) and exact prepared/public/install reviews are separate.
+
+| Item | Verified current artifact / operation |
+| --- | --- |
+| Archive | [shotclip-0.8.0.zip](https://github.com/kyungseok-lee/shotclip/releases/download/v0.8.0/shotclip-0.8.0.zip),8,400,048 bytes/SHA256 `fe8a09352ebf30220b913523efe97ec43b1ae2cb5e3bb2f4377af19b12358c5c` |
+| Latest signed feed | [appcast.xml](https://github.com/kyungseok-lee/shotclip/releases/latest/download/appcast.xml),1,271 bytes/SHA256 `1420fb400cf157d03a76c9e8f95629aa88686b934a35fab6323bb1801d08b5c2`; exact approved bytes/public-key-only archive+feed verification |
+| Public six-file set | ZIP/feed/[manifest](https://github.com/kyungseok-lee/shotclip/releases/download/v0.8.0/release-manifest.json)/[checksums](https://github.com/kyungseok-lee/shotclip/releases/download/v0.8.0/SHA256SUMS)/bilingual notes/readme equal independently approved preparation and GitHub digests |
+| Actual installation | Sparkle 0.7.0(9)→0.8.0(10) Download/Extract/Install and Relaunch; canonical 175 entries below root/176 including root match public bytes/symlinks/file+directory modes, strict signature/source A/173+57 strings; no manual installer |
+| Retirement | Prior public v0.6/v0.7 and 12 assets deleted; latest v0.8/six assets retained.49 exact older local roots deleted after latest approval; historical Git source/tags/key preserved |
+
+[Delivery QA](qa-results.md#2026-10-06-080-publication-installation-and-retirement) records bounded normal General language/root-frame evidence, preference preservation, release-notes fallback and exact old-version deletion. Automatic checks remain fresh default OFF; this host's existing ON preference is preserved. No private key export/regeneration, TCC/reset/general clipboard or Gatekeeper/quarantine changes. Historical release/download URLs below are unavailable; retained Git tags identify their source. Old-version and generated-output cleanup plus cold restart are complete. Six latest public files, six synthetic representatives and 30 final matrix JSON reports/log evidence remain; build caches/dev apps/extractions/prepared duplicates are absent. Final document B review/ordinary main push follows this record and never changes source A/tag/published bytes.
+
+한국어: 최신0.8.0(10)/소스A를03:17:40 KST에 공개하고 정확한6개 자료/feed·실제 Sparkle 0.7→0.8·175항목 설치/서명/173+57 문자열을 검증했습니다. 이전 0.6/0.7 공개12자료와 확인한 로컬 구버전을 삭제하고 Git 이력/태그·기존 키/설정/권한은 보존합니다. 기존 자동 확인ON·새 기본OFF와 노트 fallback·실제 캡처 미실행을 구분하며 산출물 정리/재시작은 완료했으며 문서 B 검토/push는 후속 기록을 따릅니다.
+
 ## 2026-10-06 0.8.0 delivery and retirement
 
 The active target is **0.8.0 (build 10)**, baseline public/installed 0.7.0(9). Earlier dated current/latest/pending and cleanup-retention statements below are historical snapshots; [current QA](qa-results.md#2026-10-06-080-language-invariant-settings) and [handoff](handoff.md#2026-10-06-080-settings-handoff) govern present state. Candidate source/build/resource/paired-layout checks and independent reproduction pass with exact reports in current QA; new publication, installation, retirement and ordinary push are pending until separately evidenced.

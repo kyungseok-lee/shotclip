@@ -2,6 +2,14 @@
 
 [Product plan](product-plan.md) · [Design system](design-system.md) · [Requirements](requirements.md) · [한국어](#한국어)
 
+## 2026-10-06 0.8.0 performed work
+
+P9/R14/R15/D17 implementation and independent candidate approval led to source A/new v0.8.0, ordinary source/tag push and clean existing-key preparation. Candidate core/build/font/resource/paired geometry gates passed; exact public/latest feed, real Sparkle 0.7→0.8, latest canonical payload and normal General language transition followed. P6/P7 then retired prior public/local versions and generated outputs after latest approval, retaining proof and passing cold restart. [Delivery QA](qa-results.md#2026-10-06-080-publication-installation-and-retirement) records chronology, independent owners and bounded results.
+
+Final document review and ordinary documentation commit B/main push follow this record. B preserves source A/tag/app/public bytes; its own hash is read from Git after commit. Earlier dated current/latest/pending statements below are historical; retired public downloads are unavailable. Real 0.8 capture/paste, full accessibility and unavailable platform/hardware tests remain unrun.
+
+한국어: 요구사항/설계→P9 구현/독립 승인→소스 A/태그/일반 push→기존 키 준비/공개→실제 Sparkle/최신 설치/General 전환→구버전/산출물 삭제→재시작을 수행했습니다. 문서 B 검토/push는 소스 A·태그·공개 바이트를 바꾸지 않으며 실제 캡처/별도환경 검증과 구분합니다.
+
 ## 2026-10-06 ordered 0.8.0 work
 
 The active target is **0.8.0 (build 10)**; public/installed 0.7.0(9) is the baseline. Earlier dated current/pending/latest statements below retain historical scope and are superseded by this plan. Follow the [new R14/R15 contract](requirements.md#2026-10-06-080-bilingual-settings-contract) before implementation.

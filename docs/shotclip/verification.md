@@ -2,6 +2,18 @@
 
 [Requirements](requirements.md) · [Development plan](development-plan.md) · [QA plan](qa-plan.md) · [Results](qa-results.md) · [한국어](#한국어)
 
+## 2026-10-06 0.8.0 delivery trace
+
+| Trace | Actual evidence / limit |
+| --- | --- |
+| R14/R15→D17→P9 | Candidate/source APPROVE; full paired four-way structural/text/scroll/focus fixtures and fresh independent reproduction. Normal General ko→en→ko separately proves native root/content size and restored complete AX tree, not every runtime frame |
+| R13/R16/R17→P6/P7 | Source A/new v0.8/tag/ordinary remote equality; exact signed prepared/public/latest feed; real Sparkle 0.7→0.8 and canonical payload/signature/resources; prior public/local versions and generated outputs removed only after latest approval; cold restart and retained proof pass |
+| R01–R12/R18 | Existing capture/preview behavior retained; 0.8 capture/paste/TCC/full accessibility not run. Screen Recording-needed hint is not a harness result; older captured-pixel/shortcut/native-save evidence remains dated |
+
+[Delivery QA](qa-results.md#2026-10-06-080-publication-installation-and-retirement) centralizes counts, owners and hashes; [independent delivery review](release-review-0.8.0.md) is separate from authoring. Existing automatic-check preference and non-time key digests are retained; only last-check time changes are observed. Earlier current/latest/pending and retention statements below are historical; old downloads are unavailable, source tags remain. Document B/main push follows independently reviewed final records.
+
+한국어: R14/R15·D17/P9의 전체 배치는 합성 matrix, 정상 paired 전환은 General 루트/AX로 구분합니다. R13/R16/R17의 소스/서명 공개·실제 Sparkle/정확한 설치·이후 구버전/산출물 삭제·재시작을 확인했고 0.8 실제 캡처/접근성은 미실행입니다. 문서 B push는 소스 A와 별도입니다.
+
 ## 2026-10-06 0.8.0 current trace
 
 R01–R18 remain; **R14/R15 → D17 → P9** adds same-state/size bilingual settings geometry. Earlier dated current/latest/pending claims below are historical; current target 0.8.0(10) and baseline public/installed0.7.0(9) are distinct until [delivery QA](qa-results.md#2026-10-06-080-language-invariant-settings) records new proof.
