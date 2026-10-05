@@ -1,6 +1,6 @@
 # Shot Clip design system
 
-[Usage](../../README.md) · [Requirements](requirements.md) · [Architecture decisions](architecture.md#decision-register)
+[Usage](../../README.md) · [Requirements](requirements.md) · [Architecture](architecture.md)
 
 ## Native foundations
 
@@ -22,9 +22,9 @@ Use semantic colors in the active appearance; do not persist resolved colors. Re
 
 ## Settings geometry and typography
 
-R14/R15 → D17 → P9 fixes default content at 720×580 pt, minimum 620×480 pt and a common 160 pt action/shortcut/popup/version lane. Body/caption/section/title nominal line reservations are 20/18/22/28 pt. Per-label common bilingual reservations can rise to contain resolved fallback glyph ink; never cap a line below its real ink. Keep at least 12 pt vertical row padding.
+The settings contract fixes default content at 720×580 pt, minimum 620×480 pt and a common 160 pt action/shortcut/popup/version lane. Body/caption/section/title nominal line reservations are 20/18/22/28 pt. Per-label common bilingual reservations can rise to contain resolved fallback glyph ink; never cap a line below its real ink. Keep at least 12 pt vertical row padding.
 
-At the same state/size, en→ko→en preserves window, rail/header, headings, rows/cards, labels/control composites, separators/footer, document extent, focus and scroll. Measure supported alternatives at actual width, including permission location and dynamic states. Long arbitrary diagnostics may expand the common reservation after state changes/resize. Small windows can scroll; text must not clip, collide or shrink to fit. The [fixture proof](qa-results.md#current-evidence) covers full structural frames and tight per-line glyph paths.
+At the same state/size, en→ko→en preserves window, rail/header, headings, rows/cards, labels/control composites, separators/footer, document extent, focus and scroll. Measure supported alternatives at actual width, including permission location and dynamic states. Long arbitrary diagnostics may expand the common reservation after state changes/resize. Small windows can scroll; text must not clip, collide or shrink to fit. Test full structural frames and tight per-line glyph paths.
 
 ## Components and permissions
 
@@ -55,8 +55,8 @@ English is the default/fallback; explicit `en`/`ko` persists and updates app-own
 
 The original crop mark with offset copy sheet represents region-to-clipboard and matches the template menu glyph. It contains no captured screen or text. [Icon source](../../scripts/generate-app-icon.swift) creates ten PNG representations for static 16–1024 px ICNS packaging. This does not claim Icon Composer layers or adaptive system effects.
 
-The [hero PNG](../shotclip/assets/shotclip-hero.png)/[SVG](../shotclip/assets/shotclip-hero.svg) and [icon PNG](../shotclip/assets/shotclip-icon.png)/[SVG](../shotclip/assets/shotclip-icon.svg) are synthetic artwork. Both READMEs provide localized alternative text. From the repository root, an authorized artwork change can regenerate them with `swift scripts/generate-app-icon.swift 'dist/visual-qa/Shot Clip.iconset' --brand-assets docs/shotclip/assets`. Artwork was not regenerated for this reorganization.
+The [hero PNG](../assets/shotclip-hero.png)/[SVG](../assets/shotclip-hero.svg) and [icon PNG](../assets/shotclip-icon.png)/[SVG](../assets/shotclip-icon.svg) are synthetic artwork. Both READMEs provide localized alternative text. From the repository root, an authorized artwork change can regenerate them with `swift scripts/generate-app-icon.swift 'dist/visual-qa/Shot Clip.iconset' --brand-assets docs/assets`.
 
 ## Security and QA boundaries
 
-R11/R13 → D18 → P10 keeps UI review separate from product capture. Public builds contain no QA dispatch/hooks; `SHOTCLIP_QA` exists only in the explicit isolated development flavor. Integer-zero signed-feed failure expiry prevents elapsed-time acceptance of invalid signatures; later valid feeds remain eligible. Bundled fonts/localization remain self-contained, with no source/build resource fallback or prohibited developer-path metadata. Developer details belong in [QA procedures](qa-plan.md), not the product flow.
+The privacy and update boundaries keep UI review separate from product capture. Public builds contain no QA dispatch/hooks; `SHOTCLIP_QA` exists only in the explicit isolated development flavor. Integer-zero signed-feed failure expiry prevents elapsed-time acceptance of invalid signatures; later valid feeds remain eligible. Bundled fonts/localization remain self-contained, with no source/build resource fallback or prohibited developer-path metadata. Developer details belong in [QA procedures](testing.md), not the product flow.

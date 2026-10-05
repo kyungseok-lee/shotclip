@@ -23,7 +23,7 @@ Distribution: $status
 
 - Reorganized documentation into a concise installation README, a dedicated app usage guide and a development reference section.
 - English is the primary documentation language; the root Korean README provides the Korean installation and usage summary.
-- Development requirements, architecture, implementation sequence, QA and release operations are linked separately from everyday app instructions. Historical verification evidence remains available for audit.
+- Development requirements, architecture, design, testing and release operations are linked separately from everyday app instructions.
 - App behavior is unchanged from 0.8.1. Capture, clipboard handling, in-memory preview, explicit PNG saving, preferences and signed-update protections remain unchanged.
 
 The canonical Shot Clip.app installation can use Sparkle to update from 0.8.1 to this release.

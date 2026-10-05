@@ -1,10 +1,10 @@
-# Shot Clip QA plan
+# Testing Shot Clip
 
-[Usage](../../README.md) · [Recorded results](qa-results.md#current-evidence) · [Trace](verification.md#requirement-trace)
+[Usage](../../README.md) · [Developer guide](README.md) · [Requirements](requirements.md)
 
 ## Production and isolated QA builds
 
-These are reproducible procedures; see QA results for commands actually run and their scope. Run from the repository root. Quit every Shot Clip process before either bundle build; build-app refuses replacement while the executable is running.
+These are reproducible procedures, not a record of completed runs. Run from the repository root. Quit every Shot Clip process before either bundle build; build-app refuses replacement while the executable is running.
 
 ```sh
 # Production code flavor; local development signing, no publication.
@@ -47,7 +47,7 @@ Prove guards are active with truncated status, stale wrapping width, missing pad
 
 ## Security acceptance
 
-R11/R13 → D18 → P10 verifies exact integer-zero feed-failure expiry and both signature switches, later valid signed-feed eligibility, production flavor/no QA dispatch, complete artifact path purity and standalone resources. Negative fixtures cover missing/wrong-type policy, QA flavor/types/hooks/files, case-insensitive UTF-8/UTF-16 paths/both alignments, symlink and unsafe/escaping RPATH cases. Whole scanner includes all regular files, symlink targets and Mach-O debug/RPATH data; report categories/counts without matched private paths. Pinned Sparkle source/configuration is not a live 20-day failure experiment.
+Security checks verify exact integer-zero feed-failure expiry and both signature switches, later valid signed-feed eligibility, production flavor/no QA dispatch, complete artifact path purity and standalone resources. Negative fixtures cover missing/wrong-type policy, QA flavor/types/hooks/files, case-insensitive UTF-8/UTF-16 paths/both alignments, symlink and unsafe/escaping RPATH cases. Whole scanner includes all regular files, symlink targets and Mach-O debug/RPATH data; report categories/counts without matched private paths. Pinned Sparkle source/configuration is not a live 20-day failure experiment.
 
 ## User’s short acceptance check
 
@@ -62,7 +62,7 @@ Report only version, case ID, mode/permission state, safe error code, expected/a
 
 ## Optional real-capture harness — user-owned
 
-Only the isolated development QA flavor provides `--self-test`, with its sibling `dist/qa/shotclip-fixture.app`. A person must explicitly choose real capture and grant access to the QA identity. Launch through LaunchServices to keep permission responsibility clear; this recipe has not been run for current delivery:
+Only the isolated development QA flavor provides `--self-test`, with its sibling `dist/qa/shotclip-fixture.app`. A person must explicitly choose real capture and grant access to the QA identity. Launch through LaunchServices to keep permission responsibility clear; run this separately from inert testing:
 
 ```sh
 qa_output_dir=$(mktemp -d)
@@ -73,4 +73,4 @@ Inspect the harness JSON PASS/FAIL/SKIP, not `open`'s status. It compares synthe
 
 ## Extended coverage
 
-Clean-account first launch, macOS 14/other OS versions, Intel, mixed-scale/multiple displays, keyboard input sources, VoiceOver/full focus and normal capture/paste/save require distinct runs. Developer ID/notarization is a separate route. Public delivery needs exact source/tag/artifact/download/feed/install equality and scoped cleanup, as described in [operations](update-operations.md).
+Clean-account first launch, macOS 14/other OS versions, Intel, mixed-scale/multiple displays, keyboard input sources, VoiceOver/full focus and normal capture/paste/save require distinct runs. Developer ID/notarization is a separate route. Public delivery needs exact source/tag/artifact/download/feed/install equality and scoped cleanup, as described in [operations](releasing.md).

@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-![Shot Clip — Capture. Copy. Continue.](docs/shotclip/assets/shotclip-hero.png)
+![Shot Clip — Capture. Copy. Continue.](docs/assets/shotclip-hero.png)
 
 화면의 필요한 부분을 캡처하고 바로 붙여 넣으세요. Shot Clip은 macOS 메뉴 막대에서 실행되며 선택한 영역을 클립보드로 복사합니다.
 
@@ -71,4 +71,4 @@ Shot Clip의 썸네일과 미리보기는 메모리에 유지됩니다. 캡처�
 
 - [앱 사용 안내](docs/user-guide.md): 설치, 캡처 조작, 원본 보기·저장, 설정과 문제 해결
 - [개발 안내](docs/development/README.md): 소스 빌드, 구조, 요구사항, QA와 배포
-- [문서 목록](docs/README.md): 현재 문서와 과거 검증 기록
+- [문서 목록](docs/README.md): 사용자·개발자 문서 목록

@@ -2,7 +2,7 @@
 
 [한국어](README.ko.md)
 
-![Shot Clip — Capture. Copy. Continue.](docs/shotclip/assets/shotclip-hero.png)
+![Shot Clip — Capture. Copy. Continue.](docs/assets/shotclip-hero.png)
 
 Capture part of your screen, copy it immediately, then paste wherever you need it. Shot Clip is a macOS menu bar app with two selection modes and an optional original-image preview and PNG export.
 
@@ -28,6 +28,6 @@ Settings contains **General** (shortcut, login start, English/Korean), **Access*
 
 - [App user guide](docs/user-guide.md): installation, capture controls, preview/save, settings and troubleshooting.
 - [Developer guide](docs/development/README.md): build, architecture, requirements, QA and release operations.
-- [Documentation index](docs/README.md): current guides and frozen historical evidence.
+- [Documentation index](docs/README.md): user and developer guides.
 
 Korean documentation is maintained in [README.ko.md](README.ko.md). Detailed user and developer guides are maintained in English.

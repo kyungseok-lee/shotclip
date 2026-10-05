@@ -1,6 +1,6 @@
-# Shot Clip architecture and decisions
+# Shot Clip architecture
 
-[Requirements](requirements.md) · [Design](design-system.md) · [Verification](verification.md)
+[Requirements](requirements.md) · [Design](design-system.md) · [Testing](testing.md)
 
 ## Boundaries and source map
 
@@ -14,13 +14,13 @@
 | Localization/design | Explicit en/ko lookup, semantic metrics, process-local fonts; [Localization](../../Sources/shotclip/Localization.swift), [DesignTokens](../../Sources/shotclip/DesignTokens.swift), [resources](../../Sources/shotclip/Resources) |
 | Preview/export | In-memory thumbnail/original window and accepted native PNG save; [CapturePreview](../../Sources/shotclip/CapturePreview.swift) |
 | Updates | One Sparkle updater and retained localized public driver; [UpdateService](../../Sources/shotclip/UpdateService.swift), [LocalizedUpdateDriver](../../Sources/shotclip/LocalizedUpdateDriver.swift) |
-| Isolated development QA | Explicit QA-only fixture/diagnostic code; [build recipe](qa-plan.md#production-and-isolated-qa-builds); excluded from the published product |
+| Isolated development QA | Explicit QA-only fixture/diagnostic code; [build recipe](testing.md#production-and-isolated-qa-builds); excluded from the published product |
 
 ## State, capture, and clipboard
 
 `idle → selecting → processing → idle`. Effective access is checked before selection. Reentry activates the same selection or ignores processing; a session token rejects late results after cancellation, timeout or replacement. A 12-second timeout, screen reconfiguration or sleep cancels the session, without promising immediate cancellation of the OS operation.
 
-Choose the display under the pointer, keep selection within that display, normalize/clamp points, convert global AppKit coordinates with `x = rect.minX − screen.minX` and `y = screen.maxY − rect.maxY`, then apply display scale/outward pixel rounding. No cross-display composition is performed. `SCContentFilter` excludes the app and cursor capture is disabled; actual current-version pixel/UI exclusion remains a user-owned test.
+Choose the display under the pointer, keep selection within that display, normalize/clamp points, convert global AppKit coordinates with `x = rect.minX − screen.minX` and `y = screen.maxY − rect.maxY`, then apply display scale/outward pixel rounding. No cross-display composition is performed. `SCContentFilter` excludes the app and cursor capture is disabled; pixel/UI exclusion needs a real-capture acceptance check.
 
 Encode PNG/TIFF before touching the clipboard. Snapshot existing item/type data with bounds of 64 MiB total, 128 items and 64 types per item; unreadable/changed data aborts before clear. Commit/recovery checks `changeCount` and protects observed external changes. `NSPasteboard` has no atomic compare-and-swap/replacement, so final races and rollback failures remain possible and are reported distinctly.
 
@@ -34,31 +34,8 @@ Captured images stay in memory until dismissal, close or replacement. The previe
 
 ## Settings and production boundaries
 
-D17 reserves common bilingual full-text geometry at actual width with fallback-ink-safe line metrics. Same-state/size language changes preserve all structural frames, document extent, scroll and focus; resize/state changes may enlarge dynamic reservations. Minimum-size scrolling is supported.
+The settings layout reserves common bilingual full-text geometry at actual width with fallback-ink-safe line metrics. Same-state/size language changes preserve all structural frames, document extent, scroll and focus; resize/state changes may enlarge dynamic reservations. Minimum-size scrolling is supported.
 
-D18 sets exact integer-zero signed-feed failure expiry, keeps archive/feed authentication, compiles QA entrypoints/hooks only under `SHOTCLIP_QA`, and rejects retired QA argv before normal startup. The separate QA bundle has no normal startup route. Native resources have no generated absolute build fallback. Packaging maps source metadata, uses concise file IDs/no debug data, removes only verified toolchain RPATHs before signing, and gates the complete artifact with negative-tested scanning.
-
-## Decision register
-
-| ID | Adopted decision | Evidence / limit |
-| --- | --- | --- |
-| D01 | macOS 14+, SwiftPM/AppKit | Current-host compile/runtime; other OS/Intel unverified |
-| D02 | SCScreenshotManager | API/source/logic evidence; current-version real pixel/exclusion test unrun |
-| D03 | Configurable exclusive global shortcut | Validation/conflict/mapping evidence; native Carbon/input-source scope separate |
-| D04 | One-display selections | Geometry tests; real mixed-display/scaling coverage unrun |
-| D05 | Pre-encode, snapshot, guarded rollback | Error-injection tests; platform atomicity limits remain |
-| D06 | Session-only region, persisted mode/shortcut | No disk region/image history; explicit PNG export is separate |
-| D07 | Single flight, timeout/session token | Coordinator cancellation/late-result regressions |
-| D08 | Explicit GitHub ad-hoc preview | No Developer ID/notarization claim |
-| D09 | Running menu bar process, opt-in login | First launch required; no quit-state launcher |
-| D10 | Sparkle 2.10.0, canonical HTTPS and established Ed25519 archive/feed trust | Exact public bytes and actual update evidence; automatic checks fresh OFF |
-| D11 | Native ready-only menu, Access recovery, shortcut column and compact controls | Source/synthetic/native bounded proof; full accessibility separate |
-| D12 | Stable identity with verified folder migration | Signed temporary installer/rollback and current exact installed payload |
-| D13 | English default, explicit mutable en/ko lookup/live refresh | 173 app/57 Updates keys per language; fallback and bounded normal transitions |
-| D14 | Reviewed source/tag/artifact alignment and preview disclosure | Independent preparation/public/installed approval; no key export/rotation |
-| D15 | Success-only thumbnail/original and explicit PNG export | Historical synthetic/native-save evidence; current actual capture/export unrun |
-| D16 | Semantic tokens and process-local Roboto/Noto Sans KR | Font bytes/licenses/cascade/weight and synthetic shaping evidence |
-| D17 | Language-invariant full settings geometry | All 139 app-owned structural views in paired fixtures; separate native root/tree evidence |
-| D18 | Strict feed expiry, production QA exclusion and artifact path purity | Policy/negative fixtures, retired argv, whole artifact scanner and current delivery |
+The production boundary sets exact integer-zero signed-feed failure expiry, keeps archive/feed authentication, compiles QA entrypoints/hooks only under `SHOTCLIP_QA`, and rejects retired QA argv before normal startup. The separate QA bundle has no normal startup route. Native resources have no generated absolute build fallback. Packaging maps source metadata, uses concise file IDs/no debug data, removes only verified toolchain RPATHs before signing, and gates the complete artifact with negative-tested scanning.
 
 Primary references: [SCScreenshotManager](https://developer.apple.com/documentation/screencapturekit/scscreenshotmanager), [SCContentFilter](https://developer.apple.com/documentation/screencapturekit/sccontentfilter), [NSPasteboard](https://developer.apple.com/documentation/appkit/nspasteboard), [NSScreen](https://developer.apple.com/documentation/appkit/nsscreen). Availability is checked against the SDK; documentation alone is not runtime proof.

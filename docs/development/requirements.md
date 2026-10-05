@@ -1,14 +1,10 @@
-# Shot Clip requirements and acceptance criteria
+# Shot Clip requirements
 
-[Product plan](product-plan.md) · [Development trace](development-plan.md#ordered-work-and-trace) · [Verification](verification.md#requirement-trace)
-
-## Documentation and release request — 2026-10-06
-
-The current request supersedes the prior documentation-only restriction. Separate the root app overview, English app usage and English developer reference; maintain Korean documentation only in `README.ko.md`. Preserve historical bilingual evidence as an explicitly frozen archive. Verify current links, source-backed behavior and R01–R18/D01–D18/P0–P10 trace coverage, then obtain independent review, perform ordinary Git push and publish the latest app release through the established signed-release gates. Do not label pending publication or runtime checks as complete.
+[Developer guide](README.md) · [Architecture](architecture.md) · [Testing](testing.md)
 
 ## Requirements
 
-These are acceptance criteria, not automatic PASS claims. [QA results](qa-results.md#current-evidence--082-build-12) distinguishes logic, synthetic UI, normal runtime and delivery evidence.
+These define the current feature contract. Meeting a criterion requires an appropriate check; automated logic and synthetic layout tests do not prove real capture or OS permission behavior.
 
 | ID | Requirement | Acceptance criteria |
 | --- | --- | --- |
@@ -35,11 +31,11 @@ Defaults are running-process `⌃⇧⌘5`, Capture Area, optional login OFF and 
 
 ## Settings acceptance
 
-R14/R15 → D17 → P9 requires complete window/navigation/header/heading/row/card/control/document-frame equality and preserved pane, scroll and focus through en→ko→en at the same state and size. Default content is 720×580 pt; minimum 620×480 pt; common form lane is 160 pt. Typography and glyph-safe bilingual reservations must avoid clipping/line collision and keep at least 12 pt vertical row padding. Arbitrary diagnostics may enlarge a shared reservation after state changes or resizing; language alone must not change geometry.
+R14/R15 require complete window/navigation/header/heading/row/card/control/document-frame equality and preserved pane, scroll and focus through en→ko→en at the same state and size. Default content is 720×580 pt; minimum 620×480 pt; common form lane is 160 pt. Typography and glyph-safe bilingual reservations must avoid clipping/line collision and keep at least 12 pt vertical row padding. Arbitrary diagnostics may enlarge a shared reservation after state changes or resizing; language alone must not change geometry.
 
 ## Security acceptance
 
-R13/R11 → D18 → P10 requires: (S01) integer `SUSignedFeedFailureExpirationInterval=0`, without preventing later valid signed-feed retry; (S02) no production QA helper/self-test/UI-preview dispatch regardless of argv or neighboring files, with explicit isolated development QA retained; (S03) no private developer-home or absolute source/build metadata in the published app, proved by complete artifact inspection and contaminated negative fixtures. Existing fonts, layouts, preferences, keys and privacy limits stay intact. These changes are delivered in 0.8.1; [recorded evidence](qa-results.md#current-evidence--082-build-12) bounds the proof.
+R13/R11 require: (S01) integer `SUSignedFeedFailureExpirationInterval=0`, without preventing later valid signed-feed retry; (S02) no production QA helper/self-test/UI-preview dispatch regardless of argv or neighboring files, with explicit isolated development QA retained; (S03) no private developer-home or absolute source/build metadata in the published app, proved by complete artifact inspection and contaminated negative fixtures. Existing fonts, layouts, preferences, keys and privacy limits stay intact.
 
 ## Excluded scope
 

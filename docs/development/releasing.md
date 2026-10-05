@@ -1,12 +1,6 @@
-# Shot Clip update and release operations
+# Releasing Shot Clip
 
-[Usage](../../README.md) · [Current evidence](qa-results.md#current-evidence) · [QA procedures](qa-plan.md)
-
-## Current operations
-
-The public and manually installed app is [0.8.2 (build 12)](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.8.2), published 2026-10-06 08:01:51 KST from reviewed source/tag `d7c5d700fe906e3d8b8958fa919e5f21d7aa7d30`. Source-delivery local/remote main/tag/GitHub equality (before the final documentation main advances), exact six public downloads/latest signed feed, 177-entry installed payload equality and bounded normal runtime pass. See [QA results](qa-results.md#current-evidence--082-build-12) for the exact evidence and limits. Installation was manual; no new actual Sparkle upgrade is claimed.
-
-Independent delivery review, scoped cleanup and same-payload cold restart pass; final documentation review and ordinary main commit/push are recorded after their gates in ignored `dist/docs-0.8.2-qa/final-completion-audit.json`. Existing release files/tags are not overwritten. Old public releases are retained unless separately authorized for retirement.
+[Developer guide](README.md) · [Testing](testing.md)
 
 ## User updates and first launch
 
@@ -41,7 +35,7 @@ Prepared assets are `shotclip-VERSION.zip`, `appcast.xml`, `SHA256SUMS`, `releas
 
 ## Production bundle gates
 
-Only production flavor may publish. Verify identity/version/build/source commit, explicit signing mode, canonical HTTPS feed/key, signed-feed/archive/pre-extraction policy and integer-zero expiry, native self-contained en/ko 173 app/57 update-key resources/fonts/licenses/icon, deep/strict signature and safe payload paths. Complete scanner checks regular bytes, symlink targets and all Mach-O debug/RPATHs, rejecting private-home/checkout/build metadata and app-owned QA types/hooks. Standard Sparkle updater helpers remain; development capture-test helpers do not ship.
+Only production flavor may publish. Verify identity/version/build/source commit, explicit signing mode, canonical HTTPS feed/key, signed-feed/archive/pre-extraction policy and integer-zero expiry, native self-contained en/ko resources, translation-key parity, fonts/licenses/icon, deep/strict signature and safe payload paths. Complete scanner checks regular bytes, symlink targets and all Mach-O debug/RPATHs, rejecting private-home/checkout/build metadata and app-owned QA types/hooks. Standard Sparkle updater helpers remain; development capture-test helpers do not ship.
 
 Swift Build toolchain RPATH removal occurs only for verified active-toolchain library paths before signing; unknown absolute paths fail closed. Preserve `/usr/lib/swift` and safe bundle-relative lookup. Current ad-hoc Sparkle library-validation exception is disclosed; local validation does not convert it into Developer ID/notarization evidence.
 
@@ -49,4 +43,4 @@ Swift Build toolchain RPATH removal occurs only for verified active-toolchain li
 
 Keep the established Ed25519 public key and private Keychain account `sshot`; lookup/sign only, no export/rotation/regeneration. A display/repository rename does not authorize changing trust. Historical `dev.sshot.app` migration copies only missing valid shortcut/mode values, not language, permission, login, updater state or keys.
 
-The canonical spaced folder is `/Applications/Shot Clip.app`. Legacy folder/identity transition uses a verified manual installation; stock Sparkle can update its old host location and is not promised to rename it. [install-app](../../scripts/install-app.sh) stages/verifies before replacement and supports guarded backups/rollback. Historical 0.8.1 real newer-build update and current 0.8.2 manual installation/exact installed bytes are separately verified; this does not prove every legacy identity, account, OS or permission scenario.
+The canonical spaced folder is `/Applications/Shot Clip.app`. Legacy folder/identity transition uses a verified manual installation; stock Sparkle can update its old host location and is not promised to rename it. [install-app](../../scripts/install-app.sh) stages/verifies before replacement and supports guarded backups/rollback. Test real updater installation separately from manual installation. Neither proves every legacy identity, account, OS or permission scenario.

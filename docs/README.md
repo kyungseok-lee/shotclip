@@ -2,16 +2,7 @@
 
 [App overview](../README.md) · [Korean README](../README.ko.md)
 
-## Use the app
+- [User guide](user-guide.md): installation, permissions, capture, preview/save, settings and troubleshooting.
+- [Developer guide](development/README.md): source build, feature contract, architecture, UI design, testing and releases.
 
-Read the [user guide](user-guide.md) for installation, permissions, capture/paste controls, preview/save, settings and troubleshooting.
-
-## Develop the app
-
-Start with the [developer guide](development/README.md). User instructions are separate from build, design, QA and release procedures.
-
-## Historical evidence
-
-The [archive](archive.md) preserves dated plans, QA ledgers and independent reviews. These are frozen records, including their original bilingual text; they are not maintained Korean guides or the current task queue.
-
-Only the root Korean README is maintained in Korean. All current detailed guides are English.
+Detailed guides are maintained in English. Korean app instructions are provided in the root README. Documents describe the current product and procedures; development diaries and historical review records are not maintained here.

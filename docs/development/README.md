@@ -1,28 +1,32 @@
 # Developing Shot Clip
 
-[App user guide](../user-guide.md) · [Documentation index](../README.md)
+[User guide](../user-guide.md) · [Documentation index](../README.md)
 
-## Start here
+## Build from source
 
-Read the [handoff](handoff.md) for the current task and actual delivery state, then use the [build and development plan](development-plan.md#build-from-source). Run commands from the repository root. Normal development builds share product preferences; the separate QA app is intended for inert checks.
+Use macOS with Xcode and its selected command-line tools, Swift and Python 3. The package declares Swift tools 5.9 and macOS 14 minimum runtime, and pins Sparkle 2.10.0. The public app targets Apple Silicon; package availability does not establish Intel support.
 
-## Product and design
+Run commands from the repository root. Quit every Shot Clip process before building or replacing its generated bundle. With release-related environment overrides unset:
 
-- [Product plan](product-plan.md): audience, scope and supported behavior.
-- [Requirements](requirements.md): R01–R18 and acceptance criteria.
-- [Architecture](architecture.md): components, safety boundaries and D01–D18 decisions.
-- [Design system](design-system.md): native presentation, typography and language geometry.
-- [Technical validation](technical-validation.md): official API sources, recorded environment and limits.
+```sh
+bash scripts/build-app.sh
+open 'dist/Shot Clip.app'
+```
 
-## Implement and verify
+The build creates an ad-hoc signed production-flavor bundle in `dist/Shot Clip.app`, using `.build/production`. It neither installs nor publishes the app. Normal development launches share `dev.shotclip.app` preferences with the installed app and initialize ordinary updater/permission services. Use the isolated QA build for inert checks.
 
-- [Development plan](development-plan.md): build recipe and ordered P0–P10 trace.
-- [QA procedures](qa-plan.md): fast regressions, isolated UI/security checks and user-owned real capture acceptance.
-- [QA results](qa-results.md): executed evidence, current work and unrun coverage.
-- [Requirement trace](verification.md): requirement → phase/decision → proof and remaining scope.
+## Developer reference
 
-## Deliver
+| Document | Purpose |
+| --- | --- |
+| [Requirements](requirements.md) | Current feature scope and acceptance criteria |
+| [Architecture](architecture.md) | Source map, capture lifecycle, clipboard/privacy and update boundaries |
+| [Design system](design-system.md) | Native components, typography, layout, keyboard and localization rules |
+| [Testing](testing.md) | Automated commands, isolated fixtures, manual acceptance and coverage limits |
+| [Releasing](releasing.md) | Reviewed source/tag, signing, GitHub publication and installation |
 
-[Release operations](update-operations.md) covers reviewed source/tag preparation, signing, GitHub publication, download verification and installation. Ad-hoc previews and Developer ID/notarized releases are distinct routes. Never export or replace the established signing key.
+## Working rules
 
-Dated ledgers and independent reviews are preserved in the [frozen archive](../archive.md). Current guides are English; app localization remains English/Korean.
+Inspect Git status before starting and preserve unrelated user changes. Update the applicable current reference when behavior changes. Verify the change in a separate review pass and report executed checks, unrun coverage and actual commit/push status. Development diaries, dated review ledgers and per-release execution logs do not belong in maintained documentation.
+
+Never log captured images, screen content, observed app/window names, clipboard contents or chosen export paths. Do not mutate the general clipboard or grant/reset Screen Recording permission merely to run an inert test. Keep release tags and the established Sparkle signing key intact.
