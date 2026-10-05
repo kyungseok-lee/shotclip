@@ -2,6 +2,24 @@
 
 [Product plan](product-plan.md) · [Development plan](development-plan.md) · [QA plan](qa-plan.md) · [한국어](#한국어)
 
+## 2026-10-06 language-invariant settings design
+
+This is the 0.8.0(10) candidate contract for R14/R15/D17. Earlier dated sections below describe their original versions and evidence; the new geometry contract supersedes their active sizing rules. The frozen candidate implements this contract. Four sealed author matrices pass 704 rendered views/400 paired cases; independent reruns and representative visual inspection are recorded in current QA. Normal native runtime, final independent verdict and delivery remain separate.
+
+| Settings foundation | Shared English/Korean contract |
+| --- | --- |
+| Window / structure | Default 720×580 pt; minimum 620×480 pt; rail 72 pt; header 56 pt; page inset 28 pt; card inset 16 pt; vertical row padding at least 12 pt |
+| Body / caption / section / title | Roboto with Noto Sans KR cascade, respectively 13/12/14/18 pt; nominal minimum line heights 20/18/22/28 pt; preserve current role weights and native system controls |
+| Text reservation | Measure full TextKit/cell/glyph bounds at the actual assigned width and reserve the maximum of both languages and supported state alternatives; honor larger fallback-glyph extents |
+| Trailing form lane | Normal buttons, shortcut, popup and version fields share 160 pt; native switches retain their lane; login composites keep the same-state geometry |
+| Live transition | Keep all structural/row/card/control/document frames, window frame, scroll offset and focus equal through en→ko→en at the same state/size |
+
+At the 720×580 pt default, the 524 pt viewport contains the normal General 505 pt, collapsed ready Access 457 pt, collapsed blocked Access 520 pt and ready Updates 296 pt documents, including their 24 pt bottom inset. Expanded troubleshooting, login approval and long synthetic content may scroll.
+
+Use settings-specific metrics; update-dialog and capture presentation keep their existing contracts. No per-language font shrinking, clipping or fixed two-line assumption. Resolved fallback, emoji or combining-mark ink may raise the nominal line height; that glyph-safe maximum is shared by both languages. A resize recalculates the bilingual maximum at the new width. A genuine state change or arbitrary dynamic diagnostic can enlarge that maximum for both languages; invariance is compared at the same state, not between different content states. Scroll provides access to content beyond the viewport.
+
+한국어: 설정에만 13/20·12/18·14/22·18/28pt의 글자/행간과 공통 치수를 적용합니다. 실제 너비에서 두 언어·지원 상태의 전체 글리프 최대 크기를 예약하고 일반 trailing 폼은160pt, native switch와 login composite는 같은 상태의 크기를 유지합니다. 동일 상태/크기의 언어 전환은 모든 프레임·문서 높이·스크롤·포커스를 바꾸지 않습니다. 상태/resize에 따른 긴 진단은 두 언어 공통 최대 높이로 다시 계산하며 화면 밖 내용은 스크롤로 접근합니다.
+
 ## 2026-10-05 0.7.0 delivered scope
 
 **Published and installed: Shot Clip 0.7.0 (build 9)**, 2026-10-05 22:06:35 KST (13:06:35Z). The immutable [release/tag](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.7.0), public archive and installed app identify source `53bd5d2ad05375be7a6296da4534815260a38d98`. Normal source/tag push and remote equality passed; all six public redownloads and the canonical latest signed feed equal the independently approved preparation. Actual Sparkle 0.6.0(8)→0.7.0(9) download/extract/Install and Relaunch succeeded, with all 175 installed entries/bytes/links/file and directory modes equal the public ZIP; no manual installer was used. Ad-hoc signed, arm64 only, NOT notarized.

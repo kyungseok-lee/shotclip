@@ -23,13 +23,12 @@ Distribution: $status
 
 ## What's new
 
-- Capture Area and Fixed Region appear when Screen Recording is ready; unavailable access offers an explicit Enable Screen Recording action.
-- Roboto and Noto Sans KR provide consistent English/Korean typography, complete multiline spacing and square settings navigation highlights. Existing square app artwork is preserved.
-- Update dialogs size to their visible content while retaining progress, replies and live English/Korean text.
-- The compact capture toolbar follows Apple's screenshot layout with close, capture modes and Capture.
-- After a successful copy, a lower-right thumbnail opens the original at Fit or 100%. Save exports the original PNG only to a destination you choose; cancel, close and dismissal preserve the clipboard.
+- English/Korean settings keep the same window, navigation, rows, form-control geometry and reading position at the same size and state.
+- Settings reserve complete bilingual text height at each available width, with readable Roboto/Noto Sans KR sizes, consistent line heights, full multiline padding and aligned native form controls.
+- Genuine state changes or window resizing can expand the shared layout for long diagnostics; switching language alone preserves it.
+- Existing capture menus, square navigation/app artwork, compact update dialogs, capture toolbar and post-copy thumbnail/original preview/explicit PNG saving are retained.
 - No automatic capture storage, capture history or upload is added. Both complete font licenses are included.
-- Existing capture behavior, preferences, bundle identifier and signed-update trust are retained; automatic checks remain opt-in.
+- Existing preferences, bundle identifier and signed-update trust are retained; automatic checks remain opt-in. Prior public releases and verified obsolete local app versions are retired after latest delivery verification; Git source tags remain.
 
 Quit the previous app before moving Shot Clip.app to Applications.
 The canonical folder changes from ShotClip.app to Shot Clip.app, while dev.shotclip.app and executable shotclip stay unchanged.
@@ -49,13 +48,12 @@ Shot Clip은 macOS 14 이상에서 선택 영역을 캡처하여 클립보드에
 
 ### 변경 사항
 
-- 화면 기록이 준비된 경우 영역 캡처·고정 영역을 표시하고, 권한이 없으면 명시적인 화면 기록 허용 동작을 제공합니다.
-- Roboto와 Noto Sans KR로 영어·한국어 글꼴과 여러 줄 여백을 통일하고 설정 버튼/선택 표시를 정사각형으로 맞췄습니다. 기존 정사각형 앱 아이콘은 보존했습니다.
-- 업데이트 창은 표시 내용에 맞춰 크기를 조절하며 진행률·응답과 즉시 영어/한국어 전환을 유지합니다.
-- Apple 스크린샷 구성을 참고한 작은 캡처 도구막대에 닫기·캡처 모드·캡처 동작을 배치했습니다.
-- 복사 성공 뒤 우측 하단 썸네일을 클릭하면 원본을 Fit 또는100%로 봅니다. 저장은 사용자가 선택한 위치에 원본 PNG만 내보내며 취소·닫기·썸네일 해제는 클립보드를 유지합니다.
+- 같은 창 크기·상태에서 영어/한국어를 바꿔도 설정 창·탐색·행·폼 컨트롤 배치·읽던 위치를 유지합니다.
+- 실제 너비에서 두 언어의 전체 문구 높이를 예약하고 Roboto/Noto Sans KR의 읽기 쉬운 크기·일정한 행간·여러 줄 여백과 정렬된 native 폼을 적용합니다.
+- 실제 상태 변경이나 창 resize 때 긴 진단의 공통 배치가 커질 수 있지만 언어만 바꿔서는 변하지 않습니다.
+- 기존 캡처 메뉴·정사각형 탐색/앱 아이콘·작은 업데이트 창·캡처 도구막대와 복사 후 썸네일/원본 보기·명시적 PNG 저장을 유지합니다.
 - 자동 캡처 저장·이력·업로드는 추가하지 않았고 두 글꼴의 전체 라이선스를 포함합니다.
-- 기존 캡처 동작·설정·번들 식별자와 서명 업데이트 신뢰를 유지하며 자동 확인은 사용자가 선택하여 켭니다.
+- 기존 설정·번들 식별자·서명 업데이트 신뢰와 선택적 자동 확인을 유지합니다. 최신 배포 검증 뒤 과거 공개 릴리스와 확인된 로컬 구버전을 정리하며 Git 소스 태그는 보존합니다.
 
 이전 앱을 종료한 뒤 Shot Clip.app을 응용 프로그램 폴더로 이동하세요.
 폴더 이름은 ShotClip.app에서 Shot Clip.app으로 바뀌고 dev.shotclip.app과 실행 파일 shotclip은 유지합니다.

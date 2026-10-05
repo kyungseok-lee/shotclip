@@ -2,6 +2,20 @@
 
 [Product decision](product-plan.md) · [QA plan](qa-plan.md) · [Results](qa-results.md) · [한국어](#한국어)
 
+## 2026-10-06 0.8.0 delivery and retirement
+
+The active target is **0.8.0 (build 10)**, baseline public/installed 0.7.0(9). Earlier dated current/latest/pending and cleanup-retention statements below are historical snapshots; [current QA](qa-results.md#2026-10-06-080-language-invariant-settings) and [handoff](handoff.md#2026-10-06-080-settings-handoff) govern present state. Candidate source/build/resource/paired-layout checks and independent reproduction pass with exact reports in current QA; new publication, installation, retirement and ordinary push are pending until separately evidenced.
+
+1. Verify source/version-specific core/build/package/paired settings geometry and native runtime; independently review exact source/docs. Commit approved inputs, create new `v0.8.0`, normal push and verify remote main/peeled tag equality. Never replace a retained version tag.
+2. Prepare the clean reviewed0.8 source with the existing Keychain `sshot` key; verify ad-hoc/arm64/macOS14/source metadata, fonts/licenses/icons/language resources, safe ZIP/checksums/manifest, Ed25519 archive and signed feed. Independently approve the exact six-file set before public latest release.
+3. Publish and redownload the same approved assets/latest feed; compare exact bytes, then perform/record the actual0.7→0.8 update attempt or verified latest manual installation as distinct evidence. Verify canonical installed payload/signature/resources and bounded normal runtime.
+4. Only after latest public/install verification, delete **all prior public releases** and exact owned obsolete local app versions/generated build outputs, including verified past backups when present. Preserve Git source/tags/history, current approved public artifacts/proof, existing signing key/preferences/TCC and unrelated files/Trash. Record exact deletion inventory and remaining latest release/app.
+5. Reconcile both READMEs/all current documents from actual results; obtain independent final review and normal documentation push/remote equality. Documentation commits never retag/rebuild the immutable reviewed source artifact.
+
+Old release/download URLs retained below become historical and may be unavailable after authorized retirement; use the current latest URL only after its verification. Permanent deletion for this request supersedes earlier recoverable-copy retention policies only for positively identified obsolete Shot Clip items. It does not authorize emptying general Trash or removing Git source/tag history. Ad-hoc/Gatekeeper/Screen Recording limitations and existing Ed25519 trust remain unchanged.
+
+한국어:0.8.0(10)의 정확한 소스/새 태그/일반push·기존 키 서명 준비·독립 자료 검토·공개 바이트/feed·최신 설치를 순서대로 검증합니다. 그 뒤 과거 공개 릴리스와 소유/식별자가 확인된 로컬 구버전·백업·빌드 산출물만 삭제하며 일반 휴지통·사용자 데이터·Git 이력/태그·기존 키/권한/설정은 보존합니다. 과거 공개 링크는 삭제 후 unavailable일 수 있고 문서commit은 소스/태그와 구분합니다.
+
 ## 2026-10-05 0.7.0 published update operations
 
 Latest public [v0.7.0](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.7.0) was published 2026-10-05 22:06:35 KST (13:06:35Z). Immutable source/tag/app A=`53bd5d2ad05375be7a6296da4534815260a38d98`, version 0.7.0/build 9, ad-hoc arm64/NOT notarized. Source/tag ordinary push and canonical GitHub main/tag equality passed before clean preparation; later documentation commit remains separate from artifact provenance.

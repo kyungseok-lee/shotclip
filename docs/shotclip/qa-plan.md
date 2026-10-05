@@ -2,6 +2,16 @@
 
 [Trace](verification.md) · [Results](qa-results.md) · [Update operations](update-operations.md) · [한국어](#한국어)
 
+## 2026-10-06 0.8.0 acceptance plan
+
+R14/R15/D17/P9 require an explicit **en → ko → en geometry comparison** across General/Access/Updates, light/dark, 720×580/620×480 pt plus actual 670×520/820×620 pt intermediate/resized content sizes, and supported access/login/update states. Include resize→language-switch→resize-back; distinguish any fixture-restored origin after an actual resize from automatic preservation during language switching. Compare window/content, rail/header, headings, every row/card/control, document extent, scroll offset and focus; report field/count coverage and rejected deliberately invalid geometry. Check full text/glyph/cell bounds, readable 13/12/14/18 pt settings roles with 20/18/22/28 pt nominal minimum line heights with larger fallback-ink allowance, at least 12 pt row padding and no overlap/clipping. Inspect representative renders and a normal native same-process transition; synthetic frames alone do not prove actual runtime behavior.
+
+Use the same arbitrary dynamic diagnostic values in both languages. Include long paths/statuses and fallback glyphs at both widths; state changes or resize may change the shared maximum, while language alone may not. Preserve native controls, menu/update/capture behavior, focus and scroll. Run core/build/localization/font/license/icon and release-security/installer regressions appropriate to changed inputs, then obtain independent source/docs/evidence review.
+
+Delivery gates remain distinct: reviewed new source/tag/ordinary remote push; exact signed preparation; public redownload/feed equality; exact latest canonical installation and bounded runtime/upgrade evidence. Only afterward delete prior public releases and owned obsolete local versions/generated outputs, retaining Git source/tags/key and current proof. Capture/TCC/general paste, complete accessibility and unavailable OS/CPU/hardware coverage need actual evidence and otherwise stay SKIP/unverified. Executed candidate outcomes are in current QA: 36 author tests, four sealed 176-view/100-case runs and independent 36-test/two-matrix reproduction. This section is a plan, not a substitute for normal native runtime or delivery proof; earlier dated outcomes below remain historical.
+
+한국어: 모든 설정 pane·두 언어/외관·기본/최소 크기·지원 상태에서 en→ko→en 전체 프레임/문서 높이/스크롤/포커스를 비교하고 긴 진단·fallback 글리프·12pt 여백·잘림/겹침과 대표 렌더/실제 같은 프로세스 전환을 확인합니다. 동일 상태/크기만 비교하며 상태/resize의 공통 높이 변경을 언어 불변성 실패로 해석하지 않습니다. 독립 검토·최신 공개/설치 검증 뒤 구버전을 삭제합니다. 미실행 캡처·권한·붙여 넣기·접근성/별도환경은 통과로 표시하지 않습니다.
+
 ## 2026-10-05 0.7.0 acceptance outcomes
 
 **Published and installed: Shot Clip 0.7.0 (build 9)**, 2026-10-05 22:06:35 KST (13:06:35Z). The immutable [release/tag](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.7.0), public archive and installed app identify source `53bd5d2ad05375be7a6296da4534815260a38d98`. Normal source/tag push and remote equality passed; all six public redownloads and the canonical latest signed feed equal the independently approved preparation. Actual Sparkle 0.6.0(8)→0.7.0(9) download/extract/Install and Relaunch succeeded, with all 175 installed entries/bytes/links/file and directory modes equal the public ZIP; no manual installer was used. Ad-hoc signed, arm64 only, NOT notarized.

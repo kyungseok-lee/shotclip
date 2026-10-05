@@ -2,6 +2,18 @@
 
 [Design system](design-system.md) · [Development plan](development-plan.md) · [Technical evidence](technical-validation.md) · [한국어](#한국어)
 
+## 2026-10-06 D17 settings geometry
+
+The active candidate is 0.8.0(10), with public/installed 0.7.0(9) as baseline. Earlier dated active/latest/pending statements below are historical snapshots; [current QA](qa-results.md#2026-10-06-080-language-invariant-settings) determines actual delivery state.
+
+| Decision | Implementation boundary / required proof |
+| --- | --- |
+| D17: shared bilingual settings geometry | R14/R15/P9; settings-only role/line tokens, read-only explicit bilingual alternatives at each assigned width, shared maximum full TextKit/cell/glyph reservation and fixed native form lanes; same-state/size en→ko→en complete frame/document/scroll/focus equality and no clipping |
+
+Language refresh relabels retained native views without changing the window frame, current pane, disclosure or interaction state. Reserving both languages does not change the active localization/preferences. Arbitrary dynamic diagnostic values use the same current value in both alternatives; real state updates or resize may enlarge the shared reservation. Capture/clipboard/preview, one updater, stable identity and Ed25519 trust retain their existing boundaries. The frozen source is exercised by exact paired-frame/text fixtures; current QA records all 139 app-owned structural views per case, including hidden/offscreen inventory. Latest public/install verification precedes deletion of obsolete public/local versions; Git source/tags/key are preserved.
+
+한국어: D17은 R14/R15·P9의 설정 전용 글자/행간·읽기 전용 두 언어 최대 높이·고정 native 폼을 정의합니다. 같은 상태/크기의 전환은 전체 프레임/문서 높이/스크롤/포커스를 유지하고 상태/resize의 긴 진단은 공통 높이로 다시 계산합니다. 캡처/클립보드/업데이트·식별자·키는 보존하며 최신 공개/설치 검증 후 구버전을 삭제합니다.
+
 ## 2026-10-05 0.7.0 delivered scope
 
 **Published and installed: Shot Clip 0.7.0 (build 9)**, 2026-10-05 22:06:35 KST (13:06:35Z). The immutable [release/tag](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.7.0), public archive and installed app identify source `53bd5d2ad05375be7a6296da4534815260a38d98`. Normal source/tag push and remote equality passed; all six public redownloads and the canonical latest signed feed equal the independently approved preparation. Actual Sparkle 0.6.0(8)→0.7.0(9) download/extract/Install and Relaunch succeeded, with all 175 installed entries/bytes/links/file and directory modes equal the public ZIP; no manual installer was used. Ad-hoc signed, arm64 only, NOT notarized.

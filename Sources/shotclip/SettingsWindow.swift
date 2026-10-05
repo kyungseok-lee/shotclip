@@ -5,6 +5,15 @@ private final class SettingsColumn: NSStackView {
     override var isFlipped: Bool { true }
 }
 
+private enum SettingsCopy {
+    static let snapshots = AppLanguage.allCases.map { StringLocalization(bundle: L10n.bundle, language: $0) }
+    static func alternatives(_ keys: [String]) -> [String] { snapshots.flatMap { copy in keys.map { copy.text($0) } } }
+    static let updateAlternatives = snapshots.flatMap { copy in
+        [copy.text("updates.ready"), copy.text("updates.busy"), copy.text("updates.unconfigured"),
+         copy.format("updates.initialization_failed", arguments: [String(Int.min)])]
+    }
+}
+
 // The control retains native keyboard, focus and accessibility behavior. Only
 // the selected icon tile is drawn to match the reference's navigation hierarchy.
 private final class SettingsRailButton: NSButton {
@@ -42,7 +51,7 @@ private final class OpaqueRailSurface: NSView {
     }
     private struct State {
         let permission: PermissionStatus, shortcut: String, spokenShortcut: String?, login: String
-        let loginEnabled: Bool, loginNeedsApproval: Bool, update: String, updateText: (() -> String)?, automaticEnabled: Bool, configured: Bool, canCheck: Bool
+        let loginEnabled: Bool, loginNeedsApproval: Bool, update: String, updateText: (() -> String)?, updateAlternatives: [String], automaticEnabled: Bool, configured: Bool, canCheck: Bool
     }
     private let actions: Actions
     private var state: State?
@@ -142,7 +151,6 @@ private final class OpaqueRailSurface: NSView {
         ])
         let general = column()
         shortcutButton = button(nil, action: actions.shortcut); shortcutButton.font = DesignTokens.shortcut
-        shortcutButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 104).isActive = true
         let area = button("capture.start", accessibility: "capture.area", action: actions.drag)
         let fixed = button("capture.start", accessibility: "capture.fixed", action: actions.mask)
         localizationBindings.append { [weak area, weak fixed] in
@@ -163,7 +171,8 @@ private final class OpaqueRailSurface: NSView {
         let loginControls = stack([loginApprovalButton, login], vertical: false, spacing: 10)
         language.font = DesignTokens.body
         language.addItems(withTitles: AppLanguage.allCases.map(\.nativeName)); language.target = self; language.action = #selector(changeLanguage)
-        language.widthAnchor.constraint(greaterThanOrEqualToConstant: 132).isActive = true
+        language.widthAnchor.constraint(equalToConstant: DesignTokens.settingsActionWidth).isActive = true
+        language.heightAnchor.constraint(equalToConstant: DesignTokens.settingsButtonHeight).isActive = true
         language.setContentCompressionResistancePriority(.required, for: .horizontal)
         general.addArrangedSubview(section("settings.app_section", rows: [row(loginLabels, loginControls), row(label("settings.language"), language)]))
         let access = column()
@@ -194,6 +203,7 @@ private final class OpaqueRailSurface: NSView {
         let updates = column()
         versionValue.cell?.wraps = false; versionValue.cell?.usesSingleLineMode = true; versionValue.lineBreakMode = .byClipping
         versionValue.font = DesignTokens.body; versionValue.textColor = DesignTokens.secondaryText; versionValue.alignment = .right
+        versionValue.widthAnchor.constraint(equalToConstant: DesignTokens.settingsActionWidth).isActive = true
         automaticLabel = text("updates.automatic"); automatic.font = DesignTokens.body; automatic.target = self; automatic.action = #selector(toggleAutomatic)
         checkUpdatesButton = button("menu.updates", action: actions.update)
         updateStatus.font = DesignTokens.caption; updateStatus.textColor = DesignTokens.secondaryText
@@ -225,27 +235,31 @@ private final class OpaqueRailSurface: NSView {
         refreshLocalization(); refreshAccessibilityDisplay(); center()
     }
     func refresh(permission: PermissionStatus, shortcut: String, spokenShortcut: String? = nil, login: String, loginEnabled: Bool = false, loginNeedsApproval: Bool = false,
-                 update: String, updateText: (() -> String)? = nil, automaticEnabled: Bool, configured: Bool, canCheck: Bool) {
+                 update: String, updateText: (() -> String)? = nil, updateAlternatives: [String] = [], automaticEnabled: Bool, configured: Bool, canCheck: Bool) {
         state = State(permission: permission, shortcut: shortcut, spokenShortcut: spokenShortcut, login: login, loginEnabled: loginEnabled, loginNeedsApproval: loginNeedsApproval,
-                      update: update, updateText: updateText, automaticEnabled: automaticEnabled, configured: configured, canCheck: canCheck)
+                      update: update, updateText: updateText, updateAlternatives: updateAlternatives, automaticEnabled: automaticEnabled, configured: configured, canCheck: canCheck)
         applyState()
     }
     private func applyState() {
         guard let state else { return }
         let permission = state.permission
-        permissionTitle.stringValue = L10n.text(permission.isReady ? "permission.ready.short" : "permission.review.short")
+        setCopy(permissionTitle, key: permission.isReady ? "permission.ready.short" : "permission.review.short")
         permissionIcon.image = NSImage(systemSymbolName: permission.isReady ? "checkmark.circle.fill" : "record.circle", accessibilityDescription: nil)
         permissionIcon.contentTintColor = permission.isReady ? DesignTokens.ready : DesignTokens.attention
-        permissionSummary.stringValue = permission.explanation
-        permissionDetails.stringValue = L10n.format("permission.details_format", permission.identityAdvice, permission.bundleURL.path)
+        permissionSummary.setSettingsText(permission.explanation, alternatives: SettingsCopy.alternatives([permission.presentation.explanationKey]), lineHeight: DesignTokens.settingsCaptionLineHeight)
+        let detailAlternatives = SettingsCopy.snapshots.map { copy in
+            copy.format("permission.details_format", arguments: [copy.text(permission.presentation.identityAdviceKey), permission.bundleURL.path])
+        }
+        permissionDetails.setSettingsText(L10n.format("permission.details_format", permission.identityAdvice, permission.bundleURL.path), alternatives: detailAlternatives, lineHeight: DesignTokens.settingsCaptionLineHeight)
         requestRow.isHidden = permission.isReady; requestRule.isHidden = permission.isReady
-        captureHint.stringValue = L10n.text(permission.isReady ? "settings.capture_description" : "settings.capture_access_hint")
+        setCopy(captureHint, key: permission.isReady ? "settings.capture_description" : "settings.capture_access_hint")
         shortcutButton.title = state.shortcut; shortcutButton.setAccessibilityValue(state.spokenShortcut ?? state.shortcut)
         login.state = state.loginEnabled ? .on : .off; login.isEnabled = !state.loginNeedsApproval
-        loginStatus.stringValue = state.loginNeedsApproval ? L10n.text("login.approval") : ""; loginStatus.isHidden = !state.loginNeedsApproval
+        loginStatus.setSettingsText(state.loginNeedsApproval ? L10n.text("login.approval") : "", alternatives: SettingsCopy.alternatives(["login.approval"]), lineHeight: DesignTokens.settingsCaptionLineHeight)
+        loginStatus.isHidden = !state.loginNeedsApproval
         loginApprovalButton.isHidden = !state.loginNeedsApproval
-        versionValue.stringValue = permission.version
-        updateStatus.stringValue = state.updateText?() ?? state.update
+        versionValue.setSettingsText(permission.version, alternatives: [permission.version], lineHeight: DesignTokens.settingsBodyLineHeight)
+        updateStatus.setSettingsText(state.updateText?() ?? state.update, alternatives: SettingsCopy.updateAlternatives + state.updateAlternatives, lineHeight: DesignTokens.settingsCaptionLineHeight)
         updateStatus.isHidden = state.configured && state.canCheck && updateStatus.stringValue == L10n.text("updates.ready")
         automatic.state = state.automaticEnabled ? .on : .off; automatic.isEnabled = state.configured
         automatic.setAccessibilityHelp(state.configured ? "" : L10n.text("updates.unconfigured"))
@@ -272,7 +286,8 @@ private final class OpaqueRailSurface: NSView {
         railButtons.forEach { $0.needsDisplay = true }; contentView?.needsDisplay = true
     }
     func select(_ section: Section) {
-        selectedSection = section; pageTitle.stringValue = L10n.text(section.key)
+        selectedSection = section
+        pageTitle.setSettingsText(L10n.text(section.key), alternatives: SettingsCopy.alternatives(Section.allCases.map(\.key)), lineHeight: DesignTokens.settingsTitleLineHeight)
         for (index, button) in railButtons.enumerated() {
             let selected = index == section.rawValue
             button.state = selected ? .on : .off; button.contentTintColor = selected ? .alternateSelectedControlTextColor : .secondaryLabelColor
@@ -282,6 +297,7 @@ private final class OpaqueRailSurface: NSView {
         if let responder = firstResponder as? NSView, responder.isHiddenOrHasHiddenAncestor { makeFirstResponder(railButtons[section.rawValue]) }
     }
     func showTroubleshootingForPreview() { if !detailsVisible { toggleDetails() } }
+    func setTroubleshootingForPreview(_ visible: Bool) { if detailsVisible != visible { toggleDetails() } }
     // Fixture reads and exercises actual controls/actions; it does not recreate
     // a view model or write preferences, nor replace the normal app startup path.
     var previewControls: (language: NSPopUpButton, login: NSSwitch, automatic: NSSwitch, checkUpdates: NSButton, shortcut: NSButton, loginLabel: NSTextField, automaticLabel: NSTextField, pageTitle: NSTextField, permissionTitle: NSTextField, updateStatus: NSTextField) {
@@ -304,6 +320,30 @@ private final class OpaqueRailSurface: NSView {
     var previewLayout: (rows: [(view: NSView, content: [NSView])], cards: [(view: NSView, content: [NSView])], footers: [(view: NSView, content: NSView)], headings: [NSTextField]) {
         (layoutRows, layoutCards, layoutFooters, layoutHeadings)
     }
+    // Public app-owned structure only: private native-control/stack/scroller
+    // internals are excluded. Detached state-driven rows/cards remain in the
+    // inventory so an unchanged hidden state also has a stable geometry proof.
+    var previewStructuralViews: [(id: String, view: NSView)] {
+        var views = [(id: String, view: NSView)]()
+        var seen = Set<ObjectIdentifier>()
+        func add(_ view: NSView, id: String) {
+            guard seen.insert(ObjectIdentifier(view)).inserted else { return }
+            views.append((id, view))
+            let children: [NSView]
+            if let scroll = view as? NSScrollView {
+                add(scroll.contentView, id: id + ".clip")
+                if let document = scroll.documentView { add(document, id: id + ".document") }
+                return
+            } else if let stack = view as? NSStackView { children = stack.arrangedSubviews }
+            else if view is NSControl { return }
+            else { children = view.subviews }
+            for (index, child) in children.enumerated() { add(child, id: id + ".\(index)") }
+        }
+        if let contentView { add(contentView, id: "root") }
+        for (index, row) in layoutRows.enumerated() { add(row.view, id: "detached-row.\(index)") }
+        for (index, card) in layoutCards.enumerated() { add(card.view, id: "detached-card.\(index)") }
+        return views
+    }
     @objc private func changeSection(_ sender: NSButton) { select(Section(rawValue: sender.tag) ?? .general) }
     @objc private func toggleAutomatic() { actions.automatic(automatic.state == .on) }
     @objc private func toggleLogin() { actions.login() }
@@ -325,7 +365,8 @@ private final class OpaqueRailSurface: NSView {
     }
     private func button(_ key: String?, accessibility: String? = nil, action: @escaping () -> Void) -> NSButton {
         let button = NSButton(title: "", target: self, action: #selector(invoke(_:))); button.bezelStyle = .rounded; button.font = DesignTokens.body
-        button.widthAnchor.constraint(greaterThanOrEqualToConstant: 108).isActive = true
+        button.widthAnchor.constraint(equalToConstant: DesignTokens.settingsActionWidth).isActive = true
+        button.heightAnchor.constraint(equalToConstant: DesignTokens.settingsButtonHeight).isActive = true
         button.setContentHuggingPriority(.required, for: .horizontal); button.setContentCompressionResistancePriority(.required, for: .horizontal)
         if let key { localizationBindings.append { [weak button] in button?.title = L10n.text(key); button?.setAccessibilityLabel(L10n.text(accessibility ?? key)) } }
         callbacks[ObjectIdentifier(button)] = action; return button
@@ -334,7 +375,17 @@ private final class OpaqueRailSurface: NSView {
         let field = WrappingLabel(wrappingLabelWithString: ""); field.font = font
         field.textColor = secondary ? DesignTokens.secondaryText : DesignTokens.primaryText
         field.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        localizationBindings.append { [weak field] in field?.stringValue = L10n.text(key) }; return field
+        localizationBindings.append { [weak self, weak field] in if let field { self?.setCopy(field, key: key) } }; return field
+    }
+    private func setCopy(_ field: WrappingLabel, key: String) {
+        let lineHeight: CGFloat
+        switch field.font?.pointSize {
+        case 12: lineHeight = DesignTokens.settingsCaptionLineHeight
+        case 14: lineHeight = DesignTokens.settingsSectionLineHeight
+        case 18: lineHeight = DesignTokens.settingsTitleLineHeight
+        default: lineHeight = DesignTokens.settingsBodyLineHeight
+        }
+        field.setSettingsText(L10n.text(key), alternatives: SettingsCopy.alternatives([key]), lineHeight: lineHeight)
     }
     private func label(_ key: String, help: String? = nil) -> NSView {
         guard let help else { return text(key) }

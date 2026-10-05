@@ -2,6 +2,18 @@
 
 [Documentation](README.md) · [Development plan](development-plan.md) · [QA results](qa-results.md)
 
+## 2026-10-06 0.8.0 settings handoff
+
+- Active work: same-state/size English/Korean settings geometry, all current docs, latest0.8.0(10) delivery, deletion of all prior public releases and owned obsolete local versions/generated outputs, ordinary `main` push. Starting clean main`13314bcdeb2e90edac1d1a70d99f9088c5d90ded`/89 tracked files; public/installed0.7.0(9)/source`53bd5d2…` remains baseline until new delivery proof.
+- Contract written before implementation: R14/R15→D17→P9; default 720×580/min 620×480, readable settings role/line tokens, fixed form lanes and bilingual full-text reservation; complete frames/document/scroll/focus stable en→ko→en at the same state/size. Arbitrary dynamic diagnostics may grow the common maximum only after state change/resize.
+- Frozen candidate evidence: five source inputs match;36 author tests, sealed 0.8.0(10)/strict signature/173+57 resources/font-icon audit and four176-view/100-case matrices PASS (704 views/400 cases,139 app-owned views/case,416 negative executions). Independent fresh 36 tests/two inert matrices352 views/200 cases PASS; root representative visuals and all10 baseline preference-key digests equality PASS. Initial apparent variable-font line collision was a QA false positive; tight CoreText paths per TextKit line/baseline retain complete ink checks. Root resource34/gate16/archive15 unsafe+2 valid/installer15/crypto25+2 valid regressions PASS; these do not establish normal runtime/install. [Current QA](qa-results.md#2026-10-06-080-language-invariant-settings) names evidence and pending gates.
+- Writer scope: both root READMEs, twelve current non-review documents and bilingual release-note text only in `scripts/release-content.sh`. No app/source logic/Git/GUI/defaults/TCC/clipboard/key mutation by this lane; independent review is separate. All prior dated bodies/review reports are preserved.
+- Next: root owns normal native runtime/latest delivery; verifier reviews final source/docs/evidence; root owns commit/new tag/ordinary push, clean preparation, public/latest install and exact cleanup. Latest verification precedes prior-version deletion; Git source/tags/history/key and unrelated data remain. Candidate release/install/delete/push are not yet PASS.
+
+Earlier dated current/pending/latest and retention statements below describe their original checkpoints; this newer section and current QA supersede their present-state interpretation. Old public download links may become unavailable after authorized retirement; historical source tags and records remain.
+
+한국어: 현재0.8.0(10)의 한·영 설정 불변성·모든 현재 문서·최신 배포/설치·구버전 삭제·일반main push를 진행합니다. 시작main`13314bc…`/89파일·기존0.7.0(9)를 보존하고 계약/계획을 구현 전에 작성했습니다. 작성자36 tests·704뷰/400case·별도36 tests/352뷰 재현과 root 시각/설정digest 검증을 확인했고 실제 정상 native 전환·새 배포·삭제·push는 아직 대기입니다. writer는 문서/릴리스 문구만 수정하고 별도 검토·root 실행 뒤 사실을 반영합니다. 과거 기록·Git 이력/태그·키·무관한 데이터는 보존합니다.
+
 ## 2026-10-06 local cleanup handoff
 
 The user-authorized unused/build-output cleanup is complete. The working tree was clean at documentation baseline `4a74a4dda4f87ae1b43a1a195d91d86c85057cb3` on `main`; all 89 tracked files were preserved. Installed/public Shot Clip remains 0.7.0 (build 9), immutable source/tag `53bd5d2ad05375be7a6296da4534815260a38d98`; no app source change or new release occurred.

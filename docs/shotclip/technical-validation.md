@@ -2,6 +2,21 @@
 
 [Architecture](architecture.md) · [Design system](design-system.md) · [QA results](qa-results.md)
 
+## 2026-10-06 settings typography primary sources
+
+The document-specialist checked repository references first, then official Apple DocC content on 2026-10-06 KST; `chub` was unavailable. These sources ground R14/R15/D17 sizing choices; reading API documentation does not prove runtime geometry. Earlier dated implementation/current/pending statements below retain historical scope. The current target is 0.8.0(10), baseline public/installed 0.7.0(9).
+
+| Official AppKit source | Implementation implication |
+| --- | --- |
+| [minimumLineHeight](https://developer.apple.com/documentation/appkit/nsparagraphstyle/minimumlineheight), [maximumLineHeight](https://developer.apple.com/documentation/appkit/nsparagraphstyle/maximumlineheight), [lineSpacing](https://developer.apple.com/documentation/appkit/nsparagraphstyle/linespacing) | Role line metrics are project choices; a maximum smaller than glyph bounds can overlap text, so validate the complete fallback glyph ink and adjacent lines |
+| [preferredMaxLayoutWidth](https://developer.apple.com/documentation/appkit/nstextfield/preferredmaxlayoutwidth), [maximumNumberOfLines](https://developer.apple.com/documentation/appkit/nstextfield/maximumnumberoflines) | Measure at assigned width and permit unlimited lines; a smaller field height can still clip |
+| [usedRect](https://developer.apple.com/documentation/appkit/nslayoutmanager/usedrect(for:)), [glyph boundingRect](https://developer.apple.com/documentation/appkit/nslayoutmanager/boundingrect(forglyphrange:in:)), [alignmentRectInsets](https://developer.apple.com/documentation/appkit/nsview/alignmentrectinsets) | Check layout/cell/full glyph extents and native ornamentation, not primary-font line height alone |
+| [fittingSize](https://developer.apple.com/documentation/appkit/nsview/fittingsize), [stack distribution](https://developer.apple.com/documentation/appkit/nsstackview/distribution-swift.property), [stack hugging](https://developer.apple.com/documentation/appkit/nsstackview/sethuggingpriority(_:for:)) | Inspect actual resolved row/control frames; ordinary compression resistance alone does not determine stack layout |
+
+Reproduce by fetching the linked Apple symbol pages or their matching public `developer.apple.com/tutorials/data/documentation/appkit/…json` content and checking title/discussion/availability. Compare bilingual alternative measurements and stable field IDs at the same state/width, including arbitrary long diagnostics and keyboard fallback glyphs. Settings body/caption/section/title use 13/12/14/18 pt with nominal minimum 20/18/22/28 pt lines, raised when full resolved glyph ink requires it; full ink safety requires executed fixture/render evidence in [current QA](qa-results.md#2026-10-06-080-language-invariant-settings). Do not infer language invariance merely from a non-clipping result in each language. The final sealed candidate passes full paired-frame/text checks over 25 states×4 sizes in all four language/appearance runs, with no constraint diagnostics and intact fonts/resources/signature. The initial apparent long combining-mark/emoji collision was a QA false positive from font-wide variable-font bounds; corrected QA uses tight CoreText glyph paths at TextKit line baselines while retaining full layout/cell completeness. Author and independent reproduction reports are named in current QA; normal native runtime and delivery are separate.
+
+한국어:2026-10-06에 별도 조사자가 저장소 우선·Apple DocC 원문으로 행간/줄 수/실제 너비/글리프/stack API를 확인했습니다. 최대 행 높이가 글리프보다 작으면 겹칠 수 있으므로 두 언어 동일 상태/너비의 실제 프레임과 전체 잉크·긴 진단을 검증해야 합니다. 문서 확인과 실제 앱 통과는 별개입니다.
+
 ## 2026-10-05 0.7.0 delivered technical evidence
 
 The independently [approved candidate](qa-review-0.7.0.md) was committed/ordinary-pushed/tagged as source A `53bd5d2ad05375be7a6296da4534815260a38d98`. Clean 0.7.0(9) ad-hoc arm64 preparation and exact asset APPROVE passed existing-key Ed25519 archive/feed/public-key checks, metadata/ZIP/CRC/deepstrict,173+57 keys, complete fonts/OFL/notices and all 10 icon representations. All six public redownloads/latest-feed bytes equal approved files; published 2026-10-05 22:06:35 KST. [Delivery QA](qa-results.md#2026-10-05-070-publication-and-sparkle-installation) names source reports, hashes and independent owners.

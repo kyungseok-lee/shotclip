@@ -2,6 +2,14 @@
 
 [Documentation](README.md) · [Development plan](development-plan.md) · [Design system](design-system.md) · [한국어](#한국어)
 
+## 2026-10-06 current product direction
+
+The 0.8.0(10) candidate keeps the copy-first journey and improves settings so choosing English or 한국어 preserves the same window, navigation, form geometry and reading position at the same size/state. Readable fonts/line heights, bilingual maximum text reservations and aligned native controls must prevent clipping at default/minimum sizes. Long diagnostics may grow after a genuine state change or resize. See [R14/R15](requirements.md#2026-10-06-080-bilingual-settings-contract) and [D17](design-system.md#2026-10-06-language-invariant-settings-design).
+
+The settings implementation passes four sealed author matrices and separate reproduction; actual normal runtime and delivery remain separately evidenced. Public/installed 0.7.0(9) remains the baseline until 0.8 delivery is verified. The request includes current documentation, latest installation, deletion of all past public releases and owned obsolete local apps/generated outputs after latest verification, and ordinary `main` push. Preserve Git source/tags, identity/settings/key and unrelated user data. Earlier dated current/latest/pending claims below describe their original snapshots; [current QA](qa-results.md#2026-10-06-080-language-invariant-settings) is authoritative.
+
+한국어: 복사 우선 기능을 유지하며0.8.0(10)에서 같은 크기/상태의 한·영 설정 배치·폼·읽던 위치를 유지하도록 개선합니다. 최신 검증 뒤 과거 공개/로컬 앱을 삭제하되 Git 이력/태그·기존 설정/키·무관한 데이터는 보존합니다. 실제 결과가 있기 전까지 공개/설치 기준은0.7.0(9)입니다.
+
 ## 2026-10-05 0.7.0 delivered scope
 
 **Published and installed: Shot Clip 0.7.0 (build 9)**, 2026-10-05 22:06:35 KST (13:06:35Z). The immutable [release/tag](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.7.0), public archive and installed app identify source `53bd5d2ad05375be7a6296da4534815260a38d98`. Normal source/tag push and remote equality passed; all six public redownloads and the canonical latest signed feed equal the independently approved preparation. Actual Sparkle 0.6.0(8)→0.7.0(9) download/extract/Install and Relaunch succeeded, with all 175 installed entries/bytes/links/file and directory modes equal the public ZIP; no manual installer was used. Ad-hoc signed, arm64 only, NOT notarized.

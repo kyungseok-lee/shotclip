@@ -2,6 +2,16 @@
 
 [Product plan](product-plan.md) · [Development trace](development-plan.md) · [Verification](verification.md) · [한국어](#한국어)
 
+## 2026-10-06 0.8.0 bilingual settings contract
+
+The current request targets **0.8.0 (build 10)**: stable English/Korean settings geometry, current documentation, latest-app delivery, removal of past app versions and normal `main` push. Public/installed 0.7.0(9) remains the baseline until new delivery is verified. Earlier dated current/pending/latest statements below are historical snapshots, superseded by this section and the [current QA ledger](qa-results.md).
+
+R14/R15 now require the same window frame, navigation/header, headings, rows/cards, form/control frames, document extent, scroll position and focus through **en → ko → en at the same window size and application state**. Keep default 720×580 pt/minimum 620×480 pt, native behavior and process-local Roboto/Noto Sans KR. Readable role sizes and line heights must include full glyph bounds and at least 12 pt vertical row padding; neither language may clip, overlap or shrink to fit. Reserve the bilingual maximum at the actual assigned width, including supported state alternatives. Arbitrary dynamic diagnostics may increase that shared reservation when state changes or the window resizes; language alone must not do so.
+
+R13/R16/R17 delivery requires separately reviewed 0.8 source/artifacts, public signed feed and exact latest installation before deleting prior public releases and owned obsolete local apps/generated outputs. Preserve Git commits/tags/history, the existing Ed25519 key, user preferences and unrelated data. Candidate source/build/layout checks now pass: 36 author tests, four sealed matrices with 704 rendered views and 400 paired cases covering 139 app-owned structural views each. A separate verifier reproduced 36 tests and two matrices; final independent verdict, normal native runtime, publication, installation, deletion and push remain separate gates in current QA.
+
+한국어: 0.8.0(10)은 같은 창 크기·앱 상태에서 영어→한국어→영어 전환 시 창·탐색/헤더·행/카드·폼/컨트롤·문서 높이·스크롤·포커스를 유지합니다. Roboto/Noto Sans KR와 native 동작을 보존하고 실제 너비의 두 언어 최대 높이·읽기 쉬운 크기/행간·12pt 위아래 여백을 확보합니다. 임의의 동적 진단은 상태 변경/resize 때 공통 예약 높이가 커질 수 있지만 언어만으로 배치는 바뀌지 않습니다. 최신 공개·설치를 검증한 뒤 과거 공개 릴리스와 소유가 확인된 로컬 구버전을 삭제하고 Git 이력/태그·키·사용자 데이터는 보존합니다. 실제 검증·배포·삭제·push는 아직 완료로 기록하지 않습니다.
+
 ## 2026-10-05 0.7.0 delivered scope
 
 **Published and installed: Shot Clip 0.7.0 (build 9)**, 2026-10-05 22:06:35 KST (13:06:35Z). The immutable [release/tag](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.7.0), public archive and installed app identify source `53bd5d2ad05375be7a6296da4534815260a38d98`. Normal source/tag push and remote equality passed; all six public redownloads and the canonical latest signed feed equal the independently approved preparation. Actual Sparkle 0.6.0(8)→0.7.0(9) download/extract/Install and Relaunch succeeded, with all 175 installed entries/bytes/links/file and directory modes equal the public ZIP; no manual installer was used. Ad-hoc signed, arm64 only, NOT notarized.

@@ -2,6 +2,19 @@
 
 [Product plan](product-plan.md) · [Design system](design-system.md) · [Requirements](requirements.md) · [한국어](#한국어)
 
+## 2026-10-06 ordered 0.8.0 work
+
+The active target is **0.8.0 (build 10)**; public/installed 0.7.0(9) is the baseline. Earlier dated current/pending/latest statements below retain historical scope and are superseded by this plan. Follow the [new R14/R15 contract](requirements.md#2026-10-06-080-bilingual-settings-contract) before implementation.
+
+| Phase | Trace / implementation | Exit evidence |
+| --- | --- | --- |
+| P9: language-invariant settings | R14/R15; D17; settings role/line metrics in `DesignTokens.swift`, bilingual reservation and native form sizing in `SettingsWindow.swift`, geometry fixtures in `UIPreview.swift` | Same-size/state en→ko→en complete frame/document/scroll/focus equality; full glyph/cell/padding checks; representative render and normal native transition; independent review |
+| P6/P7: latest delivery and retirement | R13/R16/R17; source metadata 0.8.0(10), reviewed bilingual release text and current docs | Core/build/package/security/installer checks; ordinary main/new-tag push equality; approved signed/public/latest-install bytes; then deletion of prior public releases and exact owned obsolete local versions/generated outputs |
+
+Preserve Roboto/Noto Sans KR, native interaction, existing identity/preferences and Ed25519 key. A resize or actual state update may change the bilingual maximum for long diagnostics; language alone must preserve it. Record actual outcomes in [QA results](qa-results.md), refresh both READMEs/all current documents, retain dated history, and finish with independent review and verified normal documentation push. The frozen source has 36 author tests, four sealed 176-view matrices and a separate fresh 36-test/two-matrix reproduction; this plan itself does not establish normal native runtime, publication, deletion or push.
+
+한국어: 먼저 R14/R15·D17·P9의 두 언어 공통 글자/행간·실제 너비 최대 높이·폼 치수를 구현하고 전체 프레임/스크롤/포커스·대표 렌더/실제 전환을 검증합니다. 이어0.8.0(10)의 독립 검토·main/새 tag push·서명 공개/최신 설치를 확인한 뒤 과거 공개 릴리스와 소유가 확인된 로컬 구버전/빌드 산출물을 삭제합니다. 실제 결과로 모든 현재 문서를 정리하며 Git 이력/태그·기존 설정/키·과거 기록을 보존합니다.
+
 ## 2026-10-05 0.7.0 delivered scope
 
 **Published and installed: Shot Clip 0.7.0 (build 9)**, 2026-10-05 22:06:35 KST (13:06:35Z). The immutable [release/tag](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.7.0), public archive and installed app identify source `53bd5d2ad05375be7a6296da4534815260a38d98`. Normal source/tag push and remote equality passed; all six public redownloads and the canonical latest signed feed equal the independently approved preparation. Actual Sparkle 0.6.0(8)→0.7.0(9) download/extract/Install and Relaunch succeeded, with all 175 installed entries/bytes/links/file and directory modes equal the public ZIP; no manual installer was used. Ad-hoc signed, arm64 only, NOT notarized.

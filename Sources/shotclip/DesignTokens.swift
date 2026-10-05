@@ -35,7 +35,13 @@ enum DesignTokens {
     static let settingsInset: CGFloat = 28
     static let settingsSectionGap: CGFloat = 24
     static let settingsHeaderHeight: CGFloat = 56
-    static let settingsSize = NSSize(width: 720, height: 560)
+    static let settingsActionWidth: CGFloat = 160
+    static let settingsButtonHeight: CGFloat = 28
+    static let settingsBodyLineHeight: CGFloat = 20
+    static let settingsCaptionLineHeight: CGFloat = 18
+    static let settingsSectionLineHeight: CGFloat = 22
+    static let settingsTitleLineHeight: CGFloat = 28
+    static let settingsSize = NSSize(width: 720, height: 580)
     static let settingsMinimumSize = NSSize(width: 620, height: 480)
     static let noticeWidth: CGFloat = 420
     static let updateWidth: CGFloat = 520
@@ -120,14 +126,47 @@ enum AppTypography {
 // AppKit labels recalculate their height using the actual assigned width.
 // Every composed row reserves padding for the complete wrapping label.
 final class WrappingLabel: NSTextField {
+    // Settings reserve the complete bilingual copy at the actual allocated
+    // width. These alternatives are read-only localization snapshots, never a
+    // process language override. Other app-owned wrapping labels keep their
+    // existing adaptive behavior.
+    private var settingsAlternatives = [String]()
+    private var settingsAttributes: [NSAttributedString.Key: Any]?
+    func setSettingsText(_ value: String, alternatives: [String], lineHeight: CGFloat) {
+        settingsAlternatives = alternatives
+        let face = font ?? DesignTokens.body
+        let shapedHeight = (alternatives + [value]).map { text -> CGFloat in
+            let line = CTLineCreateWithAttributedString(NSAttributedString(string: text, attributes: [.font: face]))
+            var ascent: CGFloat = 0, descent: CGFloat = 0, leading: CGFloat = 0
+            CTLineGetTypographicBounds(line, &ascent, &descent, &leading)
+            let ink = CTLineGetBoundsWithOptions(line, .useGlyphPathBounds)
+            return ceil(max(ascent, ink.maxY) + max(descent, -ink.minY) + leading)
+        }.max() ?? lineHeight
+        let paragraph = NSMutableParagraphStyle()
+        // Never cap below the resolved Korean/system fallback line metrics:
+        // Apple's maximumLineHeight contract warns that taller glyphs overlap.
+        paragraph.minimumLineHeight = max(lineHeight, shapedHeight)
+        paragraph.maximumLineHeight = paragraph.minimumLineHeight
+        paragraph.alignment = alignment
+        paragraph.lineBreakMode = cell?.lineBreakMode ?? .byWordWrapping
+        settingsAttributes = [.font: face, .foregroundColor: textColor ?? DesignTokens.primaryText, .paragraphStyle: paragraph]
+        attributedStringValue = NSAttributedString(string: value, attributes: settingsAttributes!)
+        invalidateIntrinsicContentSize()
+    }
     // Cell metrics describe the primary face and can underestimate a line
     // containing Korean or shortcut glyphs from a cascading font. TextKit
     // resolves those glyphs using the same attributed text as the cell.
     func requiredHeight(forWidth width: CGFloat) -> CGFloat {
         guard width > 0, let cell, !stringValue.isEmpty else { return super.intrinsicContentSize.height }
+        let strings = settingsAttributes == nil ? [attributedStringValue] : (settingsAlternatives + [stringValue]).map {
+            NSAttributedString(string: $0, attributes: settingsAttributes!)
+        }
+        return strings.map { measuredHeight($0, forWidth: width, cell: cell) }.max() ?? 0
+    }
+    private func measuredHeight(_ text: NSAttributedString, forWidth width: CGFloat, cell: NSCell) -> CGFloat {
         let probe = NSRect(x: 0, y: 0, width: width, height: 100_000)
         let drawing = cell.drawingRect(forBounds: probe)
-        let storage = NSTextStorage(attributedString: attributedStringValue)
+        let storage = NSTextStorage(attributedString: text)
         let layout = NSLayoutManager()
         let container = NSTextContainer(containerSize: NSSize(width: max(1, drawing.width), height: 100_000))
         container.lineFragmentPadding = 0; container.lineBreakMode = cell.lineBreakMode
@@ -136,16 +175,19 @@ final class WrappingLabel: NSTextField {
         let used = layout.usedRect(for: container)
         let ink = layout.boundingRect(forGlyphRange: glyphs, in: container)
         let drawingInsets = max(0, probe.height - drawing.height)
-        return ceil(max(super.intrinsicContentSize.height,
-            cell.cellSize(forBounds: probe).height,
-            max(used.maxY, ink.maxY) + drawingInsets + 2))
+        let nativeMinimum = settingsAttributes == nil ? max(super.intrinsicContentSize.height, cell.cellSize(forBounds: probe).height) : 0
+        return ceil(max(nativeMinimum, max(used.maxY, ink.maxY) + drawingInsets + 2))
     }
     override var intrinsicContentSize: NSSize {
         var size = super.intrinsicContentSize
         let singleLine = cell?.wraps == false
         if singleLine, !stringValue.isEmpty {
-            let line = CTLineCreateWithAttributedString(attributedStringValue)
-            size.width = ceil(CGFloat(CTLineGetTypographicBounds(line, nil, nil, nil)) + 4)
+            let strings = settingsAttributes == nil ? [attributedStringValue] : (settingsAlternatives + [stringValue]).map {
+                NSAttributedString(string: $0, attributes: settingsAttributes!)
+            }
+            size.width = strings.map { text in
+                ceil(CGFloat(CTLineGetTypographicBounds(CTLineCreateWithAttributedString(text), nil, nil, nil)) + 4)
+            }.max() ?? size.width
         }
         let width = singleLine ? size.width : (preferredMaxLayoutWidth > 0 ? preferredMaxLayoutWidth : (bounds.width > 0 ? bounds.width : size.width))
         if width > 0 { size.height = requiredHeight(forWidth: width) }

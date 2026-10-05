@@ -2,6 +2,19 @@
 
 [Requirements](requirements.md) · [Development plan](development-plan.md) · [QA plan](qa-plan.md) · [Results](qa-results.md) · [한국어](#한국어)
 
+## 2026-10-06 0.8.0 current trace
+
+R01–R18 remain; **R14/R15 → D17 → P9** adds same-state/size bilingual settings geometry. Earlier dated current/latest/pending claims below are historical; current target 0.8.0(10) and baseline public/installed0.7.0(9) are distinct until [delivery QA](qa-results.md#2026-10-06-080-language-invariant-settings) records new proof.
+
+| Requirement | New evidence required |
+| --- | --- |
+| R14/R15 | Full en→ko→en window/navigation/header/heading/row/card/form/control/document frame equality, preserved scroll/focus/pane/state, full TextKit/cell/glyph bounds and 12 pt vertical padding; default/minimum × light/dark × supported states; invalid geometry rejected; representative renders and actual normal native transition |
+| R13/R16/R17 | Reviewed0.8 source/tag/ordinary remote push; exact signed prepared/public/latest-feed bytes and canonical installation; actual upgrade scope recorded; prior public/local-version deletion only afterward, preserving Git source/tags/key/user data |
+
+Root baseline/regression evidence currently proves resource34/gate16/archive15 unsafe rejections+2 valid layouts/temporary installer15/crypto25 rejections+2 valid modes; it uses no Keychain or real installation and does not prove app runtime. Frozen candidate implementation/build/layout PASS: 36 author tests, 704 sealed rendered views/400 paired cases, 139 app-owned views per case, 416 negative executions across five guard types. Independent fresh 36 tests and two matrices (352 views/200 cases) reproduce the result; final independent verdict, normal native runtime, publication/install/cleanup and push remain separate gates. Complete accessibility, real capture/general paste/TCC and unavailable platform/hardware cases stay unverified unless actually executed.
+
+한국어: R14/R15→D17→P9로 같은 상태/크기의 전체 배치/문서/스크롤/포커스·글리프/여백을 검증하고 R13/R16/R17로 최신 공개/설치 후 구버전 삭제를 추적합니다. 현재 회귀 자료와 작성자36 tests·704 합성 뷰/400 쌍별 case·별도36 tests/352뷰 재현을 확인했으며 실제 정상 native 동작·키·설치·새 배포/push 통과로 확대하지 않습니다.
+
 ## 2026-10-05 0.7.0 delivery trace
 
 **Published and installed: Shot Clip 0.7.0 (build 9)**, 2026-10-05 22:06:35 KST (13:06:35Z). The immutable [release/tag](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.7.0), public archive and installed app identify source `53bd5d2ad05375be7a6296da4534815260a38d98`. Normal source/tag push and remote equality passed; all six public redownloads and the canonical latest signed feed equal the independently approved preparation. Actual Sparkle 0.6.0(8)→0.7.0(9) download/extract/Install and Relaunch succeeded, with all 175 installed entries/bytes/links/file and directory modes equal the public ZIP; no manual installer was used. Ad-hoc signed, arm64 only, NOT notarized.
