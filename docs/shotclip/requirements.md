@@ -2,6 +2,16 @@
 
 [Product plan](product-plan.md) · [Development trace](development-plan.md) · [Verification](verification.md) · [한국어](#한국어)
 
+## 2026-10-06 0.8.1 delivered requirements
+
+**S01/R13 and S02/S03/R11 → D18 → P10 ship in 0.8.1 (build 11).** Integer-0 feed-failure expiry disables elapsed-time invalid-signature acceptance while retaining later valid-feed eligibility and archive Ed25519 authentication. Production excludes development QA/helper/hooks; separate development QA remains. Complete public/installed artifact inspection and contaminated negatives prove zero prohibited private-home/absolute source/build paths, permitting harmless public relative file identifiers.
+
+R14/R15/D17/P9 bilingual geometry/fonts/native behavior remain. R13/R16/R17 have reviewed source/new immutable tag/ordinary remote equality, exact signed prepared/public/latest feed, actual Sparkle 0.8→0.8.1 and canonical payload/security/resources. [Delivery QA](qa-results.md#2026-10-06-081-publication-installation-and-retirement) records bounded native/preference results and current retirement/cold-restart state. Real capture/paste/TCC/full accessibility are not newly passed. Earlier dated active/latest/pending statements are historical; final documentation B review/push is separate from immutable source A.
+
+한국어: R13/R11·D18/P10 세 보안 수정을 0.8.1(11)에 배포했고 D17 한영 배치/폰트·키/설정/개인정보 경계를 유지합니다. 실제 공개/Sparkle/설치 근거와 현재 정리 상태는 QA에 기록하며 미실행 캡처/접근성을 통과로 바꾸지 않습니다.
+
+R13/R16/R17 retirement/cleanup acceptance is complete: old public 0.8 assets and exact approved obsolete/generated paths are removed after latest approval; source tags/history/key/current proof remain. Cold restart retains the exact public payload/security/resources. [Independent delivery review](release-review-0.8.1.md) and final documentation B/push remain separate from source A.
+
 ## 2026-10-06 0.8.1 security requirements
 
 The new authorized target is **0.8.1 (build 11)**. Starting clean main is `f6113b96600224fe0304689286bb368bd9a9ad7b`; public/installed 0.8.0 (build 10) remains the delivery baseline. Three reported findings define **R13/R11 → D18 → P10** below. They were recorded before implementation. Frozen author security/core/isolated QA and separate root candidate package/native evidence now pass within the [QA ledger](qa-results.md#2026-10-06-081-security-findings-and-candidate-status); independent candidate approval and new delivery remain pending. Earlier dated current/latest/pending statements remain historical under this newer scope.

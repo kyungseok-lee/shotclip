@@ -2,6 +2,14 @@
 
 [Design system](design-system.md) · [Development plan](development-plan.md) · [Technical evidence](technical-validation.md) · [한국어](#한국어)
 
+## 2026-10-06 0.8.1 delivered architecture
+
+D18 ships in **0.8.1 (build 11)**: exact integer feed-failure expiry 0 enforces no elapsed-time invalid-signature acceptance, production excludes development QA/capture-test-helper paths, and self-contained resources plus whole-artifact gates remove prohibited private/absolute path metadata. Standard Sparkle helpers and existing Ed25519 feed/archive trust remain. Separate `Shot Clip QA.app` / `dev.shotclip.qa` retains synthetic fixtures without normal startup.
+
+D17 settings/font/native-control geometry and capture/clipboard/privacy boundaries remain unchanged. Reviewed source A/new tag/ordinary push, public/latest feed, real Sparkle 0.8→0.8.1 and exact canonical installation are verified; [delivery QA](qa-results.md#2026-10-06-081-publication-installation-and-retirement) separates full isolated matrices from native General root/translation/restored-tree proof and records completed exact cleanup/old public retirement and same-payload normal cold restart without build caches. Nine non-time settings digests are retained; only last-check time changes after update checks. Source A/tag/app/public bytes are immutable while documentation B is separately reviewed/pushed. Earlier dated current/latest/pending records are historical.
+
+한국어: D18의 integer 0·production QA 제거·자체 자료 해결/전체 artifact 검사를 0.8.1(11)에 배포했고 표준 Sparkle helper·키/서명 신뢰·D17 한영 배치·개인정보 경계는 유지합니다. 실제 공개/설치와 합성/정상 UI 근거를 구분하며 문서 B는 소스 A와 별도입니다.
+
 ## 2026-10-06 D18 security architecture
 
 **0.8.1 (build 11) candidate**, R13/R11 → D18 → P10. The updater must supply invalid-feed signature-failure recovery interval 0: time alone never permits accepting a wrongly signed feed, while later valid signed feeds remain eligible. Production-default builds exclude sibling QA helper, self-test and UI-preview entry paths. Development QA uses a separate `Shot Clip QA.app` / `dev.shotclip.qa` host with scratch output and no normal application startup. Public resource resolution must be self-contained, without source/build fallback.

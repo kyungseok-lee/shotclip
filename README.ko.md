@@ -6,6 +6,18 @@
 
 화면 영역을 선택하면 이미지를 바로 클립보드에 복사하는 작은 macOS 메뉴 막대 앱입니다. **영역 캡처** 또는 **고정 영역**으로 캡처한 뒤 다른 앱에서 `⌘V`로 붙여 넣습니다.
 
+## 2026-10-06 최신 배포
+
+**Shot Clip 0.8.1(build 11)**을 공개·설치했습니다: [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.8.1/shotclip-0.8.1.zip) / [릴리스](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.8.1), 2026-10-06 05:42:17 KST, 검토한 소스 [`3140c27`](https://github.com/kyungseok-lee/shotclip/commit/3140c27629708eecca53ff820066356be7cf443d). **Apple Silicon(arm64) 전용 ad-hoc·미공증**이며 기존 Sparkle library-validation 예외는 공개한 제약으로 유지합니다.
+
+잘못 서명된 update feed는 시간이 지나도 수용하지 않고 이후 유효한 feed는 허용합니다. 공개 패키지에서 개발 QA 경로/capture test helper와 비공개 개발자 홈/절대 소스·빌드 경로를 제거하며 별도 개발 QA는 유지합니다. Roboto/Noto Sans KR의 읽기 쉬운 크기·동일 크기/상태의 한영 창/폼/읽던 위치·native 컨트롤을 유지합니다. 기본 content 720×580 pt/최소 620×480 pt이며 실제 상태 변경/resize 때 긴 진단의 공통 높이가 커질 수 있습니다.
+
+후보·서명 공개/feed·설치 독립 검토, 실제 **Sparkle 0.8.0(10)→0.8.1(11)**·정확한 공개 payload/전체 검사/자료·정상 세 pane/최신 signed-feed 확인과 General 한→영→한 루트/복원 AX tree를 확인했습니다. 모든 개별 프레임은 별도 합성 QA 근거입니다. 비시간 설정 digest 9개는 같고 확인 시각만 바뀌며 기존 자동 확인 ON/새 기본 OFF를 유지합니다. [배포 QA](docs/shotclip/qa-results.md#2026-10-06-081-publication-installation-and-retirement)와 [인수인계](docs/shotclip/handoff.md#2026-10-06-081-delivery-handoff)에 이전 공개 자료/정확한 산출물 삭제·동일 payload의 정상 재시작과 별도 문서 push를 기록합니다.
+
+0.8.1 실제 캡처/붙여 넣기/self-test/native-save/권한 허용/전체 접근성·다른 OS/CPU/계정은 미실행입니다. 화면 기록 필요 상태와 노트 fallback을 관찰했으며 노트 렌더 통과는 아닙니다. 아래 날짜별 최신/대기 문구는 과거 기준으로 보존하고 현재는 이 기록을 따릅니다. 현재 정식 0.8 설치는 Sparkle를 사용할 수 있고 과거 폴더/Sshot 전환 안내는 해당 설치에만 적용됩니다.
+
+공개 자료는 v0.8.1/6개만 남기고 과거 다운로드는 삭제했으며 소스 태그/이력은 보존합니다. 정확한 과거/생성 산출물을 삭제하고 합성 대표 6개·작은 QA/native 근거를 남겼습니다. 최신 앱은 빌드 캐시 없이 정상 재시작했습니다. [독립 배포 검토](docs/shotclip/release-review-0.8.1.md)의 범위와 문서 B/main push를 분리합니다.
+
 ## 2026-10-06 현재 보안 수정
 
 **작업 후보는 0.8.1(build 11), 검증된 최신 공개·설치는 아직 0.8.0(build 10)입니다.** 잘못 서명된 feed의 시간 경과 수용을 막고 이후 유효한 feed는 허용합니다. 공개 앱의 QA 실행 경로를 제거하되 개발용 별도 QA 앱은 유지하고 공개 앱 전체의 비공개 개발자 홈과 절대 소스/빌드 경로를 거부합니다. 한영 배치/폰트/native 동작·설정/식별자/기존 업데이트 키·개인정보 경계는 보존합니다.

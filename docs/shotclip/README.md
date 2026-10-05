@@ -2,6 +2,16 @@
 
 [English README](../../README.md) · [한국어 README](../../README.ko.md)
 
+## 2026-10-06 current 0.8.1 delivery
+
+**Published and installed: Shot Clip 0.8.1 (build 11)**, [latest release](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.8.1), published 2026-10-06 05:42:17 KST. R13/R11 → D18 → P10 closes the three security findings while retaining D17 bilingual settings geometry/fonts and native capture/preview behavior. The public app has no development QA routes/capture test helper or private developer-home/absolute source/build paths; isolated QA remains a separate development bundle.
+
+[Delivery QA](qa-results.md#2026-10-06-081-publication-installation-and-retirement), [operations](update-operations.md#2026-10-06-081-current-operations), [trace](verification.md#2026-10-06-081-delivery-trace) and [handoff](handoff.md#2026-10-06-081-delivery-handoff) record exact signed public files, actual Sparkle 0.8→0.8.1, installed/native/preference evidence and current retirement state. The [candidate review](qa-review-0.8.1.md) approved its own frozen scope; [final delivery review](release-review-0.8.1.md) is separate. Old public 0.8/six assets and exact obsolete/generated outputs are retired; normal cold restart passes with unchanged latest payload, compact proof retained and source tags/history/key preserved. Source A/tag/app/public bytes are immutable; documentation B has its own final review/push verification.
+
+Earlier dated current/latest/pending statements are historical snapshots. New valid signed feeds remain eligible; invalid feed signatures never become acceptable through elapsed time. Ad-hoc/arm64/not-notarized/library-validation limits remain disclosed. Real 0.8.1 capture/paste/grant and unsupported environments are not passed.
+
+한국어: 최신 공개·설치는 0.8.1(11)이며 R13/R11·D18/P10 세 보안 수정과 기존 D17 배치/폰트를 유지합니다. 실제 Sparkle·정확한 설치·정상 General·설정 digest와 정리 상태는 새 QA에 기록하고 과거 최신/대기 문구는 당시 기록으로 보존합니다. 소스 A와 문서 B/push는 분리합니다.
+
 ## 2026-10-06 current 0.8.1 security work
 
 **Target: 0.8.1 (build 11); verified public/installed baseline: 0.8.0 (build 10).** R13/R11 → D18 → P10 fixes invalid-feed timeout fallback, removes production QA entry paths while preserving isolated development QA, and rejects private developer-home and absolute source/build paths anywhere in the published app. Shipped bilingual layout/fonts, native behavior, identity/preferences/keys and privacy limits remain required.

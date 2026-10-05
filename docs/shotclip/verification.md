@@ -2,6 +2,20 @@
 
 [Requirements](requirements.md) · [Development plan](development-plan.md) · [QA plan](qa-plan.md) · [Results](qa-results.md) · [한국어](#한국어)
 
+## 2026-10-06 0.8.1 delivery trace
+
+| Trace | Actual evidence / limit |
+| --- | --- |
+| S01/R13 → D18 → P10 | Exact integer expiry 0/both signature switches and malformed-policy gates; pinned source proves no time-based invalid-feed acceptance, not a live 20-day run. Installed valid signed-feed latest check passes; existing archive/key trust remains |
+| S02/S03/R11 → D18 → P10 | Production QA-route exclusion/27 retired-argument cases; separate portable QA and complete public/installed scanner/contaminated negatives pass. Standard Sparkle helpers and harmless relative identifiers remain; private-home/absolute source/build paths are absent |
+| R14/R15 → D17 → P9 | Retained fonts/resources/native layout; full exact 139-view paired matrices and normal installed General root/translation/restored 25-element tree have distinct scope |
+| R13/R16/R17 → P6/P7 | Source A/new v0.8.1/ordinary main/tag remote equality, exact signed/public/latest feed, real Sparkle 0.8→0.8.1 and canonical installed bytes/signature/resources/runtime pass; prior public retirement/exact generated cleanup and same-payload normal cold restart pass, compact proof/history/key retained |
+| R01–R12/R18 | Existing capture/preview/privacy behavior retained; no new real capture/paste/self-test/native-save/TCC/full accessibility/alternate-platform PASS |
+
+[Delivery QA](qa-results.md#2026-10-06-081-publication-installation-and-retirement) centralizes source, owners and hashes; [candidate approval](qa-review-0.8.1.md) is historical under its own frozen scope, and [independent delivery review](release-review-0.8.1.md) covers final evidence/documents. Nine non-time preference digests remain equal; only check time changes. Earlier current/latest/pending statements are historical, and documentation B/main push is separately verified without changing A/tag/public bytes.
+
+한국어: R13/R11·D18/P10 보안/전체 artifact·별도 QA, D17 합성/정상 UI, R13/R16/R17 소스/공개/실제 Sparkle/설치를 범위별 추적합니다. 정리/재시작은 새 QA 상태를 따르며 미실행 캡처/권한/별도환경을 통과로 표시하지 않습니다.
+
 ## 2026-10-06 0.8.1 security trace
 
 | Trace | Required new evidence / state |

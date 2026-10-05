@@ -2,6 +2,16 @@
 
 [Product plan](product-plan.md) · [Design system](design-system.md) · [Requirements](requirements.md) · [한국어](#한국어)
 
+## 2026-10-06 performed 0.8.1 work
+
+Requirements → D18 design → P10 implementation → author/independent candidate verification preceded source A/new v0.8.1 and ordinary main/tag push. Clean production preparation with the existing key then passed independent exact-asset review, public/latest redownload and actual Sparkle 0.8→0.8.1 installation. Canonical payload/security/resources and bounded normal native/latest-check/preference evidence pass. [Delivery QA](qa-results.md#2026-10-06-081-publication-installation-and-retirement) records exact owners, source and completed prior public retirement/exact generated cleanup and unchanged-payload cold restart.
+
+P10 closes S01/R13 and S02/S03/R11; P9/D17 layout/fonts remain. P6/P7 delivery evidence is distinct from the candidate tests and final documentation B review/push. B does not retag/rebuild source A or alter the release script/published bytes. Earlier current/latest/pending plans below retain their original historical scope; real capture/paste/TCC and unavailable platform/hardware tests remain unrun.
+
+한국어: 요구사항/설계→P10 구현/독립 후보 승인→소스 A/태그/일반 push→기존 키 준비/독립 자료 검토→공개/latest→실제 Sparkle/설치/정상 동작 순서로 진행했습니다. 정리/재시작 상태는 새 QA를 따르고 문서 B는 소스 A·공개 앱을 바꾸지 않습니다.
+
+Only independent final delivery/document approval and documentation B ordinary main push remain as coordinator verification. App/public/install/cleanup work is complete; final Git proof is recorded after commit without inventing B’s hash in its own files.
+
 ## 2026-10-06 ordered 0.8.1 security work
 
 Target **0.8.1 (build 11)**; start clean main `f6113b96600224fe0304689286bb368bd9a9ad7b`, public/installed 0.8.0 (build 10) baseline. Follow requirements → design → implementation → verification for the three [new requirements](requirements.md#2026-10-06-081-security-requirements); D18/P10 extends R13/R11 while retaining D17/P9.

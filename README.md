@@ -6,6 +6,18 @@
 
 A small macOS menu bar app that captures a selected region straight to the clipboard. Select with **Capture Area** or **Fixed Region**, then paste into another app with `⌘V`.
 
+## 2026-10-06 latest release
+
+**Shot Clip 0.8.1 (build 11)** is published and installed: [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.8.1/shotclip-0.8.1.zip) / [release](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.8.1), published 2026-10-06 05:42:17 KST, reviewed source [`3140c27`](https://github.com/kyungseok-lee/shotclip/commit/3140c27629708eecca53ff820066356be7cf443d). **Apple Silicon (arm64) only; ad-hoc signed; NOT notarized.** The existing Sparkle library-validation exception remains a disclosed constraint.
+
+Invalidly signed update feeds never become acceptable through elapsed time; later valid signed feeds remain eligible. Public packaging excludes development QA routes/capture test helper and private developer-home/absolute source/build paths. Isolated development QA remains available. English/Korean settings retain readable Roboto/Noto Sans KR, same-size/state window/forms/reading position and native controls; default content is 720×580 pt, minimum 620×480 pt. Actual state changes/resize may grow shared long-diagnostic height.
+
+Independent candidate, signed public/feed and installed reviews pass. Actual **Sparkle 0.8.0(10)→0.8.1(11)**, exact public payload/security/resources, normal three-pane/latest signed-feed check and General ko→en→ko native root/restored tree pass. Complete per-view geometry is isolated synthetic evidence. Nine non-time preference digests are unchanged; check time changes, existing automatic checks ON is preserved and fresh default remains OFF. [Delivery QA](docs/shotclip/qa-results.md#2026-10-06-081-publication-installation-and-retirement) and [handoff](docs/shotclip/handoff.md#2026-10-06-081-delivery-handoff) record completed prior public retirement/exact generated cleanup and normal cold restart with unchanged payload, plus separate final documentation push.
+
+Real 0.8.1 capture/paste/self-test/native-save/permission-grant/full accessibility and alternate macOS/CPU/account checks were not run; Screen Recording-needed state was observed. Notes fallback is not notes-rendering PASS. Earlier dated current/latest/pending statements below are historical baseline records, superseded by this section. Current canonical 0.8 installations can use Sparkle; historical folder/Sshot migration instructions apply only to those older installations.
+
+Only v0.8.1/six current assets remain public; older download links are retired while source tags/history remain. Exact obsolete/generated outputs are removed, six synthetic representatives and compact QA/native proof kept. The latest canonical app restarts normally without build caches. [Independent delivery review](docs/shotclip/release-review-0.8.1.md) records final scope; documentation B/main push is separately verified after approval.
+
 ## 2026-10-06 current security work
 
 **0.8.1 (build 11) is the active candidate; verified public/installed latest remains 0.8.0 (build 10).** The candidate hardens invalid-feed handling, removes production QA execution paths while retaining a separate development QA host, and rejects private developer-home and absolute source/build paths throughout the published app. A later valid signed feed remains eligible. Existing bilingual layout/fonts/native behavior, settings/identity/update keys and privacy limits stay required.

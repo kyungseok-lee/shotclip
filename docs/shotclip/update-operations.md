@@ -2,6 +2,18 @@
 
 [Product decision](product-plan.md) · [QA plan](qa-plan.md) · [Results](qa-results.md) · [한국어](#한국어)
 
+## 2026-10-06 0.8.1 current operations
+
+Latest public/installed **0.8.1 (build 11)** was published 2026-10-06 05:42:17 KST: [release](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.8.1), source A/tag `3140c27629708eecca53ff820066356be7cf443d`. Source/new tag/main ordinary push and remote equality passed. Exact six signed prepared/public files and latest feed passed independent approval before actual Sparkle 0.8.0(10)→0.8.1(11), without a manual installer. Canonical 176-entry payload below root/signature/full security/resources and bounded normal runtime/current signed-feed checks pass.
+
+Invalid feed signatures have no time-based acceptance fallback; later valid feeds remain eligible. Production packaging excludes development QA routes/capture test helper, not standard Sparkle helpers, and rejects private/absolute path metadata across the artifact. Current canonical 0.8 can use Sparkle; only historical folder/Sshot migration needs conditional manual guidance. Existing key/identity/preferences/TCC and fresh auto-check default OFF/retained host ON remain.
+
+Prior public v0.8.0/six assets are retired; only latest v0.8.1/six unchanged assets remain. Exact approved 714-root generated cleanup and normal cold restart complete with the same public payload/signature/security/resources. No older owned local app was found in the bounded inventory; only the exact obsolete ZIP was removed. Six representatives/all compact matrix logs/fingerprints/native proofs and current assets are retained, source tags/history/key/unrelated data and owned caches preserved. [Delivery QA](qa-results.md#2026-10-06-081-publication-installation-and-retirement) centralizes exact hashes and evidence; final document B approval/ordinary main push is separate from immutable A/tag/app/release-content/public bytes. No private-key export/regeneration, TCC reset/general clipboard or Gatekeeper bypass is claimed. Earlier current/latest/pending/retention instructions below are historical.
+
+한국어: 최신 0.8.1(11)의 소스/태그/일반 push·서명 공개 자료/feed·실제 Sparkle·정확한 설치/정상 확인을 검증했습니다. 기존 키/설정/권한과 auto-check 상태를 유지하고 과거 설치의 수동 전환은 조건부 안내입니다. 과거 0.8 공개 자료/정확한 산출물 삭제·동일 payload의 정상 재시작은 완료이며 문서 B는 소스 A와 별도입니다.
+
+[Independent delivery review](release-review-0.8.1.md) is separate from authoring. Final documentation B/main push is the remaining coordinator verification, using actual Git/remote proof after approval rather than a future hash embedded in these documents.
+
 ## 2026-10-06 0.8.1 candidate operations
 
 Target **0.8.1 (build 11)**, verified public/installed baseline 0.8.0 (build 10). R13 invalid-feed signature-failure recovery interval 0 forbids time-based acceptance of wrongly signed feeds; later valid signed feeds remain eligible. Production preparation must exclude QA entrypoints and private developer-home and absolute source/build paths throughout the app; explicit development QA is a separate host and cannot be the public artifact.

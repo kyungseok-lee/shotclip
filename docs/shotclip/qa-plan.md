@@ -2,6 +2,16 @@
 
 [Trace](verification.md) · [Results](qa-results.md) · [Update operations](update-operations.md) · [한국어](#한국어)
 
+## 2026-10-06 0.8.1 acceptance outcomes
+
+P10 security/core/production scanner/retired-argument/portable QA gates and two full isolated matrices passed author and independent candidate checks. [Delivery QA](qa-results.md#2026-10-06-081-publication-installation-and-retirement) separately records source/tag/remote equality, exact signed prepared/public/latest feed, real Sparkle 0.8→0.8.1, canonical installed payload/security/resources and normal native/current signed-feed checks. Prior public retirement/exact cleanup and same-payload normal cold restart pass with compact proof retained; exact outcomes belong to that ledger.
+
+The no-expiry guarantee uses pinned Sparkle source plus exact integer-0 artifact/negative fixtures; no live 20-day invalid-feed experiment was run. Full 139-view geometry/scroll/focus/ink coverage belongs to isolated matrices; native General proves root/translation/restored 25-element tree only. Provider `window_not_found` after the old update window disappeared is not tool PASS; new canonical PID/payload independently prove relaunch. Release-note fallback is not notes-rendering PASS.
+
+Real 0.8.1 capture/paste/self-test/native-save/TCC grant/reset/general clipboard/full accessibility and alternate OS/CPU/hardware checks remain unrun. Preserve existing automatic checks ON/fresh default OFF and non-time preference digests. Final delivery/document review and documentation B ordinary push are separate coordinator checks. Earlier dated acceptance plans/results are historical.
+
+한국어: 후보 보안/격리 QA와 실제 소스/공개/설치/정상 signed-feed 확인은 범위별 통과입니다. interval 0은 pinned source·artifact/negative 근거이며 20일 live 실험이 아닙니다. 전체 139 view matrix와 정상 General 25 AX를 구분하고 사라진 창의 tool 오류·노트 fallback·미실행 캡처/권한을 통과로 표시하지 않습니다.
+
 ## 2026-10-06 0.8.1 security acceptance plan
 
 Follow **R13/R11 → D18 → P10** for candidate 0.8.1 (build 11); do not substitute 0.8 test results for new evidence. [Finding ledger](qa-results.md#2026-10-06-081-security-findings-and-candidate-status) records the baseline and actual outcomes.

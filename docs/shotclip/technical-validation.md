@@ -2,6 +2,14 @@
 
 [Architecture](architecture.md) · [Design system](design-system.md) · [QA results](qa-results.md)
 
+## 2026-10-06 0.8.1 delivered technical evidence
+
+Pinned Sparkle source plus exact integer-0 artifact/negative fixtures establish S01's no-expiry policy; actual installed valid signed-feed latest check passes. Development QA is excluded from inspected production code and retained in its isolated host. The complete public/installed scanner, source-identical fonts/localization, strict signature and exact public ZIP payload establish S02/S03 artifact boundaries, rather than compiler flags alone.
+
+[Delivery QA](qa-results.md#2026-10-06-081-publication-installation-and-retirement) names independent public/installed approvals and separates isolated geometry matrices, normal General root/translation/tree evidence, preference state and completed exact retirement/cleanup and unchanged-payload normal cold restart without build caches. Existing ad-hoc/arm64/not-notarized/library-validation exception remains an intentional constraint. Earlier API research/active/latest/pending evidence is historical; no live 20-day invalid-feed sequence, real capture/paste/TCC, full accessibility or alternate OS/CPU acceptance is claimed. Source A/tag/app/public bytes remain immutable while documentation B is separately verified.
+
+한국어: pinned source/integer 0/negative로 무효 feed 만료 차단을 입증하고 실제 정상 signed-feed 최신 확인은 통과했습니다. 공개/설치 전체 검사·자료/서명·정확한 ZIP과 격리/정상 UI·설정 상태를 구분하며 미실행 20일 live/캡처/별도환경을 통과로 확대하지 않습니다.
+
 ## 2026-10-06 0.8.1 security validation scope
 
 The new **R13/R11 → D18 → P10** validation targets invalid-feed recovery interval 0, production QA exclusion with a separate development host, and a complete published-artifact path scanner. Later valid signed feeds remain eligible; the contract does not permanently refuse valid updates after transient network/signature errors. Official API/source review and new implementation/test outcomes belong to the [current ledger](qa-results.md#2026-10-06-081-security-findings-and-candidate-status).

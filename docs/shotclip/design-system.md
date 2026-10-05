@@ -2,6 +2,16 @@
 
 [Product plan](product-plan.md) · [Development plan](development-plan.md) · [QA plan](qa-plan.md) · [한국어](#한국어)
 
+## 2026-10-06 D18 shipped security boundaries
+
+**0.8.1 (build 11)** ships D18 while retaining D17's 720×580 pt default content/minimum 620×480, 160 pt form lane, Roboto/Noto Sans KR and full bilingual/fallback-ink reservation. Language-only transitions preserve same-state/size geometry; actual state updates/resize may grow a shared diagnostic reservation. Native controls and readable role/line metrics remain.
+
+Feed-signature failure expiry is exact integer 0, so invalid feeds never gain acceptance through time; later valid signed feeds remain eligible. Production QA hooks are excluded, and developer-private/absolute source/build paths are absent from the inspected public/installed artifact. Full geometry belongs to isolated QA matrices; installed General separately preserves native root and restored translated tree. [Delivery QA](qa-results.md#2026-10-06-081-publication-installation-and-retirement) records those scopes and limits. Earlier active/latest/pending design evidence below is historical under this shipped contract.
+
+한국어: 0.8.1(11)은 D18 보안 경계를 배포하면서 D17 창/폼·폰트/행간·전체 두 언어 높이와 native 동작을 유지합니다. 시간 경과 invalid feed 수용은 차단하고 유효 feed는 허용합니다. 전체 배치 matrix와 정상 General 루트/AX 근거는 별도로 기록합니다.
+
+Retirement/generated cleanup and normal cold restart preserve the same latest fonts/resources/signature/native General state without build caches. Current compact synthetic/native proof remains; retired public downloads are historical, source tags retained.
+
 ## 2026-10-06 D18 security and QA boundaries
 
 The 0.8.1 (build 11) candidate adds **D18: fail-closed updater state and isolated QA/artifact hygiene**, traced to R13/R11/P10. Preserve the shipped D17 settings layout, bundled Roboto/Noto Sans KR, nominal/full-ink metrics, bilingual resources and native controls. Security-state text must still use the same supported bilingual maximum at the same size/state; language changes cannot restart updater services or weaken signature-validation policy.
