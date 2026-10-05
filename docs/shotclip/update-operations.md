@@ -2,6 +2,28 @@
 
 [Product decision](product-plan.md) · [QA plan](qa-plan.md) · [Results](qa-results.md) · [한국어](#한국어)
 
+## 2026-10-05 0.7.0 published update operations
+
+Latest public [v0.7.0](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.7.0) was published 2026-10-05 22:06:35 KST (13:06:35Z). Immutable source/tag/app A=`53bd5d2ad05375be7a6296da4534815260a38d98`, version 0.7.0/build 9, ad-hoc arm64/NOT notarized. Source/tag ordinary push and canonical GitHub main/tag equality passed before clean preparation; later documentation commit remains separate from artifact provenance.
+
+| Item | Verified delivery |
+| --- | --- |
+| Archive | [shotclip-0.7.0.zip](https://github.com/kyungseok-lee/shotclip/releases/download/v0.7.0/shotclip-0.7.0.zip),8,370,291 bytes/SHA256 `8768b780bc43b4baf315b9fed4bc8fc0432faf58cc265426cdeb7c95cecff3be` |
+| Feed | [Canonical latest signed appcast](https://github.com/kyungseok-lee/shotclip/releases/latest/download/appcast.xml),1,270 bytes/SHA256 `b7737de4b46791134e47d697bb8dbbbba67616a56ce658d127efa16749e2bc67` |
+| Preparation | `dist/update-0.7.0.w1wWSB`, exact-set independent APPROVE, existing Keychain `sshot` key, Ed25519 archive/feed/public-key verification, deep/strict ad-hoc and safe ZIP/CRC;173+57 language keys/five font-license-notice files/10 icon sizes |
+| Public bytes | All six redownloads and latest feed equal approved preparation; independent public-byte review PASS. Public [manifest](https://github.com/kyungseok-lee/shotclip/releases/download/v0.7.0/release-manifest.json)/[checksums](https://github.com/kyungseok-lee/shotclip/releases/download/v0.7.0/SHA256SUMS) identify exact set |
+| Actual update route | Canonical0.6.0(8)→0.7.0(9) Sparkle Download/Extract/Install and Relaunch SUCCESS; no manual installer used |
+| Latest installed app | `/Applications/Shot Clip.app`; full 175 entries/bytes/link targets/file+directory modes equal public ZIP, source A/deep-strict/ad-hoc/arm64/173+57 diagnostics; upgrade PID 67817 replaced 60933; post-cleanup normal cold-start PID 80286/tree/signature/173+57 still PASS |
+| Normal runtime | Korean latest version/feed result acknowledged; hidden unavailable modes/explicit menu Access recovery PASS. Old 0.6 driver used missing-plain-text notes fallback, so notes display is not claimed |
+| Preferences | Nine non-time baseline digests equal; only SULastCheckTime updated by actual manual signed-update checks, no added/removed keys/raw values retained. This is state comparison, not proof of no writes |
+| Cleanup/final docs | 2,195 verified local items moved recoverably to Trash (never emptied); six prepared/six public files, metadata/reports and five synthetic representatives retained. Cache/generated apps absent; normal cold restart/exact installed tree/signature/resources PASS. [Independent delivery verdict](release-review-0.7.0.md) remains separate; documentation commits are verified by local/remote equality, with immutable tag/app A fixed |
+
+Root reports are `dist/deploy-0.7-qa/{source-delivery,prepared-proof,public-delivery,public-release,installed-delivery,native-installed-runtime,installed-preferences-proof,cleanup-proof,post-cleanup-installed}.json`; independent source/artifact/public/installed proofs are under `dist/review-0.7/`. [Delivery QA](qa-results.md#2026-10-05-070-publication-and-sparkle-installation) records exact outcomes/limits. Candidate/installed real capture remains permission-SKIP; no TCC grant/reset/general clipboard use. Carbon two-attempt result UNVERIFIED, full accessibility/macOS 14/Intel/clean-account/hardware coverage unrun. Verified updater installation does not establish those.
+
+Keep existing keys/source/tags and approved bytes. Do not overwrite v0.7.0 or reuse its build/tag; future releases increase version/build and repeat review. Older candidate/operations bodies below remain unchanged history; their pending/latest 0.6 wording is superseded by this actual 0.7 delivery.
+
+한국어:0.7.0(build 9)/소스A를 기존 키로 준비/독립 승인 후22:06:35 KST 최신 공개했습니다. 공개6개/feed·실제 Sparkle0.6→0.7·수동 설치기 없는175개 정확한 canonical payload/서명/173+57문구/새PID를 확인했습니다. 한국어 최신 결과/권한 메뉴→Access는 통과했고 실제 캡처는 권한SKIP, 단축키는 미확정이며 별도 OS·CPU·계정·접근성/장비는 미검증입니다. 시간 외 설정은 같고 수동 확인 시각만 바뀌었습니다. 검증한 로컬 2,195개를 복구 가능한 휴지통으로 옮기고 최신 자료/메타데이터/합성 대표5개를 유지했습니다. 캐시 제거 후 정상 cold restart/PID 80286·정확한 설치/서명/언어 자료를 재확인했습니다. 현재 host 게시·설치·정리는 끝났으며 독립 판정/별도 문서 commit과 소스A/태그/공개 바이트를 구분합니다.
+
 ## 2026-10-05 0.7.0 release candidate operations
 
 The latest explicit request authorizes remaining verification, documentation, normal Git push, a new GitHub release and latest installation. Source `resources/Info.plist` targets **0.7.0 (build 9)**. The public and installed 0.6.0(8) app, source `e87e40e…`, remains the verified baseline until new publication and installation evidence is recorded. The earlier [UI approval](qa-review-ui-refresh.md) covers its exact 0.6 development inputs; the new version, documentation and release files require separate approval. Earlier no-deployment statements below describe the preceding request and are superseded for current work. Preserve the existing identity, keys, settings, automatic-update defaults, approved eight-item behavior and historical records.

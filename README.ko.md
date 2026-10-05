@@ -6,17 +6,13 @@
 
 화면 영역을 선택하면 이미지를 바로 클립보드에 복사하는 작은 macOS 메뉴 막대 앱입니다. **영역 캡처** 또는 **고정 영역**으로 캡처한 뒤 다른 앱에서 `⌘V`로 붙여 넣습니다.
 
-**Shot Clip 0.6.0(build 8)**이 최신 GitHub 개발자 프리뷰입니다. 2026-10-05 06:32:14 KST에 공개했습니다: [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.6.0/shotclip-0.6.0.zip) / [릴리스](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.6.0), 독립 검토된 소스 [`e87e40e`](https://github.com/kyungseok-lee/shotclip/commit/e87e40e1fe5e962c4e2f1d9bc5b1d356711b417d). **Apple Silicon(arm64) 전용 ad-hoc·미공증** 배포입니다.
+**Shot Clip 0.7.0(build 9)**이 최신 GitHub 개발자 프리뷰입니다. 2026-10-05 22:06:35 KST에 공개했습니다: [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.7.0/shotclip-0.7.0.zip) / [릴리스](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.7.0), 독립 검토된 소스 [`53bd5d2`](https://github.com/kyungseok-lee/shotclip/commit/53bd5d2ad05375be7a6296da4534815260a38d98). **Apple Silicon(arm64) 전용 ad-hoc·미공증** 배포입니다.
 
-공개된 0.6의 일반 / 권한 / 업데이트는 72pt 아이콘 rail과 묶음 native 설정 행을 사용합니다. 영역 캡처가 메뉴 첫 항목이며 기억된 모드에만 설정 단축키를 오른쪽 표준 열로 표시합니다. 새/열린 앱 소유 업데이트 창을 포함해 English / 한국어가 즉시 바뀝니다. 기존 crop+copy 아이콘과 합성 브랜드 이미지는 그대로이며 실제 화면을 포함하지 않습니다.
+권한 준비에 따른 캡처 메뉴, Roboto/Noto Sans KR, 여러 줄 여백, 정사각형 설정 버튼, 내용 크기 업데이트 창, Apple 참고 캡처 도구막대와 복사 후 썸네일/원본 보기·명시적 PNG 저장을 추가했습니다. 기존 정사각형 crop+copy 아이콘·설정·식별자·서명 업데이트 신뢰와 즉시 영어/한국어 전환은 유지합니다.
 
-독립 [소스 APPROVE](docs/shotclip/qa-review-0.6.0.md), 36개 core test, 언어별 앱 159개+업데이트 57개 문자열, 영어/한국어 light/dark의 inert 합성 export 368개를 확인했습니다. 공개 산출물 6개·서명 feed·설치 항목 171개 일치를 검증했습니다. 정상 로컬 실행에서 한국어→영어→한국어 즉시 전환과 실제 수동 업데이트 확인, 기존 결과 창의 즉시 현지화를 확인했습니다. 최신 검증 후 0.5 공개 산출물을 제거하고 로컬 60개 항목을 복구 가능한 휴지통으로 옮겼습니다. 실제 캡처·권한 허용·붙여 넣기·VoiceOver·macOS 14/Intel·자동 업데이트는 미검증이며 [QA 기록](docs/shotclip/qa-results.md#2026-10-05-060-publication-installation-and-cleanup)에 범위를 구분했습니다.
+독립 [후보 승인](docs/shotclip/qa-review-0.7.0.md)은36 test·544 합성 렌더·각1,236 updater/44 preview assertion·실제 native Save/오류/복구70 assertion을 포함합니다. 공개 자료6개/최신 서명 feed가 검토한 바이트와 일치합니다. 실제 **Sparkle 0.6.0(8)→0.7.0(9)** 다운로드·추출·설치/재실행을 통과했고 공개 ZIP과 설치175개 항목/서명/언어별 앱173+업데이트57 문자열이 일치합니다. 한국어 정상 실행에서 최신 버전/feed 결과와 명시적 권한 복구를 확인했습니다. 복구 가능한 정리와 정상 cold restart 뒤에도 정확한 설치/서명/언어 자료를 재확인했습니다. [독립 배포 판정](docs/shotclip/release-review-0.7.0.md)과 [배포 QA](docs/shotclip/qa-results.md#2026-10-05-070-publication-and-sparkle-installation)에 범위를 기록합니다.
 
-## 0.7.0 릴리스 후보
-
-현재 소스는 **0.7.0(build 9)**을 대상으로 합니다. 최신 명시적 요청은 남은 검증·문서·일반 Git push·새 GitHub 릴리스·최신 설치를 승인했습니다. 새 소스 commit/tag·게시·설치는 아직 대기이고 위 공개 ZIP은0.6.0(8)/`e87e40e`입니다. 앞선 UI 개발 [독립 승인](docs/shotclip/qa-review-ui-refresh.md)은 동결된0.6 개발 후보의36 core test·544 합성 렌더·실제 native PNG Save62 assertion 근거이며0.7 후보/버전/배포 자료 승인을 대신하지 않습니다. [현재 릴리스 QA](docs/shotclip/qa-results.md#2026-10-05-070-release-candidate)에 실제 결과를 이어서 기록합니다.
-
-추가 요청의 `.gitignore` 정리는37개 대상 ignore/29개 필수 경로 visible/기존 tracked78개 visible 검사를 통과했습니다. 알려진 OMC 임시 경로만 제외하고 SwiftPM 공유 설정·scheme·Package.resolved·폰트/라이선스/문서는 유지합니다. 관련 소스·릴리스·빌드·설치기 점검의 추가 blocker는 없으며 최종 후보 독립 판정은 `qa-review-0.7.0.md`에 별도로 기록합니다.
+검증 host의 화면 기록 권한이 없어 실제 캡처/붙여 넣기는 permission-SKIP입니다. 자동화한 전역 단축키 두 시도는 Carbon 동작을 확정하지 못했으며 제품 결함 판정이 아닙니다. 전체 접근성·macOS 14/Intel·깨끗한 계정 최초 실행은 미검증입니다. 이전 updater는 plain-text 릴리스 노트가 없어 fallback을 표시했고 노트 표시 통과는 주장하지 않습니다.
 
 화면 기록 권한이 없으면 설정만 여는 캡처 메뉴를 숨기고 **화면 기록 허용…**을 제공합니다. **Roboto + Noto Sans KR**를 앱에 포함하고 여러 줄 여백·정사각형 설정 버튼·내용에 맞는 업데이트 창·Apple 참고 캡처 도구막대를 적용합니다. 기존 정사각형 crop+copy 앱 아이콘은 보존합니다.
 
@@ -54,11 +50,11 @@ Escape는 취소, 방향키는 이동, Shift는 큰 이동, Option+방향키는 
 
 ad-hoc 프리뷰는 최초 실행이 차단될 수 있습니다. 출처를 확인한 후 가능한 경우 Apple의 앱별 **개인정보 보호 및 보안 → 확인 없이 열기** 절차를 따르세요. Gatekeeper 전체를 끄지 않습니다. Ed25519 서명은 feed/archive 무결성을 검증하며 Apple 공증이나 화면 기록 허용을 대신하지 않습니다. [Apple 최초 실행 안내](https://support.apple.com/en-us/102445), [업데이트 운영](docs/shotclip/update-operations.md)을 참고하세요.
 
-Sparkle 자동 확인은 선택 사항이며 **기본 OFF**입니다. [공개 서명 feed](https://github.com/kyungseok-lee/shotclip/releases/latest/download/appcast.xml)와 0.6.0 ZIP을 2026-10-05에 검증했습니다. 기존 Ed25519 키와 Keychain 계정 `sshot`은 유지합니다. 기본 Sparkle는 기존 `ShotClip.app` 위치에서 교체할 수 있으므로 새 `Shot Clip.app` 이름은 Shot Clip 수동 설치로 적용합니다. 과거 Sshot도 수동 설치하고 단축키/모드만 이전하며 권한·로그인 등록은 이전하지 않습니다. 실제 동일 ID 자동 업그레이드는 미실행입니다.
+Sparkle 자동 확인은 선택 사항이며 **기본 OFF**입니다. [공개 서명 feed](https://github.com/kyungseok-lee/shotclip/releases/latest/download/appcast.xml)와 0.7.0 ZIP을 2026-10-05에 검증했습니다. 기존 Ed25519 키와 Keychain 계정 `sshot`은 유지합니다. 기본 Sparkle는 기존 `ShotClip.app` 위치에서 교체할 수 있으므로 새 `Shot Clip.app` 이름은 Shot Clip 수동 설치로 적용합니다. 과거 Sshot도 수동 설치하고 단축키/모드만 이전하며 권한·로그인 등록은 이전하지 않습니다. 이 host에서 수동 확인으로 시작한 동일 ID 0.6→0.7 Sparkle 업그레이드는 통과했으며 다른 버전/플랫폼은 별도 검증입니다.
 
 ## 개인정보와 검증
 
-캡처·인코딩은 메모리에서 처리합니다. 클라우드·캡처 기록·자동 저장·OCR 기능은 추가하지 않으며 이미지·화면·앱/창 정보·클립보드 내용을 로그로 남기지 않습니다. 취소·거부·캡처/인코딩 실패는 클립보드를 변경하지 않습니다. 쓰기 복구에는 OS 원자성 한계가 있어 오류를 표시합니다. 0.7 릴리스 후보에서는 **저장…** 창을 승인했을 때만 원본을 선택한 위치에 저장하고 닫기·취소는 클립보드를 유지합니다.
+캡처·인코딩은 메모리에서 처리합니다. 클라우드·캡처 기록·자동 저장·OCR 기능은 추가하지 않으며 이미지·화면·앱/창 정보·클립보드 내용을 로그로 남기지 않습니다. 취소·거부·캡처/인코딩 실패는 클립보드를 변경하지 않습니다. 쓰기 복구에는 OS 원자성 한계가 있어 오류를 표시합니다. 0.7에서는 **저장…** 창을 승인했을 때만 원본을 선택한 위치에 저장하고 닫기·취소는 클립보드를 유지합니다.
 
 빠른 검증과 사용자 담당 캡처 절차는 [QA 계획](docs/shotclip/qa-plan.md)에 있습니다. 이 문서 작업은 실제 캡처·권한·붙여 넣기 통과를 주장하지 않습니다. harness는 합성 화면과 고유 named pasteboard를 쓰고 SKIP은 PASS가 아닙니다.
 
