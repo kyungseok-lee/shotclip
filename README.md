@@ -4,67 +4,30 @@
 
 ![Shot Clip — Capture. Copy. Continue.](docs/shotclip/assets/shotclip-hero.png)
 
-Capture part of your screen, then paste it wherever you need it. Shot Clip lives in the macOS menu bar and copies your selection straight to the clipboard.
+Capture part of your screen, copy it immediately, then paste wherever you need it. Shot Clip is a macOS menu bar app with two selection modes and an optional original-image preview and PNG export.
 
-**[Download Shot Clip 0.8.1 (ZIP)](https://github.com/kyungseok-lee/shotclip/releases/download/v0.8.1/shotclip-0.8.1.zip)** · [Latest release](https://github.com/kyungseok-lee/shotclip/releases/latest)
+**[Download the latest release](https://github.com/kyungseok-lee/shotclip/releases/latest)**
 
-Requires **macOS 14 or later and Apple Silicon (arm64)**. The current preview is ad-hoc signed and **not notarized by Apple**.
+Requires **macOS 14 or later and Apple Silicon (arm64)**. The public preview is ad-hoc signed and **not notarized by Apple**. macOS may block first launch, and an update may require Screen Recording permission again.
 
-## Install and allow capture
+## Get started
 
-1. Unzip the download, move **Shot Clip.app** to **Applications**, and open it there.
-2. If macOS blocks the first launch, check that you trust the download, then use **System Settings → Privacy & Security → Open Anyway** when offered after attempting to open it. See [Apple’s first-launch guidance](https://support.apple.com/en-us/102445).
-3. If the menu shows **Enable Screen Recording…**, choose it, then **Allow Screen Recording**. Allow Shot Clip in macOS **Screen Recording** settings; some versions call it **Screen & System Audio Recording**. If capture commands are already available, you can skip the permission steps and start capturing.
-4. Return to **Settings… → Access** and choose **Check Again**. If access is still unavailable, restart Shot Clip.
+1. Download the ZIP, unzip it, move **Shot Clip.app** to **Applications**, and open it there. If blocked, follow [Apple’s first-launch guidance](https://support.apple.com/en-us/102445).
+2. Choose **Enable Screen Recording…** when shown, allow Shot Clip in macOS settings, then use **Settings… → Access → Check Again**. Restart if necessary.
+3. Choose **Capture Area**, drag and release, then paste with **⌘V** in an image-capable app. In Preview, use **⌘N**.
 
-## Capture and paste
+The default shortcut **⌃⇧⌘5** opens your last capture mode while Shot Clip is running. **Fixed Region** lets you move/resize a selection and confirm with Return. Escape cancels without changing the clipboard. After copying, click the thumbnail to preview or save the original PNG.
 
-Open the Shot Clip menu and choose a mode:
+## Privacy and settings
 
-- **Capture Area:** drag across the area you want, then release to capture and copy it.
-- **Fixed Region:** move the selection or drag its handles, then press **Return** or **Capture**. It reuses the last selection during the current app session; the region resets after restarting.
+Captures and previews stay in memory; files are created only when you choose **Save…**. There is no automatic capture history or image upload. Only Screen Recording access is required. Update checks retrieve information from GitHub.
 
-Paste the copied image into an image-capable app with **⌘V**. In macOS Preview, **⌘N** creates an image from the clipboard.
+Settings contains **General** (shortcut, login start, English/Korean), **Access** (permission and recovery), and **Updates** (manual and optional automatic checks). English is the default. Automatic checks are off for a fresh installation; existing choices are retained.
 
-The default shortcut **⌃⇧⌘5** (Control–Shift–Command–5) opens your last used capture mode. The first mode is Capture Area; your mode choice and custom shortcut are remembered. Keep Shot Clip running for the shortcut to work. In **Settings… → General**, click the button showing the current shortcut beside **Capture shortcut**, then press a new combination. Use Command or Control together with Shift or Option; Escape cancels recording.
+## Documentation
 
-| During selection | Action |
-| --- | --- |
-| Escape | Cancel without changing the clipboard |
-| Return | Capture the selected region |
-| M | Switch between Capture Area and Fixed Region |
-| Arrow keys / Shift + arrows | Move by 1 / 10 points |
-| Option + arrows | Resize from the upper-right corner |
-| Tab / Shift + Tab | Move control focus forward / backward |
+- [App user guide](docs/user-guide.md): installation, capture controls, preview/save, settings and troubleshooting.
+- [Developer guide](docs/development/README.md): build, architecture, requirements, QA and release operations.
+- [Documentation index](docs/README.md): current guides and frozen historical evidence.
 
-Each selection stays within one display.
-
-## Preview or save
-
-After a successful copy, a thumbnail appears briefly at the lower right. Click it to open the original capture. **Fit** and **100%** change the viewing scale; **Save…** exports the original as a PNG to a location you choose.
-
-Dismissing the thumbnail, closing the preview, or canceling Save leaves the clipboard intact. You can still paste the copied image after the thumbnail disappears.
-
-## Settings
-
-Choose **Settings…** from the menu bar:
-
-- **General:** change the capture shortcut, enable **Launch at login**, or choose **English / 한국어**. English is the default; language changes apply immediately and retain your place in settings.
-- **Access:** check Screen Recording access, open macOS settings, or find restart and app-location recovery under **Troubleshooting…**.
-- **Updates:** choose **Check for Updates…** or enable **Automatically check for updates**. Automatic checks start off on a fresh installation; your existing choice is retained. Installing an update requires confirmation.
-
-## If something is not working
-
-- **Capture commands are missing:** choose **Enable Screen Recording…** and allow the running copy of Shot Clip. Return to Access, choose Check Again, then restart if needed.
-- **Access stopped working after an update:** the ad-hoc replacement may need permission again. In **Access → Troubleshooting… → Show in Finder**, confirm you are running the Applications copy, allow it in Screen Recording, and restart.
-- **The shortcut does nothing:** make sure Shot Clip is running. In General, click the current shortcut button to record a different combination if another app uses it.
-
-## Privacy
-
-Shot Clip keeps its thumbnail and preview in memory. It does not automatically save captures, keep a disk history, or upload captured images. Capture files are created only when you choose Save. Canceling a selection preserves the existing clipboard; a successful copy replaces it with the image.
-
-Only Screen Recording access is needed. Accessibility and Full Disk Access permissions are not required. Update checks contact GitHub to retrieve update information.
-
-## Development
-
-For building from source and the separate development QA app, see the [development guide](docs/shotclip/development-plan.md), [QA guide](docs/shotclip/qa-plan.md), and [documentation index](docs/shotclip/README.md).
+Korean documentation is maintained in [README.ko.md](README.ko.md). Detailed user and developer guides are maintained in English.

@@ -6,7 +6,7 @@
 
 화면의 필요한 부분을 캡처하고 바로 붙여 넣으세요. Shot Clip은 macOS 메뉴 막대에서 실행되며 선택한 영역을 클립보드로 복사합니다.
 
-**[Shot Clip 0.8.1 다운로드 (ZIP)](https://github.com/kyungseok-lee/shotclip/releases/download/v0.8.1/shotclip-0.8.1.zip)** · [최신 릴리스](https://github.com/kyungseok-lee/shotclip/releases/latest)
+**[최신 릴리스 다운로드](https://github.com/kyungseok-lee/shotclip/releases/latest)**
 
 **macOS 14 이상과 Apple Silicon(arm64)**이 필요합니다. 현재 프리뷰는 ad-hoc 서명이며 **Apple 공증을 받지 않았습니다**.
 
@@ -65,6 +65,10 @@ Shot Clip의 썸네일과 미리보기는 메모리에 유지됩니다. 캡처�
 
 화면 기록 권한만 필요하며 접근성·전체 디스크 접근 권한은 필요하지 않습니다. 업데이트 확인은 GitHub에 접속해 업데이트 정보를 가져옵니다.
 
-## 개발
+## 문서 안내
 
-소스 빌드와 별도 개발 QA 앱은 [개발 안내](docs/shotclip/development-plan.md), [QA 안내](docs/shotclip/qa-plan.md), [문서 목록](docs/shotclip/README.md)을 참고하세요.
+한국어 문서는 이 README에서 제공합니다. 자세한 사용법과 개발 문서는 영어로 관리합니다.
+
+- [앱 사용 안내](docs/user-guide.md): 설치, 캡처 조작, 원본 보기·저장, 설정과 문제 해결
+- [개발 안내](docs/development/README.md): 소스 빌드, 구조, 요구사항, QA와 배포
+- [문서 목록](docs/README.md): 현재 문서와 과거 검증 기록
