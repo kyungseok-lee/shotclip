@@ -10,8 +10,8 @@ if [[ "$release_mode" != development ]]; then
 elif [[ "$signing_identity" != '-' ]]; then
     release_fail 'Use explicit developer-id release mode for Developer ID signing.'
 fi
-version="${SHOTCLIP_VERSION:-0.6.0}"
-build_number="${SHOTCLIP_BUILD_NUMBER:-8}"
+version="${SHOTCLIP_VERSION:-0.7.0}"
+build_number="${SHOTCLIP_BUILD_NUMBER:-9}"
 [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ && "$build_number" =~ ^[1-9][0-9]*$ ]] || release_fail 'Version must be N.N.N; build number must be a positive integer.'
 if pgrep -x shotclip >/dev/null; then release_fail 'Quit Shot Clip before rebuilding its app bundle.'; fi
 swift build -c release

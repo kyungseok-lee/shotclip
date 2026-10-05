@@ -1,0 +1,4 @@
+# Preserve the exact upstream OFL license bytes. Only their existing trailing
+# spaces are exempt; authored files retain Git's normal whitespace checks.
+Sources/shotclip/Resources/Fonts/Roboto-OFL.txt whitespace=-blank-at-eol
+Sources/shotclip/Resources/Fonts/NotoSansKR-OFL.txt whitespace=-blank-at-eol

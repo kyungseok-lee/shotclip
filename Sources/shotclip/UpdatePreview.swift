@@ -35,7 +35,7 @@ enum UpdatePreview {
             L10n.select(.english); let english = driver.previewCaptions
             for language in [AppLanguage.korean, .english, .korean, .english] {
                 L10n.select(language)
-                try require(ObjectIdentifier(driver.window!) == identity && driver.window.isVisible && driver.window.frame == frame, phase + "-window")
+                try require(ObjectIdentifier(driver.window!) == identity && driver.window.isVisible && abs(driver.window.frame.minX - frame.minX) <= 1 && abs(driver.window.frame.maxY - frame.maxY) <= 1, phase + "-window")
                 try require(driver.screen == state && driver.visibleActions == actions && driver.previewButtonIdentities == controls, phase + "-state")
                 try require(driver.window.firstResponder === focus, phase + "-focus")
                 if noteState { try require(driver.previewNotesSelection == noteSelection && driver.previewNotesOrigin == noteOrigin, phase + "-notes-selection-scroll") }
@@ -43,15 +43,18 @@ enum UpdatePreview {
                 try require(driver.window.title == (language == .english ? "Shot Clip Updates" : "Shot Clip 업데이트"), phase + "-title")
                 try require(language == .english ? driver.previewCaptions == english : driver.previewCaptions != english, phase + "-captions")
                 if capture && (language == .korean || language == .english) {
-                    for (size, contentSize) in [("default", NSSize(width: 560, height: 430)), ("minimum", NSSize(width: 520, height: 390))] {
-                        driver.window.setContentSize(contentSize)
+                    for (size, contentSize) in [("default", driver.previewContentSize), ("minimum", driver.previewMinimumContentSize)] {
+                        driver.layoutForPreview(width: contentSize.width)
                         driver.window.contentView?.layoutSubtreeIfNeeded()
+                        if !driver.previewLayoutFits, let data = try? JSONSerialization.data(withJSONObject: driver.previewLayoutDiagnostics, options: [.sortedKeys]), let diagnostic = String(data: data, encoding: .utf8) {
+                            fputs("Updater geometry: " + diagnostic + "\n", stderr)
+                        }
                         try require(driver.previewLayoutFits, phase + "-" + size + "-layout")
                         let filename = "\(language.rawValue)-\(appearance.name.rawValue)-updater-\(phase)-\(size).png"
                         try render(driver.window.contentView!, to: output.appendingPathComponent(filename))
                         if !files.contains(filename) { files.append(filename) }
                     }
-                    driver.window.setFrame(frame, display: false)
+                    driver.layoutForPreview(width: driver.previewContentSize.width)
                 }
             }
         }
@@ -59,7 +62,7 @@ enum UpdatePreview {
         for allow in [false, true] {
             var replies: [SUUpdatePermissionResponse] = []
             driver.show(permissionRequest, reply: { replies.append($0) })
-            try transitions("permission")
+            try transitions("permission", capture: true)
             driver.clickPreviewAction(allow ? .allow : .deny); driver.clickPreviewAction(allow ? .allow : .deny)
             try require(replies.count == 1 && replies[0].automaticUpdateChecks == allow && !replies[0].sendSystemProfile && replies[0].automaticUpdateDownloading == nil, "permission-once")
         }
@@ -69,7 +72,7 @@ enum UpdatePreview {
         try require(permissionClose == 1, "permission-close-denies-once")
         var canceled = 0
         driver.showUserInitiatedUpdateCheck(cancellation: { canceled += 1 })
-        try transitions("checking")
+        try transitions("checking", capture: true)
         _ = driver.windowShouldClose(driver.window); driver.clickPreviewAction(.cancel)
         try require(canceled == 1 && driver.screen == nil && !driver.window.isVisible, "check-close-cancels-once")
         driver.showUserInitiatedUpdateCheck(cancellation: { canceled += 1 })
@@ -229,7 +232,8 @@ enum UpdatePreview {
         for reason in [SPUNoUpdateFoundReason.unknown, .onLatestVersion, .onNewerThanLatestVersion, .systemIsTooOld, .systemIsTooNew, .hardwareDoesNotSupportARM64] {
             var acknowledged = 0
             driver.showUpdateNotFoundWithError(NSError(domain: "Fixture", code: 0, userInfo: [SPUNoUpdateFoundReasonKey: NSNumber(value: reason.rawValue), NSLocalizedDescriptionKey: "Synthetic private diagnostic"]), acknowledgement: { acknowledged += 1 })
-            try transitions("no-update-\(reason.rawValue)")
+            try transitions("no-update-\(reason.rawValue)", capture: true)
+            try require(driver.previewContentSize.width == DesignTokens.noticeWidth && driver.previewContentSize.height <= 240, "compact-no-update-result")
             try require(!driver.previewCaptions.joined().contains("private diagnostic"), "no-update-error-redacted")
             driver.clickPreviewAction(.acknowledge); driver.clickPreviewAction(.acknowledge)
             try require(acknowledged == 1, "no-update-ack-once")
@@ -257,7 +261,7 @@ enum UpdatePreview {
         driver.dismissUpdateInstallation()
         let record: [String: Any] = ["case": "localized-updater-inert", "result": "PASS", "assertions": checks,
             "updatesKeyCount": keyCount, "requiredCallbacks": 16, "optionalCallbacks": 1, "publicSparkleCallbackFixtures": true, "fullAppcastMetadataViaPresentationAdapter": true, "realAppcastMappingTested": false,
-            "alreadyOpenWindowTransitions": ["en-ko-en-ko-en"], "progressRetained": true, "focusedControlRetained": true, "noteSelectionAndScrollRetained": true, "defaultAndMinimumLayoutsFit": true,
+            "alreadyOpenWindowTransitions": ["en-ko-en-ko-en"], "progressRetained": true, "focusedControlRetained": true, "noteSelectionAndScrollRetained": true, "defaultAndMinimumLayoutsFit": true, "contentMeasuredLayout": true, "noticeWidth": DesignTokens.noticeWidth, "releaseNotesHeight": DesignTokens.releaseNotesHeight,
             "oneShotReplies": true, "nativeButtonTargetActionDispatch": true, "informationalNeverInstalls": true, "htmlRendered": false,
             "updaterStarted": false, "networkUsed": false, "preferencesWritten": false,
             "keychainUsed": false, "clipboardTouched": false, "tccUsed": false,

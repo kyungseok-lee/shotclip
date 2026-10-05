@@ -53,7 +53,7 @@
 "settings.permissions" = "권한";
 "settings.updates" = "업데이트";
 "settings.capture_title" = "클립보드로 캡처";
-"settings.capture_description" = "영역을 고른 뒤 ⌘V로 붙여 넣으세요. 저장하거나 업로드하지 않습니다.";
+"settings.capture_description" = "캡처 뒤 ⌘V로 붙여 넣으세요. 썸네일을 클릭해 원본을 보거나 PNG로 저장할 수 있습니다.";
 "settings.permission_review" = "권한 확인…";
 "settings.shortcut" = "캡처 단축키";
 "settings.shortcut_change" = "변경…";
@@ -66,7 +66,7 @@
 "permission.review.title" = "● 화면 기록 권한 확인 필요";
 "permission.ready.explanation" = "현재 실행 중인 Shot Clip에 화면 기록 권한이 적용되어 있습니다. 일반에서 캡처 방식을 선택하세요.";
 "permission.review.explanation" = "현재 실행 중인 Shot Clip에는 화면 기록 권한이 적용되지 않았습니다. 허용 전·권한 거부·재시작 대기 중 어느 상태인지는 자동으로 구분할 수 없습니다.";
-"permission.reason" = "화면 기록 권한만 필요합니다. 캡처는 메모리에서만 처리합니다.";
+"permission.reason" = "화면 기록 권한만 필요합니다. 저장을 선택한 경우에만 파일을 만듭니다.";
 "permission.steps" = "1. 화면 기록 설정에서 현재 Shot Clip을 허용하세요.\n2. 돌아와서 ‘다시 확인’을 누르세요.\n3. 권한이 적용되지 않았다면 Shot Clip을 재시작하세요.";
 "permission.request" = "화면 기록 허용";
 "permission.settings" = "시스템 설정 열기…";
@@ -112,7 +112,7 @@
 "capture.fixed_help" = "마지막 영역을 조절한 뒤 Return을 눌러 복사합니다.";
 "menu.enable_access" = "화면 기록 허용…";
 "settings.capture_hint" = "드래그해 캡처 · 고정 영역은 마지막 선택을 기억합니다";
-"settings.capture_access_hint" = "캡처하려면 화면 기록 권한이 필요합니다. 캡처를 선택하여 설정을 확인하세요.";
+"settings.capture_access_hint" = "캡처하려면 화면 기록 권한이 필요합니다. 권한 설정에서 상태를 확인하세요.";
 "settings.shortcut_help" = "마지막으로 사용한 캡처 모드를 엽니다";
 "login.approval_action" = "승인…";
 "permission.settings_short" = "시스템 설정…";
@@ -162,3 +162,19 @@
 "shortcut.key.end" = "엔드";
 "shortcut.key.page_up" = "페이지 위로";
 "shortcut.key.page_down" = "페이지 아래로";
+
+/* 메모리 안의 캡처 썸네일과 원본 해상도 미리보기. */
+"capture.preview.thumbnail" = "클립보드에 복사됨";
+"capture.preview.open" = "캡처를 열어 확인하거나 저장";
+"capture.preview.dismiss" = "캡처 썸네일 닫기";
+"capture.preview.announcement" = "클립보드에 복사했습니다. 썸네일을 열어 확인하거나 저장할 수 있습니다.";
+"capture.preview.title" = "캡처 미리보기";
+"capture.preview.save" = "저장…";
+"capture.preview.save_title" = "캡처 저장";
+"capture.preview.save_action" = "저장";
+"capture.preview.fit" = "화면에 맞춤";
+"capture.preview.zoom" = "이미지 배율";
+"capture.preview.image" = "원본 캡처";
+"capture.preview.dimensions" = "%@ × %@ 픽셀";
+"capture.preview.save_failed" = "캡처를 저장하지 못했습니다";
+"capture.preview.save_failed_help" = "다른 위치를 선택해 다시 시도하세요. 캡처는 미리보기 창에 유지됩니다.";

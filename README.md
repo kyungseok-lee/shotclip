@@ -8,9 +8,19 @@ A small macOS menu bar app that captures a selected region straight to the clipb
 
 **Shot Clip 0.6.0 (build 8)** is the latest GitHub developer preview, published 2026-10-05 06:32:14 KST: [ZIP](https://github.com/kyungseok-lee/shotclip/releases/download/v0.6.0/shotclip-0.6.0.zip) / [release](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.6.0), from reviewed source [`e87e40e`](https://github.com/kyungseok-lee/shotclip/commit/e87e40e1fe5e962c4e2f1d9bc5b1d356711b417d). **Apple Silicon (arm64) only; ad-hoc signed; NOT notarized.**
 
-General / Access / Updates use a 72 pt icon rail and grouped native preference rows. Capture Area stays first; only the remembered mode shows the configured shortcut in the standard right-aligned menu column. English / 한국어 changes immediately, including new and already-visible app-owned update dialogs. The original crop-and-copy icon and synthetic brand illustrations are unchanged; they contain no captured screens.
+The published 0.6 presentation uses General / Access / Updates with a 72 pt icon rail and grouped native preference rows. Capture Area stays first; only the remembered mode shows the configured shortcut in the standard right-aligned menu column. English / 한국어 changes immediately, including new and already-visible app-owned update dialogs. The original crop-and-copy icon and synthetic brand illustrations are unchanged; they contain no captured screens.
 
 Independent [source APPROVE](docs/shotclip/qa-review-0.6.0.md), 36 core tests, 159 app + 57 update strings per language and four inert English/Korean light/dark runs (368 synthetic exports) support this release. Six public assets, the signed feed and all 171 installed payload entries were verified. Normal local runtime confirmed immediate Korean→English→Korean labels and a real manual update check; the existing result dialog also changed language live. Superseded 0.5 public assets were removed and 60 local items moved recoverably to Trash after verification. Actual capture, permission grants, paste, VoiceOver, macOS 14/Intel and automatic upgrades remain untested; see [QA results](docs/shotclip/qa-results.md#2026-10-05-060-publication-installation-and-cleanup).
+
+## 0.7.0 release candidate
+
+Current source targets **0.7.0 (build 9)**. The latest explicit request authorizes remaining verification, documentation, normal Git push, a new GitHub release and latest installation. Publication, the new source commit/tag and installation are still pending; the public ZIP above remains 0.6.0(8), source `e87e40e`. The earlier UI-development [independent approval](docs/shotclip/qa-review-ui-refresh.md) covers 36 core tests,544 synthetic rendered views and a 62-assertion actual native PNG Save gate on its frozen 0.6-development candidate. It is baseline evidence; the 0.7 candidate/version/release assets need separate review and proof. See [current release QA](docs/shotclip/qa-results.md#2026-10-05-070-release-candidate).
+
+The executor finished `.gitignore` hygiene checks:37 intended paths ignored,29 required paths visible and all78 tracked paths visible with `--no-index`; independent verification also passed43 ignored/33 visible cases. Specific transient OMC paths are ignored while shared SwiftPM schemes/configuration, `Package.resolved`, fonts/licenses and docs remain visible. Related source/release/build/installer inspection reported no additional blocker; the final candidate verdict is recorded separately in `qa-review-0.7.0.md`.
+
+When Screen Recording is unavailable, the menu offers **Enable Screen Recording…** and hides capture actions that would only open setup. The refresh uses bundled **Roboto + Noto Sans KR**, consistent multiline padding, truly square settings navigation buttons, content-sized update notices and an Apple-reference capture toolbar. Existing square crop-and-copy app artwork is preserved.
+
+After successful copy, a thumbnail appears at the capture screen’s lower-right. Click it to view the original at Fit or 100% and choose **Save…** to export PNG. Dismissing the thumbnail, closing the preview, or cancelling save keeps the image in the clipboard. Files are saved only when you choose a destination; no automatic storage or capture history is added. The capture instructions below describe the current source workflow.
 
 ## Build and run
 
@@ -29,7 +39,7 @@ The ZIP contains `Shot Clip.app`; install it at `/Applications/Shot Clip.app`. T
 
 ## Capture and language
 
-1. Open Shot Clip, then choose **Capture Area** or **Fixed Region**, or use `⌃⇧⌘5` (configurable) to open the last selection mode. New users default to Capture Area; valid saved modes/shortcuts are retained.
+1. Open Shot Clip. If access is unavailable, choose **Enable Screen Recording…**; when ready, choose **Capture Area** or **Fixed Region**, or use `⌃⇧⌘5` (configurable) to open the last selection mode. New users default to Capture Area; valid saved modes/shortcuts are retained.
 2. Grant **Screen Recording** when you choose to capture. Return to Shot Clip and check again; restart if needed.
 3. Move/resize Fixed Region and press Return or Capture. In Drag Region, release a valid drag to capture.
 4. Paste with `⌘V` in an image-capable app; Preview can open the clipboard image with `⌘N`.
@@ -48,7 +58,7 @@ Sparkle automatic checks are opt-in and **OFF by default**. The [public signed f
 
 ## Privacy and verification
 
-Capture/encode happens in memory; Shot Clip adds no cloud, capture history, storage, or OCR. It does not log captured images, screen content, app/window information, or clipboard contents. Cancellation, denial, and capture/encoding failure leave the clipboard unchanged. Clipboard write recovery has OS atomicity limits; failures are reported.
+Capture/encode happens in memory; Shot Clip adds no cloud, capture history, automatic storage, or OCR. In the0.7 release candidate, only accepting the **Save…** panel writes the original to your chosen location; closing or cancelling preserves the clipboard. It does not log captured images, screen content, app/window information, or clipboard contents. Cancellation, denial, and capture/encoding failure leave the clipboard unchanged. Clipboard write recovery has OS atomicity limits; failures are reported.
 
 Fast checks and user-owned capture steps are in the [QA plan](docs/shotclip/qa-plan.md). Capture GUI/permission/paste checks have **not** been passed by this documentation work. The opt-in harness uses synthetic content and a unique named pasteboard; SKIP is not PASS.
 

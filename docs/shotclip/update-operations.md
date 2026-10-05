@@ -2,6 +2,26 @@
 
 [Product decision](product-plan.md) · [QA plan](qa-plan.md) · [Results](qa-results.md) · [한국어](#한국어)
 
+## 2026-10-05 0.7.0 release candidate operations
+
+The latest explicit request authorizes remaining verification, documentation, normal Git push, a new GitHub release and latest installation. Source `resources/Info.plist` targets **0.7.0 (build 9)**. The public and installed 0.6.0(8) app, source `e87e40e…`, remains the verified baseline until new publication and installation evidence is recorded. The earlier [UI approval](qa-review-ui-refresh.md) covers its exact 0.6 development inputs; the new version, documentation and release files require separate approval. Earlier no-deployment statements below describe the preceding request and are superseded for current work. Preserve the existing identity, keys, settings, automatic-update defaults, approved eight-item behavior and historical records.
+
+| Current release gate | Required evidence before claiming completion |
+| --- | --- |
+| New version/build | 0.7.0/build 9 in source and sealed bundle; strictly newer than public 0.6.0/build 8 |
+| Reviewed source | Separate version/docs/release-text approval, scoped commit/new `v0.7.0`, normal push and remote main/peeled-tag equality; no old tag replacement |
+| Clean preparation | Reviewed clean source/tag, explicit ad-hoc mode, existing Keychain `sshot` key; ZIP, signed appcast, manifest, checksums and bilingual notes/README. Same public key, no export/rotation/regeneration |
+| Prepared artifact approval | Exact source/version/build, signature, archive/feed/hash/ZIP/resource/font/license/icon checks and independent exact-set approval |
+| Latest publication | Publisher check, actual uploaded byte comparison/publication/latest flag, redownload all six public assets and canonical latest feed; compare approved bytes and signatures. Pending 0.7 URLs are not live downloads |
+| Upgrade/installation | Attempt actual 0.6(8)→0.7(9) Sparkle upgrade before manual replacement when feasible; otherwise exact latest canonical transactional installation. Distinguish updater success from manual install, with payload/signature/resources/PID/path/runtime and post-replacement permission evidence |
+| Final record/push | Actual source/tag/URLs/checksums/public/install/runtime/upgrade/limits, independent final docs review and normal docs push/equality |
+
+The [latest-deployment rule](../../AGENTS.md#최신-배포-요청-규칙) supplies existing authorization; no repeat deployment permission is required within this scope. The source release text now describes the eight-item 0.7 behavior; notes are generated during clean preparation. Existing 0.6 operation records below remain unchanged, including their historical cleanup/limitations. Do not delete or overwrite existing releases/tags merely to complete the new version; preserve history and identify any authorized cleanup separately.
+
+Repository-hygiene steering adds a professional `.gitignore` update and thorough related source/release/build/installer inspection before push and publication. The executor froze only `.gitignore` and passed37 intended ignored paths/29 required visible paths/all78 tracked paths visible with `--no-index`; independent verification also passed43 ignored/33 visible cases. Only known transient OMC paths are ignored; shared SwiftPM schemes/configuration, `Package.resolved`, fonts/licenses and docs remain visible. Read-only related release/build/installer inspection reported no additional blocker; the final candidate/source verdict is recorded separately in `qa-review-0.7.0.md`. This preserves required source/resources/docs, locally retained ignored QA proof and existing user edits.
+
+한국어: 최신 요청으로 남은 검증·문서·일반 push·새 GitHub 릴리스·최신 설치를 진행합니다. 소스는 0.7.0(build 9)이며 새 게시/설치 전까지 공개·설치 0.6.0(8)/`e87e40e`는 기존 기준입니다. 앞선 UI 독립 승인은 당시 동결 입력에만 적용하고 새 후보/자료 검토와 실제 결과를 구분합니다. 아래 과거 요청의 배포 제외 문구는 당시 기록이며 현재 요청으로 대체됩니다. 기존 식별자·설정·키·자동 확인 기본값과 여덟 구현·과거 증거를 보존합니다.
+
 Published 2026-10-05 06:32:14 KST (2026-10-04T21:32:14Z): [Shot Clip v0.6.0](https://github.com/kyungseok-lee/shotclip/releases/tag/v0.6.0), the latest public GitHub **ad-hoc developer preview; NOT notarized; arm64 only**. Developer ID is a separate route. All six public assets and canonical feed match approved preparation. Exact 171-entry installed payload/signature/resources, bounded normal local live-language/manual no-update runtime and final recoverable cleanup passed. An actual same-ID Sparkle upgrade remains unrun.
 
 | Item | Current contract |

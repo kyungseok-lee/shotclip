@@ -1,10 +1,12 @@
 import AppKit
+import CoreText
 import CaptureCore
 import Darwin
 
 // Inert view fixtures, not desktop screenshots. This path runs before preference
 // preparation and AppDelegate, and never starts a hotkey, updater, capture or TCC.
 enum UIPreview {
+    private static var settingsLayoutEvidence = [[String: Any]]()
     @MainActor static func run() -> Never {
         let arguments = CommandLine.arguments
         guard let index = arguments.firstIndex(of: "--ui-preview"), arguments.indices.contains(index + 1),
@@ -34,7 +36,7 @@ enum UIPreview {
         }
         let window = previewWindow!
         let permission = { (ready: Bool) in PermissionStatus(isReady: ready, isAdHoc: true,
-            bundleURL: URL(fileURLWithPath: "/Applications/Shot Clip.app"), version: "0.6.0 (8)") }
+            bundleURL: URL(fileURLWithPath: "/Applications/Shot Clip.app"), version: "0.7.0 (9)") }
         let prefix = "\(language.rawValue)-\(appearanceName)"
         let shortcutDisplay = CaptureMenu.shortcutDisplay(Shortcut())
         var files: [String] = []
@@ -55,6 +57,11 @@ enum UIPreview {
                 let record: [String: Any] = ["case": "ui-preview-updater-only", "result": "PASS", "files": updateFiles, "preferencesWritten": false, "captureTested": false, "clipboardTouched": false]
                 print(String(data: try JSONSerialization.data(withJSONObject: record, options: .sortedKeys), encoding: .utf8)!); fflush(stdout); exit(0)
             }
+            let typography = AppTypography.auditEvidence
+            guard typography["result"] as? String == "PASS" else { throw PreviewError.behavior }
+            try FileManager.default.createDirectory(at: output, withIntermediateDirectories: true)
+            try JSONSerialization.data(withJSONObject: typography, options: [.sortedKeys, .prettyPrinted])
+                .write(to: output.appendingPathComponent("\(prefix)-typography.json"))
             try verifyOverlayKeyboardInvariants()
             phase = "shortcut-menu-dispatch"
             try verifyShortcutAndMenuDispatch()
@@ -63,6 +70,9 @@ enum UIPreview {
             for (ready, state) in [(true, "ready"), (false, "access-needed")] {
                 window.refresh(permission: permission(ready), shortcut: shortcutDisplay, login: L10n.text("login.off"),
                     update: L10n.text("updates.ready"), updateText: { L10n.text("updates.ready") }, automaticEnabled: false, configured: true, canCheck: true)
+                guard window.previewControls.updateStatus.isHidden,
+                      (window.previewControls.checkUpdates.accessibilityHelp() ?? "").isEmpty,
+                      (window.previewControls.automatic.accessibilityHelp() ?? "").isEmpty else { throw PreviewError.behavior }
                 for (section, label) in [(SettingsWindow.Section.general, "general"), (.permission, "access"), (.updates, "updates")] {
                     window.select(section)
                     for (minimum, size) in [(false, "default"), (true, "minimum")] {
@@ -93,6 +103,22 @@ enum UIPreview {
             filename = "\(prefix)-updates-unconfigured.png"
             try render(window.contentView!, to: output.appendingPathComponent(filename)); files.append(filename)
             try renderMinimum("updates-unconfigured")
+            window.refresh(permission: permission(true), shortcut: shortcutDisplay, login: L10n.text("login.off"),
+                update: L10n.format("updates.initialization_failed", "1001"), updateText: { L10n.format("updates.initialization_failed", "1001") }, automaticEnabled: false, configured: false, canCheck: false)
+            filename = "\(prefix)-updates-error.png"
+            try render(window.contentView!, to: output.appendingPathComponent(filename)); files.append(filename)
+            try renderMinimum("updates-error")
+            // A bounded synthetic status guarantees 3+ lines in the nested
+            // manual-check label at both widths, independently of current copy.
+            let longStatus = language == .english
+                ? "The update check could not finish. Try again when your connection is available.\nIf this continues, check your connection and retry later.\nYour current version can still be used."
+                : "업데이트 확인을 완료하지 못했습니다. 연결을 확인한 뒤 다시 시도해 주세요.\n문제가 계속되면 연결 상태를 확인하고 나중에 다시 시도해 주세요.\n현재 버전은 계속 사용할 수 있습니다."
+            window.refresh(permission: permission(true), shortcut: shortcutDisplay, login: L10n.text("login.off"),
+                update: longStatus, automaticEnabled: false, configured: true, canCheck: true)
+            filename = "\(prefix)-updates-long-status.png"
+            try render(window.contentView!, to: output.appendingPathComponent(filename)); files.append(filename)
+            try renderMinimum("updates-long-status")
+            try verifyGeometryRejectsClipping(window)
             let fakeActions = CaptureMenu.Actions(area: #selector(InertMenuReceiver.area(_:)), fixed: #selector(InertMenuReceiver.fixed(_:)),
                 permission: #selector(InertMenuReceiver.noop(_:)), settings: #selector(InertMenuReceiver.noop(_:)), updates: #selector(InertMenuReceiver.noop(_:)), quit: #selector(InertMenuReceiver.noop(_:)))
             for (mode, label) in [(SelectionMode.drag, "area"), (.mask, "fixed")] {
@@ -105,6 +131,14 @@ enum UIPreview {
                 let scene = OverlayFixture(frame: NSRect(x: 0, y: 0, width: 960, height: 600)); scene.appearance = appearance
                 let selection = SelectionView(frame: scene.bounds); selection.mode = mode
                 selection.rect = mode == .drag ? .zero : NSRect(x: 220, y: 190, width: 430, height: 250)
+                selection.layoutSubtreeIfNeeded()
+                let toolbar = selection.previewToolbar
+                guard toolbar.bounds.height == DesignTokens.toolbarHeight, toolbar.bounds.width <= 340,
+                      abs(toolbar.frame.midX - scene.bounds.midX) < 1,
+                      selection.previewToolbarControls.allSatisfy({ control in
+                          let rect = control.convert(control.bounds, to: toolbar)
+                          return toolbar.bounds.insetBy(dx: -1, dy: -1).contains(rect)
+                      }) else { throw PreviewError.behavior }
                 selection.cancel = empty; selection.selection = { _ in }; scene.addSubview(selection)
                 filename = "\(prefix)-overlay-\(label).png"
                 try render(scene, to: output.appendingPathComponent(filename)); files.append(filename)
@@ -114,13 +148,20 @@ enum UIPreview {
                 initial: language, appearance: appearance, output: output, files: &files)
             phase = "updater-fixture"
             files += try UpdatePreview.run(output: output, appearance: appearance)
+            phase = "capture-preview-fixture"
+            files += try CapturePreviewQA.run(output: output, appearance: appearance, nativeSavePanel: arguments.contains("--native-save-panel"))
             phase = "preference-preservation"
             guard NSDictionary(dictionary: preferencesBefore).isEqual(to: defaults.persistentDomain(forName: SafeDefaultsMigration.currentDomain) ?? [:]) else { throw PreviewError.behavior }
+            let geometryFile = "\(prefix)-settings-geometry.json"
+            try JSONSerialization.data(withJSONObject: settingsLayoutEvidence, options: [.sortedKeys, .prettyPrinted])
+                .write(to: output.appendingPathComponent(geometryFile))
             let record: [String: Any] = ["case": "ui-preview", "result": "PASS", "language": language.rawValue,
                 "appearance": appearanceName, "files": files, "nativeMenuPopupTested": false,
-                "captureTested": false, "clipboardTouched": false, "preferencesWritten": false, "overlayKeyboardInvariants": true, "sameProcessLanguageTransitions": ["en-to-ko", "ko-to-en"],
+                "captureTested": false, "generalClipboardTouched": false, "namedClipboardTested": true, "preferencesWritten": false, "overlayKeyboardInvariants": true, "sameProcessLanguageTransitions": ["en-to-ko", "ko-to-en"],
                 "settingsWindowPreserved": true, "settingsControlStatePreserved": true, "selectedSectionPreserved": true, "scrollOriginPreserved": true, "focusedControlPreserved": true,
                 "settingsGeometryVerified": true, "settingsRootSizes": [[720, 560], [620, 480]], "settingsMinimumViewportHeight": 424,
+                "settingsFullTextGeometryVerified": true, "googleFontsBundledAndShapingVerified": true, "squareNavigationTiles": true, "compactCaptureToolbarGeometry": true, "settingsMinimumContentPadding": 12, "settingsGeometryReport": geometryFile,
+                "settingsGeometryNegativeCases": ["truncatedNestedStatus", "staleNestedWrappingWidth", "missingRowPadding"],
                 "nativeMenuKeyEquivalents": true, "appMenuCaptions": true, "overlayLanguageRefresh": true, "sparkleDialogsTested": false, "localizedUpdateDriverFixture": true, "sparkleLiveUpgradeTested": false, "inertNativeMenuDispatch": true, "captureSingleFlight": true, "carbonRoutingTested": false, "currentKeyboardLayoutOnly": true, "alternateKeyboardLayoutsTested": false, "inputSourceSwitchTested": false]
             let data = try JSONSerialization.data(withJSONObject: record, options: .sortedKeys)
             print(String(data: data, encoding: .utf8)!); fflush(stdout)
@@ -236,8 +277,8 @@ enum UIPreview {
                   controls.loginLabel.stringValue == (destination == .english ? "Launch at login" : "로그인 시 시작"),
                   controls.automaticLabel.stringValue == (destination == .english ? "Automatically check for updates" : "자동으로 업데이트 확인") else { throw PreviewError.behavior }
             for mode in [SelectionMode.drag, .mask] {
-                let menu = CaptureMenu.make(ready: false, mode: mode, shortcut: Shortcut(), canCheck: false, target: nil, actions: actions)
-                let app = CaptureMenu.applicationMenu(ready: false, mode: mode, shortcut: Shortcut(), canCheck: false, target: nil, actions: actions)
+                let menu = CaptureMenu.make(ready: true, mode: mode, shortcut: Shortcut(), canCheck: false, target: nil, actions: actions)
+                let app = CaptureMenu.applicationMenu(ready: true, mode: mode, shortcut: Shortcut(), canCheck: false, target: nil, actions: actions)
                 guard let capture = app.items[1].submenu,
                       let current = menu.item(withTag: mode == .drag ? CaptureMenu.areaTag : CaptureMenu.fixedTag),
                       let other = menu.item(withTag: mode == .drag ? CaptureMenu.fixedTag : CaptureMenu.areaTag),
@@ -308,6 +349,27 @@ enum UIPreview {
         view.layoutSubtreeIfNeeded()
         if let window = view.window as? SettingsWindow {
             let size = view.bounds.size
+            guard window.previewRailButtons.allSatisfy({ abs($0.bounds.width - DesignTokens.controlSize) <= 1 && abs($0.bounds.height - DesignTokens.controlSize) <= 1 }) else {
+                throw PreviewError.textGeometry(output.lastPathComponent, "rail sizes \(window.previewRailButtons.map { $0.bounds.size })")
+            }
+            let heading = window.previewControls.pageTitle
+            let availableTitleWidth = size.width - DesignTokens.railWidth - DesignTokens.controlSize - DesignTokens.settingsInset
+            guard abs(heading.alignmentRect(forFrame: heading.frame).width - availableTitleWidth) <= 0.5 else {
+                throw PreviewError.textGeometry(output.lastPathComponent, "header width \(heading.bounds.width) / available \(availableTitleWidth)")
+            }
+            for field in [heading, window.previewVersionValue] where !field.isHiddenOrHasHiddenAncestor {
+                let drawing = field.cell!.drawingRect(forBounds: field.bounds)
+                let line = CTLineCreateWithAttributedString(field.attributedStringValue)
+                let fullWidth = CGFloat(CTLineGetTypographicBounds(line, nil, nil, nil))
+                let storage = NSTextStorage(attributedString: field.attributedStringValue)
+                let layout = NSLayoutManager(); let container = NSTextContainer(containerSize: NSSize(width: drawing.width, height: 100_000))
+                container.lineFragmentPadding = 0; container.lineBreakMode = field.cell!.lineBreakMode
+                storage.addLayoutManager(layout); layout.addTextContainer(container); layout.ensureLayout(for: container)
+                var lines = 0; layout.enumerateLineFragments(forGlyphRange: layout.glyphRange(for: container)) { _, _, _, _, _ in lines += 1 }
+                guard lines == 1, drawing.width + 0.5 >= fullWidth, drawing.height + 0.5 >= layout.usedRect(for: container).height else {
+                    throw PreviewError.textGeometry(output.lastPathComponent, "single-line header/version height \(drawing.height), width \(drawing.width), neededWidth \(fullWidth), lines \(lines)")
+                }
+            }
             let geometry = window.previewGeometry
             guard [NSSize(width: 720, height: 560), NSSize(width: 620, height: 480)].contains(size),
                   window.contentLayoutRect.size == size,
@@ -319,6 +381,7 @@ enum UIPreview {
                   !window.previewScrollView.isHidden,
                   geometry.controls.allSatisfy({ $0.bounds.width > 0 && $0.bounds.height > 0 && !$0.isHiddenOrHasHiddenAncestor })
             else { throw PreviewError.settingsGeometry(root: size, pages: geometry.pages.size, viewport: geometry.viewport.size) }
+            try verifySettingsTextGeometry(window, filename: output.lastPathComponent)
         }
         view.effectiveAppearance.performAsCurrentDrawingAppearance {
             view.layoutSubtreeIfNeeded()
@@ -346,10 +409,136 @@ enum UIPreview {
         guard let data = encoded else { throw PreviewError.render }
         try data.write(to: output)
     }
+    @MainActor private static func verifyGeometryRejectsClipping(_ window: SettingsWindow) throws {
+        window.layoutIfNeeded(); window.contentView?.layoutSubtreeIfNeeded()
+        let field = window.previewControls.updateStatus
+        guard let row = window.previewLayout.rows.first(where: { field.isDescendant(of: $0.view) }) else { throw PreviewError.behavior }
+        func expectRejection(_ reason: String, mutate: () -> Void, restore: () -> Void) throws {
+            mutate()
+            defer { restore() }
+            do { try verifySettingsTextGeometry(window, filename: "geometry-negative", recordEvidence: false) }
+            catch PreviewError.textGeometry(_, let actual) where actual.hasPrefix(reason) { return }
+            throw PreviewError.behavior
+        }
+        let frame = field.frame
+        try expectRejection("full-text", mutate: { field.setFrameSize(NSSize(width: frame.width, height: 1)) }, restore: { field.frame = frame })
+        let width = field.preferredMaxLayoutWidth
+        try expectRejection("stale-wrapping-width", mutate: { field.preferredMaxLayoutWidth = width + 20 }, restore: { field.preferredMaxLayoutWidth = width })
+        let label = row.content[0]; let labelFrame = label.frame
+        try expectRejection("row-padding", mutate: { label.setFrameOrigin(NSPoint(x: labelFrame.minX, y: 0)) }, restore: { label.frame = labelFrame })
+        try verifySettingsTextGeometry(window, filename: "geometry-restored", recordEvidence: false)
+    }
+    @MainActor private static func verifySettingsTextGeometry(_ window: SettingsWindow, filename: String, recordEvidence: Bool = true) throws {
+        let tolerance: CGFloat = 0.5
+        var textMetrics = [[String: Any]]()
+        func descendants(_ view: NSView) -> [NSView] { [view] + view.subviews.flatMap(descendants) }
+        func rowContent(_ view: NSView) -> [NSView] {
+            // Native control internals can draw shadows beyond the public
+            // alignment rectangle; they are not app-owned label containers.
+            [view] + (view is NSControl ? [] : view.subviews.flatMap(rowContent))
+        }
+        func contains(_ outer: NSRect, _ inner: NSRect) -> Bool {
+            outer.insetBy(dx: -tolerance, dy: -tolerance).contains(inner)
+        }
+        let document = window.previewScrollView.documentView!
+        for stack in rowContent(document).compactMap({ $0 as? NSStackView }) where stack.orientation == .horizontal && !stack.isHiddenOrHasHiddenAncestor {
+            let children = stack.arrangedSubviews.filter { !$0.isHiddenOrHasHiddenAncestor }
+            let rects = children.map { stack.convert($0.alignmentRect(forFrame: $0.frame), from: $0.superview!) }
+            guard let first = rects.first, let last = rects.last,
+                  abs(first.minX - stack.edgeInsets.left) <= tolerance,
+                  abs(last.maxX - (stack.bounds.maxX - stack.edgeInsets.right)) <= tolerance else { throw PreviewError.textGeometry(filename, "unused-nested-label-width") }
+            for (left, right) in zip(rects, rects.dropFirst()) {
+                guard abs(right.minX - left.maxX - stack.spacing) <= tolerance else { throw PreviewError.textGeometry(filename, "excess-nested-label-gap") }
+            }
+        }
+        // Sections, cards, nested label columns and footer neighbors all obey
+        // arranged order. This catches overlaps outside the selected controls.
+        for stack in descendants(document).compactMap({ $0 as? NSStackView }) where stack.orientation == .vertical && !stack.isHiddenOrHasHiddenAncestor {
+            var previousBottom: CGFloat?
+            for child in stack.arrangedSubviews where !child.isHiddenOrHasHiddenAncestor {
+                let rect = stack.convert(child.alignmentRect(forFrame: child.frame), from: child.superview!)
+                let top = stack.isFlipped ? rect.minY : stack.bounds.maxY - rect.maxY
+                let bottom = top + rect.height
+                guard contains(stack.bounds, rect), previousBottom == nil || top + tolerance >= previousBottom! else { throw PreviewError.textGeometry(filename, "section-or-nested-stack-overlap") }
+                previousBottom = bottom
+            }
+        }
+        for field in rowContent(document).compactMap({ $0 as? NSTextField }) where !field.isHiddenOrHasHiddenAncestor && !field.stringValue.isEmpty {
+            guard let cell = field.cell else { throw PreviewError.textGeometry(filename, "missing-cell") }
+            let drawing = cell.drawingRect(forBounds: field.bounds)
+            let storage = NSTextStorage(attributedString: field.attributedStringValue)
+            let layout = NSLayoutManager(); let container = NSTextContainer(containerSize: NSSize(width: drawing.width, height: CGFloat.greatestFiniteMagnitude))
+            container.lineFragmentPadding = 0; container.lineBreakMode = cell.lineBreakMode
+            storage.addLayoutManager(layout); layout.addTextContainer(container); layout.ensureLayout(for: container)
+            let glyphs = layout.glyphRange(for: container)
+            let used = layout.usedRect(for: container)
+            let needed = cell.cellSize(forBounds: NSRect(x: 0, y: 0, width: field.bounds.width, height: CGFloat.greatestFiniteMagnitude))
+            var lines = 0
+            layout.enumerateLineFragments(forGlyphRange: glyphs) { _, _, _, _, _ in lines += 1 }
+            guard drawing.width > 0, glyphs.length == layout.numberOfGlyphs,
+                  field.bounds.height + tolerance >= needed.height, drawing.height + tolerance >= used.height,
+                  contains(field.superview!.bounds, field.alignmentRect(forFrame: field.frame)) else {
+                throw PreviewError.textGeometry(filename, "full-text height \(field.bounds.height) / cell \(needed.height) / text \(used.height) / drawing \(drawing.height), width \(field.bounds.width), lines \(lines), field \(field.frame), parent \(field.superview!.bounds)")
+            }
+            if cell.wraps {
+                guard abs(field.preferredMaxLayoutWidth - field.bounds.width) <= tolerance else { throw PreviewError.textGeometry(filename, "stale-wrapping-width") }
+            }
+            if window.previewLayout.headings.contains(where: { $0 === field }) {
+                guard lines == 1, abs(field.alignmentRect(forFrame: field.frame).width - (field.superview!.bounds.width - 24)) <= tolerance else { throw PreviewError.textGeometry(filename, "heading-width-or-wrapping") }
+            }
+            textMetrics.append(["width": field.bounds.width, "height": field.bounds.height, "fullTextHeight": needed.height,
+                "drawingHeight": drawing.height, "glyphHeight": used.height, "lines": lines, "characters": field.stringValue.count])
+        }
+        var rowMetrics = [[String: Any]]()
+        for row in window.previewLayout.rows where !row.view.isHiddenOrHasHiddenAncestor {
+            guard contains(document.bounds, row.view.convert(row.view.bounds, to: document)) else { throw PreviewError.textGeometry(filename, "row-outside-document") }
+            var minimumPadding = CGFloat.greatestFiniteMagnitude
+            for content in row.content where !content.isHiddenOrHasHiddenAncestor {
+                for child in rowContent(content) where !child.isHiddenOrHasHiddenAncestor {
+                    // Native buttons/switches include ornamentation outside
+                    // their alignment bounds. Full text-field bounds remain
+                    // strict, including every nested multiline label.
+                    let rect = child is NSControl && !(child is NSTextField)
+                        ? child.superview!.convert(child.alignmentRect(forFrame: child.frame), to: row.view)
+                        : child.convert(child.bounds, to: row.view)
+                    let padding = min(rect.minY - row.view.bounds.minY, row.view.bounds.maxY - rect.maxY)
+                    guard padding + tolerance >= 12, contains(row.view.bounds, rect) else { throw PreviewError.textGeometry(filename, "row-padding \(padding), \(type(of: child)), rect \(rect), row \(row.view.bounds)") }
+                    minimumPadding = min(minimumPadding, padding)
+                }
+            }
+            rowMetrics.append(["height": row.view.bounds.height, "minimumPadding": minimumPadding])
+        }
+        for card in window.previewLayout.cards where !card.view.isHiddenOrHasHiddenAncestor {
+            var previous: NSRect?
+            for child in card.content where !child.isHiddenOrHasHiddenAncestor {
+                // Use a flipped comparison space even though the native card
+                // is unflipped, so arranged order has monotonically increasing y.
+                let rect = child.superview!.convert(child.alignmentRect(forFrame: child.frame), to: card.view)
+                let top = card.view.bounds.maxY - rect.maxY
+                let bottom = card.view.bounds.maxY - rect.minY
+                guard contains(card.view.bounds, rect), previous == nil || top + tolerance >= previous!.maxY else { throw PreviewError.textGeometry(filename, "card-or-separator-overlap: card \(card.view.bounds), child \(rect), previous \(String(describing: previous))") }
+                previous = NSRect(x: rect.minX, y: top, width: rect.width, height: bottom - top)
+            }
+        }
+        for footer in window.previewLayout.footers where !footer.view.isHiddenOrHasHiddenAncestor {
+            let rect = footer.content.convert(footer.content.bounds, to: footer.view)
+            guard rect.minY - footer.view.bounds.minY + tolerance >= 12,
+                  footer.view.bounds.maxY - rect.maxY + tolerance >= 12,
+                  contains(document.bounds, footer.view.convert(footer.view.bounds, to: document)) else { throw PreviewError.textGeometry(filename, "footer-padding-or-document") }
+        }
+        if filename.contains("long-status") {
+            guard textMetrics.contains(where: { ($0["lines"] as? Int ?? 0) >= 3 }), !window.previewControls.updateStatus.isHidden else { throw PreviewError.textGeometry(filename, "missing-long-status") }
+        }
+        if recordEvidence {
+            settingsLayoutEvidence.append(["file": filename, "section": window.selectedSection.rawValue, "rows": rowMetrics, "labels": textMetrics,
+                "root": [window.contentView!.bounds.width, window.contentView!.bounds.height], "documentHeight": document.bounds.height, "minimumRequiredPadding": 12])
+        }
+    }
     private enum PreviewError: Error {
         case render, behavior, numberMapping, printableMapping, specialMapping, fallbackMapping, menuDispatch, captureSingleFlight
         case settingsGeometry(root: NSSize, pages: NSSize, viewport: NSSize)
         case functionMapping(code: UInt32, visual: String)
+        case textGeometry(String, String)
     }
 }
 
@@ -380,7 +569,7 @@ private final class MenuFixture: NSView {
                 line.move(to: NSPoint(x: 12, y: y + 8)); line.line(to: NSPoint(x: bounds.width - 12, y: y + 8)); line.stroke()
             } else {
                 let plainTitle = item.title
-                (plainTitle as NSString).draw(at: NSPoint(x: 41, y: y), withAttributes: [.font: NSFont.menuFont(ofSize: 13), .foregroundColor: NSColor.labelColor])
+                (plainTitle as NSString).draw(at: NSPoint(x: 41, y: y), withAttributes: [.font: menuModel.font ?? DesignTokens.body, .foregroundColor: NSColor.labelColor])
                 var hint = ""
                 if !item.keyEquivalent.isEmpty {
                     let flags = item.keyEquivalentModifierMask
@@ -389,7 +578,7 @@ private final class MenuFixture: NSView {
                         + item.keyEquivalent.uppercased()
                 }
                 if !hint.isEmpty {
-                    let attributes: [NSAttributedString.Key: Any] = [.font: NSFont.menuFont(ofSize: 12), .foregroundColor: NSColor.secondaryLabelColor]
+                    let attributes: [NSAttributedString.Key: Any] = [.font: DesignTokens.caption, .foregroundColor: NSColor.secondaryLabelColor]
                     let width = (hint as NSString).size(withAttributes: attributes).width
                     (hint as NSString).draw(at: NSPoint(x: bounds.width - width - 18, y: y), withAttributes: attributes)
                 }

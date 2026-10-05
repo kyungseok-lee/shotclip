@@ -43,9 +43,9 @@ import CaptureCore
     private var downloadedNotes: String?
     private(set) var visibleActions: [Action] = []
     private(set) var window: NSWindow!
-    private let heading = NSTextField(wrappingLabelWithString: "")
-    private let summary = NSTextField(wrappingLabelWithString: "")
-    private let detail = NSTextField(wrappingLabelWithString: "")
+    private let heading = WrappingLabel(wrappingLabelWithString: "")
+    private let summary = WrappingLabel(wrappingLabelWithString: "")
+    private let detail = WrappingLabel(wrappingLabelWithString: "")
     private let progress = NSProgressIndicator()
     private let notes = NSTextView()
     private let notesScroll = NSScrollView()
@@ -53,6 +53,12 @@ import CaptureCore
     private var actionButtons: [Action: NSButton] = [:]
     private let icon = NSImageView()
     private let notesLink = NSButton(title: "", target: nil, action: nil)
+    private let root = NSStackView()
+    private let headerLabels = NSStackView()
+    private var headingHeight: NSLayoutConstraint!
+    private var summaryHeight: NSLayoutConstraint!
+    private var detailHeight: NSLayoutConstraint!
+    private var preferredSize = NSSize(width: DesignTokens.noticeWidth, height: 180)
 
     init(presentWindows: Bool = true, openLink: @escaping (URL) -> Void = { NSWorkspace.shared.open($0) }) {
         self.presentWindows = presentWindows
@@ -72,58 +78,100 @@ import CaptureCore
         String(format: text(key), locale: L10n.language.locale, arguments: arguments)
     }
     private func buildWindow() {
-        window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 560, height: 430),
-            styleMask: [.titled, .closable, .resizable], backing: .buffered, defer: false)
+        window = NSWindow(contentRect: NSRect(origin: .zero, size: preferredSize),
+            styleMask: [.titled, .closable], backing: .buffered, defer: false)
         window.isReleasedWhenClosed = false; window.delegate = self
-        window.minSize = window.frameRect(forContentRect: NSRect(x: 0, y: 0, width: 520, height: 390)).size; window.backgroundColor = DesignTokens.windowSurface
+        window.backgroundColor = DesignTokens.windowSurface
         let content = NSView(); window.contentView = content
-        let root = NSStackView(); root.orientation = .vertical; root.alignment = .leading; root.spacing = 14
+        root.orientation = .vertical; root.alignment = .leading; root.spacing = DesignTokens.group
         root.translatesAutoresizingMaskIntoConstraints = false; content.addSubview(root)
         NSLayoutConstraint.activate([
-            root.leadingAnchor.constraint(equalTo: content.leadingAnchor, constant: 24),
-            root.trailingAnchor.constraint(equalTo: content.trailingAnchor, constant: -24),
-            root.topAnchor.constraint(equalTo: content.topAnchor, constant: 22),
-            root.bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: -20)
+            root.leadingAnchor.constraint(equalTo: content.leadingAnchor, constant: DesignTokens.panelInset),
+            root.trailingAnchor.constraint(equalTo: content.trailingAnchor, constant: -DesignTokens.panelInset),
+            root.topAnchor.constraint(equalTo: content.topAnchor, constant: DesignTokens.panelInset),
+            root.bottomAnchor.constraint(lessThanOrEqualTo: content.bottomAnchor, constant: -DesignTokens.panelInset)
         ])
         icon.image = NSImage(systemSymbolName: "arrow.down.app", accessibilityDescription: nil)
         icon.contentTintColor = .controlAccentColor; icon.imageScaling = .scaleProportionallyUpOrDown
         icon.widthAnchor.constraint(equalToConstant: 38).isActive = true; icon.heightAnchor.constraint(equalToConstant: 38).isActive = true
         heading.font = DesignTokens.section; summary.font = DesignTokens.body; summary.textColor = DesignTokens.secondaryText
-        let labels = NSStackView(views: [heading, summary]); labels.orientation = .vertical; labels.alignment = .leading; labels.spacing = 5
-        let header = NSStackView(views: [icon, labels]); header.spacing = 14; header.alignment = .top
+        headerLabels.orientation = .vertical; headerLabels.alignment = .leading; headerLabels.spacing = DesignTokens.tight
+        for label in [heading, summary] {
+            headerLabels.addArrangedSubview(label)
+            label.widthAnchor.constraint(equalTo: headerLabels.widthAnchor).isActive = true
+            label.setContentCompressionResistancePriority(.required, for: .vertical)
+        }
+        headingHeight = heading.heightAnchor.constraint(equalToConstant: 18); headingHeight.isActive = true
+        summaryHeight = summary.heightAnchor.constraint(equalToConstant: 20); summaryHeight.isActive = true
+        let header = NSStackView(views: [icon, headerLabels]); header.spacing = DesignTokens.group; header.alignment = .top; header.distribution = .fill
+        headerLabels.widthAnchor.constraint(equalTo: header.widthAnchor, constant: -38 - DesignTokens.group).isActive = true
+        headerLabels.setHuggingPriority(.defaultLow, for: .horizontal)
         root.addArrangedSubview(header); header.widthAnchor.constraint(equalTo: root.widthAnchor).isActive = true
         progress.style = .bar; progress.minValue = 0; progress.maxValue = 1
         root.addArrangedSubview(progress); progress.widthAnchor.constraint(equalTo: root.widthAnchor).isActive = true
+        progress.heightAnchor.constraint(equalToConstant: 12).isActive = true
         detail.font = DesignTokens.caption; detail.textColor = DesignTokens.secondaryText
         root.addArrangedSubview(detail); detail.widthAnchor.constraint(equalTo: root.widthAnchor).isActive = true
+        detailHeight = detail.heightAnchor.constraint(equalToConstant: 16); detailHeight.isActive = true
         notes.isEditable = false; notes.isSelectable = true; notes.isRichText = false
         notes.font = DesignTokens.body; notes.textColor = DesignTokens.primaryText; notes.backgroundColor = DesignTokens.cardSurface
-        notes.textContainerInset = NSSize(width: 12, height: 12)
+        notes.textContainerInset = NSSize(width: DesignTokens.group, height: DesignTokens.group)
         notes.isVerticallyResizable = true; notes.isHorizontallyResizable = false
         notes.autoresizingMask = [.width]; notes.textContainer?.widthTracksTextView = true
         notesScroll.documentView = notes; notesScroll.hasVerticalScroller = true
         notesScroll.borderType = .bezelBorder
-        notesScroll.setContentHuggingPriority(NSLayoutConstraint.Priority(1), for: .vertical)
         root.addArrangedSubview(notesScroll); notesScroll.widthAnchor.constraint(equalTo: root.widthAnchor).isActive = true
-        notesScroll.heightAnchor.constraint(greaterThanOrEqualToConstant: 60).isActive = true
-        notesLink.bezelStyle = .rounded; notesLink.target = self; notesLink.action = #selector(pressed(_:)); notesLink.identifier = NSUserInterfaceItemIdentifier(Action.notes.rawValue)
+        notesScroll.heightAnchor.constraint(equalToConstant: DesignTokens.releaseNotesHeight).isActive = true
+        notesLink.bezelStyle = .rounded; notesLink.font = DesignTokens.body
+        notesLink.target = self; notesLink.action = #selector(pressed(_:)); notesLink.identifier = NSUserInterfaceItemIdentifier(Action.notes.rawValue)
         root.addArrangedSubview(notesLink)
-        let spacer = NSView(); root.addArrangedSubview(spacer); spacer.setContentHuggingPriority(.defaultLow, for: .vertical)
-        buttons.orientation = .horizontal; buttons.alignment = .centerY; buttons.spacing = 8
+        buttons.orientation = .horizontal; buttons.alignment = .centerY; buttons.spacing = DesignTokens.inline
         let footer = NSView(); root.addArrangedSubview(footer)
         footer.widthAnchor.constraint(equalTo: root.widthAnchor).isActive = true
+        footer.heightAnchor.constraint(equalToConstant: 32).isActive = true
         footer.addSubview(buttons); buttons.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             buttons.trailingAnchor.constraint(equalTo: footer.trailingAnchor),
             buttons.leadingAnchor.constraint(greaterThanOrEqualTo: footer.leadingAnchor),
-            buttons.topAnchor.constraint(equalTo: footer.topAnchor),
-            buttons.bottomAnchor.constraint(equalTo: footer.bottomAnchor)
+            buttons.centerYAnchor.constraint(equalTo: footer.centerYAnchor)
         ])
         for action in [Action.cancel, .install, .dismiss, .skip, .allow, .deny, .learnMore, .retry, .acknowledge, .notes] {
             let button = NSButton(title: "", target: self, action: #selector(pressed(_:)))
-            button.bezelStyle = .rounded; button.identifier = NSUserInterfaceItemIdentifier(action.rawValue)
+            button.bezelStyle = .rounded; button.font = DesignTokens.body
+            button.identifier = NSUserInterfaceItemIdentifier(action.rawValue)
+            button.setContentHuggingPriority(.required, for: .horizontal)
+            button.setContentCompressionResistancePriority(.required, for: .horizontal)
             actionButtons[action] = button
         }
+    }
+    private func labelHeight(_ field: WrappingLabel, width: CGFloat) -> CGFloat {
+        let physicalWidth = width + field.alignmentRectInsets.left + field.alignmentRectInsets.right
+        field.preferredMaxLayoutWidth = physicalWidth
+        return field.requiredHeight(forWidth: physicalWidth)
+    }
+    private func layoutContent(width: CGFloat) -> NSSize {
+        let innerWidth = width - 2 * DesignTokens.panelInset
+        let labelWidth = innerWidth - 38 - DesignTokens.group
+        headingHeight.constant = labelHeight(heading, width: labelWidth)
+        summaryHeight.constant = labelHeight(summary, width: labelWidth)
+        detailHeight.constant = labelHeight(detail, width: innerWidth)
+        var heights = [max(38, headingHeight.constant + DesignTokens.tight + summaryHeight.constant)]
+        if !progress.isHidden { heights.append(12) }
+        if !detail.isHidden { heights.append(detailHeight.constant) }
+        if !notesScroll.isHidden { heights.append(DesignTokens.releaseNotesHeight) }
+        if !notesLink.isHidden { heights.append(notesLink.intrinsicContentSize.height) }
+        if buttons.superview?.isHidden != true { heights.append(32) }
+        return NSSize(width: width, height: ceil(2 * DesignTokens.panelInset + heights.reduce(0, +) + CGFloat(heights.count - 1) * DesignTokens.group))
+    }
+    private var buttonRowWidth: CGFloat {
+        ceil(buttons.arrangedSubviews.reduce(CGFloat(0)) { $0 + $1.intrinsicContentSize.width }
+            + CGFloat(max(0, buttons.arrangedSubviews.count - 1)) * DesignTokens.inline + 2 * DesignTokens.panelInset)
+    }
+    private func fitWindowToContent() {
+        let width = max(notesScroll.isHidden ? DesignTokens.noticeWidth : DesignTokens.updateWidth, buttonRowWidth)
+        preferredSize = layoutContent(width: width)
+        window.setContentSize(preferredSize)
+        window.contentView?.layoutSubtreeIfNeeded()
     }
     private func begin(_ screen: Screen, pending: Pending? = nil) {
         // A new Sparkle callback supersedes the previous stage's cancellation.
@@ -222,7 +270,8 @@ import CaptureCore
             if action == .cancel || action == .dismiss || action == .deny { button.keyEquivalent = "\u{1b}" }
             if previousActions != actions { buttons.addArrangedSubview(button) }
         }
-        window.contentView?.layoutSubtreeIfNeeded()
+        buttons.superview?.isHidden = actions.allSatisfy { $0 == .notes }
+        fitWindowToContent()
         if screen == .found && notes.string == previousNoteText {
             notes.selectedRanges = noteSelection
             notesScroll.contentView.scroll(to: noteOrigin); notesScroll.reflectScrolledClipView(notesScroll.contentView)
@@ -359,6 +408,12 @@ import CaptureCore
     func showUpdateInFocus() { if presentWindows && screen != nil { window.makeKeyAndOrderFront(nil); NSApp.activate(ignoringOtherApps: true) } }
     // Inert fixture snapshots contain only synthetic app-owned captions/state.
     var previewCaptions: [String] { [window.title, heading.stringValue, summary.stringValue, detail.stringValue, notes.string] + visibleActions.compactMap { $0 == .notes ? notesLink.title : actionButtons[$0]?.title } }
+    var previewContentSize: NSSize { preferredSize }
+    var previewMinimumContentSize: NSSize { layoutContent(width: max(notesScroll.isHidden ? 380 : 480, buttonRowWidth)) }
+    func layoutForPreview(width: CGFloat) {
+        let size = layoutContent(width: width)
+        window.setContentSize(size); window.contentView?.layoutSubtreeIfNeeded()
+    }
     var previewProgress: Double { progress.doubleValue }
     var previewButtonIdentities: [ObjectIdentifier] { visibleActions.compactMap { $0 == .notes ? ObjectIdentifier(notesLink) : actionButtons[$0].map(ObjectIdentifier.init) } }
     var previewNotesSelection: NSRange { notes.selectedRange() }
@@ -368,6 +423,23 @@ import CaptureCore
         notes.setSelectedRange(NSRange(location: 8, length: 12))
         notesScroll.contentView.scroll(to: NSPoint(x: 0, y: 80)); notesScroll.reflectScrolledClipView(notesScroll.contentView)
         window.makeFirstResponder(notes)
+    }
+    var previewLayoutDiagnostics: [String: Any] {
+        guard let content = window.contentView else { return ["missingContent": true] }
+        let controls: [(String, NSView)] = [("heading", heading), ("summary", summary), ("detail", detail), ("notesLink", notesLink)]
+            + visibleActions.filter { $0 != .notes }.compactMap { action in actionButtons[action].map { (action.rawValue, $0 as NSView) } }
+        let metrics = controls.filter { !$0.1.isHiddenOrHasHiddenAncestor }.map { name, control -> [String: Any] in
+            let rect = control.convert(control.bounds, to: content)
+            var record: [String: Any] = ["control": name, "bounds": [control.bounds.width, control.bounds.height], "contentRect": [rect.minX, rect.minY, rect.width, rect.height]]
+            if let button = control as? NSButton { record["cellWidth"] = button.cell?.cellSize.width ?? 0 }
+            if let field = control as? NSTextField {
+                record["preferredWidth"] = field.preferredMaxLayoutWidth
+                record["cellHeight"] = field.cell?.cellSize(forBounds: NSRect(x: 0, y: 0, width: field.bounds.width, height: 100_000)).height ?? 0
+                record["textHeight"] = (field as? WrappingLabel)?.requiredHeight(forWidth: field.bounds.width) ?? 0
+            }
+            return record
+        }
+        return ["contentSize": [content.bounds.width, content.bounds.height], "controls": metrics]
     }
     var previewLayoutFits: Bool {
         guard let content = window.contentView else { return false }
@@ -380,7 +452,10 @@ import CaptureCore
             }
             guard let field = control as? NSTextField, let cell = field.cell else { return true }
             let required = cell.cellSize(forBounds: NSRect(x: 0, y: 0, width: field.bounds.width, height: 100_000))
-            return field.bounds.height + 1 >= required.height
+            let glyph = (field.stringValue as NSString).boundingRect(with: NSSize(width: max(1, field.bounds.width - 4), height: 100_000),
+                options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [.font: field.font ?? DesignTokens.body]).height
+            return field.bounds.height + 1 >= max(required.height, glyph + 2)
+                && abs(field.preferredMaxLayoutWidth - field.bounds.width) <= 1
         }
     }
     func clickPreviewAction(_ action: Action) {

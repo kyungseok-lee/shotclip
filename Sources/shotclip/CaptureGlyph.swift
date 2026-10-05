@@ -114,7 +114,7 @@ enum CaptureMenu {
             guard let item = menu.item(withTag: tag) else { continue }
             item.attributedTitle = nil; item.keyEquivalent = ""; item.keyEquivalentModifierMask = []
             item.allowsAutomaticKeyEquivalentLocalization = false
-            if tag == (mode == .drag ? areaTag : fixedTag) {
+            if !item.isHidden, tag == (mode == .drag ? areaTag : fixedTag) {
                 item.keyEquivalent = presentation.equivalent ?? ""; item.keyEquivalentModifierMask = presentation.modifiers
                 item.toolTip = presentation.spoken
             } else { item.toolTip = nil }
@@ -122,7 +122,7 @@ enum CaptureMenu {
     }
     static func make(ready: Bool, mode: SelectionMode, shortcut: Shortcut, presentation: ShortcutPresentation? = nil, canCheck: Bool,
                      target: AnyObject?, actions: Actions) -> NSMenu {
-        let menu = NSMenu(); menu.autoenablesItems = false; menu.minimumWidth = 288
+        let menu = NSMenu(); menu.font = DesignTokens.body; menu.autoenablesItems = false; menu.minimumWidth = 288
         func item(_ key: String, action: Selector, symbol: String? = nil) -> NSMenuItem {
             let item = NSMenuItem(title: L10n.text(key), action: action, keyEquivalent: "")
             item.target = target
@@ -144,14 +144,25 @@ enum CaptureMenu {
         updates.tag = updatesTag; updates.isEnabled = canCheck; menu.addItem(updates)
         menu.addItem(.separator())
         let quit = item("menu.quit", action: actions.quit, symbol: "power"); quit.tag = quitTag; quit.keyEquivalent = "q"; quit.keyEquivalentModifierMask = .command; menu.addItem(quit)
+        applyReadiness(to: menu, ready: ready)
         applyShortcut(to: menu, mode: mode, presentation: presentation ?? self.presentation(shortcut))
         return menu
     }
+    // Menus can remain open while macOS changes permission. Hide their existing
+    // capture rows before dispatch; recovery remains an explicitly named action.
+    static func applyReadiness(to menu: NSMenu, ready: Bool) {
+        let area = menu.item(withTag: areaTag)
+        area?.isHidden = !ready; menu.item(withTag: fixedTag)?.isHidden = !ready
+        if let area, let index = menu.items.firstIndex(of: area), menu.items.indices.contains(index + 2), menu.items[index + 2].isSeparatorItem {
+            menu.items[index + 2].isHidden = !ready
+        }
+        menu.item(withTag: permissionTag)?.isHidden = ready
+    }
     static func applicationMenu(ready: Bool, mode: SelectionMode, shortcut: Shortcut, presentation: ShortcutPresentation? = nil, canCheck: Bool,
                                 target: AnyObject?, actions: Actions) -> NSMenu {
-        let main = NSMenu()
+        let main = NSMenu(); main.font = DesignTokens.body
         let appItem = NSMenuItem(title: L10n.text("app.name"), action: nil, keyEquivalent: ""); main.addItem(appItem)
-        let app = NSMenu(title: appItem.title); appItem.submenu = app; app.autoenablesItems = false
+        let app = NSMenu(title: appItem.title); app.font = DesignTokens.body; appItem.submenu = app; app.autoenablesItems = false
         for (key, action, equivalent) in [("menu.settings", actions.settings, ","), ("menu.updates", actions.updates, "")] {
             let item = NSMenuItem(title: L10n.text(key), action: action, keyEquivalent: equivalent)
             item.target = target; item.keyEquivalentModifierMask = .command
@@ -167,13 +178,13 @@ enum CaptureMenu {
         let captureItem = NSMenuItem(title: L10n.text("menu.capture"), action: nil, keyEquivalent: ""); main.addItem(captureItem)
         captureItem.submenu = make(ready: ready, mode: mode, shortcut: shortcut, presentation: presentation, canCheck: canCheck, target: target, actions: actions)
         let editItem = NSMenuItem(title: L10n.text("menu.edit"), action: nil, keyEquivalent: ""); main.addItem(editItem)
-        let edit = NSMenu(title: editItem.title); editItem.submenu = edit
+        let edit = NSMenu(title: editItem.title); edit.font = DesignTokens.body; editItem.submenu = edit
         for (key, action, equivalent) in [("menu.undo", "undo:", "z"), ("menu.redo", "redo:", "z"), ("menu.cut", "cut:", "x"), ("menu.copy", "copy:", "c"), ("menu.paste", "paste:", "v"), ("menu.select_all", "selectAll:", "a")] {
             let item = NSMenuItem(title: L10n.text(key), action: Selector(action), keyEquivalent: equivalent)
             item.keyEquivalentModifierMask = key == "menu.redo" ? [.command, .shift] : .command; edit.addItem(item)
         }
         let windowItem = NSMenuItem(title: L10n.text("menu.window"), action: nil, keyEquivalent: ""); main.addItem(windowItem)
-        let windows = NSMenu(title: windowItem.title); windowItem.submenu = windows
+        let windows = NSMenu(title: windowItem.title); windows.font = DesignTokens.body; windowItem.submenu = windows
         windows.addItem(NSMenuItem(title: L10n.text("menu.minimize"), action: #selector(NSWindow.performMiniaturize(_:)), keyEquivalent: "m"))
         windows.addItem(NSMenuItem(title: L10n.text("menu.close"), action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w"))
         return main

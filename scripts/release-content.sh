@@ -23,9 +23,12 @@ Distribution: $status
 
 ## What's new
 
-- General, Access and Updates settings now use an icon sidebar, grouped rows and native switches and popup controls.
-- English and Korean apply immediately to settings, menus, capture controls and app-owned update dialogs without restarting Shot Clip.
-- Capture, Settings and Quit shortcuts share the native menu key-equivalent column. The configured shortcut follows the remembered capture mode and current keyboard layout.
+- Capture Area and Fixed Region appear when Screen Recording is ready; unavailable access offers an explicit Enable Screen Recording action.
+- Roboto and Noto Sans KR provide consistent English/Korean typography, complete multiline spacing and square settings navigation highlights. Existing square app artwork is preserved.
+- Update dialogs size to their visible content while retaining progress, replies and live English/Korean text.
+- The compact capture toolbar follows Apple's screenshot layout with close, capture modes and Capture.
+- After a successful copy, a lower-right thumbnail opens the original at Fit or 100%. Save exports the original PNG only to a destination you choose; cancel, close and dismissal preserve the clipboard.
+- No automatic capture storage, capture history or upload is added. Both complete font licenses are included.
 - Existing capture behavior, preferences, bundle identifier and signed-update trust are retained; automatic checks remain opt-in.
 
 Quit the previous app before moving Shot Clip.app to Applications.
@@ -46,9 +49,12 @@ Shot Clip은 macOS 14 이상에서 선택 영역을 캡처하여 클립보드에
 
 ### 변경 사항
 
-- 일반·권한·업데이트 설정에 아이콘 사이드바, 그룹 행, native 스위치와 팝업을 적용했습니다.
-- 앱을 재시작하지 않고 영어·한국어가 설정, 메뉴, 캡처 제어 및 앱의 업데이트 안내에 바로 적용됩니다.
-- 캡처·설정·종료 단축키를 native 메뉴 키 표시 열로 통일했습니다. 저장한 단축키는 마지막 캡처 모드와 현재 키보드 배열을 따릅니다.
+- 화면 기록이 준비된 경우 영역 캡처·고정 영역을 표시하고, 권한이 없으면 명시적인 화면 기록 허용 동작을 제공합니다.
+- Roboto와 Noto Sans KR로 영어·한국어 글꼴과 여러 줄 여백을 통일하고 설정 버튼/선택 표시를 정사각형으로 맞췄습니다. 기존 정사각형 앱 아이콘은 보존했습니다.
+- 업데이트 창은 표시 내용에 맞춰 크기를 조절하며 진행률·응답과 즉시 영어/한국어 전환을 유지합니다.
+- Apple 스크린샷 구성을 참고한 작은 캡처 도구막대에 닫기·캡처 모드·캡처 동작을 배치했습니다.
+- 복사 성공 뒤 우측 하단 썸네일을 클릭하면 원본을 Fit 또는100%로 봅니다. 저장은 사용자가 선택한 위치에 원본 PNG만 내보내며 취소·닫기·썸네일 해제는 클립보드를 유지합니다.
+- 자동 캡처 저장·이력·업로드는 추가하지 않았고 두 글꼴의 전체 라이선스를 포함합니다.
 - 기존 캡처 동작·설정·번들 식별자와 서명 업데이트 신뢰를 유지하며 자동 확인은 사용자가 선택하여 켭니다.
 
 이전 앱을 종료한 뒤 Shot Clip.app을 응용 프로그램 폴더로 이동하세요.

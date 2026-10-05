@@ -2,6 +2,24 @@
 
 [Design system](design-system.md) · [Development plan](development-plan.md) · [Technical evidence](technical-validation.md) · [한국어](#한국어)
 
+## 2026-10-05 0.7.0 release boundary
+
+The latest explicit request authorizes remaining verification, documentation, normal Git push, a new GitHub release and latest installation. Source `resources/Info.plist` targets **0.7.0 (build 9)**. The public and installed 0.6.0(8) app, source `e87e40e…`, remains the verified baseline until new publication and installation evidence is recorded. The earlier [UI approval](qa-review-ui-refresh.md) covers its exact 0.6 development inputs; the new version, documentation and release files require separate approval. Earlier no-deployment statements below describe the preceding request and are superseded for current work. Preserve the existing identity, keys, settings, automatic-update defaults, approved eight-item behavior and historical records.
+
+Architecture and D01–D16 remain unchanged by the version target: the capture transaction commits the clipboard before presentation; preview/export never touches the clipboard and writes only after native `.OK`. Stable `dev.shotclip.app`, executable `shotclip`, canonical `/Applications/Shot Clip.app`, existing Ed25519 trust and one public updater are retained. New artifacts must carry the reviewed 0.7 source commit/build 9; manual installation and an actual Sparkle upgrade have separate evidence. [Current QA](qa-results.md#2026-10-05-070-release-candidate) records permission and runtime boundaries.
+
+Repository-hygiene steering adds a professional `.gitignore` update and thorough related source/release/build/installer inspection before push and publication. The executor froze only `.gitignore` and passed37 intended ignored paths/29 required visible paths/all78 tracked paths visible with `--no-index`; independent verification also passed43 ignored/33 visible cases. Only known transient OMC paths are ignored; shared SwiftPM schemes/configuration, `Package.resolved`, fonts/licenses and docs remain visible. Read-only related release/build/installer inspection reported no additional blocker; the final candidate/source verdict is recorded separately in `qa-review-0.7.0.md`. This preserves required source/resources/docs, locally retained ignored QA proof and existing user edits.
+
+한국어: 최신 요청으로 남은 검증·문서·일반 push·새 GitHub 릴리스·최신 설치를 진행합니다. 소스는 0.7.0(build 9)이며 새 게시/설치 전까지 공개·설치 0.6.0(8)/`e87e40e`는 기존 기준입니다. 앞선 UI 독립 승인은 당시 동결 입력에만 적용하고 새 후보/자료 검토와 실제 결과를 구분합니다. 아래 과거 요청의 배포 제외 문구는 당시 기록이며 현재 요청으로 대체됩니다. 기존 식별자·설정·키·자동 확인 기본값과 여덟 구현·과거 증거를 보존합니다.
+
+## Unreleased UI and preview boundary
+
+The current refresh extends presentation without changing the capture transaction or update trust. Production menu construction omits unavailable Capture Area/Fixed Region commands and exposes Access. After a successful clipboard commit, the app passes the original `CGImage` and the capture screen’s visible frame to `CapturePreviewController`; a nonactivating panel anchors at lower-right. Thumbnail timeout/close, preview close and replacement release image references. Clicking opens the same original image with Fit/100%; native PNG save encodes that original, then atomically writes only after `.OK`. Save cancel/failure keeps the clipboard and existing preview usable. Four normal language/appearance runs passed 44 production-preview assertions each using synthetic images/private pasteboards; final sealed development-bundle checks and a 62-assertion native PNG save gate passed; author/root evidence is complete; the independent verdict is recorded separately in `qa-review-ui-refresh.md`.
+
+A separate Korean-dark native gate passed 62 assertions, including actual Save-button acceptance, cancel, closing/replacing with a pending sheet, original-pixel equality and private pasteboard retention. Unique-ID QA payload preserves the unsigned executable/all resources. Production error-alert UI and the default-button-cell route remain unrun.
+
+한국어: 캡처/클립보드 트랜잭션과 업데이트 신뢰는 유지하고 성공 뒤 원본·캡처 화면 좌표만 미리보기 계층에 전달합니다. 우측 하단 비활성 썸네일과 원본 창은 클립보드를 건드리지 않으며 native 저장 창의 명시적 승인 뒤에만 PNG를 저장합니다. timeout·닫기·새 캡처는 메모리 참조를 해제하고 최종 fixture/독립 검토는 별도입니다.
+
 SwiftPM/AppKit menu bar app with ScreenCaptureKit still-image capture on macOS 14+. Actual support and runtime evidence are recorded separately in [QA results](qa-results.md).
 
 ## Boundaries and source map
@@ -16,6 +34,8 @@ SwiftPM/AppKit menu bar app with ScreenCaptureKit still-image capture on macOS 1
 | Permissions | Effective access and signing recovery presentation; `Sources/shotclip/PermissionStatus.swift`, `Sources/CaptureCore/PermissionPresentation.swift` |
 | Updates | Sparkle and fail-closed feed/key configuration; `Sources/shotclip/UpdateService.swift`, `Sources/CaptureCore/UpdateConfiguration.swift` |
 | Update dialog presentation (0.6) | One retained public `SPUUserDriver`; live labels, state and one-shot callbacks; `Sources/shotclip/LocalizedUpdateDriver.swift`, en/ko `Updates.strings`; inert fixtures in `Sources/shotclip/UpdatePreview.swift` |
+| Preview and export | Clipboard-independent thumbnail/original window and explicit PNG save; `Sources/shotclip/CapturePreview.swift` |
+| Design foundations | Process-local bundled Roboto/Noto Sans KR, semantic colors and component metrics; `Sources/shotclip/DesignTokens.swift` |
 | QA fixture | Opt-in synthetic screen and metadata-only test; `Sources/shotclip/SelfTest.swift`, `Sources/shotclip-fixture/main.swift` |
 
 Localization and allowlisted migration have testable seams in `Sources/CaptureCore/Localization.swift` and `Preferences.swift`; bilingual tables belong under `Sources/shotclip/Resources`.
@@ -36,7 +56,7 @@ Display name Shot Clip; unchanged bundle `dev.shotclip.app`, executable `shotcli
 
 English defaults; selecting saved `en` / `ko` immediately replaces the lock-protected explicit `AppLocalization` snapshot and posts a synchronous language notification for app-owned surfaces. Persist the choice for subsequent launches; preserve current pane, region and state during relabeling. Use native semantic tokens and labeled status/recovery, with M for mode and native Tab focus. The app-owned Updates pane participates in live refresh. A supported public Sparkle `SPUUserDriver` implements all 16 required callbacks and optional focus. `UpdateService` constructs one `SPUUpdater(hostBundle:applicationBundle:userDriver:delegate:)`, retains the driver and never resets services for language changes. New/visible native dialogs retain replies, progress, controls, focus and unchanged note selection/scroll. Both Updates tables are cached before installation; bounded plain UTF-8 notes and explicit credential-free HTTPS links avoid active HTML or untrusted signing-failure content. Synthetic callbacks are approved source evidence, not real appcast/download/install/relaunch evidence. No framework patch or private API is used. macOS permission/security prompts follow OS language. Permission-related restart guidance remains independent.
 
-Images remain in memory, with no storage/upload. Do not log capture/screen/clipboard content, observed app names, or window titles. Diagnostics/harness may report safe case IDs, state, error codes, dimensions, or sample-match booleans. Exposing Shot Clip’s own path in a recovery view does not authorize logging it.
+Images remain in memory until preview dismissal, closure or replacement; no automatic storage/history or upload. Only accepting the native Save PNG panel writes the original image to the person’s chosen destination. The presentation layer never reads or writes the clipboard; export does not clear or replace it. Do not log capture/screen/clipboard content, observed app names, or window titles. Diagnostics/harness may report safe case IDs, state, error codes, dimensions, or sample-match booleans. Exposing Shot Clip’s own path in a recovery view does not authorize logging it.
 
 ## Decision register
 
@@ -47,15 +67,17 @@ Images remain in memory, with no storage/upload. Do not log capture/screen/clipb
 | D03 | Configurable exclusive ⌃⇧⌘5 | Historical registration/conflict/event evidence; current overlay QA pending |
 | D04 | Independent one-display selections | Geometry tests; mixed-scale hardware capture pending |
 | D05 | Pre-encode, snapshot, guarded rollback | Error-injection tests; platform atomicity limits remain |
-| D06 | Session region; persisted mode/shortcut | No image/region storage |
+| D06 | Session region; persisted mode/shortcut | No automatic image or persisted region storage; explicit PNG export is separate |
 | D07 | Single flight, timeout/session token | Historical coordinator regression evidence |
 | D08 | GitHub ad-hoc developer preview | Supersedes Developer ID prerequisite; no notarization claim |
 | D09 | Running menu bar process; opt-in login | First launch needed; no quit-state launcher |
 | D10 | Sparkle, canonical HTTPS, existing Ed25519 archive/feed signing | One public updater/retained localized driver, signed feed/pre-extraction verification and automatic defaults OFF; public archive/feed verified; actual manual no-update/live-dialog runtime observed; newer-build upgrade remains unrun |
-| D11 | Capture-first NSMenu with native shortcut column; reference-style native settings; existing crop-copy icon | Source APPROVE and corrected integrated geometry/dispatch fixtures; actual inert native popup display observed, selected actions unverified; Carbon/focus/capture separate |
+| D11 | Ready-only capture NSMenu, explicit Access recovery, native shortcut column; square rail/icon and Apple-reference toolbar; content-sized update dialogs | Earlier 0.6 source APPROVE/fixtures remain historical; current four-way square/full-text/menu/font/updater/toolbar fixtures PASS; independent frozen-scope verdict recorded separately in `qa-review-ui-refresh.md`; native focus/Carbon/capture separate |
 | D12 | Stable Shot Clip identity with verified folder/display rename | Approved 0.5; same-ID settings/key retained, historical allowlist migration retained; signed fixture rollback/identity checks required |
-| D13 | English default; mutable explicit en/ko lookup and synchronous app-owned refresh | 159 app + 57 Updates keys per language, fallback/live-core and retained-state fixtures PASS; next-launch preference logic tested; normal runtime and macOS prompts separate |
+| D13 | English default; mutable explicit en/ko lookup and synchronous app-owned refresh | Published0.6 has159 app +57 Updates keys per language; current core/inert diagnostic has173+57/fallback/live transitions and final sealed development resources PASS; independent verdict recorded separately in `qa-review-ui-refresh.md`; next-launch preference logic tested; normal runtime and macOS prompts separate |
 | D14 | Source/tag/artifact alignment and explicit preview disclosure | Approved preview route; no key export/rotation, no fabricated release QA |
+| D15 | Success-only in-memory thumbnail/original and native explicit PNG export | R04/R09/R11/R18; clipboard-independent presentation, original pixels, cancellation/failure/lifetime checks; 44 assertions in each of four synthetic/private-pasteboard runs PASS; native-sheet and normal-capture evidence separate |
+| D16 | Central semantic design tokens and process-local Roboto/Noto Sans KR | R14/R15; official Google OFL artifacts, CoreText process registration, explicit cascade/weight; official bytes/OFL/axes/cascade/weights and four-way renders PASS; final sealed development resources PASS; independent verdict recorded separately in `qa-review-ui-refresh.md` |
 
 Apple primary references: [SCScreenshotManager](https://developer.apple.com/documentation/screencapturekit/scscreenshotmanager), [SCContentFilter](https://developer.apple.com/documentation/screencapturekit/sccontentfilter), [NSPasteboard](https://developer.apple.com/documentation/appkit/nspasteboard), [NSScreen](https://developer.apple.com/documentation/appkit/nsscreen), and native guidance in the [design system](design-system.md). API availability is checked against the installed SDK; a link alone is not runtime evidence.
 
@@ -63,4 +85,4 @@ Apple primary references: [SCScreenshotManager](https://developer.apple.com/docu
 
 SwiftPM/AppKit 메뉴 막대 앱이며 ScreenCaptureKit으로 한 화면의 영역만 캡처합니다. 상태는 idle → selecting → processing → idle이고 세션 토큰·timeout으로 늦은 결과와 중복 쓰기를 막습니다. PNG/TIFF 인코딩과 전체 클립보드 snapshot 이후에만 교체하며 외부 변경을 보호합니다. OS 원자성·복원 실패 한계는 공개합니다.
 
-표시 이름 Shot Clip과 `/Applications/Shot Clip.app`을 사용하고 `dev.shotclip.app`·기존 설정·키는 유지합니다. 새 앱 검증 후 이전 폴더를 백업하고 실패 시 복원합니다. 과거 Sshot의 다른 ID에서만 유효한 단축키/모드를 이전하며 ad-hoc 교체 후 권한 재허용이 필요할 수 있습니다. TCC는 조작하지 않습니다. 영어 기본/한국어 선택은 명시적 현지화 lookup과 알림으로 앱 소유 문구를 즉시 갱신하고 다음 실행에도 유지합니다. 현재 설정 페이지·선택 영역·상태를 보존하며 하나의 public updater와 유지되는 custom Sparkle driver가 새/열린 업데이트 창을 즉시 갱신하고 16개 필수 callback·선택적 focus·응답/진행률/포커스/노트 선택·스크롤 보존을 합성 검증했습니다. 언어 변경은 서비스 재시작을 하지 않고 프레임워크 수정·private API를 사용하지 않습니다. macOS 권한/보안 창은 OS 언어를 따릅니다. 권한 변경 후 필요한 재시작 안내는 유지합니다. D08은 승인된 ad-hoc 프리뷰로 변경되었고 Developer ID/공증은 이번 배포 조건이 아닙니다. 캡처·클립보드·앱/창 정보는 저장하거나 로그/원격으로 보내지 않습니다.
+표시 이름 Shot Clip과 `/Applications/Shot Clip.app`을 사용하고 `dev.shotclip.app`·기존 설정·키는 유지합니다. 새 앱 검증 후 이전 폴더를 백업하고 실패 시 복원합니다. 과거 Sshot의 다른 ID에서만 유효한 단축키/모드를 이전하며 ad-hoc 교체 후 권한 재허용이 필요할 수 있습니다. TCC는 조작하지 않습니다. 영어 기본/한국어 선택은 명시적 현지화 lookup과 알림으로 앱 소유 문구를 즉시 갱신하고 다음 실행에도 유지합니다. 현재 설정 페이지·선택 영역·상태를 보존하며 하나의 public updater와 유지되는 custom Sparkle driver가 새/열린 업데이트 창을 즉시 갱신하고 16개 필수 callback·선택적 focus·응답/진행률/포커스/노트 선택·스크롤 보존을 합성 검증했습니다. 언어 변경은 서비스 재시작을 하지 않고 프레임워크 수정·private API를 사용하지 않습니다. macOS 권한/보안 창은 OS 언어를 따릅니다. 권한 변경 후 필요한 재시작 안내는 유지합니다. D08은 승인된 ad-hoc 프리뷰로 변경되었고 Developer ID/공증은 이번 배포 조건이 아닙니다. 캡처·클립보드·앱/창 정보는 자동 저장하거나 로그/원격으로 보내지 않습니다. 성공 후 메모리의 원본을 우측 하단 썸네일/원본 창에 표시하며 사용자가 native PNG 저장 창을 승인한 경우에만 선택한 위치에 저장합니다. 미리보기·취소·닫기·저장 실패는 클립보드를 읽거나 다시 쓰지 않습니다. D15는 이 미리보기/저장 경계, D16은 중앙 토큰과 프로세스 한정 Google 폰트 등록을 정의합니다.

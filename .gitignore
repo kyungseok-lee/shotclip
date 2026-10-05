@@ -1,4 +1,59 @@
-.build/
-dist/
+# Generated SwiftPM, Xcode and release/QA output.
+# Published assets, synthetic renders and recoverable build stages live in dist.
+/.build/
+/build/
+/DerivedData/
+/dist/
+*.dSYM/
+
+# SwiftPM's generated workspace; keep shared schemes, configuration and the
+# root Package.resolved visible so dependency resolution remains reproducible.
+/.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+xcuserdata/
+*.xcuserstate
+
+# Local orchestration state, working plans and scratch research. Product plans
+# and review/QA records belong in docs/shotclip and remain versioned.
+/.omc/state/
+/.omc/logs/
+/.omc/plans/
+/.omc/research/
+/.omc/notepad.md
+/.omc/project-memory.json
+
+# Python bytecode produced by the release and installation verification tools.
+__pycache__/
+*.pyc
+*.pyo
+
+# macOS metadata and personal editor state; shared project/editor settings stay
+# visible (including .vscode and Xcode xcshareddata).
 .DS_Store
-.swiftpm/
+._*
+.AppleDouble/
+.LSOverride
+/.history/
+/.idea/workspace.xml
+/.idea/tasks.xml
+/.idea/shelf/
+
+# Local environment credentials and private signing material. Release signing
+# uses the existing Keychain entry; never export or regenerate its private key.
+/.env
+/.env.*
+!/.env.example
+!/.env.sample
+!/.env.template
+/.secrets/
+/secrets/
+/private-keys/
+/.signing/
+/AuthKey_*.p8
+/*.p12
+/*.pfx
+/*.keychain
+/*.keychain-db
+/private-key*.pem
+/private-key*.key
+/ed25519_private_key*
+/sparkle-private-key*

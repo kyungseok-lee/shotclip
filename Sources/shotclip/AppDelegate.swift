@@ -16,7 +16,7 @@ import Carbon
     private var guide: SettingsWindow?
     private var recorder: Any?
     private var mode:SelectionMode = .drag
-    private var toast:NSPanel?
+    private let capturePreview=CapturePreviewController()
     private var restarting=false
     func applicationDidFinishLaunching(_ notification: Notification) {
         if CommandLine.arguments.contains("--self-test") { Task { await SelfTest.run() };return }
@@ -67,12 +67,12 @@ import Carbon
     @objc private func languageChanged() {
         status?.button?.toolTip = L10n.text("app.name")
         status?.button?.setAccessibilityLabel(L10n.text("capture.accessibility"))
-        if let text = toast?.contentView?.subviews.first as? NSTextField { text.stringValue = L10n.text("capture.copied") }
+        capturePreview.refreshLanguage()
         refreshStatus()
     }
     func menuWillOpen(_ menu:NSMenu) {
+        CaptureMenu.applyReadiness(to: menu, ready: CGPreflightScreenCaptureAccess())
         CaptureMenu.applyShortcut(to: menu, mode: mode, presentation: CaptureMenu.presentation(shortcut))
-        menu.item(withTag:CaptureMenu.permissionTag)?.isHidden=CGPreflightScreenCaptureAccess()
         menu.item(withTag:CaptureMenu.updatesTag)?.isEnabled=updater.canCheckForUpdates
     }
     private func configureHotkeyAction() { hotkey?.action={ [weak self] in guard let self else {return};self.begin(self.mode) } }
@@ -90,6 +90,7 @@ import Carbon
         case .permissionDenied:showGuide();guide?.select(.permission);return
         case .opened:break
         }
+        capturePreview.dismiss()
         guard let screen=NSScreen.screens.first(where:{$0.frame.contains(NSEvent.mouseLocation)}) ?? NSScreen.main else { finish();return }
         previous=NSWorkspace.shared.frontmostApplication
         self.mode=mode;UserDefaults.standard.set(mode.rawValue,forKey:"mode");updateMenu();configureMainMenu()
@@ -107,7 +108,10 @@ import Carbon
         guard coordinator.state == .selecting else { return }; lastRect=rect
         if let view=overlay?.contentView as? SelectionView { mode=view.mode;UserDefaults.standard.set(mode.rawValue,forKey:"mode");updateMenu();configureMainMenu() }
         overlay?.orderOut(nil)
-        coordinator.confirm(capture:{ [capture] in try await capture.capture(rect:rect,screen:screen) },commit:{[weak self] image in try ClipboardService().store(image);self?.showCopied()},schedule:{ fire in
+        coordinator.confirm(capture:{ [capture] in try await capture.capture(rect:rect,screen:screen) },commit:{[weak self] image in
+            try ClipboardService().store(image)
+            self?.capturePreview.show(image, visibleFrame: screen.visibleFrame)
+        },schedule:{ fire in
             let timer=Timer.scheduledTimer(withTimeInterval:12,repeats:false){_ in fire()};return {timer.invalidate()}
         })
     }
@@ -117,14 +121,6 @@ import Carbon
     private func finishUI() {
         overlay?.close();overlay=nil
         previous?.activate(options:[]);previous=nil
-    }
-    private func showCopied() {
-        let panel=NSPanel(contentRect:CGRect(x:0,y:0,width:380,height:60),styleMask:.nonactivatingPanel,backing:.buffered,defer:false)
-        panel.level = .floating;panel.isReleasedWhenClosed=false
-        let text=NSTextField(labelWithString:L10n.text("capture.copied"));text.frame=CGRect(x:15,y:20,width:350,height:25);panel.contentView?.addSubview(text)
-        if let screen=NSScreen.main { panel.setFrameOrigin(CGPoint(x:screen.visibleFrame.maxX-400,y:screen.visibleFrame.maxY-90)) }
-        NSAccessibility.post(element:text,notification:.announcementRequested,userInfo:[.announcement:L10n.text("capture.copied"),.priority:NSAccessibilityPriorityLevel.medium.rawValue])
-        toast?.close();toast=panel;panel.orderFrontRegardless();DispatchQueue.main.asyncAfter(deadline:.now()+2){[weak self,weak panel] in panel?.close();if self?.toast === panel { self?.toast=nil }}
     }
     private func message(_ text: String) {
         NSApp.activate(ignoringOtherApps:true)

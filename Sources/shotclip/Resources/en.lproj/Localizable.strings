@@ -53,7 +53,7 @@
 "settings.permissions" = "Access";
 "settings.updates" = "Updates";
 "settings.capture_title" = "Capture to clipboard";
-"settings.capture_description" = "Choose an area, then paste with ⌘V. Nothing is saved or uploaded.";
+"settings.capture_description" = "After capturing, paste with ⌘V. Click the thumbnail to view or save a PNG.";
 "settings.permission_review" = "Review Permissions…";
 "settings.shortcut" = "Capture shortcut";
 "settings.shortcut_change" = "Change…";
@@ -66,7 +66,7 @@
 "permission.review.title" = "● Screen Recording access needs review";
 "permission.ready.explanation" = "Screen Recording access is effective for this running copy of Shot Clip. Choose a capture mode in General.";
 "permission.review.explanation" = "Screen Recording access is not effective for this running copy of Shot Clip. The app cannot distinguish access not yet requested, denied access, or a pending restart.";
-"permission.reason" = "Only Screen Recording access is needed. Your captures stay in memory.";
+"permission.reason" = "Only Screen Recording access is needed. Files are saved only when you choose Save.";
 "permission.steps" = "1. Allow this copy of Shot Clip in Screen Recording settings.\n2. Return here and choose Check Again.\n3. If access is still unavailable, restart Shot Clip.";
 "permission.request" = "Allow Screen Recording";
 "permission.settings" = "Open System Settings…";
@@ -112,7 +112,7 @@
 "capture.fixed_help" = "Adjust the last region, then press Return to copy it.";
 "menu.enable_access" = "Enable Screen Recording…";
 "settings.capture_hint" = "Drag to capture · Fixed Region keeps your last selection";
-"settings.capture_access_hint" = "Capture needs Screen Recording access. Choose Capture to review setup.";
+"settings.capture_access_hint" = "Capture needs Screen Recording access. Open Access settings to review setup.";
 "settings.shortcut_help" = "Opens your last used capture mode";
 "login.approval_action" = "Approve…";
 "permission.settings_short" = "System Settings…";
@@ -162,3 +162,19 @@
 "shortcut.key.end" = "End";
 "shortcut.key.page_up" = "Page Up";
 "shortcut.key.page_down" = "Page Down";
+
+/* In-memory capture thumbnail and original-resolution preview. */
+"capture.preview.thumbnail" = "Copied to clipboard";
+"capture.preview.open" = "Open capture to preview or save";
+"capture.preview.dismiss" = "Dismiss capture thumbnail";
+"capture.preview.announcement" = "Copied to clipboard. Open the thumbnail to preview or save.";
+"capture.preview.title" = "Capture Preview";
+"capture.preview.save" = "Save…";
+"capture.preview.save_title" = "Save Capture";
+"capture.preview.save_action" = "Save";
+"capture.preview.fit" = "Fit";
+"capture.preview.zoom" = "Image zoom";
+"capture.preview.image" = "Original capture";
+"capture.preview.dimensions" = "%@ by %@ pixels";
+"capture.preview.save_failed" = "The capture could not be saved";
+"capture.preview.save_failed_help" = "Choose another location and try again. Your capture remains open.";
